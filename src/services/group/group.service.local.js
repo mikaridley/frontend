@@ -4,6 +4,7 @@ export const groupService = {
     updateGroup,
     removeGroup,
     reorderGroups,
+    getGroupById,
 }
 
 function addGroup(board, groupToAdd) {
@@ -32,4 +33,8 @@ function reorderGroups(board, fromIdx, toIdx) {
     groups.splice(toIdx, 0, moved)
     board.groups = groups
     return board
+}
+
+function getGroupById(board, groupId) {
+    return board.groups?.find(group => group.id === groupId) || null
 }
