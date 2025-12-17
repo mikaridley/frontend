@@ -8,10 +8,24 @@ import { utilService } from "../services/util.service.js"
 export function TaskDetails() {
     const { boardId, groupId, taskId } = useParams()
     const [task, setTask] = useState(null)
+    const navigate = useNavigate()
+
 
     useEffect(() => {
-        taskService.getTask(boardId, groupId, taskId).then(setTask)
+        taskService.getTaskById(board, groupId, taskId).then(setTask)
     }, [boardId, groupId, taskId])
+
+
+    async function loadTask() {
+        try {
+            const task = await taskService.getTaskById(board, groupId, taskId)
+            setTask(task)
+        } catch (err) {
+            console.log('Had issues in task details', err)
+            showErrorMsg('Cannot load task')
+            navigate('/board')
+        }
+    }
 
     return (
         <div>
