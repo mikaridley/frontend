@@ -83,7 +83,6 @@ function addTodo(board, groupId, taskId, checklistId, todo) {
 }
 
 function toggleTodoDone(board, groupId, taskId, checklistId, todoId) {
-    // TODO: implement real logic
     const task = getTaskById(board, groupId, taskId)
     if (!task || !task.checklists) return board
     const checklist = task.checklists.find(cl => cl.id === checklistId)

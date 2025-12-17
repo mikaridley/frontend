@@ -61,7 +61,6 @@ export function TaskDetails() {
                     <button className="btn-checklists" onClick={() => openPopup('checklists')}>Checklists</button>
                     <button className="btn-members" onClick={() => openPopup('members')}>Members</button>
                 </div>
-                <p>{task.description}</p>
             </div>}
 
             {activePopup === 'labels' && (
