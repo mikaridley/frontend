@@ -1,3 +1,3 @@
-export function GroupList() {
-
+export function GroupList({ groups }) {
+    
 }
