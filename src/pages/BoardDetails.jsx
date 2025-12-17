@@ -26,7 +26,8 @@ export function BoardDetails() {
         }
     }
 
-    function handleChande({ target }) {
+    function handleChange({ target }) {
+        console.log('target:', target)
         let value = target.value
         setBoard(prevBoard => ({ ...prevBoard, title: value }))
     }
@@ -47,7 +48,7 @@ export function BoardDetails() {
         <section className='board-details' style={{ backgroundColor: board.style.backgroundColor }}>
             <BoardHeader
                 title={board.title}
-                handleChande={handleChande}
+                handleChange={handleChange}
                 onUpdateBoard={onUpdateBoard}
             />
             <GroupList groups={board.groups} members={board.members} />
