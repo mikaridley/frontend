@@ -11,8 +11,8 @@ html {
 }
 
 body {
-  background-color: var(--clr-bg-1);
-  color: var(--clt-txt-dark);
+  background-color: var(--clr-bg-dark);
+  color: var(--clr-txt-light);
   margin: 0;
 }
 

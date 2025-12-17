@@ -12,7 +12,8 @@
 @import 'pages/BoardIndex.css';
 
 /* Components */
-
 @import 'cmps/AppHeader.css';
 @import 'cmps/AppFooter.css';
 @import 'cmps/UserMsg.css';
+@import 'cmps/BoardList.css';
+@import 'cmps/BoardPreview.css';

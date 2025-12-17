@@ -1,2 +1,8 @@
 .board-index {
+  display: grid;
+  grid-auto-rows: 100px;
+  grid-template-columns: minmax(2px, 1fr) minmax(auto, 1000px) minmax(2px, 1fr);
+  gap: 1rem;
+
+  padding-block: 1rem;
 }

@@ -24,10 +24,9 @@ import { BoardDetails } from './pages/BoardDetails'
 export function RootCmp() {
   return (
     <div>
-      <AppHeader />
       <UserMsg />
-
       <main className="main-layout">
+        <AppHeader />
         <Routes>
           <Route path="" element={<HomePage />} />
           {/* <Route path="about" element={<AboutUs />}>

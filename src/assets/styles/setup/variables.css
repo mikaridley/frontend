@@ -1,3 +1,10 @@
 :root {
-  --clr-bg-0: #ffffff;
+  --clr-bg-dark: #1f1f21;
+  --clr-txt-light: #cecfd2;
+
+  /* AppHeader */
+  --clr-ah-grey-1: #7e8188;
+  --clr-ah-grey: #434345;
+  --clr-create-btn: #669df1;
+  --clr-create-btn-hover: #8fb8f6;
 }
