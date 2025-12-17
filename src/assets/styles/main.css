@@ -1,0 +1,18 @@
+/* Setup */
+@import 'setup/variables.css';
+@import 'setup/typography.css';
+
+/* Basics */
+@import 'basics/helpers.css';
+@import 'basics/layout.css';
+@import 'basics/base.css';
+
+/* pages */
+@import 'pages/HomePage.css';
+@import 'pages/BoardIndex.css';
+
+/* Components */
+
+@import 'cmps/AppHeader.css';
+@import 'cmps/AppFooter.css';
+@import 'cmps/UserMsg.css';
