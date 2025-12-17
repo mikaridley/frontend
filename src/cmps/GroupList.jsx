@@ -1,7 +1,6 @@
 import { GroupPreview } from './GroupPreview'
 
 export function GroupList({ groups }) {
-    console.log('groups:', groups)
 
     return (
         <section className="group-list flex">

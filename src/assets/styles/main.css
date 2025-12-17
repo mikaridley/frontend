@@ -5,11 +5,12 @@
 /* Basics */
 @import 'basics/helpers.css';
 /* @import 'basics/layout.css'; */
-/* @import 'basics/base.css'; */
+@import 'basics/base.css';
 
 /* pages */
 /* @import 'pages/HomePage.css'; */
 /* @import 'pages/BoardIndex.css'; */
+@import 'pages/BoardDetails.css';
 
 /* Components */
 @import 'cmps/AppHeader.css';
@@ -17,3 +18,4 @@
 @import 'cmps/UserMsg.css';
 @import 'cmps/BoardList.css';
 @import 'cmps/BoardPreview.css';
+@import 'cmps/BoardHeader.css';

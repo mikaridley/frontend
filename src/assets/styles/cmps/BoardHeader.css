@@ -1,0 +1,42 @@
+.board-header {
+    background-color: rgba(0, 0, 0, .1);
+    backdrop-filter: blur(10px);
+
+    padding: .75rem .5rem;
+
+    >input {
+        field-sizing: content;
+        padding: .5rem;
+
+        border: none;
+        border-radius: .3rem;
+
+        background-color: rgba(0, 0, 0, 0);
+        cursor: pointer;
+
+        /* color: white; */
+        font-weight: bold;
+        font-size: 1rem;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, .3);
+        }
+
+        &:focus {
+            background-color: white;
+            cursor: text;
+            color: black;
+        }
+    }
+
+    >.header-btns {
+        >button {
+            background-color: inherit;
+            /* color: white; */
+
+            &:hover {
+                background-color: rgba(255, 255, 255, .2);
+            }
+        }
+    }
+}

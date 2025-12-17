@@ -70,12 +70,11 @@ select {
   font-family: inherit;
 }
 
-input {
-  outline: none;
+button {
+  border: none;
+  cursor: pointer;
 }
 
-.btn {
-}
+.btn {}
 
-.btn:hover {
-}
+.btn:hover {}

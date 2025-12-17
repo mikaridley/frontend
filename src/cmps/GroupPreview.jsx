@@ -1,7 +1,6 @@
 import { TaskList } from './TaskList'
 
 export function GroupPreview({ group }) {
-    console.log('group:', group)
     return (
         <section className="group-preview">
             <button>
