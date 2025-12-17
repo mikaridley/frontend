@@ -7,14 +7,12 @@ export const groupService = {
 }
 
 function addGroup(board, groupToAdd) {
-
     board.groups = board.groups || []
     board.groups.push(groupToAdd)
     return board
 }
 
 function updateGroup(board, groupId, changes) {
-
     const idx = board.groups?.findIndex(group => group.id === groupId)
     if (idx > -1) {
         board.groups[idx] = { ...board.groups[idx], ...changes }
