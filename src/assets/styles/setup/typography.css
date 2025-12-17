@@ -1,0 +1,21 @@
+@font-face {
+  font-family: sora;
+  src: url('../../fonts/sora/sora-regular.ttf');
+}
+
+@font-face {
+  font-family: sora;
+  src: url('../../fonts/sora/sora-regular.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: manrope;
+  src: url('../../fonts/manrope/manrope-regular.ttf');
+}
+
+@font-face {
+  font-family: manrope;
+  src: url('../../fonts/manrope/manrope-regular.ttf');
+  font-weight: 700;
+}
