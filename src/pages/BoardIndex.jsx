@@ -8,12 +8,13 @@ import {
   removeBoard,
   updateBoard,
 } from '../store/actions/board.actions'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
   const navigate = useNavigate()
+  const [newBoardColor, setNewBoardColor] = useState('')
 
   useEffect(() => {
     loadBoards()
@@ -23,6 +24,7 @@ export function BoardIndex() {
     ev.preventDefault()
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.title = value
+    boardToSave.style.backgroundImage = newBoardColor
     const savedBoard = await addBoard(boardToSave)
     navigate(`/board/${savedBoard._id}`)
   }
@@ -47,6 +49,10 @@ export function BoardIndex() {
     }
   }
 
+  function changeColor(color) {
+    setNewBoardColor(color)
+  }
+
   return (
     <section className="board-index">
       <BoardList
@@ -54,6 +60,7 @@ export function BoardIndex() {
         addBoard={_addBoard}
         removeBoard={_removeBoard}
         starToggle={starToggle}
+        changeColor={changeColor}
       />
     </section>
   )

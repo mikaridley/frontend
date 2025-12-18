@@ -19,11 +19,15 @@ export function BoardPreview({ board, removeBoard, starToggle }) {
     starToggle(board)
   }
 
+  const { style } = board
   return (
     <section
       onClick={onOpenBoard}
       className="board-preview"
-      style={{ '--board-name': `"${board.title}"` }}
+      style={{
+        '--board-name': `"${board.title}"`,
+        backgroundColor: `${style.backgroundImage}`,
+      }}
     >
       <img
         onClick={onToggleStar}

@@ -11,8 +11,24 @@ export const boardService = {
   remove,
   addGroup,
   getEmptyBoard,
+  getBackgrounds,
 }
 window.bs = boardService
+
+const gBackgrounds = {
+  solidColors: [
+    '#0079bf',
+    '#d29034',
+    '#519839',
+    '#b04632',
+    '#89609e',
+    '#cd5a91',
+    '#4bbf6b',
+    '#00aecc',
+    '#838c91',
+  ],
+  photos: [],
+}
 
 async function query(filterBy = { txt: '' }) {
   var boards = await storageService.query(STORAGE_KEY)
@@ -95,6 +111,10 @@ function getEmptyBoard() {
     members: [],
     groups: [],
   }
+}
+
+function getBackgrounds() {
+  return gBackgrounds
 }
 
 function _createBoards() {

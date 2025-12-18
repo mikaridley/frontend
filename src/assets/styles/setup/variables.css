@@ -15,6 +15,8 @@
 
   /* Board */
   --clr-star-bg: rgba(0, 0, 0, 0.239);
+  --clr-default-board: #0079bf;
+  --add-board-shadow: rgba(0, 0, 0, 0.2);
 
   /* Group */
   --clr-group: #f1f2f4;

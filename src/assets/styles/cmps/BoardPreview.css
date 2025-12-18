@@ -4,7 +4,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 0 var(--clr-board-shadow);
 
-  background-color: rgb(82, 95, 144);
+  background-color: var(--clr-default-board);
   cursor: pointer;
 
   &:hover {

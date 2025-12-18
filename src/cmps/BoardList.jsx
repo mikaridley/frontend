@@ -4,7 +4,13 @@ import { loadBoards } from '../store/actions/board.actions'
 import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 
-export function BoardList({ boards, addBoard, removeBoard, starToggle }) {
+export function BoardList({
+  boards,
+  addBoard,
+  removeBoard,
+  starToggle,
+  changeColor,
+}) {
   const starBoards = boards.filter(board => board.isStarred)
   return (
     <section className="board-list">
@@ -42,7 +48,7 @@ export function BoardList({ boards, addBoard, removeBoard, starToggle }) {
           >
             Create new board
           </Link>
-          <Outlet context={{ addBoard }} />
+          <Outlet context={{ addBoard, changeColor }} />
         </section>
       </section>
     </section>
