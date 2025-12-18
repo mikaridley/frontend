@@ -8,6 +8,7 @@ import { TaskDetailsChecklist } from './taskDetailsCmps/taskDetailschecklist'
 import { TaskDetailsMembers } from './taskDetailsCmps/taskDetailsmembers'
 import { TaskDetailsAdd } from './taskDetailsCmps/taskDetailsAdd'
 import '../assets/styles/cmps/TaskDetails.css'
+import { TaskDetailsDates } from './taskDetailsCmps/taskDetailsDates'
 
 export function TaskDetails() {
     const { boardId, groupId, taskId } = useParams()
@@ -17,6 +18,14 @@ export function TaskDetails() {
     const navigate = useNavigate()
     const [description, setDescription] = useState('')
     const [descriptionEdit, setDescriptionEdit] = useState(false)
+
+    const popupComponents = {
+        labels: TaskDetailsLabels,
+        checklists: TaskDetailsChecklist,
+        members: TaskDetailsMembers,
+        add: TaskDetailsAdd,
+        dates: TaskDetailsDates
+    }
 
     function editDescription() {
         setDescriptionEdit(true)
@@ -51,6 +60,36 @@ export function TaskDetails() {
         setActivePopup(null)
     }
 
+    function savePopup(popupName, data) {
+        setTask({ ...task, [popupName]: data })
+        console.log(task)
+        closePopup()
+    }
+
+    function DynamicCmp() {
+        if (!activePopup) return null
+        const Cmp = popupComponents[activePopup]
+        if (!Cmp) return null
+
+        const commonProps = {
+            board,
+            groupId,
+            taskId,
+            onClose: closePopup
+        }
+
+        // Add onOpen prop for components that need it
+        if (activePopup === 'add') {
+            commonProps.onOpen = openPopup
+        }
+        if (activePopup != 'add') {
+            commonProps.onSave = savePopup
+        }
+        
+
+        return <Cmp {...commonProps} />
+    }
+
     return (
         <div className="task-details">
             {task && <div>
@@ -63,40 +102,8 @@ export function TaskDetails() {
                 </div>
             </div>}
 
-            {activePopup === 'labels' && (
-                <TaskDetailsLabels 
-                    board={board} 
-                    groupId={groupId} 
-                    taskId={taskId} 
-                    onClose={closePopup} 
-                    onOpen={openPopup}
-                />
-            )}
-            {activePopup === 'checklists' && (
-                <TaskDetailsChecklist 
-                    board={board} 
-                    groupId={groupId} 
-                    taskId={taskId} 
-                    onClose={closePopup} 
-                    onOpen={openPopup}
-                />
-            )}
-            {activePopup === 'members' && (
-                <TaskDetailsMembers 
-                    board={board} 
-                    groupId={groupId} 
-                    taskId={taskId} 
-                    onClose={closePopup} 
-                />
-            )}
-            {activePopup === 'add' && (
-                <TaskDetailsAdd 
-                    board={board} 
-                    groupId={groupId} 
-                    taskId={taskId} 
-                    onClose={closePopup} 
-                />
-            )}
+            <DynamicCmp />
+            
             <div className="description">
                 {!descriptionEdit && (
                     <button onClick={editDescription} className="description-button">

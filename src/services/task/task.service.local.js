@@ -9,6 +9,7 @@ export const taskService = {
     addTodo,
     toggleTodoDone,
     getTaskById,
+    getLabels,
 }
 
 function addTask(board, groupId, taskToAdd) {
@@ -96,4 +97,13 @@ function getTaskById(board, groupId, taskId) {
     const group = board.groups?.find(group => group.id === groupId)
     if (!group || !group.tasks) return null
     return group.tasks.find(task => task.id === taskId) || null
+}
+
+function getLabels(board, groupId, taskId) {
+    const task = getTaskById(board, groupId, taskId)
+    if (!task || !task.labels){
+        const labels = [{color: '#eb3434', title: ''}, {color: '#f5ed05ff', title: ''},{color: '#56ed15', title: ''},{color: '#1548ed', title: ''},{color: '#ed15e6', title: ''},{color: '#ed8815', title: ''}]
+        return labels
+    }
+    return task.labels
 }
