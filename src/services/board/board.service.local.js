@@ -59,15 +59,13 @@ async function remove(boardId) {
 async function save(board) {
     var savedBoard
     if (board._id) {
-        const boardToSave = {
-            _id: board._id,
-            name: board.name
-        }
-        savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
+        // Save the entire board object to preserve all data
+        savedBoard = await storageService.put(STORAGE_KEY, board)
     } else {
+        // Create new board with generated ID
         const boardToSave = {
-            _id: makeId(),
-            name: board.name
+            ...board,
+            _id: makeId()
         }
         savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
     }
