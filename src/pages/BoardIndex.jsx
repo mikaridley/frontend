@@ -6,6 +6,7 @@ import {
   addBoard,
   loadBoards,
   removeBoard,
+  updateBoard,
 } from '../store/actions/board.actions'
 import { useEffect } from 'react'
 
@@ -16,7 +17,7 @@ export function BoardIndex() {
     loadBoards()
   }, [])
 
-  async function onAddBoard(ev, value) {
+  async function _addBoard(ev, value) {
     ev.preventDefault()
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.title = value
@@ -32,12 +33,24 @@ export function BoardIndex() {
     }
   }
 
+  async function starToggle(board) {
+    console.log(board.isStarred)
+    board.isStarred = !board.isStarred
+    try {
+      await updateBoard(board)
+      showSuccessMsg('Board has been updated')
+    } catch {
+      showErrorMsg('Cannot update board')
+    }
+  }
+
   return (
     <section className="board-index">
       <BoardList
         boards={boards}
-        onAddBoard={onAddBoard}
+        addBoard={_addBoard}
         removeBoard={_removeBoard}
+        starToggle={starToggle}
       />
     </section>
   )

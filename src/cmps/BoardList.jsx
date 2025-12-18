@@ -4,7 +4,7 @@ import { loadBoards } from '../store/actions/board.actions'
 import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 
-export function BoardList({ boards, onAddBoard, removeBoard }) {
+export function BoardList({ boards, addBoard, removeBoard, starToggle }) {
   return (
     <section className="board-list">
       {boards.map(board => {
@@ -13,6 +13,7 @@ export function BoardList({ boards, onAddBoard, removeBoard }) {
             key={board._id}
             board={board}
             removeBoard={removeBoard}
+            starToggle={starToggle}
           />
         )
       })}
@@ -24,7 +25,7 @@ export function BoardList({ boards, onAddBoard, removeBoard }) {
         >
           Create new board
         </Link>
-        <Outlet context={{ onAddBoard }} />
+        <Outlet context={{ addBoard }} />
       </section>
     </section>
   )

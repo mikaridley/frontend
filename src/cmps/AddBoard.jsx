@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Link, useOutletContext, useLocation } from 'react-router-dom'
 
 export function AddBoard() {
-  const { onAddBoard } = useOutletContext()
+  const { addBoard } = useOutletContext()
   const [boardName, setBoardName] = useState('')
   const location = useLocation()
   const origin = location.state?.origin || 'board-list' // default
@@ -26,7 +26,7 @@ export function AddBoard() {
       <h2>Create board</h2>
       <MiniBoardPreview />
       <BackgroundContainer />
-      <form onSubmit={ev => onAddBoard(ev, boardName)}>
+      <form onSubmit={ev => addBoard(ev, boardName)}>
         <label htmlFor="boardTitle">Board title</label>
         <input
           onChange={handleChange}
