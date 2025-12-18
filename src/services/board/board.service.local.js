@@ -27,6 +27,21 @@ const gBackgrounds = {
     '#00aecc',
     '#838c91',
   ],
+  gradiantColors: [
+    'linear-gradient(135deg, #1c2c44, #133160)',
+    'linear-gradient(135deg, #0e6ae2, #33aec6)',
+    'linear-gradient(135deg, #0c65e1, #093676)',
+
+    'linear-gradient(135deg, #0e326d, #bd4f99)',
+    'linear-gradient(135deg, #715dc6, #dd72bc)',
+    'linear-gradient(135deg, #e34b35, #f89c3c)',
+
+    'linear-gradient(135deg, #e874b9, #f77468)',
+    'linear-gradient(135deg, #21865e, #5bc1ca)',
+    'linear-gradient(135deg, #4f5e78, #1c2f51)',
+
+    'linear-gradient(135deg, #45290e, #a42a18)',
+  ],
   photos: [],
 }
 

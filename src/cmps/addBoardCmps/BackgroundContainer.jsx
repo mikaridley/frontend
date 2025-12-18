@@ -5,15 +5,18 @@ import { MiniBoardPreview } from './MiniBoardPreview'
 export function BackgroundContainer({ changeColor }) {
   const backgrounds = boardService.getBackgrounds()
   const [solidColors, setSolidColors] = useState(backgrounds.solidColors)
+  const [gradiantColors, setGradiantColors] = useState(
+    backgrounds.gradiantColors
+  )
   const [selectedColor, setSelectedColor] = useState('#0079bf')
   const [isOpenMoreColors, setIsOpenMoreColors] = useState(false)
 
   useEffect(() => {
-    setSolidColors(setSolidColors => setSolidColors.slice(0, 5))
+    setGradiantColors(gradiantColors => gradiantColors.slice(0, 5))
   }, [])
 
-  function onChangeBackground(color) {
-    setSelectedColor(color)
+  function onChangeBackground(color, kind) {
+    setSelectedColor({ color, kind })
     changeColor(color)
   }
 
@@ -26,38 +29,72 @@ export function BackgroundContainer({ changeColor }) {
       <MiniBoardPreview selectedColor={selectedColor} />
       <h3>Background</h3>
       <section className="background-container">
-        {solidColors.map(color => {
-          return (
-            <div
-              key={color}
-              className={`background-color ${
-                selectedColor === color ? 'active-background' : ''
-              }`}
-              style={{ backgroundColor: color }}
-              onClick={() => onChangeBackground(color)}
-            ></div>
-          )
-        })}
-        <div
-          onClick={openMoreColors}
-          className="background-color open-more-bg-colors"
-        >
-          ...
-        </div>
+        {/* <section className="gradiant-container">
+          {gradiantColors.map(color => {
+            return (
+              <div
+                key={color}
+                className={`background-color ${
+                  selectedColor.color === color ? 'active-background' : ''
+                }`}
+                style={{ background: color }}
+                onClick={() => onChangeBackground(color, 'gradiant')}
+              ></div>
+            )
+          })}
+        </section> */}
+
+        <section className="color-container">
+          {gradiantColors.map(color => {
+            return (
+              <div
+                key={color}
+                className={`background-color ${
+                  selectedColor.color === color ? 'active-background' : ''
+                }`}
+                style={{ background: color }}
+                onClick={() => onChangeBackground(color, 'gradiant')}
+              ></div>
+            )
+          })}
+
+          <div
+            onClick={openMoreColors}
+            className="background-color open-more-bg-colors"
+          >
+            ...
+          </div>
+        </section>
         {isOpenMoreColors && (
           <div className="open-more-colors">
-            {backgrounds.solidColors.map(color => {
-              return (
-                <div
-                  key={color}
-                  className={`background-color ${
-                    selectedColor === color ? 'active-background' : ''
-                  }`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => onChangeBackground(color)}
-                ></div>
-              )
-            })}
+            <section className="gradiant-colors">
+              {backgrounds.gradiantColors.map(color => {
+                return (
+                  <div
+                    key={color}
+                    className={`background-color ${
+                      selectedColor.color === color ? 'active-background' : ''
+                    }`}
+                    style={{ background: color }}
+                    onClick={() => onChangeBackground(color, 'gradiant')}
+                  ></div>
+                )
+              })}
+            </section>
+            <section className="solid-colors">
+              {backgrounds.solidColors.map(color => {
+                return (
+                  <div
+                    key={color}
+                    className={`background-color ${
+                      selectedColor.color === color ? 'active-background' : ''
+                    }`}
+                    style={{ backgroundColor: color }}
+                    onClick={() => onChangeBackground(color, 'solid')}
+                  ></div>
+                )
+              })}
+            </section>
           </div>
         )}
       </section>

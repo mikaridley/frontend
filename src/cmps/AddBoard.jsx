@@ -35,7 +35,7 @@ export function AddBoard() {
           type="text"
           value={boardName}
         />
-        <button>Create</button>
+        <button disabled={!boardName.trim()}>Create</button>
       </form>
     </section>
   )
