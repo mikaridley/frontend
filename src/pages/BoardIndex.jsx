@@ -6,12 +6,9 @@ import { addBoard } from '../store/actions/board.actions'
 export function BoardIndex() {
   async function onAddBoard(ev, value) {
     ev.preventDefault()
-    console.log(value)
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.title = value
-    console.log(boardToSave)
-    // const savedBoard = await addBoard(boardToSave)
-    // console.log(savedBoard)
+    await addBoard(boardToSave)
   }
 
   return (

@@ -18,32 +18,32 @@ async function query(filterBy = { txt: '' }) {
   var boards = await storageService.query(STORAGE_KEY)
   const { txt } = filterBy
 
-  if (txt) {
-    const regex = new RegExp(filterBy.txt, 'i')
-    boards = boards.filter(board => {
-      // Check board name
-      if (regex.test(board.name)) return true
+  // if (txt) {
+  //   const regex = new RegExp(filterBy.txt, 'i')
+  //   boards = boards.filter(board => {
+  //     // Check board name
+  //     if (regex.test(board.title)) return true
 
-      // Check group names
-      if (board.groups && Array.isArray(board.groups)) {
-        for (const group of board.groups) {
-          if (group.name && regex.test(group.name)) return true
+  //     // Check group names
+  //     if (board.groups && Array.isArray(board.groups)) {
+  //       for (const group of board.groups) {
+  //         if (group.name && regex.test(group.name)) return true
 
-          // Check task names within groups
-          if (group.tasks && Array.isArray(group.tasks)) {
-            for (const task of group.tasks) {
-              if (task.name && regex.test(task.name)) return true
-              if (task.title && regex.test(task.title)) return true
-            }
-          }
-        }
-      }
+  //         // Check task names within groups
+  //         if (group.tasks && Array.isArray(group.tasks)) {
+  //           for (const task of group.tasks) {
+  //             if (task.name && regex.test(task.name)) return true
+  //             if (task.title && regex.test(task.title)) return true
+  //           }
+  //         }
+  //       }
+  //     }
 
-      return false
-    })
-  }
+  //     return false
+  //   })
+  // }
 
-  boards = boards.map(({ _id, name }) => ({ _id, name }))
+  // boards = boards.map(({ _id, name }) => ({ _id, name }))
   return boards
 }
 
@@ -58,17 +58,9 @@ async function remove(boardId) {
 async function save(board) {
   var savedBoard
   if (board._id) {
-    const boardToSave = {
-      _id: board._id,
-      title: board.title,
-    }
-    savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
+    savedBoard = await storageService.put(STORAGE_KEY, board)
   } else {
-    const boardToSave = {
-      _id: makeId(),
-      name: board.name,
-    }
-    savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
+    savedBoard = await storageService.post(STORAGE_KEY, board)
   }
   return savedBoard
 }

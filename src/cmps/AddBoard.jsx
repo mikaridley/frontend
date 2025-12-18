@@ -17,7 +17,7 @@ export function AddBoard() {
       <h2>Create board</h2>
       <MiniBoardPreview />
       <BackgroundContainer />
-      <form onSubmit={ev => onAddBoard(ev, value)}>
+      <form onSubmit={ev => onAddBoard(ev, boardName)}>
         <label htmlFor="boardTitle">Board title</label>
         <input
           onChange={handleChange}
