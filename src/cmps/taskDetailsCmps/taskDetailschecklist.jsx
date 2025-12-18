@@ -25,7 +25,7 @@ export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave }
 
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-content popup-checklists" onClick={(e) => e.stopPropagation()}>
                 <h4>Add checklist</h4> 
                 <button className="popup-close" onClick={onClose}>X</button>
                 <div className="popup-body">

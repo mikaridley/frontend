@@ -24,7 +24,7 @@ export function TaskDetails() {
     const [members, setMembers] = useState([])
     const [labels, setLabels] = useState([])
     const [checklists, setChecklists] = useState([])
-    const [dates, setDates] = useState([])
+    const [dates, setDates] = useState(null)
     const [addingItemToChecklist, setAddingItemToChecklist] = useState(null)
     const [newItemText, setNewItemText] = useState('')
 
@@ -67,7 +67,7 @@ export function TaskDetails() {
             setMembers(task?.members || [])
             setLabels(task?.labels || [])
             setChecklists(task?.checklists || [])
-            setDates(task?.dates || [])
+            setDates(task?.dates || null)
         } catch (err) {
             console.log('Had issues in task details', err)
             showErrorMsg('Cannot load task')
@@ -183,13 +183,30 @@ export function TaskDetails() {
         if (activePopup != 'add') {
             commonProps.onSave = savePopup
         }
+        if (activePopup === 'dates') {
+            commonProps.dates = dates
+        }
         
 
         return <Cmp {...commonProps} />
     }
 
+    function handleBackdropClick(ev) {
+        if (ev.target === ev.currentTarget) {
+            navigate(`/board/${boardId}`)
+        }
+    }
+
     return (
-        <div className="task-details">
+        <div className="task-details-modal" onClick={handleBackdropClick}>
+            <div className="task-details">
+                <button 
+                    className="modal-close-btn" 
+                    onClick={() => navigate(`/board/${boardId}`)}
+                    aria-label="Close"
+                >
+                    ×
+                </button>
             {task && <div>
                 <h2>{task.title}</h2>
                 <div className="task-details-actions">
@@ -225,12 +242,10 @@ export function TaskDetails() {
                 </div>
             )}
             
-            {dates.length > 0 && (
+            {dates && (
                 <div className="dates">
                     <h5>Dates</h5>
-                    {dates.map(date => (
-                        <div key={date.id}>{date.name}</div>
-                    ))}
+                    <div>{new Date(dates.dateTime).toLocaleString()}</div>
                 </div>
             )}
 
@@ -319,6 +334,7 @@ export function TaskDetails() {
                     ))}
                 </div>
             )}
+            </div>
         </div>
     )
 }

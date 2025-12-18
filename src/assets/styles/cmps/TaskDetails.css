@@ -1,3 +1,10 @@
+@import '../setup/variables.css';
+
+/* Import popup-related styles */
+@import './ColorPicker.css';
+
+
+
 /* Modal Backdrop */
 .task-details-modal {
     position: fixed;
@@ -135,60 +142,24 @@
 
 /* Labels button - second button (Add width ~60px + 15px gap) */
 .popup-labels {
-    left: calc(50% - 384px + 32px + 60px + 15px);
+    left: calc(50% - 384px + 32px + 60px + 16px);
 }
 
 /* Checklists button - third button */
 .popup-checklists {
-    left: calc(50% - 384px + 32px + 60px + 15px + 80px + 15px);
+    left: calc(50% - 384px + 32px + 60px + 16px + 75px + 16px);
 }
 
 /* Members button - fourth button */
 .popup-members {
-    left: calc(50% - 384px + 32px + 60px + 15px + 80px + 15px + 110px + 15px);
+    left: calc(50% - 384px + 32px + 60px + 16px + 75px + 16px + 100px + 15px);
 }
 
 /* Dates button - fifth button (rightmost) */
 .popup-dates {
-    left: calc(50% - 384px + 32px + 60px + 15px + 80px + 15px + 110px + 15px + 95px + 15px);
+    left: calc(50% - 384px + 32px + 60px + 16px + 75px + 16px + 100px + 15px + 95px + 15px);
 }
 
-/* Adjust popup position for smaller screens */
-@media (max-width: 1200px) {
-    .popup-add,
-    .popup-labels,
-    .popup-checklists,
-    .popup-members,
-    .popup-dates {
-        /* On smaller screens, position popup to the left of modal */
-        left: calc(50% - 384px + 20px) !important;
-    }
-}
-
-@media (max-width: 900px) {
-    .popup-add,
-    .popup-labels,
-    .popup-checklists,
-    .popup-members,
-    .popup-dates {
-        /* On very small screens, center the popup */
-        left: calc(50% - 200px) !important;
-        max-width: calc(100% - 40px);
-    }
-}
-
-@media (max-width: 500px) {
-    .popup-add,
-    .popup-labels,
-    .popup-checklists,
-    .popup-members,
-    .popup-dates {
-        /* On mobile, full width with padding */
-        left: 20px !important;
-        right: 20px;
-        max-width: calc(100% - 40px);
-    }
-}
 
 .popup-close {
     position: absolute;
