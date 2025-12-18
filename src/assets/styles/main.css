@@ -10,6 +10,7 @@
 /* pages */
 @import 'pages/HomePage.css';
 @import 'pages/BoardIndex.css';
+@import 'pages/BoardDetails.css';
 
 /* Components */
 @import 'cmps/AppHeader.css';

@@ -36,7 +36,7 @@ export function TaskList({ group }) {
             {tasks?.length &&
                 tasks.map(task =>
                     <li key={task.id}>
-                        <TaskPreview task={task} />
+                        <TaskPreview task={task} group={group} />
                     </li>
                 )}
             <li>
@@ -47,7 +47,9 @@ export function TaskList({ group }) {
                 }
                 {isAddingTask &&
                     <form className='add-form'>
-                        <textarea onChange={handleChange} autoFocus onBlur={() => setIsAddingTask(false)} />
+                        <textarea onChange={handleChange} autoFocus 
+                        // onBlur={() => setIsAddingTask(false)}
+                         />
 
                         <div className='form-btns'>
                             <button className='btn' onClick={onAddTask}>Add Card</button>

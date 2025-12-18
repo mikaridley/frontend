@@ -86,14 +86,20 @@ button {
 }
 
 .btn {
-  border: none;
-  border-radius: 3px;
-  height: 30px;
+  display: grid;
+      align-items: center;
 
-  background-color: var(--clr-create-btn);
-  cursor: pointer;
+      border: none;
+      border-radius: 3px;
+      height: 30px;
+      padding-inline: 0.5rem;
 
-  &:hover {
-    background-color: var(--clr-create-btn-hover);
-  }
+      font-size: 0.9rem;
+      background-color: var(--clr-create-btn);
+      color: var(--clr-txt-dark);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--clr-create-btn-hover);
+      }
 }

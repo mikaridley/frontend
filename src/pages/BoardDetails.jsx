@@ -6,7 +6,7 @@ import { loadBoard, updateBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router'
+import { Outlet, useParams } from 'react-router'
 
 export function BoardDetails() {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -24,7 +24,7 @@ export function BoardDetails() {
     function onUpdateBoard(title) {
         try {
             if (!title || board.title === title) return
-            
+
             board.title = title
             updateBoard(board)
             showSuccessMsg('Updated')
@@ -43,6 +43,7 @@ export function BoardDetails() {
                 onUpdateBoard={onUpdateBoard}
             />
             <GroupList groups={board.groups} members={board.members} />
+            <Outlet />
         </section>
     )
 }
