@@ -4,17 +4,17 @@ import { loadBoards } from '../store/actions/board.actions'
 import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 
-export function BoardList({ onAddBoard }) {
-  const boards = useSelector(storeState => storeState.boardModule.boards)
-
-  useEffect(() => {
-    loadBoards()
-  }, [])
-
+export function BoardList({ boards, onAddBoard, removeBoard }) {
   return (
     <section className="board-list">
       {boards.map(board => {
-        return <BoardPreview key={board._id} board={board} />
+        return (
+          <BoardPreview
+            key={board._id}
+            board={board}
+            removeBoard={removeBoard}
+          />
+        )
       })}
       <section className="add-board-card-container">
         <Link
