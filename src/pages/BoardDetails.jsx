@@ -1,40 +1,44 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 
 import { boardService } from '../services/board/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { updateBoard } from '../store/actions/board.actions'
+import { loadBoard, updateBoard } from '../store/actions/board.actions'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router'
 
 export function BoardDetails() {
-    const [board, setBoard] = useState()
+    const board = useSelector(storeState => storeState.boardModule.board)
+    const [title, setTitle] = useState('')
     const { boardId } = useParams()
 
     useEffect(() => {
-        loadBoard()
+        loadBoard(boardId)
+        setTitle(board.title)
     }, [])
 
-    async function loadBoard() {
-        try {
-            const board = await boardService.getById(boardId)
-            setBoard(board)
-        } catch (err) {
-            console.log('err:', err)
-            showErrorMsg('Could noe load board')
-        }
-    }
+    // async function loadBoard() {
+    //     try {
+    //         const board = await boardService.getById(boardId)
+    //         setBoard(board)
+    //     } catch (err) {
+    //         console.log('err:', err)
+    //         showErrorMsg('Could not load board')
+    //     }
+    // }
 
     function handleChange({ target }) {
         console.log('target:', target)
         let value = target.value
-        setBoard(prevBoard => ({ ...prevBoard, title: value }))
+        setTitle(value)
     }
 
     function onUpdateBoard() {
         try {
-            if (!board.title) return
+            if (!title) return
+            board.title = title
             updateBoard(board)
             showSuccessMsg('Updated')
         } catch (err) {
@@ -47,7 +51,7 @@ export function BoardDetails() {
     return (
         <section className='board-details' style={{ backgroundColor: board.style.backgroundColor }}>
             <BoardHeader
-                title={board.title}
+                title={title}
                 handleChange={handleChange}
                 onUpdateBoard={onUpdateBoard}
             />
