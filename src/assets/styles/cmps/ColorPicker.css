@@ -1,0 +1,107 @@
+/* Color Picker Styles */
+.color-picker-menu {
+    width: 100%;
+}
+
+.color-picker-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.color-picker-header h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.color-picker-body {
+    padding: 0;
+}
+
+.color-picker-body h5 {
+    margin: 16px 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.color-picker-body input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.color-picker-body input[type="text"]:focus {
+    outline: none;
+    border-color: #0079bf;
+}
+
+.color-picker-section {
+    margin-top: 16px;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.color-swatch {
+    width: 100%;
+    aspect-ratio: 2.5 / 1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.color-swatch:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.color-swatch.selected {
+    box-shadow: 0 0 0 3px #0079bf;
+    transform: scale(1.05);
+}
+
+.color-picker-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.color-picker-actions button {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.color-picker-actions button:first-child {
+    background-color: #0079bf;
+    color: white;
+}
+
+.color-picker-actions button:first-child:hover {
+    background-color: #026aa7;
+}
+
+.color-picker-actions button:last-child {
+    background-color: #f4f5f7;
+    color: #333;
+}
+
+.color-picker-actions button:last-child:hover {
+    background-color: #e4e6e9;
+}
+

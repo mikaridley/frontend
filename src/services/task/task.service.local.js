@@ -100,10 +100,18 @@ function getTaskById(board, groupId, taskId) {
 }
 
 function getLabels(board, groupId, taskId) {
-    const task = getTaskById(board, groupId, taskId)
-    if (!task || !task.labels){
-        const labels = [{color: '#eb3434', title: ''}, {color: '#f5ed05ff', title: ''},{color: '#56ed15', title: ''},{color: '#1548ed', title: ''},{color: '#ed15e6', title: ''},{color: '#ed8815', title: ''}]
-        return labels
+    // Return board labels (available labels to choose from)
+    if (board && board.labels && board.labels.length > 0) {
+        return board.labels
     }
-    return task.labels
+    // If no board labels exist, return default labels
+    const defaultLabels = [
+        {color: '#eb3434', title: ''}, 
+        {color: '#f5ed05ff', title: ''}, 
+        {color: '#56ed15', title: ''}, 
+        {color: '#1548ed', title: ''}, 
+        {color: '#ed15e6', title: ''}, 
+        {color: '#ed8815', title: ''}
+    ]
+    return defaultLabels
 }

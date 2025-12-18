@@ -1,20 +1,25 @@
 import { useState } from 'react'
 import { taskService } from '../../services/task/task.service.local'
 import { boardService } from '../../services/board'
+import '../../assets/styles/cmps/ColorPicker.css'
 
 // Color palette - 30 colors in 6 rows of 5 columns
 const colorPalette = [
-    '#2d5a4a', '#5d4d1f', '#6b3c1e', '#5e2828', '#4a2d5a',
-    '#3d6e5a', '#8b7534', '#a0652d', '#b85745', '#7d5ba6',
-    '#7fccb3', '#d4a944', '#f9a847', '#ff9d88', '#c4a3ff',
-    '#1a3a6b', '#2d5866', '#4a5a2d', '#5a3047', '#4a4a4a',
-    '#3d6bb3', '#4a8a9d', '#6b8c3d', '#a35a8c', '#7a7a7a',
-    '#7fa8e5', '#7fd4e5', '#b3d97f', '#ff9dcc', '#b3b3b3'
+    {'color': '#2d5a4a', 'title': 'subtle Green'}, {'color': '#5d4d1f', 'title': 'subtle yellow'}, {'color': '#6b3c1e', 'title': 'subtle orange'}, {'color': '#5e2828', 'title': 'subtle red'}, {'color': '#4a2d5a', 'title': 'subtle purple'},
+    {'color': '#3d6e5a', 'title': 'green'}, {'color': '#8b7534', 'title': 'yellow'}, {'color': '#a0652d', 'title': 'orange'}, {'color': '#b85745', 'title': 'red'}, {'color': '#7d5ba6', 'title': 'purple'},
+    {'color': '#7fccb3', 'title': 'bold green'}, {'color': '#d4a944', 'title': 'bold yellow'}, {'color': '#f9a847', 'title': 'bold orange'}, {'color': '#ff9d88', 'title': 'bold red'}, {'color': '#c4a3ff', 'title': 'bold purple'},
+    {'color': '#1a3a6b', 'title': 'subtle blue'}, {'color': '#2d5866', 'title': 'subtle sky'}, {'color': '#4a5a2d', 'title': 'subtle lime'}, {'color': '#5a3047', 'title': 'subtle pink'}, {'color': '#4a4a4a', 'title': 'subtle black'},
+    {'color': '#3d6bb3', 'title': 'blue'}, {'color': '#4a8a9d', 'title': 'sky'}, {'color': '#6b8c3d', 'title': 'lime'}, {'color': '#a35a8c', 'title': 'pink'}, {'color': '#7a7a7a', 'title': 'black'},
+    {'color': '#7fa8e5', 'title': 'bold blue'}, {'color': '#7fd4e5', 'title': 'bold sky'}, {'color': '#b3d97f', 'title': 'bold lime'}, {'color': '#ff9dcc', 'title': 'bold pink'}, {'color': '#b3b3b3', 'title': 'bold black'}
 ]
 
 export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) {
     const [labelTitle, setLabelTitle] = useState(label?.title || '')
-    const [labelColor, setLabelColor] = useState(label?.color || colorPalette[0])
+    const [labelColor, setLabelColor] = useState(   //current selected label color
+        label?.color //if label has a color, find the color in the color palette, if not, use the first color
+            ? colorPalette.find(c => c.color === label.color) || colorPalette[0]    
+            : colorPalette[0]
+    )
     const isEditMode = !!label
 
     async function handleSave() {
@@ -23,7 +28,7 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) 
         const updatedLabel = {
             ...(label || {}),
             title: labelTitle,
-            color: labelColor
+            color: labelColor.color
         }
 
         // If editing existing label
@@ -45,11 +50,11 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) 
 
             // Update board labels if they exist
             if (board?.labels) {
-                const boardLabelIndex = board.labels.findIndex(l => 
+                const boardLabelIndex = board.labels.findIndex(l =>     //find which label in the board matches the one we're editing
                     (l.id && l.id === label.id) || 
                     (!l.id && l.color === label.color)
                 )
-                if (boardLabelIndex > -1) {
+                if (boardLabelIndex > -1) { //if the label is found, update it (>-1 means found`)
                     const updatedBoardLabels = [...board.labels]
                     updatedBoardLabels[boardLabelIndex] = updatedLabel
                     board.labels = updatedBoardLabels
@@ -62,7 +67,7 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) 
                 const newLabel = {
                     id: `l${Date.now()}`,
                     title: labelTitle,
-                    color: labelColor
+                    color: labelColor.color
                 }
                 board.labels.push(newLabel)
                 await boardService.save(board)
@@ -90,13 +95,13 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) 
                 <div className="color-picker-section">
                     <h5>Select a color</h5>
                     <div className="color-grid">
-                        {colorPalette.map((color, idx) => (
+                        {colorPalette.map((colorObj, idx) => (
                             <div
                                 key={idx}
-                                className={`color-swatch ${labelColor === color ? 'selected' : ''}`}
-                                style={{ backgroundColor: color }}
-                                onClick={() => setLabelColor(color)}
-                                title={color}
+                                className={`color-swatch ${labelColor.color === colorObj.color ? 'selected' : ''}`}
+                                style={{ backgroundColor: colorObj.color }}
+                                onClick={() => setLabelColor(colorObj)}
+                                title={colorObj.title}
                             />
                         ))}
                     </div>
