@@ -9,9 +9,11 @@ import {
   updateBoard,
 } from '../store/actions/board.actions'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadBoards()
@@ -21,7 +23,8 @@ export function BoardIndex() {
     ev.preventDefault()
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.title = value
-    await addBoard(boardToSave)
+    const savedBoard = await addBoard(boardToSave)
+    navigate(`/board/${savedBoard._id}`)
   }
 
   async function _removeBoard(boardId) {
