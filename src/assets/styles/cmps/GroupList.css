@@ -11,8 +11,11 @@
     }
 
     button {
-        border-radius: .857em;
         width: 100%;
         height: max-content;
+        padding: 1em;
+
+        border-radius: .857em;
+        text-align: start;
     }
 }
