@@ -26,6 +26,7 @@
   place-items: center;
 
   position: absolute;
+  gap: 0.5rem;
 
   width: 300px;
   border-radius: 10px;
@@ -33,7 +34,7 @@
 
   &.from-list {
     top: -50px;
-    left: 250px;
+    left: 245px;
   }
 
   &.from-header {
@@ -49,6 +50,27 @@
   form {
     display: grid;
     gap: 0.5em;
+
+    width: 100%;
+
+    input {
+      padding: 0.5em;
+      border: 1px solid var(--clr-input-add-board);
+      border-radius: 4px;
+
+      outline: none;
+
+      background-color: var(--clr-bg-dark);
+      color: var(--clr-txt-light);
+
+      &:focus {
+        border-color: var(--clr-input-add-board);
+      }
+
+      &:hover {
+        border-color: var(--clr-input-add-board-hover);
+      }
+    }
   }
 
   .close-add-board {
@@ -62,6 +84,11 @@
       background-color: var(--clr-ah-grey-1);
       box-shadow: 0 0 0 4px var(--clr-ah-grey-1);
     }
+  }
+
+  h3 {
+    justify-self: start;
+    font-size: 0.8rem;
   }
 }
 
@@ -107,7 +134,7 @@
     gap: 0.3rem;
 
     position: absolute;
-    left: 100%;
+    right: 20%;
     top: 0;
 
     padding: 1rem;
@@ -119,6 +146,30 @@
     .background-color {
       width: 90px;
       height: 55px;
+    }
+  }
+}
+
+.mini-board-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 0.5rem;
+
+  height: 120px;
+  width: 80%;
+
+  background-color: var(--clr-default-board);
+
+  .group {
+    background-color: var(--clr-mini-board-group);
+
+    &:nth-child(1) {
+      height: 90%;
+    }
+
+    &:nth-child(2) {
+      height: 50%;
     }
   }
 }

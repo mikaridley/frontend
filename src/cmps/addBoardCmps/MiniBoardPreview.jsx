@@ -1,3 +1,12 @@
-export function MiniBoardPreview() {
-  return <div className="mini-board-preview">mini-board-preview</div>
+export function MiniBoardPreview({ selectedColor }) {
+  return (
+    <div
+      className="mini-board-preview"
+      style={{ backgroundColor: selectedColor }}
+    >
+      <div className="group"></div>
+      <div className="group"></div>
+      <div className="group"></div>
+    </div>
+  )
 }

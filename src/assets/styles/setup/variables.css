@@ -16,7 +16,10 @@
   /* Board */
   --clr-star-bg: rgba(0, 0, 0, 0.239);
   --clr-default-board: #0079bf;
-  --add-board-shadow: rgba(0, 0, 0, 0.2);
+  --add-board-shadow: rgba(0, 0, 0, 0.619);
+  --clr-input-add-board: #99c6ff;
+  --clr-input-add-board-hover: #df574d;
+  --clr-mini-board-group: #e3e3e3;
 
   /* Group */
   --clr-group: #f1f2f4;

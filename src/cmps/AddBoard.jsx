@@ -24,7 +24,6 @@ export function AddBoard() {
         X
       </Link>
       <h2>Create board</h2>
-      <MiniBoardPreview />
       <BackgroundContainer changeColor={changeColor} />
       <form onSubmit={ev => addBoard(ev, boardName)}>
         <label htmlFor="boardTitle">Board title</label>
