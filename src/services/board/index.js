@@ -9,7 +9,6 @@ function getEmptyBoard() {
     return {
         _id: '',
         name: makeId(),
-        groups: [],
     }
 }
 

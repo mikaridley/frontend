@@ -10,12 +10,14 @@
         flex-basis: 270px;
     }
 
-    button {
-        width: 100%;
-        height: max-content;
-        padding: 1em;
+    >li {
+        >button {
+            width: 100%;
+            height: max-content;
+            padding: 1em;
 
-        border-radius: .857em;
-        text-align: start;
+            border-radius: .857em;
+            text-align: start;
+        }
     }
 }

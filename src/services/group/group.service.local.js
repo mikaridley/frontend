@@ -1,3 +1,7 @@
+import { storageService } from '../async-storage.service'
+import { loadFromStorage, makeId, saveToStorage } from '../util.service'
+
+const STORAGE_KEY = 'boardDB'
 
 export const groupService = {
     addGroup,
@@ -7,17 +11,23 @@ export const groupService = {
     getGroupById,
 }
 
-function addGroup(board, groupToAdd) {
-    board.groups = board.groups || []
-    board.groups.push(groupToAdd)
-    return board
+async function addGroup(board, groupToAdd) {
+    if (!board.groups?.length) board.groups = []
+    const group = {
+        id: makeId(),
+        title: groupToAdd.title
+    }
+    board.groups.push(group)
+    await storageService.put(STORAGE_KEY, board)
+    return group
 }
 
-function updateGroup(board, groupId, changes) {
+
+async function updateGroup(board, groupId, changes) {
     const idx = board.groups?.findIndex(group => group.id === groupId)
     if (idx === -1) return
     board.groups[idx] = { ...board.groups[idx], ...changes }
-    return board
+    return await storageService.put(STORAGE_KEY, board)
 }
 
 function removeGroup(board, groupId) {

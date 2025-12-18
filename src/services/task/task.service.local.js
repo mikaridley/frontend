@@ -1,3 +1,7 @@
+import { storageService } from "../async-storage.service"
+import { makeId } from "../util.service"
+const STORAGE_KEY = 'boardDB'
+
 export const taskService = {
     addTask,
     updateTask,
@@ -12,22 +16,25 @@ export const taskService = {
     getLabels,
 }
 
-function addTask(board, groupId, taskToAdd) {
-    const group = board.groups?.find(group => group.id === groupId)
-    if (!group) return board
-    group.tasks = group.tasks || []
-    group.tasks.push(taskToAdd)
+async function addTask(board, group, taskToAdd) {
+    if (!group.tasks?.length) group.tasks = []
+    const task = {
+        id: makeId(),
+        title: taskToAdd.title,
+    }
+    group.tasks.push(task)
+    await storageService.put(STORAGE_KEY, board)
     return board
 }
 
 function updateTask(board, groupId, taskId, changes) {
-    
     const group = board.groups?.find(group => group.id === groupId)
+
     if (!group || !group.tasks) return board
     const idx = group.tasks.findIndex(task => task.id === taskId)
-    if (idx > -1) {
-        group.tasks[idx] = { ...group.tasks[idx], ...changes }
-    }
+    if (idx === -1) return
+    group.tasks[idx] = { ...group.tasks[idx], ...changes }
+
     return board
 }
 
@@ -101,8 +108,8 @@ function getTaskById(board, groupId, taskId) {
 
 function getLabels(board, groupId, taskId) {
     const task = getTaskById(board, groupId, taskId)
-    if (!task || !task.labels){
-        const labels = [{color: '#eb3434', title: ''}, {color: '#f5ed05ff', title: ''},{color: '#56ed15', title: ''},{color: '#1548ed', title: ''},{color: '#ed15e6', title: ''},{color: '#ed8815', title: ''}]
+    if (!task || !task.labels) {
+        const labels = [{ color: '#eb3434', title: '' }, { color: '#f5ed05ff', title: '' }, { color: '#56ed15', title: '' }, { color: '#1548ed', title: '' }, { color: '#ed15e6', title: '' }, { color: '#ed8815', title: '' }]
         return labels
     }
     return task.labels

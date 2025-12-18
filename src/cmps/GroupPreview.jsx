@@ -1,18 +1,24 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import { TaskList } from './TaskList'
-import { groupService } from '../services/group/'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
-export function GroupPreview({ group }) {
+export function GroupPreview({ group, onUpdateGroup }) {
+    const [title, setTitle] = useState(group.title)
+
+    function handleChange({ target }) {
+        const value = target.value
+        setTitle(value)
+    }
+
     return (
         <section className="group-preview flex column">
             <input
                 className="title-input"
-                value={group.title}
+                onChange={handleChange}
+                onBlur={() => onUpdateGroup(title, group)}
+                value={title}
             ></input>
-            <TaskList tasks={group.tasks} />
+            <TaskList group={group} />
         </section>
     )
 }

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import { boardService } from '../services/board/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadBoard, updateBoard } from '../store/actions/board.actions'
 
@@ -27,6 +26,10 @@ export function BoardDetails() {
             console.log('err:', err)
             showErrorMsg(`Failed to update`)
         }
+    }
+
+    function onAddGroup() {
+
     }
 
     if (!board) return

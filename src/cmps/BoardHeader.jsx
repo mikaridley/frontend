@@ -4,7 +4,7 @@ export function BoardHeader({ title, members, onUpdateBoard }) {
     const [titleValue, setTitleValue] = useState(title)
 
     function handleChange({ target }) {
-        let value = target.value
+        const value = target.value
         setTitleValue(value)
     }
 

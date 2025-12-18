@@ -10,7 +10,6 @@ export const boardService = {
     getById,
     save,
     remove,
-    addGroup,
 }
 window.bs = boardService
 
@@ -74,19 +73,19 @@ async function save(board) {
     return savedBoard
 }
 
-async function addGroup(boardId, groupToAdd) {
-    // Later, this is all done by the backend
-    const board = await getById(boardId)
+// async function addGroup(boardId, groupToAdd) {
+//     // Later, this is all done by the backend
+//     const board = await getById(boardId)
 
-    const group = {
-        _id: makeId(),
-        name: groupToAdd.name
-    }
-    board.groups.push(group)
-    await storageService.put(STORAGE_KEY, board)
+//     const group = {
+//         _id: makeId(),
+//         name: groupToAdd.name
+//     }
+//     board.groups.push(group)
+//     await storageService.put(STORAGE_KEY, board)
 
-    return group
-}
+//     return group
+// }
 
 function _createBoards() {
     let boards = loadFromStorage(STORAGE_KEY)

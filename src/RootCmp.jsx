@@ -35,8 +35,9 @@ export function RootCmp() {
                         <Route path="vision" element={<AboutVision />} />
                     </Route> */}
           <Route path="board" element={<BoardIndex />} />
-          <Route path="board/:boardId" element={<BoardDetails />} />
-          <Route path="board/:boardId/:groupId/:taskId" element={<TaskDetails />} /> {/* TODO: change this route for nested route */}
+          <Route path="board/:boardId" element={<BoardDetails />}>
+            <Route path="board/:boardId/:groupId/:taskId" element={<TaskDetails />} /> {/* TODO: change this route for nested route */}
+          </Route>
           <Route path="login" element={<LoginSignup />}>
             <Route index element={<Login />} />
             <Route path="signup" element={<Signup />} />
