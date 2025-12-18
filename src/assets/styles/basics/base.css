@@ -6,7 +6,7 @@
 
 html {
   /* color-scheme: light dark; */
-  font-family: 'sora', sans-serif;
+  font-family: 'AtlassianSans', sans-serif;
   font-size: 16px;
 }
 
@@ -76,16 +76,18 @@ button {
   cursor: pointer;
 }
 
-.btn {}
+.btn {
+}
 
-.btn:hover {}
+.btn:hover {
+}
 
 .title-input {
   field-sizing: content;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 
   border: none;
-  border-radius: .3rem;
+  border-radius: 0.3rem;
 
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
