@@ -13,6 +13,7 @@ export function GroupList({ groups }) {
     async function onUpdateGroup(title, group) {
         try {
             if (!title) return
+
             group.title = title
             await groupService.updateGroup(board, group.id, { title })
             showSuccessMsg('Updated')
@@ -22,10 +23,19 @@ export function GroupList({ groups }) {
         }
     }
 
-    function onAddGroup() {
+    async function onAddGroup() {
         setIsAddingGroup(false)
-        if(!newGroup.title) return
-        groupService.addGroup(board, newGroup)
+
+        try {
+            if (!newGroup.title) return
+
+            await groupService.addGroup(board, newGroup)
+            setIsAddingTask(true)
+            showSuccessMsg('Added')
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg(`Failed to Add`)
+        }
     }
 
     function handleChange({ target }) {
@@ -35,11 +45,12 @@ export function GroupList({ groups }) {
 
     return (
         <ul className='group-list flex clean-list'>
-            {groups.map(group =>
-                <li key={group.id}>
-                    <GroupPreview group={group} onUpdateGroup={onUpdateGroup} />
-                </li>
-            )}
+            {groups?.length &&
+                groups.map(group =>
+                    <li key={group.id}>
+                        <GroupPreview group={group} onUpdateGroup={onUpdateGroup} />
+                    </li>
+                )}
             <li>
                 {!isAddingGroup &&
                     <button onClick={() => setIsAddingGroup(true)}>

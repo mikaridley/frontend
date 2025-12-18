@@ -13,7 +13,12 @@ export function BoardDetails() {
     const { boardId } = useParams()
 
     useEffect(() => {
-        loadBoard(boardId)
+        try {
+            loadBoard(boardId)
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg('Could not load board')
+        }
     }, [])
 
     function onUpdateBoard(title) {
@@ -26,10 +31,6 @@ export function BoardDetails() {
             console.log('err:', err)
             showErrorMsg(`Failed to update`)
         }
-    }
-
-    function onAddGroup() {
-
     }
 
     if (!board) return

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { taskService } from '../services/task/'
 import { TaskPreview } from './TaskPreview'
 import { useSelector } from 'react-redux'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function TaskList({ group }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -9,10 +10,19 @@ export function TaskList({ group }) {
     const [newTask, setNewTask] = useState(taskService.getEmptyTask())
     const [isAddingTask, setIsAddingTask] = useState(false)
 
-    function onAddTask() {
+    async function onAddTask() {
         setIsAddingTask(false)
-        if (!newTask.title) return
-        taskService.addTask(board, group, newTask)
+
+        try {
+            if (!newTask.title) return
+
+            await taskService.addTask(board, group, newTask)
+            setIsAddingTask(true)
+            showSuccessMsg('Added')
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg(`Failed to Add`)
+        }
     }
 
     function handleChange({ target }) {
@@ -22,11 +32,12 @@ export function TaskList({ group }) {
 
     return (
         <ul className='task-list clean-list'>
-            {tasks?.length && tasks.map(task =>
-                <li key={task.id}>
-                    <TaskPreview task={task} />
-                </li>
-            )}
+            {tasks?.length &&
+                tasks.map(task =>
+                    <li key={task.id}>
+                        <TaskPreview task={task} />
+                    </li>
+                )}
             <li>
                 {!isAddingTask &&
                     <button onClick={() => setIsAddingTask(true)}>
