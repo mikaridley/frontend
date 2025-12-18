@@ -17,7 +17,11 @@ export function BoardList({ onAddBoard }) {
         return <BoardPreview key={board._id} board={board} />
       })}
       <section className="add-board-card-container">
-        <Link className="add-board-card" to="/board/add-board">
+        <Link
+          className="add-board-card"
+          to="/board/add-board"
+          state={{ origin: 'board-list' }}
+        >
           Create new board
         </Link>
         <Outlet context={{ onAddBoard }} />

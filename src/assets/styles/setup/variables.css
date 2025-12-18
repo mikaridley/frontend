@@ -1,6 +1,7 @@
 :root {
   --clr-bg-dark: #1f1f21;
   --clr-txt-light: #cecfd2;
+  --clr-txt-dark: #0d0d0d;
 
   /* AppHeader */
   --clr-ah-grey-1: #7e8188;

@@ -26,8 +26,16 @@
   place-items: center;
 
   position: absolute;
-  top: -50px;
-  left: 250px;
+
+  &.from-list {
+    top: -50px;
+    left: 250px;
+  }
+
+  &.from-header {
+    top: -190px;
+    left: 162%;
+  }
 
   padding-inline: 1rem;
   padding-block: 2rem;
@@ -36,7 +44,6 @@
 
   form {
     display: grid;
-
     gap: 0.5em;
   }
 

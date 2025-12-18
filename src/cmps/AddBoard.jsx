@@ -1,11 +1,13 @@
 import { MiniBoardPreview } from './addBoardCmps/MiniBoardPreview.jsx'
 import { BackgroundContainer } from './addBoardCmps/BackgroundContainer.jsx'
 import { useState } from 'react'
-import { Link, useOutletContext } from 'react-router-dom'
+import { Link, useOutletContext, useLocation } from 'react-router-dom'
 
 export function AddBoard() {
   const { onAddBoard } = useOutletContext()
   const [boardName, setBoardName] = useState('')
+  const location = useLocation()
+  const origin = location.state?.origin || 'board-list' // default
 
   function handleChange({ target }) {
     let value = target.value
@@ -13,7 +15,11 @@ export function AddBoard() {
   }
 
   return (
-    <section className="add-board">
+    <section
+      className={`add-board ${
+        origin === 'header' ? 'from-header' : 'from-list'
+      }`}
+    >
       <Link className="close-add-board" to="/board">
         X
       </Link>
