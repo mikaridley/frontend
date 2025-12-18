@@ -10,13 +10,13 @@
   &:hover {
     opacity: 0.8;
 
-    .star-board {
+    &:not(.starred-board) .star-toggle {
       right: 10px;
       opacity: 1;
     }
   }
 
-  .star-board {
+  .star-toggle {
     position: absolute;
     right: -10px;
     top: 10px;
@@ -30,10 +30,14 @@
 
     background-color: var(--clr-star-bg);
   }
+
+  .star-toggle.starred-board {
+    right: 10px;
+    opacity: 1;
+  }
 }
 
 .board-preview::after {
-  /* content: 'Board Name'; */
   content: var(--board-name, '');
   display: grid;
   align-items: center;

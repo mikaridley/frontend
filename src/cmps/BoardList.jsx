@@ -6,7 +6,6 @@ import { Link, Outlet } from 'react-router-dom'
 
 export function BoardList({ boards, addBoard, removeBoard, starToggle }) {
   const starBoards = boards.filter(board => board.isStarred)
-  const notStarBoards = boards.filter(board => !board.isStarred)
   return (
     <section className="board-list">
       <h2 className="star-boards-header">Starred boards</h2>
@@ -24,7 +23,7 @@ export function BoardList({ boards, addBoard, removeBoard, starToggle }) {
       </section>
       <h2>Boards</h2>
       <section className="not-star-boards">
-        {notStarBoards.map(board => {
+        {boards.map(board => {
           return (
             <BoardPreview
               key={board._id}

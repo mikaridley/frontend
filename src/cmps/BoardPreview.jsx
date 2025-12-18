@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router'
 import starImg from '../assets/img/star.svg'
+import fullStarImg from '../assets/img/full-star.svg'
 
 export function BoardPreview({ board, removeBoard, starToggle }) {
   const navigate = useNavigate()
@@ -24,7 +25,12 @@ export function BoardPreview({ board, removeBoard, starToggle }) {
       className="board-preview"
       style={{ '--board-name': `"${board.title}"` }}
     >
-      <img onClick={onToggleStar} className="star-board" src={starImg} />
+      <img
+        onClick={onToggleStar}
+        className={`star-toggle ${board.isStarred ? 'starred-board' : ''}`}
+        src={!board.isStarred ? starImg : fullStarImg}
+      />
+
       <p onClick={ev => onRemoveBoard(ev)}>Delete</p>
     </section>
   )
