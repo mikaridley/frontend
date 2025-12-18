@@ -1,0 +1,21 @@
+.group-list {
+    gap: .8rem;
+    padding: .8rem;
+
+    color: var(--clr-group-txt);
+    font-size: .876rem;
+    font-family: 'AtlassianSans';
+
+    >* {
+        flex-basis: 270px;
+    }
+
+    button {
+        width: 100%;
+        height: max-content;
+        padding: 1em;
+
+        border-radius: .857em;
+        text-align: start;
+    }
+}

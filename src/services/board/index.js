@@ -6,11 +6,11 @@ import { boardService as local } from './board.service.local'
 import { boardService as remote } from './board.service.remote'
 
 function getEmptyBoard() {
-	return {
+    return {
         _id: '',
-		name: makeId(),
-		groups: [],
-	}
+        name: makeId(),
+        groups: [],
+    }
 }
 
 function getDefaultFilter() {
