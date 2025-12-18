@@ -16,7 +16,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
     // Get current task labels
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
-        if (task?.labels) {
+        if (task?.labels && Array.isArray(task.labels)) {
             const labelIds = task.labels.map(label => label.id || label.color)
             setSelectedLabelIds(labelIds)
         }
@@ -119,7 +119,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
                                             className="label-color" 
                                             style={{ backgroundColor: label.color }}
                                         >
-                                            <span>{label.title || label.color}</span>
+                                            <span>{label.title ||''}</span>
                                         </div>
                                         <button 
                                             onClick={(e) => {
@@ -133,6 +133,13 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
                                 )
                             })}
                         </div>
+                        <button onClick={onClose}>Close</button>
+                        <button onClick={() => {
+                            const selectedLabels = availableLabels.filter(label => 
+                                selectedLabelIds.includes(label.id || label.color)
+                            )
+                            onSave('labels', selectedLabels)
+                        }}>Save</button>
                     </>
                 )}
             </div>

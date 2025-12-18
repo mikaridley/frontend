@@ -1,16 +1,29 @@
 :root {
   --clr-bg-dark: #1f1f21;
   --clr-txt-light: #cecfd2;
+  --clr-txt-dark: #0d0d0d;
 
   /* AppHeader */
   --clr-ah-grey-1: #7e8188;
   --clr-ah-grey: #434345;
+  --clr-ah-grey-1: #37373a;
+  --clr-ah-grey-2: #2c2c2e;
+
   --clr-create-btn: #669df1;
   --clr-create-btn-hover: #8fb8f6;
+  --clr-board-shadow: #111213;
+
+  /* Board */
+  --clr-star-bg: rgba(0, 0, 0, 0.239);
+  --clr-default-board: #0079bf;
+  --add-board-shadow: rgba(0, 0, 0, 0.619);
+  --clr-input-add-board: #99c6ff;
+  --clr-input-add-board-hover: #df574d;
+  --clr-mini-board-group: #e3e3e3;
 
   /* Group */
-  --clr-group: rgb(16, 18, 4);
-  --clr-group-txt: rgb(206, 207, 210);
+  --clr-group: #f1f2f4;
+  --clr-group-txt: rgb(41, 42, 46)4;
 
   /* Task */
   --clr-task: rgb(36, 37, 40);

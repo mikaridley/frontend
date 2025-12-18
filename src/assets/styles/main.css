@@ -4,13 +4,12 @@
 
 /* Basics */
 @import 'basics/helpers.css';
-/* @import 'basics/layout.css'; */
+@import 'basics/layout.css';
 @import 'basics/base.css';
 
 /* pages */
-/* @import 'pages/HomePage.css'; */
-/* @import 'pages/BoardIndex.css'; */
-@import 'pages/BoardDetails.css';
+@import 'pages/HomePage.css';
+@import 'pages/BoardIndex.css';
 
 /* Components */
 @import 'cmps/AppHeader.css';
@@ -23,3 +22,5 @@
 @import 'cmps/GroupPreview.css';
 @import 'cmps/TaskList.css';
 @import 'cmps/TaskPreview.css';
+@import 'cmps/AddBoard.css';
+@import 'cmps/TaskDetails.css';

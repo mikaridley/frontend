@@ -25,14 +25,14 @@ export function boardReducer(state = initialState, action) {
         board => board._id === action.boardId
       )
       boards = state.boards.filter(board => board._id !== action.boardId)
-      newState = { ...state, board: boards, lastRemovedBoard }
+      newState = { ...state, boards, lastRemovedBoard }
       break
     case ADD_BOARD:
       newState = { ...state, boards: [...state.boards, action.board] }
       break
     case UPDATE_BOARD:
       boards = state.boards.map(board =>
-        board._id === action.board._id ? action.car : board
+        board._id === action.board._id ? action.board : board
       )
       newState = { ...state, boards }
       break
