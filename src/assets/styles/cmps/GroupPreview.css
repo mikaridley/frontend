@@ -2,10 +2,18 @@
     padding: .5em;
     background-color: var(--clr-group);
     border-radius: .857em;
+}
 
+.group-header {
     >input {
-        color: var(--clr-group-txt);
+        color: var(--clr-task-txt);
         font-size: .876rem;
         font-weight: 700;
     }
+
+    >button {
+        background-color: inherit;
+    }
+
+
 }

@@ -37,6 +37,7 @@ export function GroupList({ groups }) {
             console.log('err:', err)
             showErrorMsg(`Failed to Add`)
         }
+        setNewGroup(newGroup => newGroup.title = '')
     }
 
     function handleChange({ target }) {
@@ -60,10 +61,20 @@ export function GroupList({ groups }) {
                 }
                 {isAddingGroup &&
                     <form className='add-form'>
-                        <textarea onChange={handleChange} onBlur={() => setIsAddingGroup(false)} autoFocus />
+                        <input
+                            onChange={handleChange}
+                            onBlur={() => setIsAddingGroup(false)}
+                            value={newGroup.title}
+                            autoFocus
+                        />
 
                         <div className='form-btns'>
-                            <button className='btn' onClick={onAddGroup}>Add List</button>
+                            <button className='btn'
+                                onMouseDown={onAddGroup}
+                                onClick={onAddGroup}
+                            >
+                                Add List
+                            </button>
                             <button type='button' onClick={() => setIsAddingGroup(false)}>X</button>
                         </div>
                     </form>

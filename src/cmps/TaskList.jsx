@@ -24,6 +24,7 @@ export function TaskList({ group }) {
             console.log('err:', err)
             showErrorMsg(`Failed to Add`)
         }
+        setNewTask(newTask => newTask.title = '')
     }
 
     function handleChange({ target }) {
@@ -47,12 +48,16 @@ export function TaskList({ group }) {
                 }
                 {isAddingTask &&
                     <form className='add-form'>
-                        <textarea onChange={handleChange} autoFocus 
-                        // onBlur={() => setIsAddingTask(false)}
-                         />
+                        <input
+                            onChange={handleChange}
+                            onBlur={onAddTask}
+                            autoFocus
+                        />
 
                         <div className='form-btns'>
-                            <button className='btn' onClick={onAddTask}>Add Card</button>
+                            <button className='btn' onClick={onAddTask}>
+                                Add Card
+                            </button>
                             <button type='button' onClick={() => setIsAddingTask(false)}>X</button>
                         </div>
                     </form>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { TaskList } from './TaskList'
+import moreIcon from '../assets/img/more.svg'
 
 export function GroupPreview({ group, onUpdateGroup }) {
     const [title, setTitle] = useState(group.title)
@@ -12,12 +13,17 @@ export function GroupPreview({ group, onUpdateGroup }) {
 
     return (
         <section className="group-preview flex column">
-            <input
-                className="title-input"
-                onChange={handleChange}
-                onBlur={() => onUpdateGroup(title, group)}
-                value={title}
-            ></input>
+            <section className='group-header flex space-between'>
+                <input
+                    className="title-input"
+                    onChange={handleChange}
+                    onBlur={() => onUpdateGroup(title, group)}
+                    value={title}
+                ></input>
+                <button>
+                    <img src={moreIcon} />
+                </button>
+            </section>
             <TaskList group={group} />
         </section>
     )

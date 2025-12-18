@@ -4,7 +4,7 @@
     >li {
         >button {
             padding: .7em 2.5em;
-            color: inherit;
+            color: var(--clr-task-txt);
             background-color: inherit;
 
             &:hover {

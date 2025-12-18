@@ -71,11 +71,6 @@ select {
   font-family: inherit;
 }
 
-textarea {
-  resize: none;
-}
-
-textarea,
 input {
   outline-color: var(--clr-create-btn);
 }

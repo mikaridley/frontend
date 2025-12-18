@@ -10,13 +10,13 @@
         }
     }
 
-    >textarea{
+    >input{
         font-weight: bold;
         font-size: 1rem;
     }
 
     button,
-    textarea {
+    input {
         color: white;
 
         &:hover {
