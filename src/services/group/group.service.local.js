@@ -15,9 +15,8 @@ function addGroup(board, groupToAdd) {
 
 function updateGroup(board, groupId, changes) {
     const idx = board.groups?.findIndex(group => group.id === groupId)
-    if (idx > -1) {
-        board.groups[idx] = { ...board.groups[idx], ...changes }
-    }
+    if (idx === -1) return
+    board.groups[idx] = { ...board.groups[idx], ...changes }
     return board
 }
 

@@ -11,31 +11,13 @@ import { useParams } from 'react-router'
 
 export function BoardDetails() {
     const board = useSelector(storeState => storeState.boardModule.board)
-    const [title, setTitle] = useState('')
     const { boardId } = useParams()
 
     useEffect(() => {
         loadBoard(boardId)
-        setTitle(board.title)
     }, [])
 
-    // async function loadBoard() {
-    //     try {
-    //         const board = await boardService.getById(boardId)
-    //         setBoard(board)
-    //     } catch (err) {
-    //         console.log('err:', err)
-    //         showErrorMsg('Could not load board')
-    //     }
-    // }
-
-    function handleChange({ target }) {
-        console.log('target:', target)
-        let value = target.value
-        setTitle(value)
-    }
-
-    function onUpdateBoard() {
+    function onUpdateBoard(title) {
         try {
             if (!title) return
             board.title = title
@@ -48,11 +30,11 @@ export function BoardDetails() {
     }
 
     if (!board) return
+
     return (
         <section className='board-details' style={{ backgroundColor: board.style.backgroundColor }}>
             <BoardHeader
-                title={title}
-                handleChange={handleChange}
+                title={board.title}
                 onUpdateBoard={onUpdateBoard}
             />
             <GroupList groups={board.groups} members={board.members} />
