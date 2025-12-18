@@ -1,4 +1,3 @@
-import { Outlet } from 'react-router'
 import { BoardList } from '../cmps/BoardList'
 import { boardService } from '../services/board'
 import { addBoard } from '../store/actions/board.actions'

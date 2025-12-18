@@ -1,7 +1,7 @@
 import { MiniBoardPreview } from './addBoardCmps/MiniBoardPreview.jsx'
 import { BackgroundContainer } from './addBoardCmps/BackgroundContainer.jsx'
 import { useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
 
 export function AddBoard() {
   const { onAddBoard } = useOutletContext()
@@ -14,6 +14,9 @@ export function AddBoard() {
 
   return (
     <section className="add-board">
+      <Link className="close-add-board" to="/board">
+        X
+      </Link>
       <h2>Create board</h2>
       <MiniBoardPreview />
       <BackgroundContainer />
