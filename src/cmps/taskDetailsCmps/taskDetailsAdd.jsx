@@ -4,7 +4,7 @@ import memberIcon from '../../assets/imgs/icons/member.svg'
 import attachmentIcon from '../../assets/imgs/icons/attachment.svg'
 import imageIcon from '../../assets/imgs/icons/image_icon.svg'
 
-export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen }) {
+export function TaskDetailsAdd({ board, groupId, taskId, onClose, onSave }) {
     const icons = {
         dates: <img src={timeIcon} alt="dates" />,
         checklists: <img src={checkboxIcon} alt="checklists" />,
