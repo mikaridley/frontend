@@ -71,28 +71,29 @@ select {
   font-family: inherit;
 }
 
+textarea {
+  resize: none;
+}
+
+textarea,
+input {
+  outline-color: var(--clr-create-btn);
+}
+
 button {
   border: none;
   cursor: pointer;
 }
 
-.btn {}
-
-.btn:hover {}
-
-.title-input {
-  field-sizing: content;
-  padding: .5rem 1rem;
-
+.btn {
   border: none;
-  border-radius: .3rem;
+  border-radius: 3px;
+  height: 30px;
 
-  background-color: rgba(0, 0, 0, 0);
+  background-color: var(--clr-create-btn);
   cursor: pointer;
 
-  &:focus {
-    background-color: white;
-    cursor: text;
-    color: black;
+  &:hover {
+    background-color: var(--clr-create-btn-hover);
   }
 }

@@ -1,11 +1,11 @@
 .group-preview {
     padding: .5em;
     background-color: var(--clr-group);
-    box-shadow: rgba(30, 31, 33, 0.25) 0px 1px 1px;
     border-radius: .857em;
 
     >input {
+        color: var(--clr-group-txt);
         font-size: .876rem;
-        font-weight: 500;
+        font-weight: 700;
     }
 }

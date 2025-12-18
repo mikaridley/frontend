@@ -10,7 +10,8 @@ export function TaskList({ group }) {
     const [newTask, setNewTask] = useState(taskService.getEmptyTask())
     const [isAddingTask, setIsAddingTask] = useState(false)
 
-    async function onAddTask() {
+    async function onAddTask(ev) {
+        ev.preventDefault()
         setIsAddingTask(false)
 
         try {
@@ -40,16 +41,19 @@ export function TaskList({ group }) {
                 )}
             <li>
                 {!isAddingTask &&
-                    <button onClick={() => setIsAddingTask(true)}>
+                    <button className='add-btn' onClick={() => setIsAddingTask(true)}>
                         Add a Card
                     </button>
                 }
                 {isAddingTask &&
-                    <section className='add-group flex column'>
-                        <input onChange={handleChange} />
-                        <button onClick={onAddTask}>Add Card</button>
-                        <button type='button' onClick={() => setIsAddingTask(false)}>X</button>
-                    </section>
+                    <form className='add-form'>
+                        <textarea onChange={handleChange} autoFocus onBlur={() => setIsAddingTask(false)} />
+
+                        <div className='form-btns'>
+                            <button className='btn' onClick={onAddTask}>Add Card</button>
+                            <button type='button' onClick={() => setIsAddingTask(false)}>X</button>
+                        </div>
+                    </form>
                 }
             </li>
         </ul>

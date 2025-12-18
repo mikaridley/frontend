@@ -1,11 +1,17 @@
 .task-preview {
-    padding: .8em;
+
+    align-items: center;
+    padding: .8em 1em;
     margin-block: .6em;
+    max-width: 270px;
 
-    background-color: white;
-    box-shadow: 0px 1px 2px 0px #a6a6a6;
+    background-color: var(--clr-task);
 
-    border-radius: .857em;
+    border-radius: .7em;
     text-decoration: none;
     cursor: pointer;
+    
+    >p{
+        margin: 0;
+    }
 }

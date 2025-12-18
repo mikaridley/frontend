@@ -9,9 +9,10 @@
   --clr-create-btn-hover: #8fb8f6;
 
   /* Group */
-  --clr-group: #f1f2f4;
-  --clr-group-txt: rgb(41, 42, 46)4;
+  --clr-group: rgb(16, 18, 4);
+  --clr-group-txt: rgb(206, 207, 210);
 
   /* Task */
-  --clr-task-txt: rgb(80, 82, 88);
+  --clr-task: rgb(36, 37, 40);
+  --clr-task-txt: rgb(206, 207, 210);
 }

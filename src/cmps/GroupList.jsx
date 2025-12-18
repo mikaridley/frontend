@@ -12,7 +12,7 @@ export function GroupList({ groups }) {
 
     async function onUpdateGroup(title, group) {
         try {
-            if (!title) return
+            if (!title || group.title === title) return
 
             group.title = title
             await groupService.updateGroup(board, group.id, { title })
@@ -23,14 +23,15 @@ export function GroupList({ groups }) {
         }
     }
 
-    async function onAddGroup() {
+    async function onAddGroup(ev) {
+        ev.preventDefault()
         setIsAddingGroup(false)
 
         try {
             if (!newGroup.title) return
 
             await groupService.addGroup(board, newGroup)
-            setIsAddingTask(true)
+            setIsAddingGroup(true)
             showSuccessMsg('Added')
         } catch (err) {
             console.log('err:', err)
@@ -53,16 +54,19 @@ export function GroupList({ groups }) {
                 )}
             <li>
                 {!isAddingGroup &&
-                    <button onClick={() => setIsAddingGroup(true)}>
+                    <button className='add-btn' onClick={() => setIsAddingGroup(true)}>
                         Add another list
                     </button>
                 }
                 {isAddingGroup &&
-                    <section className='add-group flex column'>
-                        <input onChange={handleChange} />
-                        <button onClick={onAddGroup}>Add List</button>
-                        <button type='button' onClick={() => setIsAddingGroup(false)}>X</button>
-                    </section>
+                    <form className='add-form'>
+                        <textarea onChange={handleChange} onBlur={() => setIsAddingGroup(false)} autoFocus />
+
+                        <div className='form-btns'>
+                            <button className='btn' onClick={onAddGroup}>Add List</button>
+                            <button type='button' onClick={() => setIsAddingGroup(false)}>X</button>
+                        </div>
+                    </form>
                 }
             </li>
         </ul>

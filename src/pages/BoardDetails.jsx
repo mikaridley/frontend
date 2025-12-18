@@ -23,7 +23,8 @@ export function BoardDetails() {
 
     function onUpdateBoard(title) {
         try {
-            if (!title) return
+            if (!title || board.title === title) return
+            
             board.title = title
             updateBoard(board)
             showSuccessMsg('Updated')

@@ -1,2 +1,61 @@
-.board-details{
+.board-details {
+    .title-input {
+        field-sizing: content;
+        padding: .5rem;
+
+        border: none;
+        border-radius: .3rem;
+
+        background-color: rgba(0, 0, 0, 0);
+        cursor: pointer;
+
+        &:focus {
+            cursor: text;
+        }
+    }
+
+    .add-btn {
+        position: relative;
+        width: 100%;
+        height: max-content;
+        padding: 1em 2.5em;
+
+        color: white;
+        border-radius: .857em;
+        text-align: start;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: .7em;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 20px;
+            height: 20px;
+
+            background-image: url('/src//assets/imgs/icons/add.svg');
+            background-size: contain;
+        }
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    .add-form {
+        >textarea {
+            width: 100%;
+            max-width: 260px;
+            padding: .8em;
+            field-sizing: content;
+            overflow: hidden;
+
+            border: none;
+            border-radius: .8em;
+
+            background-color: var(--clr-task);
+            color: inherit;
+        }
+    }
 }

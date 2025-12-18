@@ -10,7 +10,7 @@ export function BoardHeader({ title, members, onUpdateBoard }) {
 
     return (
         <header className="board-header flex space-between align-center">
-            <input
+            <textarea
                 className="title-input"
                 onChange={handleChange}
                 onBlur={() => onUpdateBoard(titleValue)}

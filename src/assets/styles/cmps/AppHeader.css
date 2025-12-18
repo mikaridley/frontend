@@ -30,19 +30,6 @@
       background-color: var(--clr-bg-dark);
       color: var(--clr-txt-light);
     }
-
-    button {
-      border: none;
-      border-radius: 3px;
-      height: 30px;
-
-      background-color: var(--clr-create-btn);
-      cursor: pointer;
-
-      &:hover {
-        background-color: var(--clr-create-btn-hover);
-      }
-    }
   }
 
   form::before {
