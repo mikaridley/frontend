@@ -56,12 +56,11 @@ async function remove(boardId) {
 }
 
 async function save(board) {
-  console.log('board', board)
   var savedBoard
   if (board._id) {
     const boardToSave = {
       _id: board._id,
-      name: board.name,
+      title: board.title,
     }
     savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
   } else {

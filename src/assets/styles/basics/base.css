@@ -50,6 +50,7 @@ ul,
 ol {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 a {
@@ -70,12 +71,28 @@ select {
   font-family: inherit;
 }
 
-input {
-  outline: none;
+button {
+  border: none;
+  cursor: pointer;
 }
 
-.btn {
-}
+.btn {}
 
-.btn:hover {
+.btn:hover {}
+
+.title-input {
+  field-sizing: content;
+  padding: .5rem 1rem;
+
+  border: none;
+  border-radius: .3rem;
+
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+
+  &:focus {
+    background-color: white;
+    cursor: text;
+    color: black;
+  }
 }

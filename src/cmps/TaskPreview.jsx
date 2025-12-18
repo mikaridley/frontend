@@ -1,5 +1,7 @@
 export function TaskPreview({ task }) {
     return (
-        <h2>{task.title}</h2>
+        <section className="task-preview">
+            <p>{task.title}</p>
+        </section>
     )
 }

@@ -11,4 +11,11 @@
   --clr-create-btn: #669df1;
   --clr-create-btn-hover: #8fb8f6;
   --clr-board-shadow: #111213;
+
+  /* Group */
+  --clr-group: #f1f2f4;
+  --clr-group-txt: rgb(41, 42, 46) 4;
+
+  /* Task */
+  --clr-task-txt: rgb(80, 82, 88);
 }

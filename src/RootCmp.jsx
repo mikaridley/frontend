@@ -8,6 +8,7 @@ import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { BoardIndex } from './pages/BoardIndex'
 import { BoardDetails } from './pages/BoardDetails'
+import { TaskDetails } from './cmps/TaskDetails'
 import { AddBoard } from './cmps/AddBoard'
 
 export function RootCmp() {
@@ -26,6 +27,11 @@ export function RootCmp() {
             <Route path="add-board" element={<AddBoard />} />
           </Route>
           <Route path="board/:boardId" element={<BoardDetails />} />
+          <Route
+            path="board/:boardId/:groupId/:taskId"
+            element={<TaskDetails />}
+          />{' '}
+          {/* TODO: change this route for nested route */}
           <Route path="login" element={<LoginSignup />}>
             <Route index element={<Login />} />
             <Route path="signup" element={<Signup />} />

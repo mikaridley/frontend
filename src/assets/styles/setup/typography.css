@@ -19,3 +19,8 @@
   src: url('../../fonts/manrope/manrope-regular.ttf');
   font-weight: 700;
 }
+
+@font-face {
+  font-family: AtlassianSans;
+  src: url('../../fonts/AtlassianSans/InterVariable.ttf');
+}

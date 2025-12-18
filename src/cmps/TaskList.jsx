@@ -1,7 +1,6 @@
 import { TaskPreview } from './TaskPreview'
 
 export function TaskList({ tasks }) {
-    console.log('tasks:', tasks)
 
     return (
         <section className="task-list">
