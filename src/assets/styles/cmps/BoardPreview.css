@@ -9,12 +9,20 @@
 
   &:hover {
     opacity: 0.8;
+
+    .star-board {
+      right: 10px;
+      opacity: 1;
+    }
   }
 
   .star-board {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: -10px;
+    top: 10px;
+
+    opacity: 0;
+    transition: all 0.3s ease;
 
     width: 20px;
     border-radius: 3px;
