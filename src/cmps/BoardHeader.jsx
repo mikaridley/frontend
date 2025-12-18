@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState } from 'react'
+import starIcon from '../assets/img/star.svg'
 
 export function BoardHeader({ title, members, onUpdateBoard }) {
     const [titleValue, setTitleValue] = useState(title)
@@ -16,7 +17,9 @@ export function BoardHeader({ title, members, onUpdateBoard }) {
                 onBlur={() => onUpdateBoard(titleValue)}
                 value={titleValue} />
             <div className="header-btns">
-                <button>star</button>
+                <button>
+                    {/* <img src={starIcon} /> */}
+                </button>
                 <button>Share</button>
             </div>
         </header>

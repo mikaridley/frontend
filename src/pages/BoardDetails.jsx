@@ -37,7 +37,7 @@ export function BoardDetails() {
     if (!board) return
 
     return (
-        <section className='board-details' style={{ backgroundColor: board.style.backgroundColor }}>
+        <section className='board-details' style={{ backgroundColor: board.style.backgroundImage }}>
             <BoardHeader
                 title={board.title}
                 onUpdateBoard={onUpdateBoard}

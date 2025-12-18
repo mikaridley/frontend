@@ -6,9 +6,25 @@ import { groupService } from '../services/group/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function GroupList({ groups }) {
-    const [newGroup, setNewGroup] = useState(groupService.getEmptyGroup())
-    const [isAddingGroup, setIsAddingGroup] = useState(false)
     const board = useSelector(storeState => storeState.boardModule.board)
+    const [group, setGroup] = useState(groupService.getEmptyGroup())
+    const [isAddingGroup, setIsAddingGroup] = useState(false)
+
+    async function onAddGroup(ev) {
+        ev.preventDefault()
+        setIsAddingGroup(false)
+
+        try {
+            if (!group.title) return
+            await groupService.addGroup(board, group)
+            setIsAddingGroup(true)
+            showSuccessMsg('Added')
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg(`Failed to Add`)
+        }
+        setGroup(group => group.title = '')
+    }
 
     async function onUpdateGroup(title, group) {
         try {
@@ -23,34 +39,34 @@ export function GroupList({ groups }) {
         }
     }
 
-    async function onAddGroup(ev) {
-        ev.preventDefault()
-        setIsAddingGroup(false)
-
+    async function archiveGroup(group) {
         try {
-            if (!newGroup.title) return
-
-            await groupService.addGroup(board, newGroup)
-            setIsAddingGroup(true)
-            showSuccessMsg('Added')
+            const archivedAt = Date.now()
+            await groupService.updateGroup(board, group.id, { archivedAt })
+            showSuccessMsg('List archived')
         } catch (err) {
             console.log('err:', err)
-            showErrorMsg(`Failed to Add`)
+            showErrorMsg(`Failed to archive`)
         }
-        setNewGroup(newGroup => newGroup.title = '')
+        setGroup({ id: '', title: '' })
     }
 
     function handleChange({ target }) {
         const value = target.value
-        setNewGroup(prevGroup => ({ ...prevGroup, title: value }))
+        setGroup(prevGroup => ({ ...prevGroup, title: value }))
     }
 
     return (
         <ul className='group-list flex clean-list'>
-            {groups?.length &&
+            {!!groups?.length &&
                 groups.map(group =>
+                    !group.archivedAt &&
                     <li key={group.id}>
-                        <GroupPreview group={group} onUpdateGroup={onUpdateGroup} />
+                        <GroupPreview
+                            group={group}
+                            onUpdateGroup={onUpdateGroup}
+                            archiveGroup={archiveGroup}
+                        />
                     </li>
                 )}
             <li>
@@ -64,7 +80,7 @@ export function GroupList({ groups }) {
                         <input
                             onChange={handleChange}
                             onBlur={() => setIsAddingGroup(false)}
-                            value={newGroup.title}
+                            value={group.title}
                             autoFocus
                         />
 
@@ -72,8 +88,7 @@ export function GroupList({ groups }) {
                             <button className='btn'
                                 onMouseDown={onAddGroup}
                                 onClick={onAddGroup}
-                            >
-                                Add List
+                            >Add List
                             </button>
                             <button type='button' onClick={() => setIsAddingGroup(false)}>X</button>
                         </div>

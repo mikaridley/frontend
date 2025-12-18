@@ -1,15 +1,3 @@
 .task-list {
     color: var(--clr-task-txt);
-
-    >li {
-        >button {
-            padding: .7em 2.5em;
-            color: var(--clr-task-txt);
-            background-color: inherit;
-
-            &:hover {
-                background-color: rgba(227, 228, 242, 0.12);
-            }
-        }
-    }
 }

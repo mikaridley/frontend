@@ -19,10 +19,6 @@ export function RootCmp() {
         <AppHeader />
         <Routes>
           <Route path="" element={<HomePage />} />
-          {/* <Route path="about" element={<AboutUs />}>
-                        <Route path="team" element={<AboutTeam />} />
-                        <Route path="vision" element={<AboutVision />} />
-                    </Route> */}
           <Route path="/board" element={<BoardIndex />}>
             <Route path="add-board" element={<AddBoard />} />
           </Route>

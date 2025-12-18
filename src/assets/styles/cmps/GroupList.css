@@ -4,10 +4,9 @@
 
     color: var(--clr-group-txt);
     font-size: .876rem;
-    font-family: 'AtlassianSans';
 
     >* {
-        flex-basis: 270px;
+        width: 270px;
     }
 
     >li {
