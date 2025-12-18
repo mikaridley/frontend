@@ -1,5 +1,34 @@
 .board-preview {
-  background-color: rgb(82, 95, 144);
+  position: relative;
 
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 0 var(--clr-board-shadow);
+
+  background-color: rgb(82, 95, 144);
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.board-preview::after {
+  /* content: 'Board Name'; */
+  content: var(--board-name, '');
+  display: grid;
+  align-items: center;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 35%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-inline: 1rem;
+
+  font-size: 0.9rem;
+  background: var(--clr-bg-dark);
+  pointer-events: none;
 }

@@ -5,6 +5,10 @@
   /* AppHeader */
   --clr-ah-grey-1: #7e8188;
   --clr-ah-grey: #434345;
+  --clr-ah-grey-1: #37373a;
+  --clr-ah-grey-2: #2c2c2e;
+
   --clr-create-btn: #669df1;
   --clr-create-btn-hover: #8fb8f6;
+  --clr-board-shadow: #111213;
 }

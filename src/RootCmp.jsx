@@ -1,25 +1,14 @@
-import React from 'react'
-import { Routes, Route } from 'react-router'
-
+import { Routes, Route } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
-// import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
-// import { CarIndex } from './pages/CarIndex.jsx'
-// import { ReviewIndex } from './pages/ReviewIndex.jsx'
-// import { ChatApp } from './pages/Chat.jsx'
-// import { AdminIndex } from './pages/AdminIndex.jsx'
-
-// import { CarDetails } from './pages/CarDetails'
-// import { UserDetails } from './pages/UserDetails'
-
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
 import { LoginSignup } from './pages/LoginSignup'
 import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
-
 import { BoardIndex } from './pages/BoardIndex'
 import { BoardDetails } from './pages/BoardDetails'
+import { AddBoard } from './cmps/AddBoard'
 
 export function RootCmp() {
   return (
@@ -33,7 +22,9 @@ export function RootCmp() {
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />
                     </Route> */}
-          <Route path="board" element={<BoardIndex />} />
+          <Route path="/board" element={<BoardIndex />}>
+            <Route path="add-board" element={<AddBoard />} />
+          </Route>
           <Route path="board/:boardId" element={<BoardDetails />} />
           <Route path="login" element={<LoginSignup />}>
             <Route index element={<Login />} />

@@ -1,7 +1,16 @@
-export function BoardPreview() {
+import { useNavigate } from 'react-router'
+
+export function BoardPreview({ board }) {
+  const navigate = useNavigate()
+
+  function onOpenBoard() {
+    navigate(`/board/${board._id}`)
+  }
   return (
-    <section className="board-preview">
-      <div>Board</div>
-    </section>
+    <section
+      onClick={onOpenBoard}
+      className="board-preview"
+      style={{ '--board-name': `"${board.title}"` }}
+    ></section>
   )
 }

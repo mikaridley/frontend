@@ -4,5 +4,5 @@
   grid-template-columns: minmax(2px, 1fr) minmax(auto, 1000px) minmax(2px, 1fr);
   gap: 1rem;
 
-  padding-block: 1rem;
+  padding-block: 4rem;
 }

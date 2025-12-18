@@ -1,0 +1,42 @@
+.add-board-card-container {
+  position: relative;
+
+  .add-board-card {
+    display: grid;
+    place-items: center;
+
+    position: relative;
+
+    border-radius: 12px;
+    box-shadow: 0 2px 0 var(--clr-board-shadow);
+    height: 100%;
+
+    font-size: 0.9rem;
+    background-color: var(--clr-ah-grey-2);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--clr-ah-grey-1);
+    }
+  }
+}
+
+.add-board {
+  display: grid;
+  place-items: center;
+
+  position: absolute;
+  top: -50px;
+  left: 250px;
+
+  padding-inline: 1rem;
+  padding-block: 2rem;
+
+  background-color: var(--clr-ah-grey-2);
+
+  form {
+    display: grid;
+
+    gap: 0.5em;
+  }
+}
