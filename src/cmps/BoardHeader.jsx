@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import starIcon from '../assets/img/star.svg'
+import yellowStarIcon from '../assets/img/yellow-star.png'
 
-export function BoardHeader({ title, members, onUpdateBoard }) {
+export function BoardHeader({ title, isStarred, members, onUpdateBoard }) {
     const [titleValue, setTitleValue] = useState(title)
 
     function handleChange({ target }) {
@@ -18,7 +19,10 @@ export function BoardHeader({ title, members, onUpdateBoard }) {
                 value={titleValue} />
             <div className="header-btns">
                 <button>
-                    {/* <img src={starIcon} /> */}
+                    {isStarred ?
+                        <img src={yellowStarIcon} />
+                        : <img src={starIcon} />
+                    }
                 </button>
                 <button>Share</button>
             </div>
