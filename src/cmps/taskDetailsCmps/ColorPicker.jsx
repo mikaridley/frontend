@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { taskService } from '../../services/task/task.service.local'
 import { boardService } from '../../services/board'
-import '../../assets/styles/cmps/ColorPicker.css'
 
-// Color palette - 30 colors in 6 rows of 5 columns
+
 const colorPalette = [
     {'color': '#2d5a4a', 'title': 'subtle Green'}, {'color': '#5d4d1f', 'title': 'subtle yellow'}, {'color': '#6b3c1e', 'title': 'subtle orange'}, {'color': '#5e2828', 'title': 'subtle red'}, {'color': '#4a2d5a', 'title': 'subtle purple'},
     {'color': '#3d6e5a', 'title': 'green'}, {'color': '#8b7534', 'title': 'yellow'}, {'color': '#a0652d', 'title': 'orange'}, {'color': '#b85745', 'title': 'red'}, {'color': '#7d5ba6', 'title': 'purple'},

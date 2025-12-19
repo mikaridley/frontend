@@ -1,20 +1,87 @@
+@import '../setup/variables.css';
+
+/* Import popup-related styles */
+@import './ColorPicker.css';
+
+
+
+/* Modal Backdrop */
+.task-details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+
+}
+
+/* Modal Content 
+   Centered with max-width: 768px (half = 384px)
+   Modal horizontal center: 50%
+   Modal left edge: calc(50% - 384px)
+   Modal right edge: calc(50% + 384px)
+*/
 .task-details {
     background-color: #242528;
     color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    padding-bottom: 4rem;
+    max-width: 768px;
+    width: 100%;
+    max-height: 85vh;
+    min-height: 600px;
+    overflow-y: auto;
+    overflow-x: visible;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    position: relative;
+    
     & h2{
-        margin: 1rem;
-        padding: 1rem;
+        margin: 0 0 1rem 0;
+        padding: 0;
     }
     & h5{
-        padding: 1rem;
-        margin-left: 1rem;
+        padding: 0;
+        margin: 1rem 0 0.5rem 0;
     }
 }
 
+/* Modal Close Button */
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #999;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0;
+    line-height: 1;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.modal-close-btn:hover {
+    background-color: #3C3D40;
+    color: white;
+}
+
 .task-details-actions {
-    margin-left: 1rem;
     display: flex;
     gap: 15px;
+    margin-bottom: 1rem;
     & button {
         color: white;
         border: 2px solid #3C3D40;
@@ -36,7 +103,7 @@
     right: 0;
     bottom: 0;
     background-color: transparent;
-    z-index: 1000;
+    z-index: 1003;
 }
 
 .popup-content {
@@ -47,13 +114,52 @@
     padding: 20px;
     min-width: 300px;
     max-width: 400px;
-    max-height: 60vh;
+    max-height: 70vh;
     overflow-y: auto;
-    position: absolute;
-    top: 180px;
-    left: 2rem;
+    position: fixed;
+    /* 
+    Position calculation based on modal's centered position:
+    - Modal center: 50% horizontal
+    - Modal half-width: 384px (768px / 2)
+    - Modal left edge: calc(50% - 384px)
+    - Modal content starts at: calc(50% - 384px + 32px) [32px = 2rem padding]
+    
+    Vertical: calc(50vh - 200px) positions popup slightly above center
+    
+    Each button type has specific horizontal positioning below
+    */
+    top: calc(50vh - 200px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
+/* Popup positioning for each button type */
+/* Button positions in the task-details-actions row with 15px gaps */
+
+/* Add button - leftmost button */
+.popup-add {
+    left: calc(50% - 384px + 32px);
+}
+
+/* Labels button - second button (Add width ~60px + 15px gap) */
+.popup-labels {
+    left: calc(50% - 384px + 32px + 60px + 16px);
+}
+
+/* Checklists button - third button */
+.popup-checklists {
+    left: calc(50% - 384px + 32px + 60px + 16px + 75px + 16px);
+}
+
+/* Members button - fourth button */
+.popup-members {
+    left: calc(50% - 384px + 32px + 60px + 16px + 75px + 16px + 100px + 15px);
+}
+
+/* Dates button - fifth button (rightmost) */
+.popup-dates {
+    left: calc(50% - 384px + 32px + 60px + 16px + 75px + 16px + 100px + 15px + 95px + 15px);
+}
+
 
 .popup-close {
     position: absolute;
@@ -193,8 +299,7 @@
 
 /* Labels Display Styles */
 .labels {
-    margin: 1rem;
-    padding: 1rem;
+    margin: 1rem 0;
 }
 
 .labels h5 {
@@ -221,8 +326,7 @@
 
 /* Checklist Styles */
 .checklists {
-    margin: 1rem;
-    padding: 1rem;
+    margin: 1rem 0;
 }
 
 .checklist {
@@ -333,4 +437,24 @@
 
 .btn-add-item-trigger:hover {
     background-color: #3C3D40;
+}
+
+/* Members and Dates Styles */
+.members,
+.dates {
+    margin: 1rem 0;
+}
+
+.members h5,
+.dates h5 {
+    margin: 0 0 0.5rem 0;
+}
+
+.description {
+    margin: 1rem 0;
+}
+
+/* Modal Spacer for extra bottom space */
+.modal-spacer {
+    height: 100px;
 }
