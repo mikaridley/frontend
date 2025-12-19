@@ -1,4 +1,5 @@
 .task-preview {
+    position: relative;
 
     align-items: center;
     padding: .8em .5em;
@@ -14,33 +15,54 @@
     >p {
         margin: 0;
     }
+
+    button {
+        background-color: inherit
+    }
 }
 
 .task-preview:hover {
     border: 2px solid white;
 
-    >.toggle-done {
+    >.toggle-done-btn {
         >div {
             opacity: 1;
         }
     }
+
+    >.archive-btn {
+        opacity: 1;
+    }
 }
 
-.toggle-done {
-    background-color: inherit;
-
+.toggle-done-btn {
     >img {
-        width: 16px;
+        width: 1rem;
     }
 
     >div {
         opacity: 0;
-        height: 14px;
-        width: 14px;
+        width: .9rem;
+        height: .9rem;
         margin-inline: .2em;
 
         border-radius: 50%;
         border: 2px solid var(--clr-task-txt);
         transition: .3s;
     }
+}
+
+.archive-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    
+    opacity: 0;
+    border-radius: 50%;
+
+    >img {
+        width: 1em;
+    }
+
+
 }

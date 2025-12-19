@@ -34,6 +34,19 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         setTask(task => task.title = '')
     }
 
+    async function archiveTask(task) {
+        try {
+            const archivedAt = Date.now()
+            await updateTask(board, group.id, task.id, { archivedAt })
+            showSuccessMsg('Task archived')
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg(`Failed to archive`)
+        }
+        setTask({ id: '', title: '' })
+    }
+
+
     function onArchiveGroup() {
         onToggleActions()
         archiveGroup(group)
@@ -85,7 +98,11 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
                     />
                 }
             </header>
-            <TaskList group={group} onToggleStatus={onToggleStatus} />
+            <TaskList
+                group={group}
+                onToggleStatus={onToggleStatus}
+                archiveTask={archiveTask}
+            />
             {!isAddingTask ?
                 <button className='add-btn' onClick={() => setIsAddingTask(true)}>
                     Add a Card
