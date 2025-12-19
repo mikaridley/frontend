@@ -49,7 +49,7 @@ export function BoardDetails() {
     const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
 
     return (
-        <section className='board-details' style={{ [bg]: board.style.backgroundImage }}>
+        <section className='board-details' style={{ [bg]: board.style.background.color }}>
             <BoardHeader
                 board={board}
                 onUpdateBoard={onUpdateBoard}
