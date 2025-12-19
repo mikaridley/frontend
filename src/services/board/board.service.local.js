@@ -120,7 +120,7 @@ function getEmptyBoard() {
       imgUrl: '',
     },
     style: {
-      backgroundImage: '',
+      background: { color: '', kind: '' },
     },
     labels: [],
     members: [],
