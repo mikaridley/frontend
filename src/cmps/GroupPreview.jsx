@@ -32,13 +32,21 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         setTask(task => task.title = '')
     }
 
+    function onArchiveGroup() {
+        onToggleActions()
+        archiveGroup(group)
+    }
+
     function onToggleActions() {
         setIsActionsOpen(isActionsOpen => !isActionsOpen)
     }
 
-    function onArchiveGroup() {
-        onToggleActions()
-        archiveGroup(group)
+    function onToggleStatus() {
+        if (task.status === 'done') {
+            task.status === 'inProgress'
+        } else {
+            task.status === 'done'
+        }
     }
 
     function handleTitleChange({ target }) {
@@ -50,6 +58,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         const value = target.value
         setTask(prevTask => ({ ...prevTask, title: value }))
     }
+
 
     return (
         <section className="group-preview flex column">
@@ -71,7 +80,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
                     />
                 }
             </header>
-            <TaskList group={group} />
+            <TaskList group={group} onToggleStatus={onToggleStatus} />
             {!isAddingTask ?
                 <button className='add-btn' onClick={() => setIsAddingTask(true)}>
                     Add a Card
