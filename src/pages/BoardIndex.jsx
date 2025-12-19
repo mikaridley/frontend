@@ -42,7 +42,6 @@ export function BoardIndex() {
   }
 
   async function starToggle(board) {
-    console.log(board.isStarred)
     board.isStarred = !board.isStarred
     try {
       await updateBoard(board)

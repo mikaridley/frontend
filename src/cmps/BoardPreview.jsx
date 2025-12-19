@@ -20,13 +20,15 @@ export function BoardPreview({ board, removeBoard, starToggle }) {
   }
 
   const { style } = board
+  const kind =
+    style.background.kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section
       onClick={onOpenBoard}
       className="board-preview"
       style={{
         '--board-name': `"${board.title}"`,
-        backgroundColor: `${style.backgroundImage}`,
+        [kind]: `${style.background.color}`,
       }}
     >
       <img
