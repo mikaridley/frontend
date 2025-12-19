@@ -36,8 +36,10 @@ export function BoardDetails() {
 
     if (!board) return
 
+    const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
+
     return (
-        <section className='board-details' style={{ backgroundColor: board.style.backgroundImage }}>
+        <section className='board-details' style={{ [bg]: board.style.background.color }}>
             <BoardHeader
                 title={board.title}
                 isStarred={board.isStarred}
