@@ -7,7 +7,7 @@ import { groupService } from '../services/group/'
 import { addGroup, updateGroup } from '../store/actions/group.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
-export function GroupList({ groups }) {
+export function GroupList() {
     const board = useSelector(storeState => storeState.boardModule.board)
     const [group, setGroup] = useState(groupService.getEmptyGroup())
     const [isAddingGroup, setIsAddingGroup] = useState(false)
@@ -60,8 +60,8 @@ export function GroupList({ groups }) {
 
     return (
         <ul className='group-list flex clean-list'>
-            {!!groups?.length &&
-                groups.map(group =>
+            {!!board.groups?.length &&
+                board.groups.map(group =>
                     !group.archivedAt &&
                     <li key={group.id}>
                         <GroupPreview

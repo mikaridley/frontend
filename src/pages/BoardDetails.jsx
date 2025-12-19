@@ -55,7 +55,7 @@ export function BoardDetails() {
                 onUpdateBoard={onUpdateBoard}
                 starToggle={starToggle}
             />
-            <GroupList groups={board.groups} members={board.members} />
+            <GroupList members={board.members} />
             <Outlet />
         </section>
     )
