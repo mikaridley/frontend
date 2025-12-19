@@ -37,9 +37,10 @@ export function BoardDetails() {
     if (!board) return
 
     return (
-        <section className='board-details' style={{ backgroundColor: board.style.backgroundColor }}>
+        <section className='board-details' style={{ backgroundColor: board.style.backgroundImage }}>
             <BoardHeader
                 title={board.title}
+                isStarred={board.isStarred}
                 onUpdateBoard={onUpdateBoard}
             />
             <GroupList groups={board.groups} members={board.members} />

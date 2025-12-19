@@ -4,13 +4,15 @@
 
     color: var(--clr-group-txt);
     font-size: .876rem;
-    font-family: 'AtlassianSans';
 
     >* {
-        flex-basis: 270px;
+        width: 270px;
     }
 
-    button {
-        background-color: rgba(255, 255, 255, 0.24);
+    >li {
+        >button {
+            background-color: rgba(255, 255, 255, 0.24);
+            color: white;
+        }
     }
 }

@@ -13,6 +13,7 @@ export const groupService = {
 
 async function addGroup(board, groupToAdd) {
     if (!board.groups?.length) board.groups = []
+
     const group = {
         id: makeId(),
         title: groupToAdd.title
@@ -25,9 +26,11 @@ async function addGroup(board, groupToAdd) {
 
 async function updateGroup(board, groupId, changes) {
     const idx = board.groups?.findIndex(group => group.id === groupId)
+
     if (idx === -1) return
     board.groups[idx] = { ...board.groups[idx], ...changes }
-    return await storageService.put(STORAGE_KEY, board)
+    await storageService.put(STORAGE_KEY, board)
+    return board.groups[idx]
 }
 
 function removeGroup(board, groupId) {

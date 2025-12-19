@@ -13,16 +13,25 @@
 @import 'pages/BoardDetails.css';
 
 /* Components */
+
+/* App */
 @import 'cmps/AppHeader.css';
 @import 'cmps/AppFooter.css';
 @import 'cmps/UserMsg.css';
+
+/* Board */
+@import 'cmps/BoardHeader.css';
 @import 'cmps/BoardList.css';
 @import 'cmps/BoardPreview.css';
-@import 'cmps/BoardHeader.css';
+@import 'cmps/AddBoard.css';
+
+/* Group */
 @import 'cmps/GroupList.css';
 @import 'cmps/GroupPreview.css';
+@import 'cmps/GroupActions.css';
+
+/* task */
 @import 'cmps/TaskList.css';
 @import 'cmps/TaskPreview.css';
-@import 'cmps/AddBoard.css';
 @import 'cmps/TaskDetails.css';
 @import 'cmps/BackgroundContainer.css';

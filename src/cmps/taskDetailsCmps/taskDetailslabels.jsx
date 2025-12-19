@@ -71,7 +71,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
     }
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-content popup-labels" onClick={(e) => e.stopPropagation()}>
                 <button className="popup-close" onClick={onClose}>×</button>
                 
                 {isColorPickerMode ? (

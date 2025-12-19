@@ -1,7 +1,7 @@
 .task-preview {
 
     align-items: center;
-    padding: .8em 1em;
+    padding: .8em .5em;
     margin-block: .6em;
     max-width: 270px;
 
@@ -10,8 +10,30 @@
     border-radius: .7em;
     text-decoration: none;
     cursor: pointer;
-    
-    >p{
+
+    >p {
         margin: 0;
+    }
+
+    button {
+        background-color: inherit;
+    }
+
+    div {
+        opacity: 0;
+        height: 14px;
+        width: 14px;
+        margin-inline: .2em;
+
+        border-radius: 50%;
+        border: 2px solid var(--clr-task-txt);
+        transition: .3s;
+    }
+
+    &:hover {
+        border: 2px solid white;
+        div {
+            opacity: 1;
+        }
     }
 }

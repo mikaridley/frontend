@@ -2,10 +2,29 @@
     padding: .5em;
     background-color: var(--clr-group);
     border-radius: .857em;
+    max-height: 100%;
+
+    >button {
+        padding: .7em 2.5em;
+        color: var(--clr-task-txt);
+        background-color: inherit;
+
+        &:hover {
+            background-color: rgba(227, 228, 242, 0.12);
+        }
+    }
+}
+
+.group-header {
+    position: relative;
 
     >input {
-        color: var(--clr-group-txt);
+        color: var(--clr-task-txt);
         font-size: .876rem;
         font-weight: 700;
+    }
+
+    >button {
+        background-color: inherit;
     }
 }

@@ -23,7 +23,8 @@
 
   /* Group */
   --clr-group: rgb(16, 18, 4);
-  --clr-group-txt: rgb(206, 207, 210);
+  --clr-group-txt: rgb(169, 171, 175);
+  --clr-group-modal: rgb(43, 44, 47);
 
   /* Task */
   --clr-task: rgb(36, 37, 40);

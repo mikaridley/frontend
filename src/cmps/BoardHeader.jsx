@@ -1,6 +1,8 @@
-import { useState } from "react"
+import { useState } from 'react'
+import starIcon from '../assets/img/star.svg'
+import yellowStarIcon from '../assets/img/yellow-star.png'
 
-export function BoardHeader({ title, members, onUpdateBoard }) {
+export function BoardHeader({ title, isStarred, members, onUpdateBoard }) {
     const [titleValue, setTitleValue] = useState(title)
 
     function handleChange({ target }) {
@@ -10,13 +12,18 @@ export function BoardHeader({ title, members, onUpdateBoard }) {
 
     return (
         <header className="board-header flex space-between align-center">
-            <textarea
+            <input
                 className="title-input"
                 onChange={handleChange}
                 onBlur={() => onUpdateBoard(titleValue)}
                 value={titleValue} />
             <div className="header-btns">
-                <button>star</button>
+                <button>
+                    {isStarred ?
+                        <img src={yellowStarIcon} />
+                        : <img src={starIcon} />
+                    }
+                </button>
                 <button>Share</button>
             </div>
         </header>

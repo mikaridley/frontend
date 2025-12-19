@@ -10,17 +10,22 @@
         }
     }
 
-    >textarea{
+    >input{
         font-weight: bold;
         font-size: 1rem;
     }
 
     button,
-    textarea {
+    input {
         color: white;
 
         &:hover {
             background-color: rgba(255, 255, 255, .3);
         }
+    }
+
+    img{
+        width: 16px;
+        height: 16px;
     }
 }

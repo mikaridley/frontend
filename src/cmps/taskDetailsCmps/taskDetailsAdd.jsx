@@ -15,7 +15,7 @@ export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen }) {
 
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-content popup-add" onClick={(e) => e.stopPropagation()}>
                 <h4>Add to card</h4> <button className="popup-close" onClick={onClose}>X</button>
                 <div className="popup-body">
                     <button onClick={() => onOpen('labels')}>
