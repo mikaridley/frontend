@@ -10,15 +10,19 @@ import { BoardIndex } from './pages/BoardIndex'
 import { BoardDetails } from './pages/BoardDetails'
 import { TaskDetails } from './cmps/TaskDetails'
 import { AddBoard } from './cmps/AddBoard'
+import { useLocation } from 'react-router-dom'
+import { HomePageHeader } from './cmps/HomePageHeader'
 
 export function RootCmp() {
+  const location = useLocation()
+
   return (
     <div>
       <UserMsg />
       <main className="main-layout">
-        <AppHeader />
+        {location.pathname === '/' ? <HomePageHeader /> : <AppHeader />}
         <Routes>
-          <Route path="" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           {/* <Route path="about" element={<AboutUs />}>
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />
