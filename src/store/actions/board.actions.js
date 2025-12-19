@@ -60,17 +60,6 @@ export async function updateBoard(board) {
   }
 }
 
-// export async function addBoardMsg(carId, txt) {
-//     try {
-//         const msg = await boardService.addBoardMsg(carId, txt)
-//         store.dispatch(getCmdAddCarMsg(msg))
-//         return msg
-//     } catch (err) {
-//         console.log('Cannot add board msg', err)
-//         throw err
-//     }
-// }
-
 // Command Creators:
 function getCmdSetBoards(boards) {
   return {
@@ -102,12 +91,7 @@ function getCmdUpdateBoard(board) {
     board,
   }
 }
-// function getCmdAddCarMsg(msg) {
-//     return {
-//         type: ADD_CAR_MSG,
-//         msg
-//     }
-// }
+
 
 // unitTestActions()
 // async function unitTestActions() {

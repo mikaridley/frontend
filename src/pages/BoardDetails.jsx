@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadBoard, updateBoard } from '../store/actions/board.actions'
@@ -34,14 +34,26 @@ export function BoardDetails() {
         }
     }
 
+    async function starToggle() {
+        board.isStarred = !board.isStarred
+        try {
+            await updateBoard(board)
+            showSuccessMsg('Board has been updated')
+        } catch {
+            showErrorMsg('Cannot update board')
+        }
+        console.log(board.isStarred)
+    }
+
     if (!board) return
+    const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
 
     return (
-        <section className='board-details' style={{ backgroundColor: board.style.backgroundImage }}>
+        <section className='board-details' style={{ [bg]: board.style.backgroundImage }}>
             <BoardHeader
-                title={board.title}
-                isStarred={board.isStarred}
+                board={board}
                 onUpdateBoard={onUpdateBoard}
+                starToggle={starToggle}
             />
             <GroupList groups={board.groups} members={board.members} />
             <Outlet />
