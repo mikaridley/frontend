@@ -4,7 +4,7 @@ import memberIcon from '../../assets/imgs/icons/member.svg'
 import attachmentIcon from '../../assets/imgs/icons/attachment.svg'
 import imageIcon from '../../assets/imgs/icons/image_icon.svg'
 
-export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen }) {
+export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen, position }) {
     const icons = {
         dates: <img src={timeIcon} alt="dates" />,
         checklists: <img src={checkboxIcon} alt="checklists" />,
@@ -15,7 +15,14 @@ export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen }) {
 
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div className="popup-content popup-add" onClick={(e) => e.stopPropagation()}>
+            <div 
+                className="popup-content popup-add" 
+                onClick={(e) => e.stopPropagation()}
+                style={position ? {
+                    top: `${position.top}px`,
+                    left: `${position.left}px`
+                } : {}}
+            >
                 <h4>Add to card</h4> <button className="popup-close" onClick={onClose}>X</button>
                 <div className="popup-body">
                     <button onClick={() => onOpen('labels')}>

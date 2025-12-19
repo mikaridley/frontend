@@ -1,7 +1,7 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
-export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, dates }) {
+export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, dates, position }) {
     // Single state object combining date and time
     const [dateTime, setDateTime] = useState(dates ? new Date(dates.dateTime) : new Date());
 
@@ -41,7 +41,14 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
 
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div className="popup-content popup-dates" onClick={(e) => e.stopPropagation()}>
+            <div 
+                className="popup-content popup-dates" 
+                onClick={(e) => e.stopPropagation()}
+                style={position ? {
+                    top: `${position.top}px`,
+                    left: `${position.left}px`
+                } : {}}
+            >
                 <h4>Date</h4> <button className="popup-close" onClick={onClose}>X</button>
                 <div className="popup-body">
                     <DatePicker
