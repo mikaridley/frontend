@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board'
+import { taskService } from '../../services/task'
 import { store } from '../store'
 import {
   ADD_BOARD,
@@ -56,6 +57,23 @@ export async function updateBoard(board) {
     return savedBoard
   } catch (err) {
     console.log('Cannot save board', err)
+    throw err
+  }
+}
+
+export async function updateTask(boardId, groupId, taskId, updates) {
+  try {
+    const state = store.getState()
+    const board = state.boardModule.board
+
+    if (!board || board._id !== boardId) {
+      throw new Error('Board not found in store')
+    }
+
+    const updatedBoard = taskService.updateTask(board, groupId, taskId, updates)
+    return await updateBoard(updatedBoard)
+  } catch (err) {
+    console.log('Cannot update task', err)
     throw err
   }
 }

@@ -1,10 +1,10 @@
 import { taskService } from '../../services/task/task.service.local'
-import { boardService } from '../../services/board'
 import { useState, useEffect } from 'react'
 import editIcon from '../../assets/imgs/icons/edit_label.svg'
 import { ColorPicker } from './ColorPicker'
+import { updateTask } from '../../store/actions/board.actions'
 
-export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
+export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, position }) {
     const [selectedLabelIds, setSelectedLabelIds] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
     const [isColorPickerMode, setIsColorPickerMode] = useState(false)
@@ -33,8 +33,9 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
             const selectedLabels = availableLabels.filter(label => 
                 newSelection.includes(label.id || label.color)
             )
-            const updatedBoard = taskService.updateTask(board, groupId, taskId, { labels: selectedLabels })
-            boardService.save(updatedBoard)
+            updateTask(board._id, groupId, taskId, { labels: selectedLabels }).catch(err => {
+                console.log('Error updating labels:', err)
+            })
             
             return newSelection
         })
@@ -71,7 +72,14 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave }) {
     }
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div className="popup-content popup-labels" onClick={(e) => e.stopPropagation()}>
+            <div 
+                className="popup-content popup-labels" 
+                onClick={(e) => e.stopPropagation()}
+                style={position ? {
+                    top: `${position.top}px`,
+                    left: `${position.left}px`
+                } : {}}
+            >
                 <button className="popup-close" onClick={onClose}>×</button>
                 
                 {isColorPickerMode ? (
