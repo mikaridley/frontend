@@ -11,6 +11,7 @@ import { TaskDetailsAdd } from './taskDetailsCmps/taskDetailsAdd'
 import { TaskDetailsDates } from './taskDetailsCmps/taskDetailsDates'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+// import { set } from 'react-datepicker/dist/dist/date_utils.js'
 
 
 export function TaskDetails() {
@@ -21,6 +22,8 @@ export function TaskDetails() {
     const navigate = useNavigate()
     const [description, setDescription] = useState('')
     const [descriptionEdit, setDescriptionEdit] = useState(false)
+    const [comment, setComment] = useState('')
+    const [commentEdit, setCommentEdit] = useState(false)
     const [members, setMembers] = useState([])
     const [labels, setLabels] = useState([])
     const [checklists, setChecklists] = useState([])
@@ -40,6 +43,10 @@ export function TaskDetails() {
         setDescriptionEdit(true)
     }
 
+    function editComment(){
+        setCommentEdit(true)
+    }
+
     async function saveDescription(ev) {
         ev.preventDefault()
         try {
@@ -53,6 +60,22 @@ export function TaskDetails() {
             showErrorMsg('Cannot save description')
         }
     }
+
+    async function saveComment(ev) {
+        ev.preventDefault()
+        try {
+            const updatedBoard = taskService.updateTask(board, groupId, taskId, { comment })
+            await boardService.save(updatedBoard)
+            setBoard(updatedBoard)
+            setTask({ ...task, comment })
+            setCommentEdit(false)
+        } catch (err) {
+            console.log('Error saving description:', err)
+            showErrorMsg('Cannot save description')
+        }
+    }
+
+
     useEffect(() => {
         loadTask()
     }, [boardId, groupId, taskId])
@@ -64,6 +87,7 @@ export function TaskDetails() {
             const task = taskService.getTaskById(board, groupId, taskId)
             setTask(task)
             setDescription(task?.description || '')
+            setComment(task?.comment || '')
             setMembers(task?.members || [])
             setLabels(task?.labels || [])
             setChecklists(task?.checklists || [])
@@ -334,6 +358,30 @@ export function TaskDetails() {
                     ))}
                 </div>
             )}
+            </div>
+            <div className="comments-section">
+            <h5>Comments</h5>
+                {!commentEdit && (
+                    <div onClick={editComment} className="task-comment-button">
+                        {comment ? (
+                            <div dangerouslySetInnerHTML={{ __html: comment }} />   //because of <p>comment</p>
+                        ) : (
+                            <span>Write a comment...</span>
+                        )}
+                    </div>
+                )}
+                {commentEdit && (
+                    <form>
+                        <ReactQuill 
+                            theme="snow"
+                            value={comment} 
+                            onChange={setComment}
+                            placeholder="Write a comment..."
+                        />
+                        <button onClick={saveComment}>Save</button>
+                        <button onClick={() => setCommentEdit(false)}>Cancel</button>
+                    </form>
+                )}
             </div>
         </div>
     )
