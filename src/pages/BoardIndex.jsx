@@ -24,7 +24,10 @@ export function BoardIndex() {
     ev.preventDefault()
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.title = value
-    boardToSave.style.backgroundImage = newBoardColor
+    boardToSave.style.background = {
+      color: newBoardColor.color,
+      kind: newBoardColor.kind,
+    }
     const savedBoard = await addBoard(boardToSave)
     navigate(`/board/${savedBoard._id}`)
   }
