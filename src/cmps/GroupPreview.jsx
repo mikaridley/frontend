@@ -45,16 +45,14 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
     async function onToggleStatus(ev, task) {
         ev.stopPropagation()
-        console.log('task:', task)
-        let status
+
         if (task.status === 'done') {
-            status === 'inProgress'
+            task.status = 'inProgress'
         } else {
-            status === 'done'
+            task.status = 'done'
         }
-        setTask(prevTask => ({ ...prevTask, status }))
-        console.log('task.status:', status)
-        await updateTask(board, group, task.id, { status })
+        await updateTask(board, group.id, task.id, { status: task.status })
+        setTask(prevTask => ({ ...prevTask, ...task }))
     }
 
     function handleTitleChange({ target }) {

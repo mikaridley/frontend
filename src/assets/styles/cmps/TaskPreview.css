@@ -14,12 +14,26 @@
     >p {
         margin: 0;
     }
+}
 
-    button {
-        background-color: inherit;
+.task-preview:hover {
+    border: 2px solid white;
+
+    >.toggle-done {
+        >div {
+            opacity: 1;
+        }
+    }
+}
+
+.toggle-done {
+    background-color: inherit;
+
+    >img {
+        width: 16px;
     }
 
-    div {
+    >div {
         opacity: 0;
         height: 14px;
         width: 14px;
@@ -28,12 +42,5 @@
         border-radius: 50%;
         border: 2px solid var(--clr-task-txt);
         transition: .3s;
-    }
-
-    &:hover {
-        border: 2px solid white;
-        div {
-            opacity: 1;
-        }
     }
 }

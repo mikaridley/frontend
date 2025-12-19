@@ -13,12 +13,11 @@ export function TaskPreview({ task, group, onToggleStatus }) {
 
     return (
         <section className="task-preview flex" onClick={openTaskDetails} >
-            <button onClick={ev => onToggleStatus(ev, task)}>
-                {task.status === 'done' &&
-                    <div>
-                        <img src={doneIcon} className=""/>
-                    </div>}
-                <div></div>
+            <button className="toggle-done" onClick={ev => onToggleStatus(ev, task)}>
+                {task.status === 'done' ?
+                    <img src={doneIcon} />
+                    : <div></div>
+                }
             </button>
             <p>{task.title}</p>
         </section>
