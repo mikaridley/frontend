@@ -11,3 +11,14 @@ export async function addTask(board, group, task) {
         throw err
     }
 }
+
+export async function updateTask(board, group, taskId, changes) {
+    console.log('taskId:', taskId)
+    try {
+        await taskService.updateTask(board, group, taskId, changes)
+        store.dispatch({ type: UPDATE_BOARD, board })
+    } catch {
+        console.log('err:', err)
+        throw err
+    }
+} 

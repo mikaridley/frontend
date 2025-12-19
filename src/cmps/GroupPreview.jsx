@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux'
 
 import { TaskList } from './TaskList'
 import { GroupActions } from './GroupActions'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
+import { addTask, updateTask } from '../store/actions/task.actions'
+import { taskService } from '../services/task'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import moreIcon from '../assets/img/more.svg'
-import { addTask } from '../store/actions/task.actions'
 
 export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -42,12 +43,18 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         setIsActionsOpen(isActionsOpen => !isActionsOpen)
     }
 
-    function onToggleStatus() {
+    async function onToggleStatus(ev, task) {
+        ev.stopPropagation()
+        console.log('task:', task)
+        let status
         if (task.status === 'done') {
-            task.status === 'inProgress'
+            status === 'inProgress'
         } else {
-            task.status === 'done'
+            status === 'done'
         }
+        setTask(prevTask => ({ ...prevTask, status }))
+        console.log('task.status:', status)
+        await updateTask(board, group, task.id, { status })
     }
 
     function handleTitleChange({ target }) {
@@ -59,7 +66,6 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         const value = target.value
         setTask(prevTask => ({ ...prevTask, title: value }))
     }
-
 
     return (
         <section className="group-preview flex column">
