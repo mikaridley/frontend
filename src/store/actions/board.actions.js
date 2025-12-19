@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board'
+import { taskService } from '../../services/task'
 import { store } from '../store'
 import {
   ADD_BOARD,
@@ -60,16 +61,22 @@ export async function updateBoard(board) {
   }
 }
 
-// export async function addBoardMsg(carId, txt) {
-//     try {
-//         const msg = await boardService.addBoardMsg(carId, txt)
-//         store.dispatch(getCmdAddCarMsg(msg))
-//         return msg
-//     } catch (err) {
-//         console.log('Cannot add board msg', err)
-//         throw err
-//     }
-// }
+export async function updateTask(boardId, groupId, taskId, updates) {
+  try {
+    const state = store.getState()
+    const board = state.boardModule.board
+
+    if (!board || board._id !== boardId) {
+      throw new Error('Board not found in store')
+    }
+
+    const updatedBoard = taskService.updateTask(board, groupId, taskId, updates)
+    return await updateBoard(updatedBoard)
+  } catch (err) {
+    console.log('Cannot update task', err)
+    throw err
+  }
+}
 
 // Command Creators:
 function getCmdSetBoards(boards) {
@@ -102,12 +109,7 @@ function getCmdUpdateBoard(board) {
     board,
   }
 }
-// function getCmdAddCarMsg(msg) {
-//     return {
-//         type: ADD_CAR_MSG,
-//         msg
-//     }
-// }
+
 
 // unitTestActions()
 // async function unitTestActions() {

@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { loadBoard, updateBoard } from '../store/actions/board.actions'
+import { useSelector } from 'react-redux'
+import { Outlet, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
-import { useSelector } from 'react-redux'
-import { Outlet, useParams } from 'react-router'
+
+import { loadBoard, updateBoard } from '../store/actions/board.actions'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function BoardDetails() {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -34,16 +34,26 @@ export function BoardDetails() {
         }
     }
 
-    if (!board) return
+    async function starToggle() {
+        board.isStarred = !board.isStarred
+        try {
+            await updateBoard(board)
+            showSuccessMsg('Board has been updated')
+        } catch {
+            showErrorMsg('Cannot update board')
+        }
+        console.log(board.isStarred)
+    }
 
+    if (!board) return
     const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
 
     return (
         <section className='board-details' style={{ [bg]: board.style.background.color }}>
             <BoardHeader
-                title={board.title}
-                isStarred={board.isStarred}
+                board={board}
                 onUpdateBoard={onUpdateBoard}
+                starToggle={starToggle}
             />
             <GroupList groups={board.groups} members={board.members} />
             <Outlet />

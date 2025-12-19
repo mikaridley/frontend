@@ -24,11 +24,11 @@ async function addGroup(board, groupToAdd) {
 }
 
 
-async function updateGroup(board, groupId, changes) {
-    const idx = board.groups?.findIndex(group => group.id === groupId)
+async function updateGroup(board, groupToUpdate) {
+    const idx = board.groups?.findIndex(group => group.id === groupToUpdate.id)
 
     if (idx === -1) return
-    board.groups[idx] = { ...board.groups[idx], ...changes }
+    board.groups[idx] = { ...board.groups[idx], ...groupToUpdate }
     await storageService.put(STORAGE_KEY, board)
     return board.groups[idx]
 }

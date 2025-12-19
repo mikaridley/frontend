@@ -22,8 +22,6 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) 
     const isEditMode = !!label
 
     async function handleSave() {
-        if (!labelTitle.trim()) return
-
         const updatedLabel = {
             ...(label || {}),
             title: labelTitle,
