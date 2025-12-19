@@ -17,7 +17,7 @@ export function BackgroundContainer({ changeColor }) {
 
   function onChangeBackground(color, kind) {
     setSelectedColor({ color, kind })
-    changeColor(color)
+    changeColor({ color, kind })
   }
 
   function openMoreColors() {

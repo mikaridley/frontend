@@ -147,7 +147,10 @@ function _createBoards() {
           imgUrl: 'http://some-img',
         },
         style: {
-          backgroundImage: '',
+          background: {
+            color: 'linear-gradient(135deg, #0c65e1, #093676)',
+            kind: 'gradiant',
+          },
         },
         labels: [
           {
@@ -239,7 +242,10 @@ function _createBoards() {
           imgUrl: 'http://some-img',
         },
         style: {
-          backgroundImage: '',
+          background: {
+            color: 'linear-gradient(135deg, #0c65e1, #093676)',
+            kind: 'gradiant',
+          },
         },
         labels: [
           {
