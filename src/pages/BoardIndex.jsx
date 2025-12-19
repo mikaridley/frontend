@@ -52,8 +52,8 @@ export function BoardIndex() {
     }
   }
 
-  function changeColor(color) {
-    setNewBoardColor(color)
+  function changeColor({ color, kind }) {
+    setNewBoardColor({ color, kind })
   }
 
   return (
