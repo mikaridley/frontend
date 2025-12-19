@@ -6,6 +6,7 @@ import { GroupActions } from './GroupActions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 import moreIcon from '../assets/img/more.svg'
+import { addTask } from '../store/actions/task.actions'
 
 export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -22,7 +23,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
         try {
             if (!task.title) return
-            await taskService.addTask(board, group, task)
+            await addTask(board, group, task)
             setIsAddingTask(true)
             showSuccessMsg('Added')
         } catch (err) {

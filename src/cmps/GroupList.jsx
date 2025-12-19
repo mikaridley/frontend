@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { GroupPreview } from './GroupPreview'
+
 import { groupService } from '../services/group/'
+import { addGroup, updateGroup } from '../store/actions/group.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function GroupList({ groups }) {
@@ -16,7 +18,7 @@ export function GroupList({ groups }) {
 
         try {
             if (!group.title) return
-            await groupService.addGroup(board, group)
+            await addGroup(board, group)
             setIsAddingGroup(true)
             showSuccessMsg('Added')
         } catch (err) {
@@ -31,7 +33,7 @@ export function GroupList({ groups }) {
             if (!title || group.title === title) return
 
             group.title = title
-            await groupService.updateGroup(board, group.id, { title })
+            await updateGroup(board, group)
             showSuccessMsg('Updated')
         } catch (err) {
             console.log('err:', err)
@@ -41,8 +43,8 @@ export function GroupList({ groups }) {
 
     async function archiveGroup(group) {
         try {
-            const archivedAt = Date.now()
-            await groupService.updateGroup(board, group.id, { archivedAt })
+            group.archivedAt = Date.now()
+            await updateGroup(board, group)
             showSuccessMsg('List archived')
         } catch (err) {
             console.log('err:', err)

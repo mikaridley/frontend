@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router'
+
 import starImg from '../assets/img/star.svg'
 import fullStarImg from '../assets/img/full-star.svg'
 

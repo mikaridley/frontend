@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { loadBoard, updateBoard } from '../store/actions/board.actions'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { Outlet, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
-import { useSelector } from 'react-redux'
-import { Outlet, useParams } from 'react-router'
+
+import { loadBoard, updateBoard } from '../store/actions/board.actions'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function BoardDetails() {
     const board = useSelector(storeState => storeState.boardModule.board)
