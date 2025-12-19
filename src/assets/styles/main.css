@@ -19,6 +19,9 @@
 @import 'cmps/AppFooter.css';
 @import 'cmps/UserMsg.css';
 
+/* Home */
+@import 'cmps/HomePageHeader.css';
+
 /* Board */
 @import 'cmps/BoardHeader.css';
 @import 'cmps/BoardList.css';

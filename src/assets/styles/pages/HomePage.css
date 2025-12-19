@@ -1,2 +1,77 @@
 .home-page {
+  grid-column: 1/-1;
+
+  .second-header {
+    padding-block: 1em;
+
+    text-align: center;
+    background-color: var(--clr-second-home-header);
+
+    a {
+      color: var(--clr-home-btns);
+      cursor: pointer;
+    }
+  }
+
+  .home-main-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+
+    padding-top: 2rem;
+
+    background-color: var(--clr-bg-home-2);
+
+    .home-sign-up {
+      display: grid;
+      gap: 1em;
+
+      justify-self: end;
+      align-self: center;
+
+      width: 480px;
+
+      h2 {
+        font-size: 3rem;
+        line-height: 1.1;
+        text-wrap: unset;
+      }
+
+      h3 {
+        text-wrap: unset;
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 1rem;
+
+        padding-inline-end: 3rem;
+
+        input {
+          border: 1px solid var(--clt-home-input-border);
+          border-radius: 5px;
+          padding: 0.8em;
+
+          outline: none;
+          font-size: 1rem;
+        }
+
+        button {
+          border-radius: 5px;
+
+          font-size: 1rem;
+          background-color: var(--clr-home-btns);
+          color: var(--clr-home-txt-light);
+
+          &:hover {
+            background-color: var(--clr-home-btns-hover);
+          }
+        }
+      }
+
+      a {
+        color: var(--clr-home-btns);
+      }
+    }
+  }
 }

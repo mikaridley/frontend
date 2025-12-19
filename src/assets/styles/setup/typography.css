@@ -24,3 +24,8 @@
   font-family: AtlassianSans;
   src: url('../../fonts/AtlassianSans/InterVariable.ttf');
 }
+
+@font-face {
+  font-family: charlie;
+  src: url('../../fonts/charlie/charlie-display.ttf');
+}

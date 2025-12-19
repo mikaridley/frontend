@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export function AppHeader() {
   return (
     <section className="app-header">
-      <h1>Trello</h1>
+      <h1>Marshmello</h1>
       <form className="search-icon">
         <input type="text" placeholder="Search" />
         <Link

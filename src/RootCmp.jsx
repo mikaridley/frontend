@@ -19,7 +19,11 @@ export function RootCmp() {
   return (
     <div>
       <UserMsg />
-      <main className="main-layout">
+      <main
+        className={
+          location.pathname === '/' ? 'home-page-layout' : 'main-layout'
+        }
+      >
         {location.pathname === '/' ? <HomePageHeader /> : <AppHeader />}
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -38,8 +42,8 @@ export function RootCmp() {
             <Route path="signup" element={<Signup />} />
           </Route>
         </Routes>
+        {location.pathname === '/' ? <AppFooter /> : ''}
       </main>
-      <AppFooter />
     </div>
   )
 }
