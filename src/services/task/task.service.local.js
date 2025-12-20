@@ -117,12 +117,12 @@ function getLabels(board, groupId, taskId) {
     }
     // If no board labels exist, return default labels
     const defaultLabels = [
-        {color: '#eb3434', title: ''}, 
-        {color: '#f5ed05ff', title: ''}, 
-        {color: '#56ed15', title: ''}, 
-        {color: '#1548ed', title: ''}, 
-        {color: '#ed15e6', title: ''}, 
-        {color: '#ed8815', title: ''}
+        { color: '#b85745', title: '' },
+        { color: '#8b7534', title: '' },
+        { color: '#3d6e5a', title: '' },
+        { color: '#3d6bb3', title: '' },
+        { color: '#a35a8c', title: '' },
+        { color: '#a0652d', title: '' }
     ]
     return defaultLabels
 }

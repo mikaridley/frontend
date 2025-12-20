@@ -32,19 +32,30 @@
     color: var(--clr-task-txt-dark);
     border-radius: 8px;
     padding: 2rem;
-    padding-bottom: 4rem;
-    max-width: 768px;
+    padding-bottom: 2rem;
+    max-width: 1000px;
     width: 100%;
     max-height: 85vh;
-    min-height: 600px;
+    min-height: 500px;
     overflow-y: auto;
     overflow-x: visible;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: auto auto auto 1fr;
     gap: 1.5rem;
+
+    /* Border between row 1 and row 2 */
+    &::before {
+        content: '';
+        grid-column: 1 / -1;
+        grid-row: 2;
+        border-top: 1px solid #3C3D40;
+        margin-top: 0;
+        pointer-events: none;
+        margin-left: -2rem;
+    }
 
     & h2 {
         margin: 0 0 1rem 0;
@@ -57,15 +68,33 @@
     }
 }
 
-.task-details-header {
+/* Row 1: Reserved for future special header */
+.task-details-row1-reserved {
     grid-column: 1 / -1;
+    grid-row: 1;
+    /* Reserved for future use */
+}
+
+.task-details-header {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.task-details-header .toggle-done-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    transform: translateY(-6px);
 }
 
 .task-details-content {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    grid-column: 1;
+    grid-row: 4;
 }
 
 .task-details-main {
@@ -75,8 +104,19 @@
 }
 
 .task-details-comments {
+    grid-column: 2;
+    grid-row: 2 / -1;
     display: flex;
     flex-direction: column;
+    background-color: #18191A;
+    border-left: 1px solid #3C3D40;
+    margin-right: -2rem;
+    margin-bottom: -2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1.5rem;
+    padding-top: 0;
+    border-top: 1px solid #3C3D40;
 }
 
 /* Modal Close Button */
@@ -106,9 +146,12 @@
 }
 
 .task-details-actions {
+    grid-column: 1;
+    grid-row: 3;
     display: flex;
     gap: 15px;
-    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: flex-start;
 
     & button {
         color: var(--clr-task-txt-dark);
@@ -156,7 +199,7 @@
     top: 10px;
     right: 10px;
     background: none;
-    border: none;
+    border: none !important;
     font-size: 24px;
     cursor: pointer;
     color: #999;
@@ -177,6 +220,12 @@
 .popup-body {
     margin-top: 20px;
 
+    & form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
     & button {
         color: var(--clr-task-txt-dark);
         background-color: #242528;
@@ -184,6 +233,7 @@
         border-radius: 4px;
         padding: 0.5rem 1rem;
         cursor: pointer;
+        max-width: 80px;
 
         &:hover {
             background-color: #2B2C2F;
@@ -245,8 +295,10 @@
     border: none;
     cursor: pointer;
     color: var(--clr-task-txt-dark);
-    &:hover{
-        background-color: #E3E4F21F;;
+
+    &:hover {
+        background-color: #E3E4F21F;
+        ;
     }
 }
 
@@ -283,13 +335,6 @@
     transition: background-color 0.2s;
 }
 
-.label-item:hover {
-    background-color: #2B2C2F;
-}
-
-.label-item.selected {
-    background-color: #3C3D40;
-}
 
 .label-item input[type="checkbox"] {
     cursor: pointer;
@@ -299,25 +344,37 @@
     flex: 1;
     padding: 8px 12px;
     border-radius: 4px;
-    color: var(--clr-task-txt-dark);
+    color: rgba(0, 0, 0, 0.654);
     font-weight: 600;
     min-height: 32px;
     display: flex;
     align-items: center;
+    transition: filter 0.2s ease;
+    &:hover {
+        filter: brightness(1.1) saturate(1.1);
+    }
 }
 
 .label-item button {
-    padding: 4px 8px;
-    background: transparent;
-    border: none;
+    padding: 4px 4px !important;
+    background: #242528;
+    border: none !important;
+    border-radius: 4px;
     cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
+    opacity: 0.7;
 }
 
 .label-item:hover button {
+    background: #242528;
     opacity: 1;
 }
+
+.label-item button:hover {
+    background: #2B2C2F;
+    border: 2px solid #3C3D40;
+}
+
 
 .label-item button img {
     width: 16px;
@@ -346,6 +403,17 @@
     &:hover {
         cursor: pointer;
         background-color: #2B2C2F;
+    }
+}
+
+.description form button[type="submit"] {
+    background-color: #5BA4CF;
+    color: black;
+    border-color: #5BA4CF;
+
+    &:hover {
+        background-color: #4A93BE;
+        border-color: #4A93BE;
     }
 }
 
@@ -400,7 +468,7 @@
 .label-tag {
     padding: 6px 12px;
     border-radius: 4px;
-    color: var(--clr-task-txt-dark);
+    color: rgba(0, 0, 0, 0.654);
     font-weight: 600;
     font-size: 14px;
     min-height: 32px;
@@ -411,6 +479,21 @@
 
     &:hover {
         cursor: pointer;
+    }
+}
+
+.popup-labels .btn-create-label {
+    display: block;
+    margin: 1rem auto 0;
+    background-color: #242528;
+    border: 2px solid #3C3D40;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: var(--clr-task-txt-dark);
+
+    &:hover {
+        background-color: #2B2C2F;
     }
 }
 
@@ -497,6 +580,7 @@
     font-size: 14px;
     line-height: 1;
     height: 34px !important;
+
     &:hover {
         background-color: #4A93BE;
     }
@@ -592,6 +676,8 @@
     }
 }
 
+
+
 .comments-section form button {
     margin-top: 0.5rem;
     color: var(--clr-task-txt-dark);
@@ -603,6 +689,17 @@
     &:hover {
         cursor: pointer;
         background-color: #2B2C2F;
+    }
+}
+
+.comments-section form button[type="submit"] {
+    background-color: #5BA4CF;
+    color: black;
+    border-color: #5BA4CF;
+
+    &:hover {
+        background-color: #4A93BE;
+        border-color: #4A93BE;
     }
 }
 
@@ -618,7 +715,8 @@
     }
 }
 
-.date-picker-container input, .time-picker-container input  {
+.date-picker-container input,
+.time-picker-container input {
     color: var(--clr-task-txt-dark);
     background-color: #18191b;
 }
@@ -637,4 +735,25 @@
     cursor: not-allowed;
     opacity: 0.7;
     pointer-events: none;
+}
+
+/* Quill Editor Text Color */
+.ql-editor {
+    color: var(--clr-task-txt-dark);
+}
+
+.ql-editor.ql-blank::before {
+    color: #999;
+}
+
+.ql-container {
+    color: var(--clr-task-txt-dark);
+}
+
+.ql-snow .ql-editor {
+    color: var(--clr-task-txt-dark);
+}
+
+.date-time-title{
+    margin-top: 1rem;
 }
