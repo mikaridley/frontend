@@ -49,14 +49,12 @@ export function BoardDetails() {
     const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
 
 
-    const style =
-        board.style.background.kind === 'photo'
-            ? { backgroundImage: url(board.style.background.color) }
-            : { [bg]: board.style.background.color }
-
-
     return (
-        <section className='board-details' style={style}>
+        <section className='board-details' style={
+            board.style.background.kind === 'photo'
+                ? { backgroundImage: `url(${board.style.background.color})` }
+                : { [bg]: board.style.background.color }
+        }>
             <BoardHeader
                 board={board}
                 onUpdateBoard={onUpdateBoard}

@@ -1,3 +1,9 @@
+.board-details {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .title-input {
     field-sizing: content;
     padding: .4em .7em;
@@ -67,7 +73,8 @@
 
         >button:last-child {
             background-color: inherit;
-            >img{
+
+            >img {
                 width: 1.25rem;
             }
         }
