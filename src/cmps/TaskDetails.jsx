@@ -8,12 +8,11 @@ import { TaskDetailsLabels } from './taskDetailsCmps/taskDetailslabels'
 import { TaskDetailsChecklist, TaskChecklistsDisplay, addItemToChecklist } from './taskDetailsCmps/taskDetailschecklist'
 import { TaskDetailsMembers } from './taskDetailsCmps/taskDetailsmembers'
 import { TaskDetailsAdd } from './taskDetailsCmps/taskDetailsAdd'
-// import '../assets/styles/cmps/TaskDetails.css'
 import { TaskDetailsDates } from './taskDetailsCmps/taskDetailsDates'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-// import { set } from 'react-datepicker/dist/dist/date_utils.js'
+import 'react-quill/dist/quill.bubble.css';
 
 
 export function TaskDetails() {
@@ -306,6 +305,7 @@ export function TaskDetails() {
                                             {label.title || ' '}
                                         </div>
                                     ))}
+                                    <button className="btn-add-label" onClick={(e) => openPopup('labels', e)}> + </button>
                                 </div>
                             </div>
                         )}
