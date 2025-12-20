@@ -1,11 +1,11 @@
 .group-preview {
-    padding: .5em;
+    padding: var(--gap);
     background-color: var(--clr-group);
     border-radius: .857em;
     max-height: 100%;
 
     >button {
-        padding: .7em 2.5em;
+        padding: var(--gap) 2.5em;
         color: var(--clr-task-txt);
         background-color: inherit;
 
@@ -17,9 +17,11 @@
 
 .group-header {
     position: relative;
+    margin-block-end: .3rem;
 
     >input {
         width: 100%;
+
         color: var(--clr-task-txt);
         font-size: .876rem;
         font-weight: 700;
@@ -27,5 +29,14 @@
 
     >button {
         background-color: inherit;
+        border-radius: .5em;
+
+        &:hover {
+            background-color: rgba(227, 228, 242, 0.12);
+        }
+    }
+
+    img{
+        width: 1.5rem;
     }
 }

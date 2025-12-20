@@ -8,6 +8,7 @@ import { addTask, updateTask } from '../store/actions/task.actions'
 import { taskService } from '../services/task'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import moreIcon from '../assets/img/more.svg'
+import closeIcon from '../assets/img/close.svg'
 
 export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -18,20 +19,25 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     const [task, setTask] = useState(taskService.getEmptyTask())
     const [isAddingTask, setIsAddingTask] = useState(false)
 
-    async function onAddTask(ev) {
-        ev.preventDefault()
+    async function onAddTask() {
         setIsAddingTask(false)
 
         try {
             if (!task.title) return
             await addTask(board, group, task)
-            setIsAddingTask(true)
             showSuccessMsg('Added')
         } catch (err) {
             console.log('err:', err)
             showErrorMsg(`Failed to Add`)
         }
-        setTask(task => task.title = '')
+        setTask('')
+    }
+
+    async function handleSubmit(ev) {
+        ev.preventDefault()
+        await onAddTask()
+        if (!task.title) return
+        setIsAddingTask(true)
     }
 
     async function archiveTask(task) {
@@ -43,17 +49,12 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             console.log('err:', err)
             showErrorMsg(`Failed to archive`)
         }
-        setTask({ id: '', title: '' })
+        setTask('')
     }
-
 
     function onArchiveGroup() {
         onToggleActions()
         archiveGroup(group)
-    }
-
-    function onToggleActions() {
-        setIsActionsOpen(isActionsOpen => !isActionsOpen)
     }
 
     async function onToggleStatus(ev, task) {
@@ -68,7 +69,11 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         setTask(prevTask => ({ ...prevTask, ...task }))
     }
 
-    function handleTitleChange({ target }) {
+    function onToggleActions() {
+        setIsActionsOpen(isActionsOpen => !isActionsOpen)
+    }
+
+    function handleGroupChange({ target }) {
         const value = target.value
         setTitle(value)
     }
@@ -83,7 +88,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             <header className='group-header flex space-between'>
                 <input
                     className="title-input"
-                    onChange={handleTitleChange}
+                    onChange={handleGroupChange}
                     onBlur={() => onUpdateGroup(title, group)}
                     value={title}
                 ></input>
@@ -108,18 +113,21 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
                     Add a Card
                 </button>
 
-                : <form className='add-form'>
+                : <form className='add-form' onSubmit={handleSubmit}>
                     <input
                         onChange={handleTaskChange}
                         onBlur={onAddTask}
+                        placeholder='Enter a title'
                         autoFocus
                     />
 
-                    <div className='form-btns'>
-                        <button className='btn' onClick={onAddTask}>
+                    <div className='form-btns flex'>
+                        <button className='btn' onMouseDown={handleSubmit}>
                             Add Card
                         </button>
-                        <button type='button' onClick={() => setIsAddingTask(false)}>X</button>
+                        <button type='button' onClick={() => setIsAddingTask(false)}>
+                            <img src={closeIcon} />
+                        </button>
                     </div>
                 </form>
             }
