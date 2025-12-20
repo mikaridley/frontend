@@ -29,7 +29,7 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
                 createdAt: Date.now()
             }
             const updatedComments = [...comments, commentObj]
-            await updateTask(boardId, groupId, taskId, { comments: updatedComments })
+            await updateTask(board, groupId, taskId, { comments: updatedComments })
             setComments(updatedComments)
             onCommentsUpdate(updatedComments)
             setNewComment('')
