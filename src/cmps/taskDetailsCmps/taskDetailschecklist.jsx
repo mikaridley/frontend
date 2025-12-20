@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { taskService } from '../../services/task/task.service.local'
 import { showErrorMsg } from '../../services/event-bus.service'
-import { updateTask } from '../../store/actions/board.actions'
+import { updateTask } from '../../store/actions/task.actions'
 
 export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, position }) {
     const [checklistTitle, setChecklistTitle] = useState('')

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { updateTask } from '../../store/actions/board.actions'
+import { updateTask } from '../../store/actions/task.actions'
 import { makeId } from '../../services/util.service'
 import { showErrorMsg } from '../../services/event-bus.service'
 
