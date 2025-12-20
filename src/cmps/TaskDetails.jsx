@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { showErrorMsg } from "../services/event-bus.service.js"
-import { loadBoard, updateTask } from '../store/actions/board.actions'
+import { loadBoard } from '../store/actions/board.actions'
+import { updateTask } from '../store/actions/task.actions.js'
 import { TaskDetailsLabels } from './taskDetailsCmps/taskDetailslabels'
 import { TaskDetailsChecklist, TaskChecklistsDisplay, addItemToChecklist } from './taskDetailsCmps/taskDetailschecklist'
 import { TaskDetailsMembers } from './taskDetailsCmps/taskDetailsmembers'
@@ -48,7 +49,7 @@ export function TaskDetails() {
         ev.preventDefault()
         if (!board) return
         try {
-            await updateTask(boardId, groupId, taskId, { description })
+            await updateTask(board, groupId, taskId, { description })
             setTask({ ...task, description })
             setDescriptionEdit(false)
         } catch (err) {
@@ -102,7 +103,7 @@ export function TaskDetails() {
     async function savePopup(popupName, data) {
         if (!board) return
         try {
-            await updateTask(boardId, groupId, taskId, { [popupName]: data })
+            await updateTask(board, groupId, taskId, { [popupName]: data })
             setTask({ ...task, [popupName]: data })
 
             // Update the corresponding state
@@ -142,7 +143,7 @@ export function TaskDetails() {
 
             setChecklists(updatedChecklists)
             setTask({ ...task, checklists: updatedChecklists })
-            await updateTask(boardId, groupId, taskId, { checklists: updatedChecklists })
+            await updateTask(board, groupId, taskId, { checklists: updatedChecklists })
         } catch (err) {
             console.log('Error toggling checklist item:', err)
             showErrorMsg('Cannot update checklist')
@@ -167,7 +168,7 @@ export function TaskDetails() {
 
             setChecklists(updatedChecklists)
             setTask({ ...task, checklists: updatedChecklists })
-            await updateTask(boardId, groupId, taskId, { checklists: updatedChecklists })
+            await updateTask(board, groupId, taskId, { checklists: updatedChecklists })
         } catch (err) {
             console.log('Error updating item text:', err)
             showErrorMsg('Cannot update item')
@@ -186,7 +187,7 @@ export function TaskDetails() {
 
             setChecklists(updatedChecklists)
             setTask({ ...task, checklists: updatedChecklists })
-            await updateTask(boardId, groupId, taskId, { checklists: updatedChecklists })
+            await updateTask(board, groupId, taskId, { checklists: updatedChecklists })
         } catch (err) {
             console.log('Error updating checklist name:', err)
             showErrorMsg('Cannot update checklist name')
