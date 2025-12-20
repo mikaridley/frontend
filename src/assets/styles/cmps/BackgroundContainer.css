@@ -69,6 +69,23 @@
 
     background-color: var(--clr-ah-grey-2);
 
+    .board-bg-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+
+      > h2 {
+        grid-column: 2;
+      }
+
+      > p {
+        justify-self: end;
+        margin-right: 1rem;
+        margin-bottom: 0;
+        cursor: pointer;
+      }
+    }
+
     .solid-colors,
     .gradiant-colors,
     .photos-background {
