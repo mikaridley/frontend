@@ -2,7 +2,7 @@ import { taskService } from '../../services/task/task.service.local'
 import { useState, useEffect } from 'react'
 import editIcon from '../../assets/imgs/icons/edit_label.svg'
 import { ColorPicker } from './ColorPicker'
-import { updateTask } from '../../store/actions/board.actions'
+import { updateTask } from '../../store/actions/task.actions'
 
 export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, position }) {
     const [selectedLabelIds, setSelectedLabelIds] = useState([])
