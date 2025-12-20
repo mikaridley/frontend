@@ -1,6 +1,7 @@
 .task-preview {
   display: grid;
   grid-template-columns: auto 1fr;
+  gap: 0.5rem;
 
   position: relative;
 
@@ -14,16 +15,30 @@
   text-decoration: none;
   cursor: pointer;
 
+  .task-labels-container {
+    grid-row: 1;
+    grid-column: 1/-1;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.3rem;
+
+    .task-label {
+      width: 100%;
+      height: 7px;
+      border-radius: 100vh;
+    }
+  }
+
   p {
-    position: absolute;
-    left: 10%;
+    position: relative;
+    left: -5px;
 
     margin-bottom: 0;
-    margin-left: 1rem;
     transition: 0.7s ease;
 
     &.task-not-complete {
-      left: 0;
+      left: -25px;
     }
   }
 
@@ -41,7 +56,7 @@
   }
 
   p {
-    left: 10%;
+    left: -5px;
   }
 }
 

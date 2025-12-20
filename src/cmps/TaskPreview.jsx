@@ -7,6 +7,7 @@ import archiveIcon from '../assets/img/archive.svg'
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status } = task
+  console.log(task)
   const navigate = useNavigate()
   function openTaskDetails() {
     navigate(`/board/${board._id}/${group.id}/${task.id}`)
@@ -19,6 +20,20 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
 
   return (
     <section className="task-preview" onClick={openTaskDetails}>
+      {task.labels && (
+        <div className="task-labels-container">
+          {task.labels.map(label => {
+            return (
+              <div
+                key={label.id}
+                className="task-label"
+                style={{ backgroundColor: label.color }}
+              ></div>
+            )
+          })}
+        </div>
+      )}
+
       <button
         className="toggle-done-btn"
         onClick={ev => onToggleStatus(ev, task)}
