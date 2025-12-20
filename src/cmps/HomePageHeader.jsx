@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import logoDark from '../assets/img/logo-dark.png'
 
 export function HomePageHeader() {
   return (

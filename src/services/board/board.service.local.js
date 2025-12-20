@@ -184,18 +184,7 @@ function _createBoards() {
             kind: 'gradiant',
           },
         },
-        labels: [
-          {
-            id: 'l101',
-            title: '',
-            color: '#61BD4F',
-          },
-          {
-            id: 'l102',
-            title: '',
-            color: '#2531b4ff',
-          },
-        ],
+        labels: [],
         members: [
           {
             _id: 'u101',

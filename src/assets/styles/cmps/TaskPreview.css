@@ -30,6 +30,56 @@
     }
   }
 
+  .task-details-container {
+    grid-column: 1/-1;
+
+    display: grid;
+    grid-template-columns: repeat(10, auto);
+    align-items: center;
+
+    img {
+      width: 17px;
+    }
+
+    .task-dates {
+      width: 4.375rem;
+    }
+
+    .task-checklists,
+    .task-dates,
+    .task-comments {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      p {
+        font-size: 0.8rem;
+      }
+
+      &.late-red,
+      &.soon-yellow,
+      &.done-green {
+        padding-block: 0.2rem;
+        border-radius: 5px;
+
+        color: var(--clr-txt-dark);
+      }
+
+      &.late-red {
+        background-color: var(--clr-task-late);
+      }
+
+      &.soon-yellow {
+        background-color: var(--clr-task-soon);
+      }
+
+      &.done-green {
+        background-color: var(--clr-task-done);
+      }
+    }
+  }
+
   p {
     position: relative;
     left: -5px;
