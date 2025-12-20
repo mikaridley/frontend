@@ -48,6 +48,18 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
     return (
         <div className="comments-section">
             <h5>Comments</h5>
+            {isAddingComment && (
+                <form onSubmit={saveComment}>
+                    <ReactQuill
+                        theme="snow"
+                        value={newComment}
+                        onChange={setNewComment}
+                        placeholder="Write a comment..."
+                    />
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={cancelAddingComment}>Cancel</button>
+                </form>
+            )}
             {!isAddingComment && (
                 <div onClick={startAddingComment} className="task-comment-button">
                     <span>Write a comment...</span>
@@ -66,18 +78,7 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
                 </div>
             )}
             
-            {isAddingComment && (
-                <form onSubmit={saveComment}>
-                    <ReactQuill
-                        theme="snow"
-                        value={newComment}
-                        onChange={setNewComment}
-                        placeholder="Write a comment..."
-                    />
-                    <button type="submit">Save</button>
-                    <button type="button" onClick={cancelAddingComment}>Cancel</button>
-                </form>
-            )}
+            
         </div>
     )
 }
