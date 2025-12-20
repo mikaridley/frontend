@@ -25,7 +25,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle }) {
                 onChange={handleChange}
                 onBlur={() => onUpdateBoard(titleValue)}
                 value={titleValue} />
-            <div className="header-btns">
+            <div className="header-btns flex">
                 <button onClick={onTogleStar}>
                     {isStarred ?
                         <img src={yellowStarIcon} />
