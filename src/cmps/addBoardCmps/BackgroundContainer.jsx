@@ -1,19 +1,31 @@
 import { useEffect, useState } from 'react'
 import { boardService } from '../../services/board/board.service.local'
 import { MiniBoardPreview } from './MiniBoardPreview'
+import { BackgroundPreview } from './BackgroundPreview'
 
 export function BackgroundContainer({ changeColor }) {
   const backgrounds = boardService.getBackgrounds()
-  const [solidColors, setSolidColors] = useState(backgrounds.solidColors)
-  const [gradiantColors, setGradiantColors] = useState(
-    backgrounds.gradiantColors
-  )
+  const gradiantColors = backgrounds.gradiantColors
+
+  const [photosBg, setPhotosBg] = useState([])
   const [selectedColor, setSelectedColor] = useState('#0079bf')
-  const [isOpenMoreColors, setIsOpenMoreColors] = useState(false)
+  const [isOpenMoreBgs, setIsOpenMoreBgs] = useState({
+    isOpen: false,
+    openKind: '',
+  })
 
   useEffect(() => {
-    setGradiantColors(gradiantColors => gradiantColors.slice(0, 5))
+    getPhotos()
   }, [])
+
+  async function getPhotos() {
+    try {
+      const photos = await boardService.getBoardBackgrounds()
+      setPhotosBg(photos)
+    } catch (err) {
+      console.error('Failed to load backgrounds', err)
+    }
+  }
 
   function onChangeBackground(color, kind) {
     setSelectedColor({ color, kind })
@@ -21,7 +33,14 @@ export function BackgroundContainer({ changeColor }) {
   }
 
   function openMoreColors() {
-    setIsOpenMoreColors(!isOpenMoreColors)
+    setIsOpenMoreBgs({ ...isOpenMoreBgs, isOpen: !isOpenMoreBgs.isOpen })
+  }
+
+  function openBgsToggle(whereTo) {
+    setIsOpenMoreBgs({
+      ...isOpenMoreBgs,
+      openKind: whereTo,
+    })
   }
 
   return (
@@ -29,32 +48,30 @@ export function BackgroundContainer({ changeColor }) {
       <MiniBoardPreview selectedColor={selectedColor} />
       <h3>Background</h3>
       <section className="background-container">
-        {/* <section className="gradiant-container">
-          {gradiantColors.map(color => {
+        <section className="photos-background-preview">
+          {photosBg.slice(0, 4).map(photo => {
             return (
-              <div
-                key={color}
-                className={`background-color ${
-                  selectedColor.color === color ? 'active-background' : ''
-                }`}
-                style={{ background: color }}
-                onClick={() => onChangeBackground(color, 'gradiant')}
-              ></div>
+              <BackgroundPreview
+                color={photo.imageUrl}
+                selectedColor={selectedColor.color}
+                key={photo.id}
+                onChangeBackground={onChangeBackground}
+                kind={'photo'}
+              />
             )
           })}
-        </section> */}
+        </section>
 
-        <section className="color-container">
-          {gradiantColors.map(color => {
+        <section className="colors-background-preview">
+          {gradiantColors.slice(0, 5).map(color => {
             return (
-              <div
+              <BackgroundPreview
+                color={color}
+                selectedColor={selectedColor.color}
                 key={color}
-                className={`background-color ${
-                  selectedColor.color === color ? 'active-background' : ''
-                }`}
-                style={{ background: color }}
-                onClick={() => onChangeBackground(color, 'gradiant')}
-              ></div>
+                onChangeBackground={onChangeBackground}
+                kind={'gradiant'}
+              />
             )
           })}
 
@@ -65,36 +82,129 @@ export function BackgroundContainer({ changeColor }) {
             ...
           </div>
         </section>
-        {isOpenMoreColors && (
+        {isOpenMoreBgs.isOpen && (
           <div className="open-more-colors">
-            <section className="gradiant-colors">
-              {backgrounds.gradiantColors.map(color => {
-                return (
-                  <div
-                    key={color}
-                    className={`background-color ${
-                      selectedColor.color === color ? 'active-background' : ''
-                    }`}
-                    style={{ background: color }}
-                    onClick={() => onChangeBackground(color, 'gradiant')}
-                  ></div>
-                )
-              })}
-            </section>
-            <section className="solid-colors">
-              {backgrounds.solidColors.map(color => {
-                return (
-                  <div
-                    key={color}
-                    className={`background-color ${
-                      selectedColor.color === color ? 'active-background' : ''
-                    }`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => onChangeBackground(color, 'solid')}
-                  ></div>
-                )
-              })}
-            </section>
+            {isOpenMoreBgs.openKind === '' && (
+              <>
+                <h2>Board background</h2>
+                <div className="open-more-header">
+                  <h3>Photos</h3>
+                  <button
+                    onClick={() => {
+                      openBgsToggle('photos')
+                    }}
+                  >
+                    View more
+                  </button>
+                </div>
+                <section className="photos-background">
+                  {photosBg.slice(0, 6).map(photo => {
+                    return (
+                      <BackgroundPreview
+                        color={photo.imageUrl}
+                        selectedColor={selectedColor.color}
+                        key={photo.id}
+                        onChangeBackground={onChangeBackground}
+                        kind={'photo'}
+                      />
+                    )
+                  })}
+                </section>
+
+                <div className="open-more-header">
+                  <h3>Colors</h3>
+                  <button
+                    onClick={() => {
+                      openBgsToggle('colors')
+                    }}
+                  >
+                    View more
+                  </button>
+                </div>
+                <section className="gradiant-colors">
+                  {backgrounds.gradiantColors.slice(0, 6).map(color => {
+                    return (
+                      <BackgroundPreview
+                        color={color}
+                        selectedColor={selectedColor.color}
+                        key={color}
+                        onChangeBackground={onChangeBackground}
+                        kind={'gradiant'}
+                      />
+                    )
+                  })}
+                </section>
+              </>
+            )}
+            {isOpenMoreBgs.openKind === 'photos' && (
+              <section className="photos-background">
+                <div className="background-header">
+                  <p
+                    className="back-btn-open-more-bgs"
+                    onClick={() => {
+                      openBgsToggle('')
+                    }}
+                  >
+                    &lt;
+                  </p>
+                  <h2>Photos by Unsplash</h2>
+                  <p>X</p>
+                </div>
+                {photosBg.map(photo => {
+                  return (
+                    <BackgroundPreview
+                      color={photo.imageUrl}
+                      selectedColor={selectedColor.color}
+                      key={photo.id}
+                      onChangeBackground={onChangeBackground}
+                      kind={'photo'}
+                    />
+                  )
+                })}
+              </section>
+            )}
+            {isOpenMoreBgs.openKind === 'colors' && (
+              <>
+                <section className="gradiant-colors">
+                  <div className="background-header">
+                    <p
+                      className="back-btn-open-more-bgs"
+                      onClick={() => {
+                        openBgsToggle('')
+                      }}
+                    >
+                      &lt;
+                    </p>
+                    <h2>Colors</h2>
+                    <p>X</p>
+                  </div>
+                  {backgrounds.gradiantColors.map(color => {
+                    return (
+                      <BackgroundPreview
+                        color={color}
+                        selectedColor={selectedColor.color}
+                        key={color}
+                        onChangeBackground={onChangeBackground}
+                        kind={'gradiant'}
+                      />
+                    )
+                  })}
+                </section>
+                <section className="solid-colors">
+                  {backgrounds.solidColors.map(color => {
+                    return (
+                      <BackgroundPreview
+                        color={color}
+                        selectedColor={selectedColor.color}
+                        key={color}
+                        onChangeBackground={onChangeBackground}
+                        kind={'solid'}
+                      />
+                    )
+                  })}
+                </section>
+              </>
+            )}
           </div>
         )}
       </section>
