@@ -222,7 +222,7 @@ export function TaskChecklistsDisplay({
 }
 
 // Utility functions for managing checklist items
-export async function addItemToChecklist(checklistId, newItemText, checklists, boardId, groupId, taskId, task, setChecklists, setTask) {
+export async function addItemToChecklist(checklistId, newItemText, checklists, board, groupId, taskId, task, setChecklists, setTask) {
     if (!newItemText.trim()) return false
     
     try {
@@ -242,7 +242,7 @@ export async function addItemToChecklist(checklistId, newItemText, checklists, b
         
         setChecklists(updatedChecklists)
         setTask({ ...task, checklists: updatedChecklists })
-        await updateTask(boardId, groupId, taskId, { checklists: updatedChecklists })
+        await updateTask(board, groupId, taskId, { checklists: updatedChecklists })
         return true
     } catch (err) {
         console.log('Error adding checklist item:', err)

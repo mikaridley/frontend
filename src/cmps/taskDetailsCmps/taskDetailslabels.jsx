@@ -33,7 +33,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
             const selectedLabels = availableLabels.filter(label => 
                 newSelection.includes(label.id || label.color)
             )
-            updateTask(board._id, groupId, taskId, { labels: selectedLabels }).catch(err => {
+            updateTask(board, groupId, taskId, { labels: selectedLabels }).catch(err => {
                 console.log('Error updating labels:', err)
             })
             
