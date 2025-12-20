@@ -3,12 +3,13 @@ import instagramImg from '../assets/img/instagram.svg'
 import linkdinImg from '../assets/img/linkdin.svg'
 import twitterImg from '../assets/img/twitter.svg'
 import youtubeImg from '../assets/img/youtube.svg'
+import logoLight from '../assets/img/logo-light.png'
 
 export function AppFooter() {
   return (
     <section className="app-footer">
       <section className="footer-main">
-        <h1>Logo</h1>
+        <img src={logoLight} />
         <h2>Your Privacy Choices</h2>
         <h2>Privacy Policy</h2>
         <h2>Terms</h2>

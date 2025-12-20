@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
+import logoDarkImg from '../assets/img/logo-dark.png'
 
 export function HomePageHeader() {
   return (
     <section className="home-page-header">
       <div className="header-content">
-        <h1>logo</h1>
+        <img src={logoDarkImg} />
         <nav>
           <Link to="/board" className="home-log-in">
             Log in
