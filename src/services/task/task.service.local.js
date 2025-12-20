@@ -27,14 +27,18 @@ async function addTask(board, group, taskToAdd) {
     return board
 }
 
-function updateTask(board, groupId, taskId, changes) {
+async function updateTask(board, groupId, taskId, changes) {
     const group = board.groups?.find(group => group.id === groupId)
+    const groupIdx = board.groups?.findIndex(group => group.id === groupId)
 
-    if (!group || !group.tasks) return board
-    const idx = group.tasks.findIndex(task => task.id === taskId)
-    if (idx === -1) return
-    group.tasks[idx] = { ...group.tasks[idx], ...changes }
+    if (!group || !group.tasks) return
+    const taskIdx = group.tasks.findIndex(task => task.id === taskId)
 
+    if (taskIdx === -1) return
+    group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...changes }
+    board.groups[groupIdx] = { ...board.groups[groupIdx], ...group }
+
+    await storageService.put(STORAGE_KEY, board)
     return board
 }
 

@@ -5,19 +5,49 @@
     z-index: 1;
 
     width: 300px;
+    padding-block: .2rem .7rem;
+
+    border-radius: .5rem;
     background-color: var(--clr-group-modal);
 
     button {
         background-color: inherit;
         color: inherit;
+
+        &:hover{
+            background-color: rgba(206, 206, 217, 0.07);
+        }
+    }
+
+    >button {
+        padding: .375rem .75rem;
+        text-align: start;
+        font-size: .875rem;
     }
 }
 
 .actions-header {
     grid-template-columns: 36px 1fr 36px;
     place-items: center;
-    padding: .5em .25em;
-    >h2{
+
+    height: 2.5rem;
+    padding: .5rem .25rem;
+
+    >h2 {
         grid-column: 2;
+        font-size: .875rem;
+    }
+
+    >button{
+        display: flex;
+        justify-content: center;
+
+        width: 2rem;
+        height: 2rem;
+        border-radius: .4rem;
+    }
+
+    img {
+        width: 1rem;
     }
 }

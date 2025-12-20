@@ -29,6 +29,7 @@
   --add-board-shadow: rgba(0, 0, 0, 0.619);
   --clr-input-add-board: #99c6ff;
   --clr-input-add-board-hover: #df574d;
+  --gap: .8em;
 
   /* Group */
   --clr-group: rgb(16, 18, 4);
@@ -38,6 +39,8 @@
   /* Task */
   --clr-task: rgb(36, 37, 40);
   --clr-task-txt: rgb(206, 207, 210);
+  --clr-bg-task-input:#242528;
+  --clr-task-txt-dark:#A9ABAF;
 
   /* Footer */
   --clr-footer-bg: #172b4d;

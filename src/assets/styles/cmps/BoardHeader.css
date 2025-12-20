@@ -1,31 +1,65 @@
 .board-header {
     background-color: rgba(0, 0, 0, 0.24);
     backdrop-filter: blur(6px);
-
     padding: .75rem 1rem;
 
-    >.header-btns {
-        >button {
-            background-color: inherit;
-        }
-    }
-
-    >input{
+    >input {
+        color: white;
         font-weight: bold;
         font-size: 1rem;
     }
 
-    button,
-    input {
-        color: white;
+    button:first-child {
+        display: grid;
+        place-content: center;
 
-        &:hover {
-            background-color: rgba(255, 255, 255, .3);
+        width: 2rem;
+        height: 2rem;
+
+        border-radius: .3rem;
+        background-color: inherit;
+    }
+
+    button:last-child {
+        position: relative;
+        display: grid;
+        place-content: center end;
+        background-color: rgb(220, 223, 228);
+
+        padding-inline: .8rem;
+        width: 5rem;
+        border-radius: .3rem;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: .5em;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 1rem;
+            height: 1rem;
+
+            background-image: url('/src/assets/img/share.png');
+            background-size: contain;
+        }
+
+        &:hover{
+            background-color: white;
         }
     }
 
-    img{
-        width: 16px;
-        height: 16px;
+    button:hover,
+    input:hover {
+        background-color: rgba(255, 255, 255, .3);
     }
+
+    img {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+.header-btns {
+    gap: var(--gap)
 }
