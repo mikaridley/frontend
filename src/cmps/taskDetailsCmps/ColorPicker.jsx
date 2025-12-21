@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { taskService } from '../../services/task/task.service.local'
 import { boardService } from '../../services/board'
+import { loadBoard } from '../../store/actions/board.actions'
 
 
 const colorPalette = [
@@ -21,48 +22,56 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
     )
     const isEditMode = !!label
 
+    // Helper function to check if two labels match
+    function labelsMatch(l1, l2) {
+        return (l1.id && l2.id && l1.id === l2.id) || 
+               (!l1.id && !l2.id && l1.color === l2.color)
+    }
+
     async function handleSave() {
+        if (!board || !board._id) {
+            console.error('Cannot save label: board or board._id is missing')
+            return
+        }
+
         const updatedLabel = {
             ...(label || {}),
             title: labelTitle,
             color: labelColor.color
         }
 
-        // If editing existing label
+        let updatedBoard = { ...board }
+
         if (isEditMode) {
             // Update task labels if this label is selected
-            const task = taskService.getTaskById(board, groupId, taskId)
+            const task = taskService.getTaskById(updatedBoard, groupId, taskId)
             if (task?.labels) {
-                const taskLabelIndex = task.labels.findIndex(l =>
-                    (l.id && l.id === label.id) ||
-                    (!l.id && l.color === label.color)
-                )
+                const taskLabelIndex = task.labels.findIndex(l => labelsMatch(l, label))
                 if (taskLabelIndex > -1) {
                     const updatedTaskLabels = [...task.labels]
                     updatedTaskLabels[taskLabelIndex] = updatedLabel
-                    const updatedBoard = taskService.updateTask(board, groupId, taskId, { labels: updatedTaskLabels })
-                    await boardService.save(updatedBoard)
+                    // updateTask saves internally and returns the updated board
+                    updatedBoard = await taskService.updateTask(updatedBoard, groupId, taskId, { labels: updatedTaskLabels })
                 }
             }
 
             // Update board labels if they exist
-            if (board?.labels) {
-                const boardLabelIndex = board.labels.findIndex(l =>     //find which label in the board matches the one we're editing
-                    (l.id && l.id === label.id) ||
-                    (!l.id && l.color === label.color)
-                )
-                if (boardLabelIndex > -1) { //if the label is found, update it (>-1 means found`)
-                    const updatedBoardLabels = [...board.labels]
+            if (updatedBoard?.labels) {
+                const boardLabelIndex = updatedBoard.labels.findIndex(l => labelsMatch(l, label))
+                if (boardLabelIndex > -1) {
+                    const updatedBoardLabels = [...updatedBoard.labels]
                     updatedBoardLabels[boardLabelIndex] = updatedLabel
-                    board.labels = updatedBoardLabels
-                    await boardService.save(board)
+                    updatedBoard.labels = updatedBoardLabels
+                    await boardService.save(updatedBoard)
                 }
             }
         } else {
             // Creating new label - add to board labels
-            // Initialize board.labels with default labels if it doesn't exist
-            if (!board.labels || board.labels.length === 0) {
-                const defaultLabels = [
+            updatedBoard.labels = board.labels ? [...board.labels] : []
+            
+            // Initialize board.labels with default labels if it's empty
+            if (updatedBoard.labels.length === 0) {
+                updatedBoard.labels = [
                     { color: '#b85745', title: '' },
                     { color: '#8b7534', title: '' },
                     { color: '#3d6e5a', title: '' },
@@ -70,7 +79,6 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
                     { color: '#a35a8c', title: '' },
                     { color: '#a0652d', title: '' }
                 ]
-                board.labels = [...defaultLabels]
             }
 
             const newLabel = {
@@ -78,18 +86,50 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
                 title: labelTitle,
                 color: labelColor.color
             }
-            board.labels.push(newLabel)
-            await boardService.save(board)
+            updatedBoard.labels.push(newLabel)
+            await boardService.save(updatedBoard)
         }
 
+        // Reload the board to update Redux store and trigger re-render
+        await loadBoard(board._id)
+
         if (onSave) onSave(updatedLabel)
+        if (onClose) onClose()
+    }
+
+    async function handleDelete() {
+        if (!isEditMode || !label || !board || !board._id) return
+
+        let updatedBoard = { ...board }
+
+        // Remove from task labels if this label is selected
+        const task = taskService.getTaskById(updatedBoard, groupId, taskId)
+        if (task?.labels) {
+            const updatedTaskLabels = task.labels.filter(l => !labelsMatch(l, label))
+            // updateTask saves internally and returns the updated board
+            updatedBoard = await taskService.updateTask(updatedBoard, groupId, taskId, { labels: updatedTaskLabels })
+        }
+
+        // Remove from board labels if they exist
+        if (updatedBoard?.labels) {
+            const updatedBoardLabels = updatedBoard.labels.filter(l => !labelsMatch(l, label))
+            updatedBoard.labels = updatedBoardLabels
+            await boardService.save(updatedBoard)
+        }
+
+        // Reload the board to update Redux store and trigger re-render
+        await loadBoard(board._id)
+
+        if (onSave) onSave(null) // Notify parent that label was deleted
         if (onClose) onClose()
     }
 
     return (
         <div className="color-picker-menu">
             <div className="color-picker-header">
-                <button className="color-picker-close" onClick={onClose}>&lt;</button>
+                <button className="color-picker-close" onClick={onClose}>
+                    <span style={{ pointerEvents: 'none' }}>&lt;</span>
+                </button>
                 <h4>{isEditMode ? 'Edit Label' : 'Create Label'}</h4>
                 <button className="popup-close" onClick={onCloseAll || onClose}>×</button>
             </div>
@@ -116,7 +156,11 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
                     </div>
                 </div>
                 <div className="color-picker-actions">
-                    <button onClick={handleSave}>Save</button>
+                <button onClick={handleSave}>Save</button>
+                    {isEditMode && (
+                        <button className="color-picker-delete" onClick={handleDelete}>Delete</button>
+                    )}
+                    
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import editIcon from '../../assets/imgs/icons/edit_label.svg'
 import { ColorPicker } from './ColorPicker'
 import { updateTask } from '../../store/actions/task.actions'
+import { loadBoard } from '../../store/actions/board.actions'
 
 export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, position }) {
     const [selectedLabelIds, setSelectedLabelIds] = useState([])
@@ -68,8 +69,11 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
         setEditingLabel(null)
     }
 
-    function handleLabelSave(updatedLabel) {
-        // Refresh the component or update state as needed
+    async function handleLabelSave(updatedLabel) {
+        // Reload the board to get the updated labels
+        if (board?._id) {
+            await loadBoard(board._id)
+        }
         closeColorPicker()
     }
     return (
