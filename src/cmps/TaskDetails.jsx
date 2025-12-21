@@ -11,9 +11,12 @@ import { TaskDetailsMembers } from './taskDetailsCmps/taskDetailsmembers'
 import { TaskDetailsAdd } from './taskDetailsCmps/taskDetailsAdd'
 import { TaskDetailsDates } from './taskDetailsCmps/taskDetailsDates'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
+import doneIcon from '../assets/img/done.svg'
+import emptyCircleIcon from '../assets/img/empty-circle.svg'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import 'react-quill/dist/quill.bubble.css';
+
 
 
 export function TaskDetails() {
@@ -118,7 +121,10 @@ export function TaskDetails() {
             }
 
             console.log('Task updated:', { ...task, [popupName]: data })
-            closePopup()
+            // Don't close popup for labels since they save immediately
+            if (popupName !== 'labels') {
+                closePopup()
+            }
         } catch (err) {
             console.log('Error saving popup data:', err)
             showErrorMsg('Cannot save changes')
@@ -204,6 +210,18 @@ export function TaskDetails() {
         setNewItemText('')
     }
 
+    async function onToggleStatus(ev, task) {
+        ev.stopPropagation()
+
+        if (task.status === 'done') {
+            task.status = 'inProgress'
+        } else {
+            task.status = 'done'
+        }
+        await updateTask(board, groupId, taskId, { status: task.status })
+        setTask(prevTask => ({ ...prevTask, ...task }))
+    }
+
     async function handleAddItemToChecklist(checklistId) {
         if (!board) return
         const newChecklist = await addItemToChecklist(
@@ -272,16 +290,44 @@ export function TaskDetails() {
                 >
                     ×
                 </button>
-                {task && <div className="task-details-header">
-                    <h2>{task.title}</h2>
-                    <div className="task-details-actions">
-                        <button className="btn-add" onClick={(e) => openPopup('add', e)}>Add</button>
-                        <button className="btn-labels" onClick={(e) => openPopup('labels', e)}>Labels</button>
-                        <button className="btn-checklists" onClick={(e) => openPopup('checklists', e)}>Checklists</button>
-                        <button className="btn-members" onClick={(e) => openPopup('members', e)}>Members</button>
-                        <button className="btn-dates" onClick={(e) => openPopup('dates', e)}>Dates</button>
+                {/* Row 1: Reserved for future special header + functionality */}
+                <div className="task-details-row1-reserved"></div>
+                
+                {task && (
+                    <>
+                        <div className="task-details-header">
+                            <button className="toggle-done-btn" onClick={(e) => onToggleStatus(e, task)}>
+                                {task.status === 'done' ?
+                                    <img title="Mark incomplete" src={doneIcon} style={{ width: '20px', height: '20px' }} alt="Done" />
+                                    : <img title="Mark complete" src={emptyCircleIcon} style={{ width: '20px', height: '20px' }} alt="Not done" />
+                                }
+                            </button>
+                            <h2>{task.title}</h2>
+                        </div>
+                        <div className="task-details-actions">
+                            <button className="btn-add" onClick={(e) => openPopup('add', e)}>Add</button>
+                            <button className="btn-labels" onClick={(e) => openPopup('labels', e)}>Labels</button>
+                            <button className="btn-checklists" onClick={(e) => openPopup('checklists', e)}>Checklists</button>
+                            <button className="btn-members" onClick={(e) => openPopup('members', e)}>Members</button>
+                            <button className="btn-dates" onClick={(e) => openPopup('dates', e)}>Dates</button>
+                        </div>
+                    </>
+                )}
+                {task && (
+                    <div className="task-details-comments">
+                        <TaskDetailsComments
+                            boardId={boardId}
+                            groupId={groupId}
+                            taskId={taskId}
+                            board={board}
+                            comments={comments}
+                            onCommentsUpdate={(updatedComments) => {
+                                setComments(updatedComments)
+                                setTask({ ...task, comments: updatedComments })
+                            }}
+                        />
                     </div>
-                </div>}
+                )}
                 <div className="task-details-content">
                     <div className="task-details-main">
                         {members.length > 0 && (
@@ -332,14 +378,14 @@ export function TaskDetails() {
                                 </div>
                             )}
                             {descriptionEdit && (
-                                <form>
+                                <form onSubmit={saveDescription}>
                                     <ReactQuill
                                         theme="snow"
                                         value={description}
                                         onChange={setDescription}
                                         placeholder="Add a more detailed description..."
                                     />
-                                    <button onClick={saveDescription}>Save</button>
+                                    <button type="submit" onClick={saveDescription}>Save</button>
                                     <button onClick={() => setDescriptionEdit(false)}>Cancel</button>
                                 </form>
                             )}
@@ -355,19 +401,6 @@ export function TaskDetails() {
                             onStartAddingItem={startAddingItem}
                             onCancelAddingItem={cancelAddingItem}
                             onAddItem={handleAddItemToChecklist}
-                        />
-                    </div>
-                    <div className="task-details-comments">
-                        <TaskDetailsComments
-                            boardId={boardId}
-                            groupId={groupId}
-                            taskId={taskId}
-                            board={board}
-                            comments={comments}
-                            onCommentsUpdate={(updatedComments) => {
-                                setComments(updatedComments)
-                                setTask({ ...task, comments: updatedComments })
-                            }}
                         />
                     </div>
                 </div>

@@ -34,7 +34,7 @@ export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, 
                 } : {}}
             >
                 <h4>Add checklist</h4> 
-                <button className="popup-close" onClick={onClose}>X</button>
+                <button className="popup-close" onClick={onClose}>×</button>
                 <div className="popup-body">
                     <h6>Title</h6>
                     <form onSubmit={handleSave}>
@@ -135,7 +135,6 @@ export function TaskChecklistsDisplay({
 
     return (
         <div className="checklists">
-            <h5>Checklists</h5>
             {checklists.map(checklist => {
                 const isEditingName = editing?.type === 'name' && editing.checklistId === checklist.id
                 return (

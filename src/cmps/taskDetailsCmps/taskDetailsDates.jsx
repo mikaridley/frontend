@@ -49,14 +49,14 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
                     left: `${position.left}px`
                 } : {}}
             >
-                <h4>Date</h4> <button className="popup-close" onClick={onClose}>X</button>
+                <h4>Date</h4> <button className="popup-close" onClick={onClose}>×</button>
                 <div className="popup-body">
                     <DatePicker
                         selected={dateTime}
                         onChange={(date) => setDateTime(date)}
                         inline
                     />
-                    <h6>Due date</h6>
+                    <h6 className="date-time-title">Due date</h6>
                     <div className="date-time-container">
                         <div className="date-picker-container">
                             <input
@@ -73,7 +73,7 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
                             />
                         </div>
                     </div>
-                    <button onClick={() => onSave('dates', { dateTime })}>Save</button>
+                    <button type="submit" onClick={() => onSave('dates', { dateTime })}>Save</button>
                     <button onClick={onClose}>Remove</button>
                 </div>
             </div>
