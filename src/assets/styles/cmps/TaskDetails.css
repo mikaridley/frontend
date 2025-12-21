@@ -476,6 +476,82 @@
   }
 }
 
+.members-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Attachments Display Styles */
+.attachments {
+  margin: 1rem 0;
+}
+
+.attachments h5 {
+  margin: 0 0 0.5rem 0;
+  color: var(--clr-task-txt-dark);
+}
+
+.attachments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.attachment-item:hover {
+  background-color: #2b2c2f;
+}
+
+.attachment-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.attachment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.attachment-name {
+  color: var(--clr-task-txt-dark);
+  font-weight: 500;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.attachment-date {
+  color: #999;
+  font-size: 12px;
+}
+
+.member-tag {
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.654);
+  font-weight: 600;
+  font-size: 14px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .popup-labels .btn-create-label {
   display: block;
   margin: 1rem auto 0;
@@ -748,4 +824,33 @@
 
 .date-time-title {
   margin-top: 1rem;
+}
+
+.popup-attachments form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.popup-attachments button {
+  color: var(--clr-task-txt-dark);
+  background-color: #242528;
+  border: 2px solid #3c3d40;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2b2c2f;
+  }
+}
+
+.popup-attachments button[type='submit'] {
+  background-color: #5ba4cf;
+  color: white;
+  border-color: #5ba4cf;
+
+  &:hover {
+    background-color: #4a93be;
+  }
 }

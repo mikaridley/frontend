@@ -83,43 +83,43 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     setTask(prevTask => ({ ...prevTask, title: value }))
   }
 
-  return (
-    <section className="group-preview flex column">
-      <header className="group-header flex space-between">
-        <input
-          className="title-input"
-          onChange={handleGroupChange}
-          onBlur={() => onUpdateGroup(title, group)}
-          value={title}
-        ></input>
-        <button onClick={onToggleActions}>
-          <img src={moreIcon} />
-        </button>
-        {isActionsOpen && (
-          <GroupActions
-            onToggleActions={onToggleActions}
-            onArchiveGroup={onArchiveGroup}
-            setIsAddingTask={setIsAddingTask}
-          />
-        )}
-      </header>
-      <TaskList
-        group={group}
-        onToggleStatus={onToggleStatus}
-        archiveTask={archiveTask}
-      />
-      {!isAddingTask ? (
-        <button className="add-btn" onClick={() => setIsAddingTask(true)}>
-          Add a Card
-        </button>
-      ) : (
-        <form className="add-form" onSubmit={handleSubmit}>
-          <input
-            onChange={handleTaskChange}
-            onBlur={onAddTask}
-            placeholder="Enter a title"
-            autoFocus
-          />
+    return (
+        <section className='group-preview flex column'>
+            <header className='group-header flex space-between'>
+                <input
+                    className='title-input'
+                    onChange={handleGroupChange}
+                    onBlur={() => onUpdateGroup(title, group)}
+                    value={title}
+                ></input>
+                <button onClick={onToggleActions}>
+                    <img src={moreIcon} />
+                </button>
+                {isActionsOpen &&
+                    <GroupActions
+                        onToggleActions={onToggleActions}
+                        onArchiveGroup={onArchiveGroup}
+                        setIsAddingTask={setIsAddingTask}
+                    />
+                }
+            </header>
+            <TaskList
+                group={group}
+                onToggleStatus={onToggleStatus}
+                archiveTask={archiveTask}
+            />
+            {!isAddingTask ?
+                <button className='add-btn' onClick={() => setIsAddingTask(true)}>
+                    Add a Card
+                </button>
+
+                : <form className='add-form' onSubmit={handleSubmit}>
+                    <input
+                        onChange={handleTaskChange}
+                        onBlur={onAddTask}
+                        placeholder='Enter a title'
+                        autoFocus
+                    />
 
           <div className="form-btns flex">
             <button className="btn" onMouseDown={handleSubmit}>

@@ -6,9 +6,6 @@ const STORAGE_KEY = 'boardDB'
 export const groupService = {
     addGroup,
     updateGroup,
-    removeGroup,
-    reorderGroups,
-    getGroupById,
 }
 
 async function addGroup(board, groupToAdd) {
@@ -18,35 +15,18 @@ async function addGroup(board, groupToAdd) {
         id: makeId(),
         title: groupToAdd.title
     }
-    board.groups.push(group)
-    await storageService.put(STORAGE_KEY, board)
-    return group
+    const newBoard = { ...board, groups: [...board.groups, group] }
+    await storageService.put(STORAGE_KEY, newBoard)
+    return newBoard
 }
 
 
 async function updateGroup(board, groupToUpdate) {
+    if (!board.groups) return
     const idx = board.groups?.findIndex(group => group.id === groupToUpdate.id)
-
     if (idx === -1) return
+
     board.groups[idx] = { ...board.groups[idx], ...groupToUpdate }
     await storageService.put(STORAGE_KEY, board)
     return board.groups[idx]
-}
-
-function removeGroup(board, groupId) {
-    board.groups = (board.groups || []).filter(group => group.id !== groupId)
-    return board
-}
-
-function reorderGroups(board, fromIdx, toIdx) {
-    if (!board.groups || fromIdx === toIdx) return board
-    const groups = [...board.groups]
-    const [moved] = groups.splice(fromIdx, 1)
-    groups.splice(toIdx, 0, moved)
-    board.groups = groups
-    return board
-}
-
-function getGroupById(board, groupId) {
-    return board.groups?.find(group => group.id === groupId) || null
 }

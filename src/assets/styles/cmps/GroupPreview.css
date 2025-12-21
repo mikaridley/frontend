@@ -1,11 +1,10 @@
 .group-preview {
-  position: relative;
-  z-index: 1;
-
   padding: var(--gap);
+  max-height: 100%;
+  width: 270px;
+
   background-color: var(--clr-group);
   border-radius: 0.857em;
-  max-height: 100%;
 
   > button {
     padding: var(--gap) 2.5em;
