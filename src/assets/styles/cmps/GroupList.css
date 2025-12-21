@@ -3,6 +3,8 @@
   padding: 0.8rem;
   margin-top: 105px;
 
+  height: calc(100vh - 105px - 17px);
+
   color: var(--clr-group-txt);
   font-size: 0.876rem;
 

@@ -232,6 +232,11 @@ function _createBoard(
         fullname: 'Asya Kandyba',
         imgUrl: 'https://www.google.com',
       },
+      {
+        _id: 'u101',
+        fullname: 'Mika Haitner',
+        imgUrl: 'https://www.google.com',
+      },
     ],
     //   {
     //     id: 'D2Y0Ys',

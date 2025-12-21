@@ -151,6 +151,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
         {(task.checklists ||
           task.dates ||
           task.description ||
+          task.members ||
           task.comments) && (
           <section className="task-details-container">
             {task.dates && (
@@ -186,6 +187,18 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
                   <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
                 </div>
               </LightTooltip>
+            )}
+
+            {task.members && (
+              <section className="task-user-container">
+                {task.members.map(member => (
+                  <LightTooltip key={member._id} title={member.fullname}>
+                    <div className="task-checklists">
+                      <div className="task-user">RH</div>
+                    </div>
+                  </LightTooltip>
+                ))}
+              </section>
             )}
           </section>
         )}
