@@ -1,42 +1,45 @@
 .group-preview {
-    padding: var(--gap);
-    background-color: var(--clr-group);
-    border-radius: .857em;
-    max-height: 100%;
+  position: relative;
+  z-index: 1;
 
-    >button {
-        padding: var(--gap) 2.5em;
-        color: var(--clr-task-txt);
-        background-color: inherit;
+  padding: var(--gap);
+  background-color: var(--clr-group);
+  border-radius: 0.857em;
+  max-height: 100%;
 
-        &:hover {
-            background-color: rgba(227, 228, 242, 0.12);
-        }
+  > button {
+    padding: var(--gap) 2.5em;
+    color: var(--clr-task-txt);
+    background-color: inherit;
+
+    &:hover {
+      background-color: rgba(227, 228, 242, 0.12);
     }
+  }
 }
 
 .group-header {
-    position: relative;
-    margin-block-end: .3rem;
+  position: relative;
+  margin-block-end: 0.3rem;
 
-    >input {
-        width: 100%;
+  > input {
+    width: 100%;
 
-        color: var(--clr-task-txt);
-        font-size: .876rem;
-        font-weight: 700;
+    color: var(--clr-task-txt);
+    font-size: 0.876rem;
+    font-weight: 700;
+  }
+
+  > button {
+    background-color: inherit;
+    border-radius: 0.5em;
+
+    &:hover {
+      background-color: rgba(227, 228, 242, 0.12);
     }
+  }
 
-    >button {
-        background-color: inherit;
-        border-radius: .5em;
-
-        &:hover {
-            background-color: rgba(227, 228, 242, 0.12);
-        }
-    }
-
-    img{
-        width: 1.5rem;
-    }
+  img {
+    width: 1.5rem;
+  }
 }

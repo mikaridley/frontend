@@ -1,0 +1,76 @@
+.board-settings {
+  display: grid;
+
+  position: absolute;
+  right: 15px;
+  top: 0px;
+
+  width: 350px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  background-color: var(--clr-group-modal);
+
+  button {
+    width: 90%;
+    text-align: start;
+
+    background-color: inherit;
+    color: inherit;
+  }
+
+  img {
+    width: 20px;
+
+    &:hover {
+      background-color: var(--clr-ah-grey-1);
+      box-shadow: 0 0 0 10px var(--clr-ah-grey-1);
+      border-radius: 3px;
+    }
+  }
+
+  .board-settings-header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    img {
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+
+    > :nth-child(1) {
+      grid-column: 2;
+      justify-self: center;
+    }
+
+    > :nth-child(2) {
+      justify-self: end;
+    }
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    height: 2.5rem;
+    padding-inline: 1rem;
+
+    .board-settings-bg-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    &:hover {
+      background-color: var(--clr-ah-grey-1);
+      border-radius: 10px;
+    }
+  }
+}
