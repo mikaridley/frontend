@@ -89,7 +89,7 @@
     transition: 0.7s ease;
 
     &.task-not-complete {
-      left: -33px;
+      left: -26px;
     }
   }
 
