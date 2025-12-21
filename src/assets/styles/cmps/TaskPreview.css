@@ -1,82 +1,93 @@
 .task-preview {
+  --border-radius: 0.5em;
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.5rem;
 
   position: relative;
   z-index: 2;
 
   align-items: center;
-  padding: 0.65rem;
   margin-block: 0.5rem;
   max-width: 270px;
 
   background-color: var(--clr-task);
-  border-radius: 0.5em;
+  border-radius: var(--border-radius);
   text-decoration: none;
   cursor: pointer;
 
-  .task-labels-container {
-    grid-row: 1;
+  .task-attachment {
     grid-column: 1/-1;
-
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0.3rem;
-
-    .task-label {
-      width: 100%;
-      height: 7px;
-      border-radius: 100vh;
-    }
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
   }
 
-  .task-details-container {
-    grid-column: 1/-1;
-
-    display: flex;
+  .task-all-details {
+    display: grid;
+    grid-template-columns: auto 1fr;
     gap: 0.5rem;
-    align-items: center;
 
-    img {
-      width: 17px;
+    padding: 0.7rem;
+
+    .task-labels-container {
+      grid-column: 1/-1;
+
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.3rem;
+
+      .task-label {
+        width: 100%;
+        height: 7px;
+        border-radius: 100vh;
+      }
     }
 
-    .task-dates {
-      width: 4.375rem;
-    }
+    .task-details-container {
+      grid-column: 1/-1;
 
-    .task-checklists,
-    .task-dates,
-    .task-comments {
       display: flex;
-      align-items: center;
-      justify-content: center;
       gap: 0.5rem;
+      align-items: center;
 
-      p {
-        font-size: 0.8rem;
+      img {
+        width: 17px;
       }
 
-      &.late-red,
-      &.soon-yellow,
-      &.done-green {
-        padding-block: 0.2rem;
-        border-radius: 5px;
-
-        color: var(--clr-txt-dark);
+      .task-dates {
+        width: 4.375rem;
       }
 
-      &.late-red {
-        background-color: var(--clr-task-late);
-      }
+      .task-checklists,
+      .task-dates,
+      .task-comments {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
 
-      &.soon-yellow {
-        background-color: var(--clr-task-soon);
-      }
+        p {
+          font-size: 0.8rem;
+        }
 
-      &.done-green {
-        background-color: var(--clr-task-done);
+        &.late-red,
+        &.soon-yellow,
+        &.done-green {
+          padding-block: 0.2rem;
+          border-radius: 5px;
+
+          color: var(--clr-txt-dark);
+        }
+
+        &.late-red {
+          background-color: var(--clr-task-late);
+        }
+
+        &.soon-yellow {
+          background-color: var(--clr-task-soon);
+        }
+
+        &.done-green {
+          background-color: var(--clr-task-done);
+        }
       }
     }
   }
@@ -96,18 +107,31 @@
   button {
     background-color: inherit;
   }
-}
 
-.task-preview:hover {
-  box-shadow: inset 0 0 0 2px white;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--border-radius);
+    pointer-events: none;
 
-  .archive-btn,
-  .toggle-done-btn > div {
-    opacity: 1;
+    border: 3px solid white;
+    opacity: 0;
   }
 
-  p {
-    left: -5px;
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+
+    .archive-btn,
+    .toggle-done-btn > div {
+      opacity: 1;
+    }
+
+    p {
+      left: -5px;
+    }
   }
 }
 
