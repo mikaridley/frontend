@@ -92,21 +92,21 @@
     transition: background-color 0.2s;
 }
 
-.color-picker-actions button:first-child {
+.color-picker-delete {
+    background-color: #e74c3c !important;
+    color: white !important;
+}
+
+.color-picker-delete:hover {
+    background-color: #c0392b !important;
+}
+
+.color-picker-actions button:last-child {
     background-color: #0079bf;
     color: white;
 }
 
-.color-picker-actions button:first-child:hover {
-    background-color: #026aa7;
-}
-
-.color-picker-actions button:last-child {
-    background-color: #f4f5f7;
-    color: #333;
-}
-
 .color-picker-actions button:last-child:hover {
-    background-color: #e4e6e9;
+    background-color: #026aa7;
 }
 

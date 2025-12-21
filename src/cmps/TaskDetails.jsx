@@ -11,11 +11,12 @@ import { TaskDetailsMembers } from './taskDetailsCmps/taskDetailsmembers'
 import { TaskDetailsAdd } from './taskDetailsCmps/taskDetailsAdd'
 import { TaskDetailsDates } from './taskDetailsCmps/taskDetailsDates'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
+import { TaskDetailsAttachments } from './taskDetailsCmps/taskDetailsAttachments'
 import doneIcon from '../assets/img/done.svg'
 import emptyCircleIcon from '../assets/img/empty-circle.svg'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import 'react-quill/dist/quill.bubble.css';
+import 'react-quill/dist/quill.bubble.css'
 
 
 
@@ -32,6 +33,7 @@ export function TaskDetails() {
     const [labels, setLabels] = useState([])
     const [checklists, setChecklists] = useState([])
     const [dates, setDates] = useState(null)
+    const [attachments, setAttachments] = useState([])
     const [addingItemToChecklist, setAddingItemToChecklist] = useState(null)
     const [newItemText, setNewItemText] = useState('')
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 })
@@ -41,7 +43,8 @@ export function TaskDetails() {
         checklists: TaskDetailsChecklist,
         members: TaskDetailsMembers,
         add: TaskDetailsAdd,
-        dates: TaskDetailsDates
+        dates: TaskDetailsDates,
+        attachments: TaskDetailsAttachments
     }
 
     function editDescription() {
@@ -80,6 +83,7 @@ export function TaskDetails() {
                 setLabels(task?.labels || [])
                 setChecklists(task?.checklists || [])
                 setDates(task?.dates || null)
+                setAttachments(task?.attachments || [])
             } else {
                 showErrorMsg('Task not found')
                 navigate(`/board/${boardId}`)
@@ -118,11 +122,13 @@ export function TaskDetails() {
                 setMembers(data)
             } else if (popupName === 'dates') {
                 setDates(data)
+            } else if (popupName === 'attachments') {
+                setAttachments(data)
             }
 
             console.log('Task updated:', { ...task, [popupName]: data })
-            // Don't close popup for labels since they save immediately
-            if (popupName !== 'labels') {
+            // Don't close popup for labels and members since they save immediately
+            if (popupName !== 'labels' && popupName !== 'members') {
                 closePopup()
             }
         } catch (err) {
@@ -222,6 +228,14 @@ export function TaskDetails() {
         setTask(prevTask => ({ ...prevTask, ...task }))
     }
 
+    async function handleDeleteAttachment(attachmentId) {
+        if (!board) return
+        const updatedAttachments = attachments.filter(attachment => attachment.id !== attachmentId)
+        setAttachments(updatedAttachments)
+        setTask({ ...task, attachments: updatedAttachments })
+        await updateTask(board, groupId, taskId, { attachments: updatedAttachments })
+    }
+
     async function handleAddItemToChecklist(checklistId) {
         if (!board) return
         const newChecklist = await addItemToChecklist(
@@ -292,7 +306,7 @@ export function TaskDetails() {
                 </button>
                 {/* Row 1: Reserved for future special header + functionality */}
                 <div className="task-details-row1-reserved"></div>
-                
+
                 {task && (
                     <>
                         <div className="task-details-header">
@@ -306,6 +320,7 @@ export function TaskDetails() {
                         </div>
                         <div className="task-details-actions">
                             <button className="btn-add" onClick={(e) => openPopup('add', e)}>Add</button>
+                            <button className="btn-attachments" onClick={(e) => openPopup('attachments', e)}>Attachments</button>
                             <button className="btn-labels" onClick={(e) => openPopup('labels', e)}>Labels</button>
                             <button className="btn-checklists" onClick={(e) => openPopup('checklists', e)}>Checklists</button>
                             <button className="btn-members" onClick={(e) => openPopup('members', e)}>Members</button>
@@ -356,7 +371,51 @@ export function TaskDetails() {
                                 </div>
                             </div>
                         )}
-
+                        {attachments.length > 0 && (
+                            <div className="attachments">
+                                <h5>Attachments</h5>
+                                <div className="attachments-list">
+                                    {attachments.map(attachment => (
+                                        <div key={attachment.id} className="attachment-item">
+                                            <img src={attachment.file} alt={attachment.name} className="attachment-thumbnail" />
+                                            <div className="attachment-info">
+                                                <div className="attachment-name">{attachment.name}</div>
+                                                {attachment.createdAt && (
+                                                    <div className="attachment-date">
+                                                        Added {new Date(attachment.createdAt).toLocaleString('en-US', {
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                            year: 'numeric',
+                                                            hour: 'numeric',
+                                                            minute: '2-digit',
+                                                            hour12: true
+                                                        })}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <button onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        {members.length > 0 && (
+                            <div className="members">
+                                <h5>Members</h5>
+                                <div className="members-list">
+                                    {members.map(member => (
+                                        <div
+                                            key={member._id}
+                                            className="member-tag"
+                                            //add later onClick - open member's details popup
+                                        >
+                                            {member.fullname}
+                                        </div>
+                                    ))}
+                                    <button className="btn-add-label" onClick={(e) => openPopup('members', e)}> + </button>
+                                </div>
+                            </div>
+                        )}
                         {dates && (
                             <div className="dates">
                                 <h5>Due date</h5>
