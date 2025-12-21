@@ -118,7 +118,6 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
                         onChange={handleTaskChange}
                         onBlur={onAddTask}
                         placeholder='Enter a title'
-                        value={group.title}
                         autoFocus
                     />
 

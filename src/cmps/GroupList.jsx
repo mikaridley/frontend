@@ -83,7 +83,6 @@ export function GroupList() {
                         <input
                             onChange={handleChange}
                             onBlur={() => setIsAddingGroup(false)}
-                            value={group.title}
                             placeholder='Enter list name...'
                             autoFocus
                         />
