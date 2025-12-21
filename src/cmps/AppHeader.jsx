@@ -4,7 +4,9 @@ import logoLightImg from '../assets/img/logo-light.png'
 export function AppHeader() {
   return (
     <section className="app-header">
-      <img className="logo" src={logoLightImg} />
+      <Link to="/board">
+        <img className="logo" src={logoLightImg} />
+      </Link>
       <form className="search-icon">
         <input type="text" placeholder="Search" />
         <Link
