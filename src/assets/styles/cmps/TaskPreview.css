@@ -89,7 +89,7 @@
     transition: 0.7s ease;
 
     &.task-not-complete {
-      left: -25px;
+      left: -33px;
     }
   }
 
@@ -112,6 +112,7 @@
 }
 
 .toggle-done-btn {
+  padding-inline-start: 0;
   > img {
     width: 1rem;
   }
