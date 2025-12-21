@@ -14,6 +14,7 @@ export const taskService = {
   toggleTodoDone,
   getTaskById,
   getLabels,
+  getMembers,
 }
 
 async function addTask(board, group, taskToAdd) {
@@ -125,4 +126,8 @@ function getLabels(board, groupId, taskId) {
     { color: '#9e4c00', title: '', colorName: 'orange' },
   ]
   return defaultLabels
+}
+
+function getMembers(board){
+    return board?.members || []
 }

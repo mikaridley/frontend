@@ -68,6 +68,23 @@
 .color-picker-close{
   border: none !important;
   margin-top: -0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 32px;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.color-picker-close:hover {
+  background-color: #2B2C2F;
+  border-radius: 4px;
 }
 
 .popup-body button[type="submit"]{
