@@ -1,61 +1,140 @@
 .task-preview {
-    position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
 
+  position: relative;
+
+  align-items: center;
+  padding: 0.65rem;
+  margin-block: 0.5rem;
+  max-width: 270px;
+
+  background-color: var(--clr-task);
+  border-radius: 0.5em;
+  text-decoration: none;
+  cursor: pointer;
+
+  .task-labels-container {
+    grid-row: 1;
+    grid-column: 1/-1;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.3rem;
+
+    .task-label {
+      width: 100%;
+      height: 7px;
+      border-radius: 100vh;
+    }
+  }
+
+  .task-details-container {
+    grid-column: 1/-1;
+
+    display: grid;
+    grid-template-columns: repeat(10, auto);
     align-items: center;
-    padding: .65rem ;
-    margin-block: .5rem;
-    max-width: 270px;
 
-    background-color: var(--clr-task);
-    border-radius: .5em;
-    text-decoration: none;
-    cursor: pointer;
-
-    p {
-        margin: 0;
+    img {
+      width: 17px;
     }
 
-    button {
-        background-color: inherit
+    .task-dates {
+      width: 4.375rem;
     }
+
+    .task-checklists,
+    .task-dates,
+    .task-comments {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      p {
+        font-size: 0.8rem;
+      }
+
+      &.late-red,
+      &.soon-yellow,
+      &.done-green {
+        padding-block: 0.2rem;
+        border-radius: 5px;
+
+        color: var(--clr-txt-dark);
+      }
+
+      &.late-red {
+        background-color: var(--clr-task-late);
+      }
+
+      &.soon-yellow {
+        background-color: var(--clr-task-soon);
+      }
+
+      &.done-green {
+        background-color: var(--clr-task-done);
+      }
+    }
+  }
+
+  p {
+    position: relative;
+    left: -5px;
+
+    margin-bottom: 0;
+    transition: 0.7s ease;
+
+    &.task-not-complete {
+      left: -25px;
+    }
+  }
+
+  button {
+    background-color: inherit;
+  }
 }
 
 .task-preview:hover {
-    border: 2px solid white;
+  box-shadow: inset 0 0 0 2px white;
 
-    .archive-btn,
-    .toggle-done-btn>div {
-        opacity: 1;
-    }
+  .archive-btn,
+  .toggle-done-btn > div {
+    opacity: 1;
+  }
+
+  p {
+    left: -5px;
+  }
 }
 
 .toggle-done-btn {
-    >img {
-        width: 1rem;
-    }
+  > img {
+    width: 1rem;
+  }
 
-    >div {
-        opacity: 0;
-        width: .9rem;
-        height: .9rem;
+  > div {
+    opacity: 0;
+    width: 0.9rem;
+    height: 0.9rem;
 
-        border-radius: 50%;
-        border: 2px solid var(--clr-task-txt);
-        transition: .3s;
-    }
+    border-radius: 50%;
+    border: 2px solid var(--clr-task-txt);
+    transition: 0.7s;
+  }
 }
 
 .archive-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 
-    opacity: 0;
-    border-radius: 50%;
+  opacity: 0;
+  border-radius: 50%;
 
-    >img {
-        width: 1em;
-    }
-
-
+  > img {
+    width: 1em;
+  }
 }

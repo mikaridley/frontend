@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
+import logoLightImg from '../assets/img/logo-light.png'
 
 export function AppHeader() {
   return (
     <section className="app-header">
-      <h1>Marshmello</h1>
+      <img className="logo" src={logoLightImg} />
       <form className="search-icon">
         <input type="text" placeholder="Search" />
         <Link

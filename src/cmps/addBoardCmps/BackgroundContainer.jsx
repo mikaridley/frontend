@@ -86,7 +86,10 @@ export function BackgroundContainer({ changeColor }) {
           <div className="open-more-colors">
             {isOpenMoreBgs.openKind === '' && (
               <>
-                <h2>Board background</h2>
+                <div className="board-bg-header">
+                  <h2>Board background</h2>
+                  <p onClick={openMoreColors}>X</p>
+                </div>
                 <div className="open-more-header">
                   <h3>Photos</h3>
                   <button
@@ -148,7 +151,7 @@ export function BackgroundContainer({ changeColor }) {
                     &lt;
                   </p>
                   <h2>Photos by Unsplash</h2>
-                  <p>X</p>
+                  <p onClick={openMoreColors}>X</p>
                 </div>
                 {photosBg.map(photo => {
                   return (
@@ -176,7 +179,7 @@ export function BackgroundContainer({ changeColor }) {
                       &lt;
                     </p>
                     <h2>Colors</h2>
-                    <p>X</p>
+                    <p onClick={openMoreColors}>X</p>
                   </div>
                   {backgrounds.gradiantColors.map(color => {
                     return (
