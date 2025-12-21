@@ -91,6 +91,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                         taskId={taskId}
                         label={editingLabel}
                         onClose={closeColorPicker}
+                        onCloseAll={onClose}
                         onSave={handleLabelSave}
                     />
                 ) : (

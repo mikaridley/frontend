@@ -60,14 +60,27 @@
 
   }
 
+.popup-dates .popup-body > button {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.color-picker-close{
+  border: none !important;
+  margin-top: -0.5rem;
+}
+
 .popup-body button[type="submit"]{
   margin-top: 0.5rem;
   
-  background-color: #4A93BE !important;
+  background-color: #669DF1 !important;
   color: black !important;
+  transition: background-color 0.2s ease;
+  border-radius: 6px;
   &:hover {
-    background-color:#5BA4CF !important;
-    border-color: #4A93BE !important;
+    background-color: #7AADF2 !important;
+    border-color: #669DF1 !important;
+    transition: background-color 0.2s ease;
   }
 }
 

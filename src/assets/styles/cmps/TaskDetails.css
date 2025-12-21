@@ -217,7 +217,7 @@
     border-radius: 4px;
 }
 
-.popup-body {
+.popup-body {   
     margin-top: 20px;
 
     & form {
@@ -260,6 +260,7 @@
         align-items: center;
         gap: 8px;
         border: none;
+        max-width: 200px;
 
         & svg,
         & img {
