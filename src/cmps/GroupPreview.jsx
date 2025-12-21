@@ -84,10 +84,10 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     }
 
     return (
-        <section className="group-preview flex column">
+        <section className='group-preview flex column'>
             <header className='group-header flex space-between'>
                 <input
-                    className="title-input"
+                    className='title-input'
                     onChange={handleGroupChange}
                     onBlur={() => onUpdateGroup(title, group)}
                     value={title}

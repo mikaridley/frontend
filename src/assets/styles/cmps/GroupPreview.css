@@ -1,8 +1,10 @@
 .group-preview {
     padding: var(--gap);
+    max-height: 100%;
+    width: 270px;
+
     background-color: var(--clr-group);
     border-radius: .857em;
-    max-height: 100%;
 
     >button {
         padding: var(--gap) 2.5em;
