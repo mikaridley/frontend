@@ -32,15 +32,6 @@ export function BoardIndex() {
     navigate(`/board/${savedBoard._id}`)
   }
 
-  // async function _removeBoard(boardId) {
-  //   try {
-  //     await removeBoard(boardId)
-  //     showSuccessMsg('Board removed')
-  //   } catch {
-  //     showErrorMsg('Cannot remove board')
-  //   }
-  // }
-
   async function starToggle(board) {
     board.isStarred = !board.isStarred
     try {

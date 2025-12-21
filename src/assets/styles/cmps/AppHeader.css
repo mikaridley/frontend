@@ -4,9 +4,15 @@
   justify-content: space-between;
   align-items: center;
 
-  padding-inline: 1rem;
+  position: fixed;
+  z-index: 4;
+
+  width: 100vw;
+  padding-inline: 2rem;
   padding-block: 0.5rem;
   border-bottom: 1px solid var(--clr-ah-grey);
+
+  background-color: var(--clr-bg-dark);
 
   .logo {
     width: 150px;

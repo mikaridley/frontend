@@ -62,15 +62,67 @@
     height: 2.5rem;
     padding-inline: 1rem;
 
+    cursor: pointer;
+
     .board-settings-bg-icon {
       width: 20px;
       height: 20px;
       border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     &:hover {
       background-color: var(--clr-ah-grey-1);
       border-radius: 10px;
+    }
+  }
+
+  .settings-close-board {
+    position: relative;
+
+    .are-you-sure-close-board {
+      display: grid;
+      justify-items: center;
+      gap: 1rem;
+
+      position: absolute;
+      bottom: 105%;
+
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.345);
+
+      background-color: var(--clr-group-modal);
+
+      header {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+
+        width: 100%;
+
+        > :nth-child(1) {
+          grid-column: 2;
+        }
+        > :nth-child(2) {
+          justify-self: end;
+        }
+      }
+
+      button {
+        padding: 0.5rem;
+        border-radius: 5px;
+
+        text-align: center;
+        background-color: var(--clr-close-board);
+        color: var(--clr-txt-dark);
+
+        &:hover {
+          background-color: var(--clr-close-board-hover);
+        }
+      }
     }
   }
 }

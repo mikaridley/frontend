@@ -34,8 +34,8 @@
   .task-details-container {
     grid-column: 1/-1;
 
-    display: grid;
-    grid-template-columns: repeat(10, auto);
+    display: flex;
+    gap: 0.5rem;
     align-items: center;
 
     img {

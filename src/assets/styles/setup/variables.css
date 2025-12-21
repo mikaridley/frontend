@@ -30,6 +30,8 @@
   --clr-input-add-board: #99c6ff;
   --clr-input-add-board-hover: #df574d;
   --gap: 0.8em;
+  --clr-close-board: #f87168;
+  --clr-close-board-hover: #fd9891;
 
   /* Group */
   --clr-group: rgb(16, 18, 4);

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { boardService } from '../../services/board/board.service.local'
 import { MiniBoardPreview } from './MiniBoardPreview'
 import { BackgroundPreview } from './BackgroundPreview'
+import { PhotosBackground } from './PhotosBackground.jsx'
 
 export function BackgroundContainer({ changeColor }) {
   const backgrounds = boardService.getBackgrounds()
@@ -41,6 +42,10 @@ export function BackgroundContainer({ changeColor }) {
       ...isOpenMoreBgs,
       openKind: whereTo,
     })
+  }
+
+  function openBoardBackground() {
+    openBgsToggle('')
   }
 
   return (
@@ -140,34 +145,16 @@ export function BackgroundContainer({ changeColor }) {
               </>
             )}
             {isOpenMoreBgs.openKind === 'photos' && (
-              <section className="photos-background">
-                <div className="background-header">
-                  <p
-                    className="back-btn-open-more-bgs"
-                    onClick={() => {
-                      openBgsToggle('')
-                    }}
-                  >
-                    &lt;
-                  </p>
-                  <h2>Photos by Unsplash</h2>
-                  <p onClick={openMoreColors}>X</p>
-                </div>
-                {photosBg.map(photo => {
-                  return (
-                    <BackgroundPreview
-                      color={photo.imageUrl}
-                      selectedColor={selectedColor.color}
-                      key={photo.id}
-                      onChangeBackground={onChangeBackground}
-                      kind={'photo'}
-                    />
-                  )
-                })}
-              </section>
+              <PhotosBackground
+                photosBg={photosBg}
+                openToggle={openMoreColors}
+                goBack={openBoardBackground}
+                selectedColor={selectedColor}
+                onChangeBackground={onChangeBackground}
+              />
             )}
             {isOpenMoreBgs.openKind === 'colors' && (
-              <>
+              <div calssName="colors-background">
                 <section className="gradiant-colors">
                   <div className="background-header">
                     <p
@@ -206,7 +193,7 @@ export function BackgroundContainer({ changeColor }) {
                     )
                   })}
                 </section>
-              </>
+              </div>
             )}
           </div>
         )}
