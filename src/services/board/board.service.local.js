@@ -331,3 +331,94 @@ function _createBoards() {
   }
   saveToStorage(STORAGE_KEY, boards)
 }
+
+function _createBoard(
+  name = 'Board',
+  background = 'linear-gradient(135deg, #0e326d, #bd4f99)',
+  kind = 'gradiant'
+) {
+  return {
+    _id: makeId(),
+    title: name,
+    isStarred: false,
+    archivedAt: null,
+    createdBy: {
+      _id: 'u101',
+      fullname: 'Mika Haitner',
+      imgUrl: 'http://some-img',
+    },
+    style: {
+      background: {
+        color: background,
+        kind,
+      },
+    },
+    labels: [],
+    members: [
+      {
+        _id: 'u101',
+        fullname: 'Ran Hirshorn',
+        imgUrl: 'https://www.google.com',
+      },
+      {
+        _id: 'u102',
+        fullname: 'Asya Kandyba',
+        imgUrl: 'https://www.google.com',
+      },
+    ],
+    groups: [
+      {
+        id: 'g101',
+        title: 'Group1',
+        archivedAt: null,
+        tasks: [
+          {
+            id: 'c101',
+            title: 'Replace logo',
+          },
+          {
+            id: 'c102',
+            title: 'Add Samples',
+          },
+        ],
+      },
+      {
+        id: 'g102',
+        title: 'Group 2',
+        tasks: [
+          {
+            id: 'c103',
+            title: 'Do that',
+          },
+          {
+            id: 'c104',
+            title: 'Help me',
+            style: {
+              backgroundColor: '#26DE81',
+            },
+          },
+        ],
+      },
+    ],
+    activities: [
+      {
+        id: 'a101',
+        title: 'Changed Color',
+        createdAt: 154514,
+        byMember: {
+          _id: 'u101',
+          fullname: 'Abi Abambi',
+          imgUrl: 'http://some-img',
+        },
+        group: {
+          id: 'g101',
+          title: 'Urgent Stuff',
+        },
+        task: {
+          id: 'c101',
+          title: 'Replace Logo',
+        },
+      },
+    ],
+  }
+}
