@@ -4,13 +4,7 @@ import { loadBoards } from '../store/actions/board.actions'
 import { useSelector } from 'react-redux'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
-export function BoardList({
-  boards,
-  addBoard,
-  removeBoard,
-  starToggle,
-  changeColor,
-}) {
+export function BoardList({ boards, addBoard, starToggle, changeColor }) {
   const starBoards = boards.filter(board => board.isStarred)
   const location = useLocation()
   const isCreateOpen = location.pathname === '/board'
@@ -24,7 +18,6 @@ export function BoardList({
             <BoardPreview
               key={board._id}
               board={board}
-              removeBoard={removeBoard}
               starToggle={starToggle}
             />
           )
@@ -37,7 +30,6 @@ export function BoardList({
             <BoardPreview
               key={board._id}
               board={board}
-              removeBoard={removeBoard}
               starToggle={starToggle}
             />
           )
