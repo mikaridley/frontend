@@ -4,16 +4,40 @@
     border: 1px solid #444;
     border-radius: 8px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Ensure DatePicker is centered within popup-body */
+  .popup-body .react-datepicker {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+  }
+  
+  /* Center the DatePicker wrapper */
+  .popup-dates .popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .popup-dates .popup-body > *:not(.react-datepicker) {
+    width: 100%;
   }
   
   /* Header with month/year */
   .react-datepicker__header {
+    width: 100%;
     background-color: #242528;
     border-bottom: 1px solid #444;
     padding-top: 12px;
   }
   
   .react-datepicker__current-month {
+    width: 100%;
     color: #A9ABAF;
     font-weight: 500;
     font-size: 15px;
@@ -35,6 +59,17 @@
     padding: 0 !important;
 
   }
+
+.popup-body button[type="submit"]{
+  margin-top: 0.5rem;
+  
+  background-color: #4A93BE !important;
+  color: black !important;
+  &:hover {
+    background-color:#5BA4CF !important;
+    border-color: #4A93BE !important;
+  }
+}
 
   .popup-body .react-datepicker button:hover,
   .react-datepicker button:hover {
@@ -136,3 +171,4 @@
     outline: none;
     border-color: #4a90e2;
   }
+

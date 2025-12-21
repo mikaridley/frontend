@@ -29,13 +29,15 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                 ? prev.filter(id => id !== labelId)
                 : [...prev, labelId]
             
-            // Update task labels
+            // Calculate selected labels from new selection
             const selectedLabels = availableLabels.filter(label => 
                 newSelection.includes(label.id || label.color)
             )
-            updateTask(board, groupId, taskId, { labels: selectedLabels }).catch(err => {
-                console.log('Error updating labels:', err)
-            })
+            
+            // Call onSave to update task and TaskDetails labels state
+            if (onSave) {
+                onSave('labels', selectedLabels)
+            }
             
             return newSelection
         })
@@ -104,7 +106,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                         </form>
                         <div className="labels-header">
                             <h5>Labels</h5>
-                            <button onClick={createNewLabel}>Create a new label</button>
+                            
                         </div>
                         
                         <div className="popup-body">
@@ -141,13 +143,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                                 )
                             })}
                         </div>
-                        <button onClick={onClose}>Close</button>
-                        <button onClick={() => {
-                            const selectedLabels = availableLabels.filter(label => 
-                                selectedLabelIds.includes(label.id || label.color)
-                            )
-                            onSave('labels', selectedLabels)
-                        }}>Save</button>
+                        <button className="btn-create-label" onClick={createNewLabel}>Create a new label</button>
                     </>
                 )}
             </div>

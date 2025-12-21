@@ -60,15 +60,26 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onSave }) 
             }
         } else {
             // Creating new label - add to board labels
-            if (board?.labels) {
-                const newLabel = {
-                    id: `l${Date.now()}`,
-                    title: labelTitle,
-                    color: labelColor.color
-                }
-                board.labels.push(newLabel)
-                await boardService.save(board)
+            // Initialize board.labels with default labels if it doesn't exist
+            if (!board.labels || board.labels.length === 0) {
+                const defaultLabels = [
+                    {color: '#b85745', title: ''}, 
+                    {color: '#8b7534', title: ''}, 
+                    {color: '#3d6e5a', title: ''}, 
+                    {color: '#3d6bb3', title: ''}, 
+                    {color: '#a35a8c', title: ''}, 
+                    {color: '#a0652d', title: ''}
+                ]
+                board.labels = [...defaultLabels]
             }
+            
+            const newLabel = {
+                id: `l${Date.now()}`,
+                title: labelTitle,
+                color: labelColor.color
+            }
+            board.labels.push(newLabel)
+            await boardService.save(board)
         }
 
         if (onSave) onSave(updatedLabel)
