@@ -1,21 +1,20 @@
 import { BackgroundPreview } from './BackgroundPreview'
+import { SetBackgroundHeader } from './SetBackgroundHeader'
 
 export function PhotosBackground({
   photosBg,
-  openToggle,
+  onClose,
   goBack,
   selectedColor,
   onChangeBackground,
 }) {
   return (
     <section className="photos-background">
-      <div className="background-header">
-        <p className="back-btn-open-more-bgs" onClick={goBack}>
-          &lt;
-        </p>
-        <h2>Photos by Unsplash</h2>
-        <p onClick={openToggle}>X</p>
-      </div>
+      <SetBackgroundHeader
+        onBack={goBack}
+        onClose={onClose}
+        header={'Photos by Unsplash'}
+      />
       {photosBg.map(photo => {
         return (
           <BackgroundPreview

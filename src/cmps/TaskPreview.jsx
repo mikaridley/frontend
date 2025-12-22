@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 
 import { LightTooltip } from './LightToolTip'
+import { SortableItem } from './SortableItem'
 
 import doneIcon from '../assets/img/done.svg'
 import archiveIcon from '../assets/img/archive.svg'
@@ -10,7 +11,6 @@ import clockLightImg from '../assets/img/clock-light.svg'
 import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
-import { SortableItem } from './SortableItem'
 
 export function TaskPreview({ task, group, onToggleStatus, onArchiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -111,22 +111,26 @@ export function TaskPreview({ task, group, onToggleStatus, onArchiveTask }) {
             </button>
           )}
 
-          {(task.checklists ||
-            task.dates ||
-            task.description ||
-            task.members ||
-            task.comments) && (
-              <section className="task-details-container">
-                {task.dates && (
-                  <LightTooltip title={getDateToolipTitle()}>
-                    <div className={`task-dates ${getDateStatus()}`}>
-                      <img
-                        src={getDateStatus() !== '' ? clockDarkImg : clockLightImg}
-                      />
-                      <p>{formatDate()}</p>
-                    </div>
-                  </LightTooltip>
-                )}
+        {(task.checklists ||
+          task.dates ||
+          task.description ||
+          task.members ||
+          task.comments) && (
+          <section className="task-details-container">
+            {task.dates && (
+              <LightTooltip title={getDateToolipTitle()}>
+                <div className={`task-dates ${getDateStatus()}`}>
+                  <img
+                    src={
+                      getDateStatus() === '' || getDateStatus() === 'late-red'
+                        ? clockLightImg
+                        : clockDarkImg
+                    }
+                  />
+                  <p>{formatDate()}</p>
+                </div>
+              </LightTooltip>
+            )}
 
                 {task.description && (
                   <LightTooltip title={`This card has a description`}>

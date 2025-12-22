@@ -7,6 +7,7 @@ export const taskService = {
   updateTask,
   removeTask,
   moveTask,
+  transferTask,
   addComment,
   removeComment,
   addChecklist,
@@ -61,6 +62,61 @@ function moveTask(board, fromGroupId, toGroupId, fromIdx, toIdx) {
   toGroup.tasks = toGroup.tasks || []
   toGroup.tasks.splice(toIdx, 0, moved)
   return board
+}
+
+async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newGroupId) {
+  const isSameBoard = sourceBoardId === newBoardId
+  
+  //Get the source board and group
+  const sourceBoard = await storageService.get(STORAGE_KEY, sourceBoardId)
+  const sourceGroup = sourceBoard.groups?.find(g => g.id === sourceGroupId)
+  if (!sourceGroup) {
+    throw new Error(`Group with id ${sourceGroupId} not found in board ${sourceBoardId}`)
+  }
+  if (!sourceGroup.tasks) {
+    throw new Error(`Task with id ${task.id} not found in group ${sourceGroupId}`)
+  }
+  const taskIdx = sourceGroup.tasks.findIndex(t => t.id === task.id)
+  if (taskIdx === -1) {
+    throw new Error(`Task with id ${task.id} not found in group ${sourceGroupId}`)
+  }
+  
+  // Get the dest board and group
+  // If same board, use the same board object to avoid duplicate modifications
+  const destBoard = isSameBoard ? sourceBoard : await storageService.get(STORAGE_KEY, newBoardId)
+  const destGroup = destBoard.groups?.find(g => g.id === newGroupId)
+  if (!destGroup) {
+    throw new Error(`Group with id ${newGroupId} not found in board ${newBoardId}`)
+  }
+  
+  // Remove task from source
+  const taskToMove = sourceGroup.tasks[taskIdx]
+  // Create a new tasks array without the task
+  sourceGroup.tasks = sourceGroup.tasks.filter(t => t.id !== task.id)
+  // Update the source group in the board
+  const sourceGroupIdx = destBoard.groups.findIndex(g => g.id === sourceGroupId)
+  destBoard.groups[sourceGroupIdx] = { 
+    ...destBoard.groups[sourceGroupIdx], 
+    tasks: sourceGroup.tasks 
+  }
+  
+  //Add task to destination
+  if (!destGroup.tasks) destGroup.tasks = []
+  destGroup.tasks.push(taskToMove)
+  // Update the dest group in the board
+  const destGroupIdx = destBoard.groups.findIndex(g => g.id === newGroupId)
+  destBoard.groups[destGroupIdx] = { 
+    ...destBoard.groups[destGroupIdx], 
+    tasks: destGroup.tasks 
+  }
+  
+  //Save boards (if same board, only save once)
+  await storageService.put(STORAGE_KEY, destBoard)
+  if (!isSameBoard) {
+    await storageService.put(STORAGE_KEY, sourceBoard)
+  }
+  
+  return { sourceBoard: isSameBoard ? destBoard : sourceBoard, destBoard }
 }
 
 function addComment(board, groupId, taskId, comment) {

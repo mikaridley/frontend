@@ -48,6 +48,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, }
           onTogleStar={onTogleStar}
           isStarred={isStarred}
           onRemoveBoard={onRemoveBoard}
+          changeBoardColor={changeBoardColor}
         />
       )}
     </header>

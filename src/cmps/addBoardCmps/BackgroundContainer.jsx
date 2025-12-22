@@ -3,12 +3,18 @@ import { boardService } from '../../services/board/board.service.local'
 import { MiniBoardPreview } from './MiniBoardPreview'
 import { BackgroundPreview } from './BackgroundPreview'
 import { PhotosBackground } from './PhotosBackground.jsx'
+import { getColorsBg, getPhotos } from '../../store/actions/board.actions.js'
+import { useSelector } from 'react-redux'
+import { SetBackgroundHeader } from './SetBackgroundHeader.jsx'
+import { ColorsBackground } from './ColorsBackground.jsx'
 
 export function BackgroundContainer({ changeColor }) {
-  const backgrounds = boardService.getBackgrounds()
+  const backgrounds = getColorsBg()
   const gradiantColors = backgrounds.gradiantColors
 
-  const [photosBg, setPhotosBg] = useState([])
+  const photosBg = useSelector(
+    storeState => storeState.boardModule.backgroundPhotos
+  )
   const [selectedColor, setSelectedColor] = useState('#0079bf')
   const [isOpenMoreBgs, setIsOpenMoreBgs] = useState({
     isOpen: false,
@@ -16,13 +22,12 @@ export function BackgroundContainer({ changeColor }) {
   })
 
   useEffect(() => {
-    getPhotos()
+    _getPhotos()
   }, [])
 
-  async function getPhotos() {
+  async function _getPhotos() {
     try {
-      const photos = await boardService.getBoardBackgrounds()
-      setPhotosBg(photos)
+      await getPhotos()
     } catch (err) {
       console.error('Failed to load backgrounds', err)
     }
@@ -154,46 +159,14 @@ export function BackgroundContainer({ changeColor }) {
               />
             )}
             {isOpenMoreBgs.openKind === 'colors' && (
-              <div calssName="colors-background">
-                <section className="gradiant-colors">
-                  <div className="background-header">
-                    <p
-                      className="back-btn-open-more-bgs"
-                      onClick={() => {
-                        openBgsToggle('')
-                      }}
-                    >
-                      &lt;
-                    </p>
-                    <h2>Colors</h2>
-                    <p onClick={openMoreColors}>X</p>
-                  </div>
-                  {backgrounds.gradiantColors.map(color => {
-                    return (
-                      <BackgroundPreview
-                        color={color}
-                        selectedColor={selectedColor.color}
-                        key={color}
-                        onChangeBackground={onChangeBackground}
-                        kind={'gradiant'}
-                      />
-                    )
-                  })}
-                </section>
-                <section className="solid-colors">
-                  {backgrounds.solidColors.map(color => {
-                    return (
-                      <BackgroundPreview
-                        color={color}
-                        selectedColor={selectedColor.color}
-                        key={color}
-                        onChangeBackground={onChangeBackground}
-                        kind={'solid'}
-                      />
-                    )
-                  })}
-                </section>
-              </div>
+              <ColorsBackground
+                onBack={openBoardBackground}
+                onClose={openMoreColors}
+                header={'Colors'}
+                backgrounds={backgrounds}
+                selectedColor={selectedColor}
+                onChangeBackground={onChangeBackground}
+              />
             )}
           </div>
         )}

@@ -1,0 +1,105 @@
+import { taskService } from '../../services/task'
+import { updateTask } from '../../store/actions/task.actions'
+import { showErrorMsg } from "../../services/event-bus.service.js"
+import arrowIcon from '../../assets/imgs/icons/arrow_right.svg'
+import { getMemberInitials, isImageFile, getFileIcon } from '../../services/util.service'
+
+export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate, onAttachmentsUpdate }) {
+
+    async function handleDeleteAttachment(attachmentId) {
+        if (!board) return
+        const updatedAttachments = attachments.filter(attachment => attachment.id !== attachmentId)
+        onAttachmentsUpdate(updatedAttachments)
+        onTaskUpdate({ ...task, attachments: updatedAttachments })
+        try {
+            await updateTask(board, groupId, taskId, { attachments: updatedAttachments })
+        } catch (err) {
+            console.log('Error deleting attachment:', err)
+            showErrorMsg('Cannot delete attachment')
+        }
+    }
+
+    return (
+        <>
+            {members.length > 0 && (
+                <div className="members">
+                    <h5>Members</h5>
+                    <div className="members-list">
+                        {members.map(member => (
+                            <div
+                                key={member._id}
+                                className="member-tag"
+                                //add later onClick - open member's details popup
+                            >
+                                <div className="member-avatar" title={member.fullname}>
+                                    {getMemberInitials(member.fullname)}
+                                </div>
+                            </div>
+                        ))}
+                        <button className="btn-add-label" onClick={(e) => onOpenPopup('members', e)}> + </button>
+                    </div>
+                </div>
+            )}
+            {labels.length > 0 && (
+                <div className="labels">
+                    <h5>Labels</h5>
+                    <div className="labels-list">
+                        {labels.map((label, index) => (
+                            <div
+                                key={label.id || label.color || index}
+                                className="label-tag"
+                                style={{ backgroundColor: label.color }}
+                                onClick={(e) => onOpenPopup('labels', e)}
+                            >
+                                {label.title || ' '}
+                            </div>
+                        ))}
+                        <button className="btn-add-label" onClick={(e) => onOpenPopup('labels', e)}> + </button>
+                    </div>
+                </div>
+            )}
+            {attachments.length > 0 && (
+                <div className="attachments">
+                    <h5>Attachments</h5>
+                    <div className="attachments-list">
+                        {attachments.map(attachment => (
+                            <div key={attachment.id} className="attachment-item">
+                                {isImageFile(attachment.type) ? (
+                                    <img src={attachment.file} alt={attachment.name} className="attachment-thumbnail" />
+                                ) : (
+                                    <div className="attachment-file-icon">
+                                        {getFileIcon(attachment.type)}
+                                    </div>
+                                )}
+                                <div className="attachment-info">
+                                    <div className="attachment-name">{attachment.name}</div>
+                                    {attachment.createdAt && (
+                                        <div className="attachment-date">
+                                            Added {new Date(attachment.createdAt).toLocaleString('en-US', {
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                                hour: 'numeric',
+                                                minute: '2-digit',
+                                                hour12: true
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                                <button className="btn-show-attachment" title="Show attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file)}><img src={arrowIcon} alt="show attachment" /></button>
+                                <button onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {dates && (
+                <div className="dates">
+                    <h5>Due date</h5>
+                    <div>{new Date(dates.dateTime).toLocaleString()}</div>
+                </div>
+            )}
+        </>
+    )
+}
+

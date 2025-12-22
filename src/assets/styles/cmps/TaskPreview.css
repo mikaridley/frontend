@@ -81,6 +81,7 @@
 
         &.late-red {
           background-color: var(--clr-task-late);
+          color: var(--clr-txt-light);
         }
 
         &.soon-yellow {

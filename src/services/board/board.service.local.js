@@ -150,7 +150,6 @@ async function getRandomBackground(count = 15) {
 
 async function getBoardBackgrounds(count = 15) {
   const saved = localStorage.getItem(STORAGE_KEY_IMGS)
-
   if (saved) return JSON.parse(saved)
 
   const backgrounds = await getRandomBackground(count)

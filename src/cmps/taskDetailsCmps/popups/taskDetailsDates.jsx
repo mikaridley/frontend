@@ -1,6 +1,10 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import previousYearIcon from '../../../assets/imgs/icons/last_year.svg'
+import previousMonthIcon from '../../../assets/imgs/icons/last_month.svg'
+import nextYearIcon from '../../../assets/imgs/icons/next_year.svg'
+import nextMonthIcon from '../../../assets/imgs/icons/next_month.svg'
 export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, dates, position }) {
     // Single state object combining date and time
     const [dateTime, setDateTime] = useState(dates ? new Date(dates.dateTime) : new Date());
@@ -39,6 +43,32 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
         setDateTime(newDateTime);
     };
 
+    const renderCustomHeader = ({
+        date,
+        decreaseMonth,
+        increaseMonth,
+        decreaseYear,
+        increaseYear,
+    }) => (
+        <div className="react-datepicker__header">
+            <div className="react-datepicker__current-month">
+                <button type="button" className="react-datepicker__navigation react-datepicker__navigation--previous-year" onClick={decreaseYear}>
+                    <img src={previousYearIcon} alt="previous year" />
+                </button>
+                <button type="button" className="react-datepicker__navigation react-datepicker__navigation--previous" onClick={decreaseMonth}>
+                    <img src={previousMonthIcon} alt="previous month" />
+                </button>
+                <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
+                <button type="button" className="react-datepicker__navigation react-datepicker__navigation--next" onClick={increaseMonth}>
+                    <img src={nextMonthIcon} alt="next month" />
+                </button>
+                <button type="button" className="react-datepicker__navigation react-datepicker__navigation--next-year" onClick={increaseYear}>
+                    <img src={nextYearIcon} alt="next year" />
+                </button>
+            </div>
+        </div>
+    );
+
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
@@ -51,11 +81,14 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
             >
                 <h4>Date</h4> <button className="popup-close" onClick={onClose}>×</button>
                 <div className="popup-body">
+                    <div className="custom-calendar">
                     <DatePicker
                         selected={dateTime}
                         onChange={(date) => setDateTime(date)}
                         inline
+                        renderCustomHeader={renderCustomHeader}
                     />
+                    </div>
                     <h6 className="date-time-title">Due date</h6>
                     <div className="date-time-container">
                         <div className="date-picker-container">

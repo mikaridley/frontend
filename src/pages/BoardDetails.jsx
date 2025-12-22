@@ -4,9 +4,13 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
-
 import { taskService } from '../services/task/task.service.local'
-import { loadBoard, removeBoard, updateBoard, } from '../store/actions/board.actions'
+
+import {
+  loadBoard,
+  removeBoard,
+  updateBoard,
+} from '../store/actions/board.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function BoardDetails() {
@@ -21,7 +25,7 @@ export function BoardDetails() {
       console.log('err:', err)
       showErrorMsg('Could not load board')
     }
-  }, [])
+  }, [board])
 
   function onUpdateBoard(boardToEdit) {
     try {
@@ -56,6 +60,11 @@ export function BoardDetails() {
     }
   }
 
+  function changeBoardColor({ color, kind }) {
+    board.style.background = { color, kind }
+    updateBoard(board)
+  }
+
   if (!board) return
 
   const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
@@ -75,6 +84,7 @@ export function BoardDetails() {
         onUpdateBoard={onUpdateBoard}
         starToggle={starToggle}
         onRemoveBoard={onRemoveBoard}
+        changeBoardColor={changeBoardColor}
       />
       <GroupList />
       <Outlet />
