@@ -143,6 +143,17 @@
       }
     }
 
+    .colors-background {
+      .solid-colors,
+      .gradiant-colors {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.3rem;
+
+        padding: 1rem;
+      }
+    }
+
     .board-settings-bg-all {
       display: grid;
       grid-template-columns: repeat(2, 1fr);

@@ -4,19 +4,22 @@ export function BackgroundPreview({
   onChangeBackground,
   kind,
 }) {
+  console.log('color', color)
   const kindStyle = kind === 'gradiant' ? 'background' : 'backgroundColor'
+  const bgToBigBoard = kind === 'photo' ? color.imageUrlFull : color
+  const bgToSmallBoard = kind === 'photo' ? color.imageUrlFull : color
 
   return (
     <div
       className={`background-color ${
-        selectedColor === color ? 'active-background' : ''
+        selectedColor === bgToSmallBoard ? 'active-background' : ''
       } ${kind === 'photo' ? 'background-photo' : ''}`}
       style={
         kind === 'photo'
-          ? { backgroundImage: `url(${color})` }
-          : { [kindStyle]: color }
+          ? { backgroundImage: `url(${bgToSmallBoard})` }
+          : { [kindStyle]: bgToSmallBoard }
       }
-      onClick={() => onChangeBackground(color, kind)}
+      onClick={() => onChangeBackground(bgToBigBoard, kind)}
     ></div>
   )
 }

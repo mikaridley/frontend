@@ -18,7 +18,7 @@ export function PhotosBackground({
       {photosBg.map(photo => {
         return (
           <BackgroundPreview
-            color={photo.imageUrl}
+            color={photo}
             selectedColor={selectedColor.color}
             key={photo.id}
             onChangeBackground={onChangeBackground}

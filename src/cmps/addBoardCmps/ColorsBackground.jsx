@@ -1,4 +1,3 @@
-import { getColorsBg } from '../../store/actions/board.actions'
 import { BackgroundPreview } from './BackgroundPreview'
 import { SetBackgroundHeader } from './SetBackgroundHeader'
 

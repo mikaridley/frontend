@@ -62,7 +62,7 @@ export function BackgroundContainer({ changeColor }) {
           {photosBg.slice(0, 4).map(photo => {
             return (
               <BackgroundPreview
-                color={photo.imageUrl}
+                color={photo}
                 selectedColor={selectedColor.color}
                 key={photo.id}
                 onChangeBackground={onChangeBackground}
@@ -114,7 +114,7 @@ export function BackgroundContainer({ changeColor }) {
                   {photosBg.slice(0, 6).map(photo => {
                     return (
                       <BackgroundPreview
-                        color={photo.imageUrl}
+                        color={photo}
                         selectedColor={selectedColor.color}
                         key={photo.id}
                         onChangeBackground={onChangeBackground}
