@@ -430,7 +430,7 @@ export function TaskDetails() {
                                     ) : (
                                         <>
                                             {attachments.length > 0 ? (
-                                                <img src={attachments[0].file} alt={attachments[0].name} className="attachment-description-img" />
+                                                <img src={attachments[0].file} style={{ width: '50px', height: '50px', objectFit: 'cover' }} alt={attachments[0].name} className="attachment-description-img" />
                                             ) : (
                                                 <span>Add a more detailed description...</span>
                                             )}
