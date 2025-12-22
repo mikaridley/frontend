@@ -13,7 +13,7 @@ import { SetBackgroundHeader } from './addBoardCmps/SetBackgroundHeader'
 import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
-import { getColorsBg } from '../store/actions/board.actions'
+import { getColorsBg, getPhotos } from '../store/actions/board.actions'
 
 export function BoardSettings({
   board,
@@ -33,6 +33,18 @@ export function BoardSettings({
     storeState => storeState.boardModule.backgroundPhotos
   )
   const backgrounds = getColorsBg()
+
+  useEffect(() => {
+    _getPhotos()
+  }, [])
+
+  async function _getPhotos() {
+    try {
+      await getPhotos()
+    } catch (err) {
+      console.error('Failed to load backgrounds', err)
+    }
+  }
 
   function onToggleRemoveModal() {
     setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)

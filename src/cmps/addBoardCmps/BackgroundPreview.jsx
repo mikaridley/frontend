@@ -4,7 +4,6 @@ export function BackgroundPreview({
   onChangeBackground,
   kind,
 }) {
-  console.log('color', color)
   const kindStyle = kind === 'gradiant' ? 'background' : 'backgroundColor'
   const bgToBigBoard = kind === 'photo' ? color.imageUrlFull : color
   const bgToSmallBoard = kind === 'photo' ? color.imageUrlFull : color

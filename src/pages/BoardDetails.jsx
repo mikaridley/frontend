@@ -10,6 +10,7 @@ import {
   loadBoard,
   removeBoard,
   updateBoard,
+  updateBoardOptimistic,
 } from '../store/actions/board.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
@@ -63,7 +64,8 @@ export function BoardDetails() {
 
   function changeBoardColor({ color, kind }) {
     board.style.background = { color, kind }
-    updateBoard(board)
+    // updateBoard(board)
+    updateBoardOptimistic(board)
   }
 
   if (!board) return

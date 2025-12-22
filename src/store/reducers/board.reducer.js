@@ -4,12 +4,14 @@ export const REMOVE_BOARD = 'REMOVE_BOARD'
 export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const SET_PHOTOS = 'SET_PHOTOS'
+export const BOARD_UNDO = 'BOARD_UNDO'
 // export const ADD_CAR_MSG = 'ADD_CAR_MSG'
 
 const initialState = {
   boards: [],
   board: null,
   backgroundPhotos: [],
+  lastBoards: [],
 }
 
 export function boardReducer(state = initialState, action) {
@@ -33,14 +35,21 @@ export function boardReducer(state = initialState, action) {
       newState = { ...state, boards: [...state.boards, action.board] }
       break
     case UPDATE_BOARD:
+      const lastBoards = [...state.boards]
       boards = state.boards.map(board =>
         board._id === action.board._id ? action.board : board
       )
-      newState = { ...state, boards }
+      newState = { ...state, boards, lastBoards }
       break
     case SET_PHOTOS:
       console.log(action.photos)
       newState = { ...state, backgroundPhotos: action.photos }
+      break
+    case BOARD_UNDO:
+      return {
+        ...state,
+        boards: [...state.lastBoards],
+      }
       break
     // case ADD_CAR_MSG:
     //   if (action.msg && state.car) {

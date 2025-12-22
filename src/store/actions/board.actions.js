@@ -3,6 +3,7 @@ import { taskService } from '../../services/task'
 import { store } from '../store'
 import {
   ADD_BOARD,
+  BOARD_UNDO,
   REMOVE_BOARD,
   SET_BOARD,
   SET_BOARDS,
@@ -55,8 +56,23 @@ export async function updateBoard(board) {
   try {
     const savedBoard = await boardService.save(board)
     store.dispatch(getCmdUpdateBoard(savedBoard))
+    console.log('Board has been saved', err)
     return savedBoard
   } catch (err) {
+    console.log('Cannot save board', err)
+    throw err
+  }
+}
+
+export async function updateBoardOptimistic(board) {
+  store.dispatch(getCmdUpdateBoard(board))
+
+  try {
+    const savedBoard = await boardService.save(board)
+    console.log('Board has been saved')
+    return savedBoard
+  } catch (err) {
+    store.dispatch(getCmdBoardUndo())
     console.log('Cannot save board', err)
     throw err
   }
@@ -108,14 +124,15 @@ function getCmdUpdateBoard(board) {
     board,
   }
 }
-
 function getCmdGetPhotos(photos) {
   return {
     type: SET_PHOTOS,
     photos,
   }
 }
-
+function getCmdBoardUndo() {
+  return { type: BOARD_UNDO }
+}
 // unitTestActions()
 // async function unitTestActions() {
 //     await loadBoards()
