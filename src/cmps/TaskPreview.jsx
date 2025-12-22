@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
+import { Tooltip as MuiTooltip } from '@mui/material'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
@@ -10,7 +11,6 @@ import clockLightImg from '../assets/img/clock-light.svg'
 import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
-import { LightTooltip } from '../services/util.service'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -40,6 +40,10 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     return { itemsCount, checkedCount }
   }
 
+  function getCommentsCount() {
+    return task.comments.length
+  }
+
   function getDateStatus() {
     const now = new Date()
     const target = new Date(task.dates.dateTime)
@@ -63,6 +67,32 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   function formatDate() {
     const date = new Date(task.dates.dateTime)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
+  function LightTooltip(props) {
+    return (
+      <MuiTooltip
+        arrow
+        {...props}
+        componentsProps={{
+          tooltip: {
+            sx: {
+              backgroundColor: '#fff',
+              color: '#000',
+              fontSize: '0.75rem',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            },
+          },
+          arrow: {
+            sx: {
+              color: '#fff',
+            },
+          },
+        }}
+      />
+    )
   }
 
   const {
