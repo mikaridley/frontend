@@ -5,7 +5,7 @@ import starIcon from '../assets/img/star.svg'
 import yellowStarIcon from '../assets/img/yellow-star.png'
 import moreIcon from '../assets/img/more.svg'
 
-export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, }) {
+export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, changeBoardColor}) {
   const [boardToEdit, setBoardToEdit] = useState(board)
   const [isStarred, setIsStarred] = useState(board.isStarred)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
