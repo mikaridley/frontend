@@ -134,25 +134,40 @@
 
       padding: 1rem;
 
-      .background-header {
-        grid-column: 1/-1;
-
-        display: grid;
-        grid-auto-flow: column;
-        align-items: center;
-        gap: 1rem;
-
-        > p {
-          margin: 0;
-        }
-      }
-
       .background-photo {
         height: 40px;
         margin-bottom: 0.3rem;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+      }
+    }
+
+    .board-settings-bg-all {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      .card-preview {
+        display: grid;
+        justify-items: center;
+
+        cursor: pointer;
+
+        img {
+          width: 150px;
+          height: 100px;
+          border-radius: 10px;
+
+          &:hover {
+            box-shadow: none;
+            border-radius: 10px;
+            opacity: 0.7;
+          }
+        }
+
+        h3 {
+          font-size: 0.9rem;
+        }
       }
     }
   }

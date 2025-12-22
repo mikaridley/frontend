@@ -73,6 +73,10 @@ export async function getPhotos() {
   }
 }
 
+export function getColorsBg() {
+  return boardService.getBackgrounds()
+}
+
 // Command Creators:
 function getCmdSetBoards(boards) {
   return {

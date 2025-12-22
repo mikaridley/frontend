@@ -9,6 +9,11 @@ import closeBoardIcon from '../assets/img/close-board.svg'
 import { useEffect, useState } from 'react'
 import { PhotosBackground } from './addBoardCmps/PhotosBackground'
 import { useSelector } from 'react-redux'
+import { SetBackgroundHeader } from './addBoardCmps/SetBackgroundHeader'
+import photosImg from '../assets/img/photos.jpg'
+import colorsImg from '../assets/img/colors.png'
+import { ColorsBackground } from './addBoardCmps/ColorsBackground'
+import { getColorsBg } from '../store/actions/board.actions'
 
 export function BoardSettings({
   board,
@@ -19,11 +24,15 @@ export function BoardSettings({
   changeBoardColor,
 }) {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
-  const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState(false)
+  const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
+    isOpen: false,
+    openKind: '',
+  })
   const [selectedColor, setSelectedColor] = useState(board.style.background)
   const photosBg = useSelector(
     storeState => storeState.boardModule.backgroundPhotos
   )
+  const backgrounds = getColorsBg()
 
   function onToggleRemoveModal() {
     setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)
@@ -34,7 +43,17 @@ export function BoardSettings({
   }
 
   function toggleChangeBackground() {
-    setIsChangeBackgroundOpen(isChangeBackgroundOpen => !isChangeBackgroundOpen)
+    setIsChangeBackgroundOpen({
+      ...isChangeBackgroundOpen,
+      isOpen: !isChangeBackgroundOpen.isOpen,
+    })
+  }
+
+  function setOpenKind(openTo) {
+    setIsChangeBackgroundOpen({
+      ...isChangeBackgroundOpen,
+      openKind: openTo,
+    })
   }
 
   function onChangeBackground(color, kind) {
@@ -46,7 +65,7 @@ export function BoardSettings({
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section className="board-settings">
-      {!isChangeBackgroundOpen ? (
+      {!isChangeBackgroundOpen.isOpen ? (
         <>
           <header className="board-settings-header">
             <h2>Menu</h2>
@@ -117,13 +136,47 @@ export function BoardSettings({
         </>
       ) : (
         <div className="board-settings-bg-options">
-          <PhotosBackground
-            photosBg={photosBg}
-            openToggle={toggleChangeBackground}
-            goBack={toggleChangeBackground}
-            selectedColor={selectedColor}
-            onChangeBackground={onChangeBackground}
-          />
+          {isChangeBackgroundOpen.openKind === '' && (
+            <section className="board-settings-bg-all">
+              <SetBackgroundHeader
+                onBack={toggleChangeBackground}
+                onClose={toggleChangeBackground}
+                header={'Change background'}
+              />
+              <div
+                className="card-preview"
+                onClick={() => setOpenKind('photos')}
+              >
+                <img src={photosImg} />
+                <h3>Photos</h3>
+              </div>
+              <div
+                className="card-preview"
+                onClick={() => setOpenKind('colors')}
+              >
+                <img src={colorsImg} />
+                <h3>Colors</h3>
+              </div>
+            </section>
+          )}
+          {isChangeBackgroundOpen.openKind === 'photos' && (
+            <PhotosBackground
+              photosBg={photosBg}
+              onClose={toggleChangeBackground}
+              goBack={() => setOpenKind('')}
+              selectedColor={selectedColor}
+              onChangeBackground={onChangeBackground}
+            />
+          )}
+          {isChangeBackgroundOpen.openKind === 'colors' && (
+            <ColorsBackground
+              onBack={() => setOpenKind('')}
+              onClose={toggleChangeBackground}
+              backgrounds={backgrounds}
+              selectedColor={selectedColor}
+              onChangeBackground={onChangeBackground}
+            />
+          )}
         </div>
       )}
     </section>
