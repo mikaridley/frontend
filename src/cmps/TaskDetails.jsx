@@ -414,21 +414,7 @@ export function TaskDetails() {
                                             className="member-tag"
                                             //add later onClick - open member's details popup
                                         >
-                                            <div
-                                                className="member-avatar"
-                                                style={{
-                                                    width: '32px',
-                                                    height: '32px',
-                                                    borderRadius: '50%',
-                                                    backgroundColor: '#0079bf',
-                                                    color: '#fff',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    fontSize: '12px',
-                                                    fontWeight: '600',
-                                                }}
-                                            >
+                                            <div className="member-avatar">
                                                 {getMemberInitials(member.fullname)}
                                             </div>
                                         </div>
