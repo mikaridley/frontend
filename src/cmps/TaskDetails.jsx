@@ -294,6 +294,15 @@ export function TaskDetails() {
     return <Cmp {...commonProps} />
   }
 
+  function getMemberInitials(fullname) {
+    if (!fullname) return ''
+    const parts = fullname.trim().split(' ').filter(Boolean)
+    if (!parts.length) return ''
+    const first = parts[0][0] || ''
+    const last = parts.length > 1 ? parts[parts.length - 1][0] || '' : ''
+    return (first + last).toUpperCase()
+  }
+
   function handleBackdropClick(ev) {
     if (ev.target === ev.currentTarget) {
       navigate(`/board/${boardId}`)
@@ -453,7 +462,9 @@ export function TaskDetails() {
                       className="member-tag"
                       //add later onClick - open member's details popup
                     >
-                      {member.fullname}
+                      <div className="member-avatar" title={member.fullname}>
+                        {getMemberInitials(member.fullname)}
+                      </div>
                     </div>
                   ))}
                   <button
@@ -490,9 +501,10 @@ export function TaskDetails() {
                         <img
                           src={attachments[0].file}
                           style={{
-                            width: '50px',
-                            height: '50px',
+                            width: '100px',
+                            height: '100px',
                             objectFit: 'cover',
+                            justifySelf: 'center',
                           }}
                           alt={attachments[0].name}
                           className="attachment-description-img"
