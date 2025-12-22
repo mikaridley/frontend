@@ -179,7 +179,11 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
               <LightTooltip title={getDateToolipTitle()}>
                 <div className={`task-dates ${getDateStatus()}`}>
                   <img
-                    src={getDateStatus() !== '' ? clockDarkImg : clockLightImg}
+                    src={
+                      getDateStatus() === '' || getDateStatus() === 'late-red'
+                        ? clockLightImg
+                        : clockDarkImg
+                    }
                   />
                   <p>{formatDate()}</p>
                 </div>
