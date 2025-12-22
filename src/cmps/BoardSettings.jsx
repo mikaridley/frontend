@@ -170,9 +170,9 @@ export function BoardSettings({
           )}
           {isChangeBackgroundOpen.openKind === 'colors' && (
             <ColorsBackground
-              onBack={() => setOpenKind('')}
-              onClose={toggleChangeBackground}
               backgrounds={backgrounds}
+              onClose={toggleChangeBackground}
+              onBack={() => setOpenKind('')}
               selectedColor={selectedColor}
               onChangeBackground={onChangeBackground}
             />
