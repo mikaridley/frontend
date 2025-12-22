@@ -30,13 +30,13 @@ export function GroupList() {
   const [isAddingGroup, setIsAddingGroup] = useState(false)
 
   // For drag and drop
-  const [groups, setGroups] = useState([])
+  const [groups, setGroups] = useState(board.groups)
   const [activeId, setActiveId] = useState(null)
   const [activeType, setActiveType] = useState(null)
 
-  useEffect(() => {
-    setGroups(board.group)
-  }, [])
+  // useEffect(() => {
+  //   setGroups(board.groups)
+  // }, [])
 
   async function onAddGroup(ev) {
     ev.preventDefault()
