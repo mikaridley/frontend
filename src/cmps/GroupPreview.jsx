@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import { TaskList } from './TaskList'
 import { GroupActions } from './GroupActions'
@@ -43,6 +43,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
   async function archiveTask(task) {
     try {
       const archivedAt = Date.now()
+      setTask(taskService.getEmptyTask())
       await updateTask(board, group.id, task.id, { archivedAt })
       showSuccessMsg('Task archived')
     } catch (err) {
@@ -62,6 +63,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
     try {
       await updateTask(board, group.id, task.id, { status: newStatus })
+      setTask({ ...task, status: newStatus })
       showSuccessMsg('Task status updated')
     } catch (err) {
       showErrorMsg('Failed to update task status')
