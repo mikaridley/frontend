@@ -6,7 +6,7 @@
   z-index: 2;
 
   align-items: center;
-  margin-block: 0.5rem;
+  margin-block: 0.3rem;
   max-width: 270px;
 
   background-color: var(--clr-task);

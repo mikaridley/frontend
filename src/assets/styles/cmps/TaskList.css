@@ -1,4 +1,4 @@
 .task-list {
-    color: var(--clr-task-txt);
-    overflow-y: auto;
+  color: var(--clr-task-txt);
+  overflow-y: auto;
 }
