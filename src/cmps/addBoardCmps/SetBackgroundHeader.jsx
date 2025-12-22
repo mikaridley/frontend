@@ -1,11 +1,12 @@
+import closeImg from '../../assets/img/close.svg'
+import backImg from '../../assets/img/back.svg'
+
 export function SetBackgroundHeader({ onBack, onClose, header }) {
   return (
     <header className="background-header">
-      <p className="back-btn-open-more-bgs" onClick={onBack}>
-        &lt;
-      </p>
+      <img src={backImg} onClick={onBack} />
       <h2>{header}</h2>
-      <p onClick={onClose}>X</p>
+      <img src={closeImg} onClick={onClose} />
     </header>
   )
 }

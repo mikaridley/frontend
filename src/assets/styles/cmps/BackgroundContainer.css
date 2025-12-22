@@ -143,13 +143,14 @@
   align-items: center;
 
   margin-bottom: 1rem;
+  padding: 0.5rem;
 
-  p {
+  img {
     margin: 0;
     cursor: pointer;
   }
 
   h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
