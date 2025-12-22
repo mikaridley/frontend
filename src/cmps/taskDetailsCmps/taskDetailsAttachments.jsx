@@ -14,7 +14,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
     const [attachments, setAttachments] = useState([])
     const [attachmentName, setAttachmentName] = useState('')
     const [fileDataUrl, setFileDataUrl] = useState(null)
-    const fileInputRef = useRef(null)
+    const fileInputRef = useRef(null) //needed for the custom button
 
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
@@ -73,7 +73,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         setAttachments(updatedAttachments)
         setAttachmentName('')
         setFileDataUrl(null)
-        if (fileInputRef.current) fileInputRef.current.value = ''
+        if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
         onSave('attachments', updatedAttachments)
     }
 
@@ -83,7 +83,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         onSave('attachments', updatedAttachments)
     }
 
-    function handleCustomButtonClick() {
+    function handleCustomButtonClick() {    //instead of using input file, for better styling
         fileInputRef.current?.click()
     }
 
@@ -102,9 +102,9 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
                 <form onSubmit={handleSave}>
                     <input type="text" placeholder="Text to display" value={attachmentName} onChange={(e) => setAttachmentName(e.target.value)} />
                     <input 
-                        ref={fileInputRef}
+                        ref={fileInputRef}  //needed for the custom button
                         type="file" 
-                        onChange={onFileInput}
+                        onChange={onFileInput}  //activates after selecting a file
                         style={{ display: 'none' }}
                     />
                     <button type="button" onClick={handleCustomButtonClick}>Choose File</button>

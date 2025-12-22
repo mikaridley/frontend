@@ -12,12 +12,13 @@ import { TaskDetailsAdd } from './taskDetailsCmps/taskDetailsAdd'
 import { TaskDetailsDates } from './taskDetailsCmps/taskDetailsDates'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
 import { TaskDetailsAttachments } from './taskDetailsCmps/taskDetailsAttachments'
+import { TaskDetailsActions } from './taskDetailsCmps/TaskDetailsActions'
 import doneIcon from '../assets/img/done.svg'
 import emptyCircleIcon from '../assets/img/empty-circle.svg'
 import ReactQuill from 'react-quill'
+import arrowIcon from '../assets/imgs/icons/arrow_right.svg'
 import 'react-quill/dist/quill.snow.css'
 import 'react-quill/dist/quill.bubble.css'
-
 
 
 export function TaskDetails() {
@@ -236,6 +237,7 @@ export function TaskDetails() {
         await updateTask(board, groupId, taskId, { attachments: updatedAttachments })
     }
 
+
     async function handleAddItemToChecklist(checklistId) {
         if (!board) return
         const newChecklist = await addItemToChecklist(
@@ -318,14 +320,7 @@ export function TaskDetails() {
                             </button>
                             <h2>{task.title}</h2>
                         </div>
-                        <div className="task-details-actions">
-                            <button className="btn-add" onClick={(e) => openPopup('add', e)}>Add</button>
-                            <button className="btn-attachments" onClick={(e) => openPopup('attachments', e)}>Attachments</button>
-                            <button className="btn-labels" onClick={(e) => openPopup('labels', e)}>Labels</button>
-                            <button className="btn-checklists" onClick={(e) => openPopup('checklists', e)}>Checklists</button>
-                            <button className="btn-members" onClick={(e) => openPopup('members', e)}>Members</button>
-                            <button className="btn-dates" onClick={(e) => openPopup('dates', e)}>Dates</button>
-                        </div>
+                        <TaskDetailsActions onOpenPopup={openPopup} />
                     </>
                 )}
                 {task && (
@@ -393,6 +388,7 @@ export function TaskDetails() {
                                                     </div>
                                                 )}
                                             </div>
+                                            <button className="btn-show-attachment" title="Show attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file)}><img src={arrowIcon} alt="show attachment" /></button>
                                             <button onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
                                         </div>
                                     ))}
@@ -432,7 +428,13 @@ export function TaskDetails() {
                                     {description ? (
                                         <div dangerouslySetInnerHTML={{ __html: description }} />   //because of <p>description</p>
                                     ) : (
-                                        <span>Add a more detailed description...</span>
+                                        <>
+                                            {attachments.length > 0 ? (
+                                                <img src={attachments[0].file} style={{ width: '50px', height: '50px', objectFit: 'cover' }} alt={attachments[0].name} className="attachment-description-img" />
+                                            ) : (
+                                                <span>Add a more detailed description...</span>
+                                            )}
+                                        </>
                                     )}
                                 </div>
                             )}
