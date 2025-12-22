@@ -414,7 +414,7 @@ export function TaskDetails() {
                                             className="member-tag"
                                             //add later onClick - open member's details popup
                                         >
-                                            <div className="member-avatar">
+                                            <div className="member-avatar" title = {member.fullname}>
                                                 {getMemberInitials(member.fullname)}
                                             </div>
                                         </div>
