@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { taskService } from '../../services/task/task.service.local'
-import { showErrorMsg } from '../../services/event-bus.service'
-import { updateTask } from '../../store/actions/task.actions'
+import { taskService } from '../../../services/task/task.service.local'
+import { showErrorMsg } from '../../../services/event-bus.service'
+import { updateTask } from '../../../store/actions/task.actions'
 
 export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, position }) {
     const [checklistTitle, setChecklistTitle] = useState('')
@@ -103,6 +103,7 @@ export function TaskChecklistsDisplay({
     onToggleItem,
     onUpdateItemText,
     onUpdateChecklistName,
+    onRemoveItem,
     addingItemToChecklist,
     newItemText,
     onNewItemTextChange,
@@ -131,6 +132,10 @@ export function TaskChecklistsDisplay({
             onUpdateItemText(editing.checklistId, editing.itemIndex, newValue)
         }
         cancelEdit()
+    }
+
+    function handleRemoveItem(checklistId, itemIndex) {
+        onRemoveItem(checklistId, itemIndex)
     }
 
     return (
@@ -165,12 +170,15 @@ export function TaskChecklistsDisplay({
                                         onCancel={cancelEdit}
                                     />
                                 ) : (
-                                    <span 
-                                        className="checklist-item-text"
-                                        onClick={() => startEdit('item', checklist.id, item.text, index)}
-                                    >
-                                        {item.text}
-                                    </span>
+                                    <>
+                                        <span 
+                                            className="checklist-item-text"
+                                            onClick={() => startEdit('item', checklist.id, item.text, index)}
+                                        >
+                                            {item.text}
+                                        </span>
+                                        <button className="btn-remove-item" onClick={() => handleRemoveItem(checklist.id, index)}>remove</button>
+                                    </>
                                 )}
                             </div>
                         )
@@ -249,3 +257,4 @@ export async function addItemToChecklist(checklistId, newItemText, checklists, b
         return false
     }
 }
+

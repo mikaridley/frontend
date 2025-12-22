@@ -1,13 +1,29 @@
 import { useState, useEffect, useRef } from 'react'
-import { taskService } from '../../services/task/task.service.local'
-import { makeId } from '../../services/util.service'
-import { showErrorMsg } from '../../services/event-bus.service'
+import { taskService } from '../../../services/task/task.service.local'
+import { makeId } from '../../../services/util.service'
+import { showErrorMsg } from '../../../services/event-bus.service'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB in bytes
 const ALLOWED_FILE_TYPES = [
-    'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
-    'application/pdf', 'text/plain', 'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    // Images
+    'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml',
+    // Documents
+    'application/pdf',
+    'text/plain',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    // Archives
+    'application/zip',
+    'application/x-zip-compressed',
+    'application/x-rar-compressed',
+    'application/x-7z-compressed',
+    // Other
+    'application/json',
+    'text/csv'
 ]
 
 export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave, position }) {
@@ -62,24 +78,20 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
     function handleSave(ev) {
         ev.preventDefault()
         if (!attachmentName.trim() || !fileDataUrl) return
-        
+        const file = fileInputRef.current.files[0]  //single-file input
         const newAttachment = {
             id: makeId(),
             name: attachmentName,
             file: fileDataUrl,
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            type: file.type,
+            size: file.size
         }
         const updatedAttachments = [...attachments, newAttachment]
         setAttachments(updatedAttachments)
         setAttachmentName('')
         setFileDataUrl(null)
         if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
-        onSave('attachments', updatedAttachments)
-    }
-
-    function handleDelete(id) {
-        const updatedAttachments = attachments.filter(attachment => attachment.id !== id)
-        setAttachments(updatedAttachments)
         onSave('attachments', updatedAttachments)
     }
 
@@ -110,15 +122,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
                     <button type="button" onClick={handleCustomButtonClick}>Choose File</button>
                     <button type="submit">Save</button>
                 </form>
-                <div className="attachments-list">
-                    {attachments.map(attachment => (
-                        <div key={attachment.id} className="attachment-item">
-                            <img src={attachment.file} alt={attachment.name} />
-                            <span>{attachment.name}</span>
-                            <button onClick={() => handleDelete(attachment.id)}>Delete</button>
-                        </div>
-                    ))}
-                </div>   
             </div>
         </div>
     )}
+
