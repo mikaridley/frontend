@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router'
 import picDemo from '../assets/img/demo.png'
 import { useSelector } from 'react-redux'
-import { useSortable } from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
 
 import doneIcon from '../assets/img/done.svg'
 import archiveIcon from '../assets/img/archive.svg'
@@ -12,15 +10,17 @@ import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
 import { Tooltip as MuiTooltip } from '@mui/material'
-import { useEffect } from 'react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id } = task
+  console.log(task)
   const navigate = useNavigate()
 
   function openTaskDetails() {
-    navigate(`/board/${board._id}/${group.id}/${id}`)
+    navigate(`/board/${board._id}/${group.id}/${task.id}`)
   }
 
   function onArchiveTask(ev) {
@@ -125,24 +125,30 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
       {...attributes}
       {...listeners}
     >
-      {task.labels && (
-        <div className="task-labels-container">
-          {task.labels.map(label => {
-            return (
-              <LightTooltip
-                key={label.id}
-                title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
-                  }`}
-              >
-                <div
-                  className="task-label"
-                  style={{ backgroundColor: label.color }}
-                ></div>
-              </LightTooltip>
-            )
-          })}
-        </div>
+      {task.attachments && (
+        <img className="task-attachment" src={task.attachments[0].file} />
       )}
+
+      <section className="task-all-details">
+        {task.labels && (
+          <div className="task-labels-container">
+            {task.labels.map(label => {
+              return (
+                <LightTooltip
+                  key={label.id}
+                  title={`Color: ${label.colorName}, title: ${
+                    label.title === '' ? 'none' : '"' + label.title + '"'
+                  }`}
+                >
+                  <div
+                    className="task-label"
+                    style={{ backgroundColor: label.color }}
+                  ></div>
+                </LightTooltip>
+              )
+            })}
+          </div>
+        )}
 
         <button
           className="toggle-done-btn"
