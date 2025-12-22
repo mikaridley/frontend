@@ -86,13 +86,6 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     className="member-item selected"
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
-                                    {member.imgUrl && (
-                                        <img 
-                                            src={member.imgUrl} 
-                                            alt="" 
-                                            className="member-avatar"
-                                        />
-                                    )}
                                     <div className="member-info">
                                         <span>{member.fullname}</span>
                                     </div>
@@ -111,13 +104,6 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     className="member-item"
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
-                                    {member.imgUrl && (
-                                        <img 
-                                            src={member.imgUrl} 
-                                            alt="" 
-                                            className="member-avatar"
-                                        />
-                                    )}
                                     <div className="member-info">
                                         <span>{member.fullname}</span>
                                     </div>

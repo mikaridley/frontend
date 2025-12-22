@@ -12,7 +12,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     const [editingLabel, setEditingLabel] = useState(null)
 
     // Get available labels from taskService.getLabels
-    const availableLabels = taskService.getLabels(board, groupId, taskId)
+    const availableLabels = taskService.getLabels(board)
 
     // Get current task labels
     useEffect(() => {
