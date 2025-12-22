@@ -3,12 +3,16 @@ import { boardService } from '../../services/board/board.service.local'
 import { MiniBoardPreview } from './MiniBoardPreview'
 import { BackgroundPreview } from './BackgroundPreview'
 import { PhotosBackground } from './PhotosBackground.jsx'
+import { getPhotos } from '../../store/actions/board.actions.js'
+import { useSelector } from 'react-redux'
 
 export function BackgroundContainer({ changeColor }) {
   const backgrounds = boardService.getBackgrounds()
   const gradiantColors = backgrounds.gradiantColors
 
-  const [photosBg, setPhotosBg] = useState([])
+  const photosBg = useSelector(
+    storeState => storeState.boardModule.backgroundPhotos
+  )
   const [selectedColor, setSelectedColor] = useState('#0079bf')
   const [isOpenMoreBgs, setIsOpenMoreBgs] = useState({
     isOpen: false,
@@ -16,13 +20,12 @@ export function BackgroundContainer({ changeColor }) {
   })
 
   useEffect(() => {
-    getPhotos()
+    _getPhotos()
   }, [])
 
-  async function getPhotos() {
+  async function _getPhotos() {
     try {
-      const photos = await boardService.getBoardBackgrounds()
-      setPhotosBg(photos)
+      await getPhotos()
     } catch (err) {
       console.error('Failed to load backgrounds', err)
     }

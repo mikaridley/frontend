@@ -6,6 +6,7 @@ import {
   REMOVE_BOARD,
   SET_BOARD,
   SET_BOARDS,
+  SET_PHOTOS,
   UPDATE_BOARD,
 } from '../reducers/board.reducer'
 
@@ -61,6 +62,17 @@ export async function updateBoard(board) {
   }
 }
 
+export async function getPhotos() {
+  try {
+    const photos = await boardService.getBoardBackgrounds()
+    store.dispatch(getCmdGetPhotos(photos))
+    return photos
+  } catch (err) {
+    console.error('Failed to set photos', err)
+    throw err
+  }
+}
+
 // Command Creators:
 function getCmdSetBoards(boards) {
   return {
@@ -93,6 +105,12 @@ function getCmdUpdateBoard(board) {
   }
 }
 
+function getCmdGetPhotos(photos) {
+  return {
+    type: SET_PHOTOS,
+    photos,
+  }
+}
 
 // unitTestActions()
 // async function unitTestActions() {

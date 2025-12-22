@@ -10,6 +10,7 @@ export function BoardHeader({
   onUpdateBoard,
   starToggle,
   onRemoveBoard,
+  changeBoardColor,
 }) {
   const { title, members } = board
   const [titleValue, setTitleValue] = useState(title)
@@ -54,6 +55,7 @@ export function BoardHeader({
           onTogleStar={onTogleStar}
           isStarred={isStarred}
           onRemoveBoard={onRemoveBoard}
+          changeBoardColor={changeBoardColor}
         />
       )}
     </header>

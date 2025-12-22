@@ -125,4 +125,35 @@
       }
     }
   }
+
+  .board-settings-bg-options {
+    .photos-background {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.3rem;
+
+      padding: 1rem;
+
+      .background-header {
+        grid-column: 1/-1;
+
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        gap: 1rem;
+
+        > p {
+          margin: 0;
+        }
+      }
+
+      .background-photo {
+        height: 40px;
+        margin-bottom: 0.3rem;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
 }
