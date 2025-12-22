@@ -7,6 +7,8 @@ function getEmptyGroup() {
     return {
         id: '',
         title: '',
+        tasks: [],
+        archivedAt: null
     }
 }
 

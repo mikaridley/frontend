@@ -232,8 +232,12 @@ function _createBoard(
         fullname: 'Asya Kandyba',
         imgUrl: 'https://www.google.com',
       },
+      {
+        _id: 'u101',
+        fullname: 'Mika Haitner',
+        imgUrl: 'https://www.google.com',
+      },
     ],
-    // groups: [
     //   {
     //     id: 'D2Y0Ys',
     //     title: 'Flights',
@@ -478,6 +482,7 @@ function _createBoard(
         id: 'G-NZ-03',
         title: 'Transport',
         archivedAt: null,
+
         tasks: [
           {
             id: 'T-TR-01',

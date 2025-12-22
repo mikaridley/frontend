@@ -1,7 +1,9 @@
 .group-preview {
+  display: flex;
   padding: var(--gap);
   max-height: 100%;
   width: 270px;
+  flex-grow: 1;
 
   background-color: var(--clr-group);
   border-radius: 0.857em;
@@ -15,30 +17,30 @@
       background-color: rgba(227, 228, 242, 0.12);
     }
   }
-}
 
-.group-header {
-  position: relative;
-  margin-block-end: 0.3rem;
+  .group-header {
+    position: relative;
+    margin-block-end: 0.3rem;
 
-  > input {
-    width: 100%;
+    > input {
+      width: 100%;
 
-    color: var(--clr-task-txt);
-    font-size: 0.876rem;
-    font-weight: 700;
-  }
-
-  > button {
-    background-color: inherit;
-    border-radius: 0.5em;
-
-    &:hover {
-      background-color: rgba(227, 228, 242, 0.12);
+      color: var(--clr-task-txt);
+      font-size: 0.876rem;
+      font-weight: 700;
     }
-  }
 
-  img {
-    width: 1.5rem;
+    > button {
+      background-color: inherit;
+      border-radius: 0.5em;
+
+      &:hover {
+        background-color: rgba(227, 228, 242, 0.12);
+      }
+    }
+
+    img {
+      width: 1.5rem;
+    }
   }
 }
