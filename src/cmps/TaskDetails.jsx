@@ -286,6 +286,15 @@ export function TaskDetails() {
         return <Cmp {...commonProps} />
     }
 
+    function getMemberInitials(fullname) {
+        if (!fullname) return ''
+        const parts = fullname.trim().split(' ').filter(Boolean)
+        if (!parts.length) return ''
+        const first = parts[0][0] || ''
+        const last = parts.length > 1 ? parts[parts.length - 1][0] || '' : ''
+        return (first + last).toUpperCase()
+    }
+
     function handleBackdropClick(ev) {
         if (ev.target === ev.currentTarget) {
             navigate(`/board/${boardId}`)
@@ -405,7 +414,23 @@ export function TaskDetails() {
                                             className="member-tag"
                                             //add later onClick - open member's details popup
                                         >
-                                            {member.fullname}
+                                            <div
+                                                className="member-avatar"
+                                                style={{
+                                                    width: '32px',
+                                                    height: '32px',
+                                                    borderRadius: '50%',
+                                                    backgroundColor: '#0079bf',
+                                                    color: '#fff',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: '12px',
+                                                    fontWeight: '600',
+                                                }}
+                                            >
+                                                {getMemberInitials(member.fullname)}
+                                            </div>
                                         </div>
                                     ))}
                                     <button className="btn-add-label" onClick={(e) => openPopup('members', e)}> + </button>
