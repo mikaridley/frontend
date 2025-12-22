@@ -13,11 +13,13 @@ async function addGroup(board, groupToAdd) {
 
     const group = {
         id: makeId(),
-        title: groupToAdd.title
+        title: groupToAdd.title,
+        archivedAt: '',
+        tasks: []
     }
     const newBoard = { ...board, groups: [...board.groups, group] }
     await storageService.put(STORAGE_KEY, newBoard)
-    return newBoard
+    return { newBoard, group }
 }
 
 

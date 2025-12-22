@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
 
 import doneIcon from '../assets/img/done.svg'
 import archiveIcon from '../assets/img/archive.svg'
@@ -12,10 +14,11 @@ import { Tooltip as MuiTooltip } from '@mui/material'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
-  const { title, status } = task
+  const { title, status, id } = task
   const navigate = useNavigate()
+
   function openTaskDetails() {
-    navigate(`/board/${board._id}/${group.id}/${task.id}`)
+    navigate(`/board/${board._id}/${group.id}/${id}`)
   }
 
   function onArchiveTask(ev) {
@@ -93,19 +96,41 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     )
   }
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+    cursor: 'grab',
+  }
+
   const checkListCount = getChecklistCount()
 
   return (
-    <section className="task-preview" onClick={openTaskDetails}>
+    <section
+      ref={setNodeRef}
+      style={style}
+      className="task-preview"
+      onClick={openTaskDetails}
+      {...attributes}
+      {...listeners}
+    >
       {task.labels && (
         <div className="task-labels-container">
           {task.labels.map(label => {
             return (
               <LightTooltip
                 key={label.id}
-                title={`Color: ${label.colorName}, title: ${
-                  label.title === '' ? 'none' : '"' + label.title + '"'
-                }`}
+                title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
+                  }`}
               >
                 <div
                   className="task-label"

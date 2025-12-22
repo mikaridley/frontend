@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 
 import { TaskList } from './TaskList'
 import { GroupActions } from './GroupActions'
@@ -14,30 +15,29 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
   const board = useSelector(storeState => storeState.boardModule.board)
 
   const [title, setTitle] = useState(group.title)
-  const [isActionsOpen, setIsActionsOpen] = useState()
+  const [isActionsOpen, setIsActionsOpen] = useState(false)
 
   const [task, setTask] = useState(taskService.getEmptyTask())
   const [isAddingTask, setIsAddingTask] = useState(false)
 
   async function onAddTask() {
     setIsAddingTask(false)
+    if (!task.title) return
 
     try {
-      if (!task.title) return
       await addTask(board, group, task)
       showSuccessMsg('Added')
+
+      setTask(taskService.getEmptyTask())
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg(`Failed to Add`)
+      showErrorMsg('Failed to Add')
     }
-    setTask('')
   }
 
   async function handleSubmit(ev) {
     ev.preventDefault()
     await onAddTask()
-    if (!task.title) return
-    setIsAddingTask(true)
   }
 
   async function archiveTask(task) {
@@ -47,11 +47,9 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
       showSuccessMsg('Task archived')
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg(`Failed to archive`)
+      showErrorMsg('Failed to archive')
     }
-    setTask('')
   }
-
   function onArchiveGroup() {
     onToggleActions()
     archiveGroup(group)
@@ -60,17 +58,18 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
   async function onToggleStatus(ev, task) {
     ev.stopPropagation()
 
-    if (task.status === 'done') {
-      task.status = 'inProgress'
-    } else {
-      task.status = 'done'
+    const newStatus = task.status === 'done' ? 'inProgress' : 'done'
+
+    try {
+      await updateTask(board, group.id, task.id, { status: newStatus })
+      showSuccessMsg('Task status updated')
+    } catch (err) {
+      showErrorMsg('Failed to update task status')
     }
-    await updateTask(board, group.id, task.id, { status: task.status })
-    setTask(prevTask => ({ ...prevTask, ...task }))
   }
 
   function onToggleActions() {
-    setIsActionsOpen(isActionsOpen => !isActionsOpen)
+    setIsActionsOpen(prev => !prev)
   }
 
   function handleGroupChange({ target }) {
@@ -83,6 +82,8 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     setTask(prevTask => ({ ...prevTask, title: value }))
   }
 
+  if (!group.tasks) return
+
   return (
     <section className="group-preview flex column">
       <header className="group-header flex space-between">
@@ -91,9 +92,9 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
           onChange={handleGroupChange}
           onBlur={() => onUpdateGroup(title, group)}
           value={title}
-        ></input>
+        />
         <button onClick={onToggleActions}>
-          <img src={moreIcon} />
+          <img src={moreIcon} alt="More actions" />
         </button>
         {isActionsOpen && (
           <GroupActions
@@ -103,11 +104,18 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
           />
         )}
       </header>
-      <TaskList
-        group={group}
-        onToggleStatus={onToggleStatus}
-        archiveTask={archiveTask}
-      />
+
+      <SortableContext
+        items={group.tasks ? group.tasks.map(task => task.id) : []}
+        strategy={verticalListSortingStrategy}
+      >
+        <TaskList
+          group={group}
+          onToggleStatus={onToggleStatus}
+          archiveTask={archiveTask}
+        />
+      </SortableContext>
+
       {!isAddingTask ? (
         <button className="add-btn" onClick={() => setIsAddingTask(true)}>
           Add a Card
@@ -119,14 +127,14 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             onBlur={onAddTask}
             placeholder="Enter a title"
             autoFocus
+            value={task.title || ''}
           />
-
           <div className="form-btns flex">
             <button className="btn" onMouseDown={handleSubmit}>
               Add Card
             </button>
             <button type="button" onClick={() => setIsAddingTask(false)}>
-              <img src={closeIcon} />
+              <img src={closeIcon} alt="Close" />
             </button>
           </div>
         </form>
