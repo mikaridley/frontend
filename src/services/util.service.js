@@ -89,6 +89,36 @@ export function loadFromStorage(key) {
   return data ? JSON.parse(data) : undefined
 }
 
+export function getMemberInitials(fullname) {
+  if (!fullname) return ''
+  const parts = fullname.trim().split(' ').filter(Boolean)
+  if (!parts.length) return ''
+  const first = parts[0][0] || ''
+  const last = parts.length > 1 ? parts[parts.length - 1][0] || '' : ''
+  return (first + last).toUpperCase()
+}
+
+// Helper function to check if a file type is an image
+export function isImageFile(fileType) {
+  return fileType && fileType.startsWith('image/')
+}
+
+// Helper function to get file icon based on file type
+export function getFileIcon(fileType) {
+  if (!fileType) return '📄'
+  
+  if (fileType.includes('pdf')) return '📕'
+  if (fileType.includes('word') || fileType.includes('document')) return '📘'
+  if (fileType.includes('excel') || fileType.includes('spreadsheet')) return '📗'
+  if (fileType.includes('powerpoint') || fileType.includes('presentation')) return '📙'
+  if (fileType.includes('zip') || fileType.includes('rar') || fileType.includes('7z')) return '📦'
+  if (fileType.includes('text') || fileType.includes('plain')) return '📄'
+  if (fileType.includes('json')) return '📋'
+  if (fileType.includes('csv')) return '📊'
+  
+  return '📄'
+}
+
 // export function LightTooltip(props) {
 //   return (
 //     <MuiTooltip

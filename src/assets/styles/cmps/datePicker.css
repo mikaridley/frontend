@@ -33,7 +33,7 @@
     width: 100%;
     background-color: #242528;
     border-bottom: 1px solid #444;
-    padding-top: 12px;
+    padding-top: 0;
   }
   
   .react-datepicker__current-month {
@@ -41,50 +41,53 @@
     color: #A9ABAF;
     font-weight: 500;
     font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    & button{
+        transform: translateY(0.2rem);
+    }
   }
   
   /* Navigation arrows */
   .react-datepicker__navigation {
-    top: 12px;
-    color: #A9ABAF;
-  }
-
-  /* Reset button styles to prevent inheritance from .popup-body button */
-  .popup-body .react-datepicker button,
-  .react-datepicker button {
-    color: inherit !important;
+    top: 12px !important;
+    color: #A9ABAF !important;
     background-color: transparent !important;
     border: none !important;
     border-radius: 0 !important;
-    padding: 0 !important;
+    padding: 8px !important;
+    width: 32px !important;
+    height: 32px !important;
+    cursor: pointer !important;
+    margin-top: -0.2rem;
+    
+    &:hover {
+      background-color: #2B2C2F !important;
+      border-radius: 4px !important;
+      color: #A9ABAF !important;
+    }
+  }
+  
+.
 
+  /* Hide default arrow icons - user will add SVG arrows */
+  .react-datepicker__navigation-icon {
+    display: none !important;
+  }
+  
+  /* Override positioning for navigation buttons in custom header */
+  .react-datepicker__current-month .react-datepicker__navigation {
+    position: relative !important;
+    top: 0 !important;
   }
 
+/* save + remove buttons styling */
 .popup-dates .popup-body > button {
   width: 100% !important;
   max-width: none !important;
-}
-
-.color-picker-close{
-  border: none !important;
-  margin-top: -0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  cursor: pointer;
-  min-width: 32px;
-  min-height: 32px;
-  user-select: none;
-  -webkit-user-select: none;
-  background-color: transparent;
-  position: relative;
-  z-index: 1;
-}
-
-.color-picker-close:hover {
-  background-color: #2B2C2F;
-  border-radius: 4px;
 }
 
 .popup-body button[type="submit"]{
@@ -101,19 +104,12 @@
   }
 }
 
-  .popup-body .react-datepicker button:hover,
-  .react-datepicker button:hover {
+  /* Exclude navigation buttons from hover reset */
+  .popup-body .react-datepicker button:not(.react-datepicker__navigation):hover,
+  .react-datepicker button:not(.react-datepicker__navigation):hover {
     background-color: transparent !important;
   }
 
-  
-  .react-datepicker__navigation-icon::before {
-    border-color: #A9ABAF;
-  }
-  
-  .react-datepicker__navigation:hover *::before {
-    border-color: #A9ABAF;
-  }
   
   /* Day names */
   .react-datepicker__day-names {
@@ -131,12 +127,13 @@
     background-color: #242528;
     margin: 0.4rem;
   }
-  
   /* Individual days */
   .react-datepicker__day {
-    color: #A9ABAF;
+    color: #CECFD2;
     border-radius: 4px;
     transition: all 0.2s ease;
+    font-size: 16px;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
   
   /* Hover effect */

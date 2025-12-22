@@ -1,8 +1,8 @@
-import timeIcon from '../../assets/imgs/icons/time.svg'
-import checkboxIcon from '../../assets/imgs/icons/checkbox.svg'
-import memberIcon from '../../assets/imgs/icons/member.svg'
-import attachmentIcon from '../../assets/imgs/icons/attachment.svg'
-import imageIcon from '../../assets/imgs/icons/image_icon.svg'
+import timeIcon from '../../../assets/imgs/icons/time.svg'
+import checkboxIcon from '../../../assets/imgs/icons/checkbox.svg'
+import memberIcon from '../../../assets/imgs/icons/member.svg'
+import attachmentIcon from '../../../assets/imgs/icons/attachment.svg'
+import imageIcon from '../../../assets/imgs/icons/image_icon.svg'
 
 export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen, position }) {
     const icons = {

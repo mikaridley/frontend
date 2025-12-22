@@ -1,7 +1,8 @@
-import { taskService } from '../../services/task/task.service.local'
+import { taskService } from '../../../services/task/task.service.local'
 import { useState, useEffect } from 'react'
-
+import { getMemberInitials } from '../../../services/util.service'
 export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, position }) {
+
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedMemberIds, setSelectedMemberIds] = useState([])
     const availableMembers = taskService.getMembers(board)
@@ -87,7 +88,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
                                     <div className="member-info">
-                                        <span>{member.fullname}</span>
+                                        <span className="member-avatar">{getMemberInitials(member.fullname)}</span><span>{member.fullname}</span>
                                     </div>
                                 </div>
                             ))}
@@ -105,7 +106,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
                                     <div className="member-info">
-                                        <span>{member.fullname}</span>
+                                        <span className="member-avatar">{getMemberInitials(member.fullname)}</span><span>{member.fullname}</span>
                                     </div>
                                 </div>
                             ))}
