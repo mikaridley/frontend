@@ -16,11 +16,9 @@ import { CSS } from '@dnd-kit/utilities'
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id } = task
-  console.log(task)
   const navigate = useNavigate()
-
   function openTaskDetails() {
-    navigate(`/board/${board._id}/${group.id}/${task.id}`)
+    navigate(`/board/${board._id}/${group.id}/${id}`)
   }
 
   function onArchiveTask(ev) {
