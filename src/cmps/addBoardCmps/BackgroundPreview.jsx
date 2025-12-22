@@ -6,8 +6,7 @@ export function BackgroundPreview({
 }) {
   const kindStyle = kind === 'gradiant' ? 'background' : 'backgroundColor'
   const bgToBigBoard = kind === 'photo' ? color.imageUrlFull : color
-  const bgToSmallBoard = kind === 'photo' ? color.imageUrlFull : color
-
+  const bgToSmallBoard = kind === 'photo' ? color.imageUrl : color
   return (
     <div
       className={`background-color ${

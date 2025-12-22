@@ -87,6 +87,18 @@ export function BoardSettings({
           <div className="menu-item">
             <img src={shareIcon} />
             <button>share</button>
+            <section className="setting-members">
+              {board.members.map((member, idx) => {
+                return (
+                  <div
+                    style={{ left: `${idx * 4}px` }}
+                    className="setting-member"
+                  >
+                    MH
+                  </div>
+                )
+              })}
+            </section>
           </div>
 
           <div className="board-settings-users">

@@ -152,7 +152,7 @@ export function BackgroundContainer({ changeColor }) {
             {isOpenMoreBgs.openKind === 'photos' && (
               <PhotosBackground
                 photosBg={photosBg}
-                openToggle={openMoreColors}
+                onClose={openMoreColors}
                 goBack={openBoardBackground}
                 selectedColor={selectedColor}
                 onChangeBackground={onChangeBackground}

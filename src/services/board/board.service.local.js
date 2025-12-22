@@ -141,7 +141,7 @@ async function getRandomBackground(count = 15) {
   const data = await res.json()
   return data.map(photo => ({
     id: photo.id,
-    imageUrl: photo.urls.small, //regular/thumb/small_s3
+    imageUrl: photo.urls.thumb, //regular/thumb/small_s3
     imageUrlFull: photo.urls.full,
     author: photo.user.name,
     authorLink: photo.user.links.html,
