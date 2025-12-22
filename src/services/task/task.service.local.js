@@ -15,6 +15,7 @@ export const taskService = {
   getTaskById,
   getLabels,
   getMembers,
+  openAttachmentInNewTab,
 }
 
 async function addTask(board, group, taskToAdd) {
@@ -130,4 +131,71 @@ function getLabels(board, groupId, taskId) {
 
 function getMembers(board){
     return board?.members || []
+}
+
+function openAttachmentInNewTab(attachmentFile) {
+    // Check if it's a base64 data URL
+    if (attachmentFile.startsWith('data:')) {
+        try {
+            // Parse the data URL
+            const [header, base64Data] = attachmentFile.split(',')
+            const mimeType = header.match(/data:([^;]+)/)?.[1] || 'image/png'
+            
+            // Convert base64 to binary
+            const binaryString = atob(base64Data)
+            const bytes = new Uint8Array(binaryString.length)
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i)
+            }
+            
+            // Create blob and URL
+            const blob = new Blob([bytes], { type: mimeType })
+            const blobUrl = URL.createObjectURL(blob)
+            
+            // Open the blob URL in a new tab
+            window.open(blobUrl, '_blank', 'noopener,noreferrer')
+            
+            // Clean up the blob URL after a delay
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 1000)
+        } catch (error) {
+            console.error('Error opening attachment:', error)
+            // Fallback: create HTML page with the data URL
+            const newWindow = window.open('', '_blank', 'noopener,noreferrer')
+            if (newWindow) {
+                newWindow.document.open()
+                newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <title>Attachment</title>
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 20px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    min-height: 100vh;
+                                    background-color: #f5f5f5;
+                                }
+                                img {
+                                    max-width: 100%;
+                                    max-height: 100vh;
+                                    object-fit: contain;
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <img src="${attachmentFile}" alt="Attachment" />
+                        </body>
+                    </html>
+                `)
+                newWindow.document.close()
+            }
+        }
+    } else {
+        // Regular URL - open directly
+        window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+    }
 }
