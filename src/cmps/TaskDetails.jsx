@@ -1,8 +1,8 @@
 import { taskService } from '../services/task'
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { showErrorMsg } from "../services/event-bus.service.js"
+import { showErrorMsg } from '../services/event-bus.service.js'
 import { loadBoard } from '../store/actions/board.actions'
 import { updateTask } from '../store/actions/task.actions'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
@@ -31,11 +31,11 @@ export function TaskDetails() {
 
 
 
-    useEffect(() => {
-        if (boardId) {
-            loadBoard(boardId)
-        }
-    }, [boardId])
+  useEffect(() => {
+    if (boardId) {
+      loadBoard(boardId)
+    }
+  }, [boardId])
 
     useEffect(() => {
         if (board && groupId && taskId) {
@@ -55,21 +55,21 @@ export function TaskDetails() {
         }
     }, [board, groupId, taskId, navigate])
 
-    function openPopup(popupName, event) {
-        setActivePopup(popupName)
-        // Store button position for popup positioning
-        if (event?.currentTarget) {
-            const buttonRect = event.currentTarget.getBoundingClientRect()
-            setPopupPosition({
-                top: buttonRect.bottom + 8, // 8px gap below button
-                left: buttonRect.left
-            })
-        }
+  function openPopup(popupName, event) {
+    setActivePopup(popupName)
+    // Store button position for popup positioning
+    if (event?.currentTarget) {
+      const buttonRect = event.currentTarget.getBoundingClientRect()
+      setPopupPosition({
+        top: buttonRect.bottom + 8, // 8px gap below button
+        left: buttonRect.left,
+      })
     }
+  }
 
-    function closePopup() {
-        setActivePopup(null)
-    }
+  function closePopup() {
+    setActivePopup(null)
+  }
 
     async function savePopup(popupName, data) {
         if (!board) return
@@ -100,15 +100,15 @@ export function TaskDetails() {
         }
     }
 
-    function handleBackdropClick(ev) {
-        if (ev.target === ev.currentTarget) {
-            navigate(`/board/${boardId}`)
-        }
+  function handleBackdropClick(ev) {
+    if (ev.target === ev.currentTarget) {
+      navigate(`/board/${boardId}`)
     }
+  }
 
-    if (!board) {
-        return <div>Loading...</div>
-    }
+  if (!board) {
+    return <div>Loading...</div>
+  }
 
     return (
         <div className="task-details-modal" onClick={handleBackdropClick}>

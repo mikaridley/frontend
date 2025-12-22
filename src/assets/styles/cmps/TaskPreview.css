@@ -1,13 +1,14 @@
 .task-preview {
   --border-radius: 0.5em;
   display: grid;
+  justify-self: center;
 
   position: relative;
   z-index: 2;
 
   align-items: center;
-  margin-block: 0.5rem;
-  max-width: 270px;
+  margin-block: 0.3rem;
+  width: 270px;
 
   background-color: var(--clr-task);
   border-radius: var(--border-radius);
@@ -26,6 +27,7 @@
     gap: 0.5rem;
 
     padding: 0.7rem;
+    width: 100%;
 
     .task-labels-container {
       grid-column: 1/-1;

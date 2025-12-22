@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router'
-import picDemo from '../assets/img/demo.png'
 import { useSelector } from 'react-redux'
+import { Tooltip as MuiTooltip } from '@mui/material'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 import doneIcon from '../assets/img/done.svg'
 import archiveIcon from '../assets/img/archive.svg'
@@ -9,9 +11,6 @@ import clockLightImg from '../assets/img/clock-light.svg'
 import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
-import { Tooltip as MuiTooltip } from '@mui/material'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -70,7 +69,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
-  const LightTooltip = props => {
+  function LightTooltip(props) {
     return (
       <MuiTooltip
         arrow
