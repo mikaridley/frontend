@@ -4,13 +4,9 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
-import {taskService} from '../services/task/task.service.local'
 
-import {
-  loadBoard,
-  removeBoard,
-  updateBoard,
-} from '../store/actions/board.actions'
+import { taskService } from '../services/task/task.service.local'
+import { loadBoard, removeBoard, updateBoard, } from '../store/actions/board.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function BoardDetails() {
@@ -27,12 +23,11 @@ export function BoardDetails() {
     }
   }, [])
 
-  function onUpdateBoard(title) {
+  function onUpdateBoard(boardToEdit) {
     try {
-      if (!title || board.title === title) return
+      if (!boardToEdit.title || board.title === boardToEdit.title) return
 
-      board.title = title
-      updateBoard(board)
+      updateBoard(boardToEdit)
       showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
@@ -62,9 +57,10 @@ export function BoardDetails() {
   }
 
   if (!board) return
-  const bg =
-    board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
+
+  const bg = board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
   taskService.getLabels(board)
+
   return (
     <section
       className="board-details"
@@ -80,7 +76,7 @@ export function BoardDetails() {
         starToggle={starToggle}
         onRemoveBoard={onRemoveBoard}
       />
-      <GroupList members={board.members} />
+      <GroupList />
       <Outlet />
     </section>
   )

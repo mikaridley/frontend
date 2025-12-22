@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
-import { Tooltip as MuiTooltip } from '@mui/material'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+
+import { LightTooltip } from './LightToolTip'
 
 import doneIcon from '../assets/img/done.svg'
 import archiveIcon from '../assets/img/archive.svg'
@@ -11,18 +10,15 @@ import clockLightImg from '../assets/img/clock-light.svg'
 import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
+import { SortableItem } from './SortableItem'
 
-export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
+export function TaskPreview({ task, group, onToggleStatus, onArchiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id } = task
   const navigate = useNavigate()
+
   function openTaskDetails() {
     navigate(`/board/${board._id}/${group.id}/${id}`)
-  }
-
-  function onArchiveTask(ev) {
-    ev.stopPropagation()
-    archiveTask(task)
   }
 
   function getChecklistCount() {
@@ -38,10 +34,6 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     }, 0)
 
     return { itemsCount, checkedCount }
-  }
-
-  function getCommentsCount() {
-    return task.comments.length
   }
 
   function getDateStatus() {
@@ -69,161 +61,112 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
-  function LightTooltip(props) {
-    return (
-      <MuiTooltip
-        arrow
-        {...props}
-        componentsProps={{
-          tooltip: {
-            sx: {
-              backgroundColor: '#fff',
-              color: '#000',
-              fontSize: '0.75rem',
-              padding: '4px 8px',
-              borderRadius: '4px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-            },
-          },
-          arrow: {
-            sx: {
-              color: '#fff',
-            },
-          },
-        }}
-      />
-    )
-  }
-
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id })
-
-  const style = {
-    transform: CSS.Translate.toString(transform),
-    transition,
-    opacity: isDragging ? 0.4 : 1,
-    cursor: 'grab',
-  }
-
   const checkListCount = getChecklistCount()
 
   return (
-    <section
-      ref={setNodeRef}
-      style={style}
-      className="task-preview"
-      onClick={openTaskDetails}
-      {...attributes}
-      {...listeners}
-    >
-      {task.attachments && (
-        <img className="task-attachment" src={task.attachments[0].file} />
-      )}
-
-      <section className="task-all-details">
-        {task.labels && (
-          <div className="task-labels-container">
-            {task.labels.map(label => {
-              return (
-                <LightTooltip
-                  key={label.id}
-                  title={`Color: ${label.colorName}, title: ${
-                    label.title === '' ? 'none' : '"' + label.title + '"'
-                  }`}
-                >
-                  <div
-                    className="task-label"
-                    style={{ backgroundColor: label.color }}
-                  ></div>
-                </LightTooltip>
-              )
-            })}
-          </div>
+    <SortableItem id={task.id}>
+      <section className="task-preview" onClick={openTaskDetails}>
+        {task.attachments && (
+          <img className="task-attachment" src={task.attachments[0].file} />
         )}
 
-        <button
-          className="toggle-done-btn"
-          onClick={ev => onToggleStatus(ev, task)}
-        >
-          {status === 'done' ? <img src={doneIcon} /> : <div></div>}
-        </button>
-        <p
-          className={`task-title ${
-            status !== 'done' ? 'task-not-complete' : ''
-          }`}
-        >
-          {title}
-        </p>
+        <section className="task-all-details">
+          {task.labels && (
+            <div className="task-labels-container">
+              {task.labels.map(label => {
+                return (
+                  <LightTooltip
+                    key={label.id}
+                    title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
+                      }`}
+                  >
+                    <div
+                      className="task-label"
+                      style={{ backgroundColor: label.color }}
+                    ></div>
+                  </LightTooltip>
+                )
+              })}
+            </div>
+          )}
 
-        {status === 'done' && (
-          <button className="archive-btn" onClick={onArchiveTask}>
-            <LightTooltip title={`Archive card`}>
-              <img src={archiveIcon} />
-            </LightTooltip>
+          <button
+            className="toggle-done-btn"
+            onClick={ev => onToggleStatus(ev, task)}
+          >
+            {status === 'done' ? <img src={doneIcon} /> : <div></div>}
           </button>
-        )}
+          <p
+            className={`task-title ${status !== 'done' ? 'task-not-complete' : ''
+              }`}
+          >
+            {title}
+          </p>
 
-        {(task.checklists ||
-          task.dates ||
-          task.description ||
-          task.members ||
-          task.comments) && (
-          <section className="task-details-container">
-            {task.dates && (
-              <LightTooltip title={getDateToolipTitle()}>
-                <div className={`task-dates ${getDateStatus()}`}>
-                  <img
-                    src={getDateStatus() !== '' ? clockDarkImg : clockLightImg}
-                  />
-                  <p>{formatDate()}</p>
-                </div>
+          {status === 'done' && (
+            <button className="archive-btn" onClick={event => onArchiveTask(event, task)}>
+              <LightTooltip title={`Archive card`}>
+                <img src={archiveIcon} />
               </LightTooltip>
-            )}
+            </button>
+          )}
 
-            {task.description && (
-              <LightTooltip title={`This card has a description`}>
-                <img src={descriptionImg} />
-              </LightTooltip>
-            )}
-
-            {task.comments && (
-              <LightTooltip title={`Comments`}>
-                <div className="task-comments">
-                  <img src={commentsImg} />
-                  <p>{task.comments.length}</p>
-                </div>
-              </LightTooltip>
-            )}
-
-            {task.checklists && (
-              <LightTooltip title={`Checklist items`}>
-                <div className="task-checklists">
-                  <img src={checklistImg} />
-                  <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
-                </div>
-              </LightTooltip>
-            )}
-
-            {task.members && (
-              <section className="task-user-container">
-                {task.members.map(member => (
-                  <LightTooltip key={member._id} title={member.fullname}>
-                    <div className="task-checklists">
-                      <div className="task-user">RH</div>
+          {(task.checklists ||
+            task.dates ||
+            task.description ||
+            task.members ||
+            task.comments) && (
+              <section className="task-details-container">
+                {task.dates && (
+                  <LightTooltip title={getDateToolipTitle()}>
+                    <div className={`task-dates ${getDateStatus()}`}>
+                      <img
+                        src={getDateStatus() !== '' ? clockDarkImg : clockLightImg}
+                      />
+                      <p>{formatDate()}</p>
                     </div>
                   </LightTooltip>
-                ))}
+                )}
+
+                {task.description && (
+                  <LightTooltip title={`This card has a description`}>
+                    <img src={descriptionImg} />
+                  </LightTooltip>
+                )}
+
+                {task.comments && (
+                  <LightTooltip title={`Comments`}>
+                    <div className="task-comments">
+                      <img src={commentsImg} />
+                      <p>{task.comments.length}</p>
+                    </div>
+                  </LightTooltip>
+                )}
+
+                {task.checklists && (
+                  <LightTooltip title={`Checklist items`}>
+                    <div className="task-checklists">
+                      <img src={checklistImg} />
+                      <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
+                    </div>
+                  </LightTooltip>
+                )}
+
+                {task.members && (
+                  <section className="task-user-container">
+                    {task.members.map(member => (
+                      <LightTooltip key={member._id} title={member.fullname}>
+                        <div className="task-checklists">
+                          <div className="task-user">RH</div>
+                        </div>
+                      </LightTooltip>
+                    ))}
+                  </section>
+                )}
               </section>
             )}
-          </section>
-        )}
+        </section>
       </section>
-    </section>
+    </SortableItem>
   )
 }
