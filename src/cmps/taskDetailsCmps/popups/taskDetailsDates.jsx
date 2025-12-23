@@ -1,13 +1,15 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import previousYearIcon from '../../../assets/imgs/icons/last_year.svg'
 import previousMonthIcon from '../../../assets/imgs/icons/last_month.svg'
 import nextYearIcon from '../../../assets/imgs/icons/next_year.svg'
 import nextMonthIcon from '../../../assets/imgs/icons/next_month.svg'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, dates, position }) {
     // Single state object combining date and time
     const [dateTime, setDateTime] = useState(dates ? new Date(dates.dateTime) : new Date());
+    const popupRef = useRef(null)
 
     //date:
     const handleDateInputChange = (e) => {  //2 way binding input to date
@@ -41,7 +43,10 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
         const newDateTime = new Date(dateTime);
         newDateTime.setHours(parseInt(hours), parseInt(minutes));
         setDateTime(newDateTime);
-    };
+  };
+
+  // Keep popup fully visible vertically.
+  popupToViewportHook(popupRef, position)
 
     const renderCustomHeader = ({
         date,
@@ -72,6 +77,7 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
+                ref={popupRef}
                 className="popup-content popup-dates" 
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {

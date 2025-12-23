@@ -5,7 +5,7 @@ import { TaskDetailsAdd } from './popups/taskDetailsAdd'
 import { TaskDetailsDates } from './popups/taskDetailsDates'
 import { TaskDetailsAttachments } from './popups/taskDetailsAttachments'
 import { TransferTask } from './popups/transferTask'
-
+import { TaskDetailsCoverPopup } from './popups/taskDetailsCoverPopup'
 const popupComponents = {
     labels: TaskDetailsLabels,
     checklists: TaskDetailsChecklist,
@@ -13,7 +13,8 @@ const popupComponents = {
     add: TaskDetailsAdd,
     dates: TaskDetailsDates,
     attachments: TaskDetailsAttachments,
-    transferTask: TransferTask
+    transferTask: TransferTask,
+    cover: TaskDetailsCoverPopup
 }
 
 export function TaskDetailsPopupManager({ activePopup, popupPosition, board, groupId, taskId, dates, onOpenPopup, onClose, onSave }) {

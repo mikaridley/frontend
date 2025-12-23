@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { taskService } from '../../../services/task/task.service.local'
 import { makeId } from '../../../services/util.service'
 import { showErrorMsg } from '../../../services/event-bus.service'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB in bytes
 const ALLOWED_FILE_TYPES = [
@@ -31,6 +32,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
     const [attachmentName, setAttachmentName] = useState('')
     const [fileDataUrl, setFileDataUrl] = useState(null)
     const fileInputRef = useRef(null) //needed for the custom button
+    const popupRef = useRef(null)
 
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
@@ -40,6 +42,9 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
             setAttachments([])
         }
     }, [board, groupId, taskId])
+
+  // Keep popup fully visible vertically.
+  popupToViewportHook(popupRef, position)
 
     function onFileInput(ev) {
         const file = ev.target.files[0]
@@ -102,6 +107,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
+                ref={popupRef}
                 className="popup-content popup-attachments" 
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {
