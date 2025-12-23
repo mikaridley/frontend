@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import { BackgroundPreview } from './BackgroundPreview'
 import { SetBackgroundHeader } from './SetBackgroundHeader'
 
@@ -7,6 +8,7 @@ export function PhotosBackground({
   goBack,
   selectedColor,
   onChangeBackground,
+  backgroundLoad,
 }) {
   return (
     <section className="photos-background">
@@ -23,6 +25,7 @@ export function PhotosBackground({
             key={photo.id}
             onChangeBackground={onChangeBackground}
             kind={'photo'}
+            backgroundLoad={backgroundLoad}
           />
         )
       })}

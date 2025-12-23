@@ -1,16 +1,22 @@
+import { useSelector } from 'react-redux'
+
 export function BackgroundPreview({
   color,
   selectedColor,
   onChangeBackground,
   kind,
 }) {
+  console.log(color)
+  const isLoading = useSelector(
+    storeState => storeState.boardModule.backgroundLoader
+  )
   const kindStyle = kind === 'gradiant' ? 'background' : 'backgroundColor'
   const bgToBigBoard = kind === 'photo' ? color.imageUrlFull : color
   const bgToSmallBoard = kind === 'photo' ? color.imageUrl : color
   return (
     <div
       className={`background-color ${
-        selectedColor === bgToSmallBoard ? 'active-background' : ''
+        selectedColor === bgToBigBoard ? 'active-background' : ''
       } ${kind === 'photo' ? 'background-photo' : ''}`}
       style={
         kind === 'photo'
@@ -18,6 +24,22 @@ export function BackgroundPreview({
           : { [kindStyle]: bgToSmallBoard }
       }
       onClick={() => onChangeBackground(bgToBigBoard, kind)}
-    ></div>
+    >
+      {kind === 'photo' && (
+        <div className="photo-bg-msg">
+          {selectedColor === bgToBigBoard && isLoading ? (
+            'Uploading...'
+          ) : (
+            <a
+              href={color.authorLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {color.author}
+            </a>
+          )}
+        </div>
+      )}
+    </div>
   )
 }

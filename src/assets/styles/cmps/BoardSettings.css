@@ -158,6 +158,9 @@
       overflow-y: auto;
 
       .background-photo {
+        display: grid;
+        align-items: end;
+
         height: 100px;
         border-radius: 5px;
         background-size: cover;
@@ -168,6 +171,18 @@
 
         &:hover {
           opacity: 0.7;
+
+          .photo-bg-msg {
+            opacity: 0.6;
+          }
+        }
+
+        .photo-bg-msg {
+          background-color: black;
+          opacity: 0;
+          font-size: 0.9rem;
+          padding-left: 0.5rem;
+          padding-block: 0.2rem;
         }
       }
     }

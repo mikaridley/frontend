@@ -1,14 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
 import { taskService } from '../services/task/task.service.local'
+import { Loader } from '../cmps/Loader'
 
 import {
   loadBoard,
   removeBoard,
+  toggleBoardBgLoader,
   updateBoard,
   updateBoardOptimistic,
 } from '../store/actions/board.actions'
@@ -26,7 +28,7 @@ export function BoardDetails() {
       console.log('err:', err)
       showErrorMsg('Could not load board')
     }
-  }, [board])
+  }, [])
 
   function onUpdateBoard(title) {
     try {
@@ -62,13 +64,24 @@ export function BoardDetails() {
     }
   }
 
-  function changeBoardColor({ color, kind }) {
-    board.style.background = { color, kind }
-    // updateBoard(board)
-    updateBoardOptimistic(board)
+  async function changeBoardColor({ color, kind }) {
+    toggleBoardBgLoader()
+    const updatedBoard = {
+      ...board,
+      style: {
+        ...board.style,
+        background: { color, kind },
+      },
+    }
+    try {
+      await updateBoardOptimistic(updatedBoard)
+      toggleBoardBgLoader()
+    } catch {
+      showErrorMsg('Cannot update board')
+    }
   }
 
-  if (!board) return
+  if (!board) return <Loader />
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
   taskService.getLabels(board)

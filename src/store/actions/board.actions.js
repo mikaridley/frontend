@@ -8,6 +8,7 @@ import {
   SET_BOARD,
   SET_BOARDS,
   SET_PHOTOS,
+  TOGGLE_BOARD_BG_LOADER,
   UPDATE_BOARD,
 } from '../reducers/board.reducer'
 
@@ -93,6 +94,10 @@ export function getColorsBg() {
   return boardService.getBackgrounds()
 }
 
+export function toggleBoardBgLoader() {
+  store.dispatch(getCmdBoardBgLoader())
+}
+
 // Command Creators:
 function getCmdSetBoards(boards) {
   return {
@@ -132,6 +137,9 @@ function getCmdGetPhotos(photos) {
 }
 function getCmdBoardUndo() {
   return { type: BOARD_UNDO }
+}
+function getCmdBoardBgLoader() {
+  return { type: TOGGLE_BOARD_BG_LOADER }
 }
 // unitTestActions()
 // async function unitTestActions() {

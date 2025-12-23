@@ -10,6 +10,7 @@ import {
 } from '../store/actions/board.actions'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
+import { Loader } from '../cmps/Loader'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
@@ -46,6 +47,7 @@ export function BoardIndex() {
     setNewBoardColor({ color, kind })
   }
 
+  if (!boards.length) return <Loader />
   return (
     <section className="board-index">
       <BoardList

@@ -5,6 +5,7 @@ export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const SET_PHOTOS = 'SET_PHOTOS'
 export const BOARD_UNDO = 'BOARD_UNDO'
+export const TOGGLE_BOARD_BG_LOADER = 'TOGGLE_BOARD_BG_LOADER'
 // export const ADD_CAR_MSG = 'ADD_CAR_MSG'
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   board: null,
   backgroundPhotos: [],
   lastBoards: [],
+  backgroundLoader: false,
 }
 
 export function boardReducer(state = initialState, action) {
@@ -39,7 +41,15 @@ export function boardReducer(state = initialState, action) {
       boards = state.boards.map(board =>
         board._id === action.board._id ? action.board : board
       )
-      newState = { ...state, boards, lastBoards }
+      newState = {
+        ...state,
+        boards,
+        board:
+          state.board && state.board._id === action.board._id
+            ? action.board
+            : state.board,
+        lastBoards,
+      }
       break
     case SET_PHOTOS:
       console.log(action.photos)
@@ -50,7 +60,11 @@ export function boardReducer(state = initialState, action) {
         ...state,
         boards: [...state.lastBoards],
       }
-      break
+    case TOGGLE_BOARD_BG_LOADER:
+      return {
+        ...state,
+        backgroundLoader: !state.backgroundLoader,
+      }
     // case ADD_CAR_MSG:
     //   if (action.msg && state.car) {
     //     newState = {
