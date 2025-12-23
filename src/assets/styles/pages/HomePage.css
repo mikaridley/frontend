@@ -19,7 +19,7 @@
 
     padding-top: 2rem;
 
-    background-color: var(--clr-bg-home-2);
+    background-color: var(--clr-bg-home);
 
     .home-sign-up {
       display: grid;
