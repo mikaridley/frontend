@@ -26,8 +26,8 @@ export function BoardIndex() {
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.title = value
     boardToSave.style.background = {
-      color: newBoardColor.color,
-      kind: newBoardColor.kind,
+      color: newBoardColor.color || '#0079bf',
+      kind: newBoardColor.kind || 'solid',
     }
     const savedBoard = await addBoard(boardToSave)
     navigate(`/board/${savedBoard._id}`)
