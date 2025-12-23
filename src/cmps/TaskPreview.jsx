@@ -68,10 +68,10 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const checkListCount = getChecklistCount()
 
   return (
-    <section className="task-preview" onClick={openTaskDetails}>
-      {task.attachments && (
-        <img className="task-attachment" src={task.attachments[0].file} />
-      )}
+      <section className="task-preview" onClick={openTaskDetails}>
+        {/* {task.attachments && (
+          <img className="task-attachment" src={task.attachments[0].file} />
+        )} */}
 
       <section className="task-all-details">
         {task.labels && (

@@ -256,6 +256,16 @@
     & img {
       width: 16px;
     }
+
+  }
+
+  & select {
+    color: var(--clr-task-txt-dark);
+    background-color: #242528;
+    border: 2px solid #3c3d40;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
   }
 }
 
@@ -529,15 +539,18 @@
   gap: 0.5rem;
   cursor: pointer;
   padding: 0.2rem;
+
   &:hover {
     background-color: #2b2c2f;
   }
 }
+
 .members-section {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
+
 .member-info {
   display: flex;
   align-items: center;
@@ -707,6 +720,7 @@
 .checklist-item {
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   gap: 10px;
   padding: 8px;
   margin-bottom: 4px;
@@ -719,7 +733,9 @@
 }
 
 .checklist-item:hover .btn-remove-item {
-  display: flex;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .btn-remove-item {
@@ -728,9 +744,13 @@
   border-radius: 4px;
   background-color: #242528;
   padding: 0.5rem 1rem;
-  display: none;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, visibility 0.2s;
 
   &:hover {
     cursor: pointer;
@@ -1016,4 +1036,58 @@
 
 .custom-calendar * {
   border: none !important;
+}
+
+.task-details-cover {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: -2rem;
+  margin-left: -2rem;
+  /* margin-right: -4rem; */
+  margin-bottom: -1.5rem;
+}
+
+.task-details-cover-actions {
+  margin-right: 2rem;
+}
+
+.group-transfer-btn {
+  display: flex;
+  flex-direction: row;
+  color: #e2e3e4;
+  background-color: #4b4d51;
+  padding: 0.5rem 0 0.2rem 0.5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  max-height: 32px;
+
+  &:hover {
+    background-color: #5b5d61;
+  }
+
+  & img {
+    margin-top: -0.2rem;
+  }
+}
+
+.popup-body .btn-move-task {
+  display:block;
+  background-color: #669df1;
+  color: black;
+  border-color: #669df1;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: #7AADF2;
+    border-color: #669df1;
+  }
+}
+
+.popup-transfer-task .popup-body{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
