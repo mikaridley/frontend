@@ -36,14 +36,14 @@
   --clr-close-board-hover: #fd9891;
 
   /* Group */
-  --clr-group: rgb(16, 18, 4);
-  --clr-group-txt: rgb(169, 171, 175);
-  --clr-group-modal: rgb(43, 44, 47);
+  --clr-group: #101204;
+  --clr-group-txt: #a9abaf;
+  --clr-group-modal: #2b2c2f;
   --group-width: 17rem;
 
   /* Task */
-  --clr-task: rgb(36, 37, 40);
-  --clr-task-txt: rgb(206, 207, 210);
+  --clr-task: #242528;
+  --clr-task-txt: #cecfd2;
   --clr-bg-task-input: #242528;
   --clr-task-txt-dark: #a9abaf;
   --clr-task-late: #5d1f1a;
