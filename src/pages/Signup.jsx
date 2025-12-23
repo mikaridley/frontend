@@ -1,69 +1,52 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 import { signup } from '../store/actions/user.actions'
-
 import { userService } from '../services/user'
-import { ImgUploader } from '../cmps/ImgUploader'
 
 export function Signup() {
   const [credentials, setCredentials] = useState(userService.getEmptyUser())
   const navigate = useNavigate()
 
   function clearState() {
-    setCredentials({ username: '', password: '', fullname: '', imgUrl: '' })
+    setCredentials({ email: '' })
   }
 
-  function handleChange(ev) {
-    const type = ev.target.type
-
-    const field = ev.target.name
-    const value = ev.target.value
-    setCredentials({ ...credentials, [field]: value })
+  function handleChange({ target }) {
+    const value = target.value
+    setCredentials({ email: value })
   }
 
-  async function onSignup(ev = null) {
+  async function onSignup(ev, creds = credentials) {
     if (ev) ev.preventDefault()
 
-    if (!credentials.username || !credentials.password || !credentials.fullname)
-      return
-    await signup(credentials)
+    if (!creds.email) return
+
+    await signup(creds)
     clearState()
-    navigate('/')
+    navigate('/board')
   }
 
-  function onUploaded(imgUrl) {
-    setCredentials({ ...credentials, imgUrl })
+  function handleGoogleLogin(credentialResponse) {
+    const { email, name, picture } = jwtDecode(credentialResponse.credential)
+    setCredentials({ email, fullname: name, imgUrl: picture })
+    onSignup(null, { email, fullname: name, imgUrl: picture })
   }
 
   return (
-    <form className="signup-form" onSubmit={onSignup}>
-      <input
-        type="text"
-        name="fullname"
-        value={credentials.fullname}
-        placeholder="Fullname"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="username"
-        value={credentials.username}
-        placeholder="Username"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        value={credentials.password}
-        placeholder="Password"
-        onChange={handleChange}
-        required
-      />
-      <ImgUploader onUploaded={onUploaded} />
-      <button>Signup</button>
-    </form>
+    <section className='login'>
+      <form className="login-form" onSubmit={onSignup}>
+        <h1>Login to continue</h1>
+        <input type='email' required onChange={handleChange} />
+        <button>Signup</button>
+
+        {true && <GoogleLogin
+          onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
+          onError={() => console.log('Login Failed')}
+        />}
+      </form>
+    </section>
   )
 }

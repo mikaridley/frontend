@@ -18,3 +18,8 @@
   background-color: var(--clr-bg-light);
   color: var(--clr-txt-dark);
 }
+
+.board-details-layout {
+  display: flex;
+  padding: 0.8rem;
+}

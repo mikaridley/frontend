@@ -19,10 +19,10 @@ export function HomePageHeader() {
       <div className="header-content">
         <img src={logoDarkImg} />
         <nav>
-          <Link to="/board" className="home-log-in">
+          <Link to="/login" className="home-log-in">
             Log in
           </Link>
-          <Link to="/board" className="home-log-in">
+          <Link to="/signup" className="home-log-in">
             Get Marshmello for free
           </Link>
         </nav>
