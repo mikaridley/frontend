@@ -1,10 +1,12 @@
 import { taskService } from '../../../services/task/task.service.local'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getMemberInitials } from '../../../services/util.service'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, position }) {
 
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedMemberIds, setSelectedMemberIds] = useState([])
+    const popupRef = useRef(null)
     const availableMembers = taskService.getMembers(board)
     
     useEffect(() => {
@@ -33,6 +35,9 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
         member.fullname?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
+  // Keep popup fully visible vertically.
+  popupToViewportHook(popupRef, position)
+
     async function toggleMember(memberId, e) {
         if (e) e.stopPropagation()
         setSelectedMemberIds(prev => {
@@ -58,6 +63,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div
+                ref={popupRef}
                 className="popup-content popup-members"
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {

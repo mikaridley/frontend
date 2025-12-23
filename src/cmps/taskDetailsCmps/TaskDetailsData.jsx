@@ -3,6 +3,7 @@ import { updateTask } from '../../store/actions/task.actions'
 import { showErrorMsg } from "../../services/event-bus.service.js"
 import arrowIcon from '../../assets/imgs/icons/arrow_right.svg'
 import { getMemberInitials, isImageFile, getFileIcon } from '../../services/util.service'
+import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
 
 export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate, onAttachmentsUpdate }) {
 
@@ -21,46 +22,61 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
 
     return (
         <>
-            {members.length > 0 && (
-                <div className="members">
-                    <h5>Members</h5>
-                    <div className="members-list">
-                        {members.map(member => (
-                            <div
-                                key={member._id}
-                                className="member-tag"
-                                //add later onClick - open member's details popup
-                            >
-                                <div className="member-avatar" title={member.fullname}>
-                                    {getMemberInitials(member.fullname)}
-                                </div>
+            {(members.length > 0 || labels.length > 0 || dates) && (
+                <div className="task-details-row">
+                    {members.length > 0 && (
+                        <div className="members">
+                            <h5>Members</h5>
+                            <div className="members-list">
+                                {members.map(member => (
+                                    <div
+                                        key={member._id}
+                                        className="member-tag"
+                                        //add later onClick - open member's details popup
+                                    >
+                                        <div className="member-avatar" title={member.fullname}>
+                                            {getMemberInitials(member.fullname)}
+                                        </div>
+                                    </div>
+                                ))}
+                                <button className="btn-add-label" onClick={(e) => onOpenPopup('members', e)}> + </button>
                             </div>
-                        ))}
-                        <button className="btn-add-label" onClick={(e) => onOpenPopup('members', e)}> + </button>
-                    </div>
-                </div>
-            )}
-            {labels.length > 0 && (
-                <div className="labels">
-                    <h5>Labels</h5>
-                    <div className="labels-list">
-                        {labels.map((label, index) => (
-                            <div
-                                key={label.id || label.color || index}
-                                className="label-tag"
-                                style={{ backgroundColor: label.color }}
-                                onClick={(e) => onOpenPopup('labels', e)}
-                            >
-                                {label.title || ' '}
+                        </div>
+                    )}
+                    {labels.length > 0 && (
+                        <div className="labels">
+                            <h5>Labels</h5>
+                            <div className="labels-list">
+                                {labels.map((label, index) => (
+                                    <div
+                                        key={label.id || label.color || index}
+                                        className="label-tag"
+                                        style={{ backgroundColor: label.color }}
+                                        onClick={(e) => onOpenPopup('labels', e)}
+                                    >
+                                        {label.title || ' '}
+                                    </div>
+                                ))}
+                                <button className="btn-add-label" onClick={(e) => onOpenPopup('labels', e)}> + </button>
                             </div>
-                        ))}
-                        <button className="btn-add-label" onClick={(e) => onOpenPopup('labels', e)}> + </button>
-                    </div>
+                        </div>
+                    )}
+                    {dates && (
+                        <div className="dates">
+                            <h5>Due date</h5>
+                            <button className="btn-date" onClick={(e) => onOpenPopup('dates', e)}>{new Date(dates.dateTime).toLocaleString()}
+                                <img src={arrowDownIcon} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
             {attachments.length > 0 && (
                 <div className="attachments">
-                    <h5>Attachments</h5>
+                    <div className="attachments-header">
+                        <h5>Attachments</h5>
+                        <button className="btn-add-attachment" onClick={(e) => onOpenPopup('attachments', e)}> Add </button>
+                    </div>
                     <div className="attachments-list">
                         {attachments.map(attachment => (
                             <div key={attachment.id} className="attachment-item">
@@ -91,12 +107,6 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                             </div>
                         ))}
                     </div>
-                </div>
-            )}
-            {dates && (
-                <div className="dates">
-                    <h5>Due date</h5>
-                    <div>{new Date(dates.dateTime).toLocaleString()}</div>
                 </div>
             )}
         </>

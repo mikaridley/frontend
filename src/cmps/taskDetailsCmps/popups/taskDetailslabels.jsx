@@ -1,15 +1,17 @@
 import { taskService } from '../../../services/task/task.service.local'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import editIcon from '../../../assets/imgs/icons/edit_label.svg'
 import { ColorPicker } from '../ColorPicker'
 import { updateTask } from '../../../store/actions/task.actions'
 import { loadBoard } from '../../../store/actions/board.actions'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
 export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, position }) {
     const [selectedLabelIds, setSelectedLabelIds] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
     const [isColorPickerMode, setIsColorPickerMode] = useState(false)
     const [editingLabel, setEditingLabel] = useState(null)
+    const popupRef = useRef(null)
 
     // Get available labels from taskService.getLabels
     const availableLabels = taskService.getLabels(board)
@@ -54,6 +56,9 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
         label.color?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
+    // Keep popup fully visible vertically.
+    popupToViewportHook(popupRef, position, [filteredLabels.length, isColorPickerMode])
+
     function editLabel(label) {
         setEditingLabel(label)
         setIsColorPickerMode(true)
@@ -79,6 +84,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
+                ref={popupRef}
                 className="popup-content popup-labels" 
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {
@@ -114,7 +120,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                             
                         </div>
                         
-                        <div className="popup-body">
+                        <div className="popup-body popup-labels-body">
                             {filteredLabels.map((label) => {
                                 const labelId = label.id || label.color
                                 const isSelected = isLabelSelected(label)
