@@ -10,6 +10,7 @@ import clockLightImg from '../assets/img/clock-light.svg'
 import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
+import attachmentsImg from '../assets/img/attachments.svg'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -119,6 +120,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
           task.dates ||
           task.description ||
           task.members ||
+          task.attachments ||
           task.comments) && (
           <section className="task-details-container">
             {task.dates && (
@@ -147,6 +149,15 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
                 <div className="task-comments">
                   <img src={commentsImg} />
                   <p>{task.comments.length}</p>
+                </div>
+              </LightTooltip>
+            )}
+
+            {task.attachments && (
+              <LightTooltip title={`Attachments`}>
+                <div className="task-attackments">
+                  <img src={attachmentsImg} />
+                  <p>{task.attachments.length}</p>
                 </div>
               </LightTooltip>
             )}
