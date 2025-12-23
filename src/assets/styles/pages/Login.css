@@ -1,10 +1,9 @@
 .login {
-    display: grid;
-    height: 100vh;
-    background-color: var(--clr-bg-home);
+  display: grid;
+  height: 100vh;
+  background-color: var(--clr-bg-home-2);
 
-    .login-form {
-        place-self: center;
-
-    }
+  .login-form {
+    place-self: center;
+  }
 }

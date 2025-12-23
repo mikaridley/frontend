@@ -22,7 +22,7 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 90vh;
 
-    background-color: var(--clr-bg-home);
+    background-color: var(--clr-bg-home-2);
 
     .home-sign-up {
       display: grid;
