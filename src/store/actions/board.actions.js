@@ -1,5 +1,4 @@
 import { boardService } from '../../services/board'
-import { taskService } from '../../services/task'
 import { store } from '../store'
 import {
   ADD_BOARD,
@@ -10,23 +9,33 @@ import {
   UPDATE_BOARD,
 } from '../reducers/board.reducer'
 
+import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
+
 export async function loadBoards(filterBy) {
+  store.dispatch({ type: LOADING_START })
+
   try {
     const boards = await boardService.query(filterBy)
     store.dispatch(getCmdSetBoards(boards))
   } catch (err) {
     console.log('Cannot load board', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 
 export async function loadBoard(boardId) {
+  store.dispatch({ type: LOADING_START })
+
   try {
     const board = await boardService.getById(boardId)
     store.dispatch(getCmdSetBoard(board))
   } catch (err) {
     console.log('Cannot load board', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 

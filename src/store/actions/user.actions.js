@@ -2,17 +2,33 @@ import { userService } from '../../services/user'
 import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
-import { showErrorMsg } from '../../services/event-bus.service'
+// import { showErrorMsg } from '../../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
-import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER } from '../reducers/user.reducer'
+import { REMOVE_USER, SET_USER, SET_USERS, } from '../reducers/user.reducer'
 
 export async function loadUsers() {
+    store.dispatch({ type: LOADING_START })
+
     try {
-        store.dispatch({ type: LOADING_START })
         const users = await userService.getUsers()
         store.dispatch({ type: SET_USERS, users })
     } catch (err) {
         console.log('UserActions: err in loadUsers', err)
+        throw err
+    } finally {
+        store.dispatch({ type: LOADING_DONE })
+    }
+}
+
+export async function loadUser(userId) {
+    store.dispatch({ type: LOADING_START })
+
+    try {
+        const user = await userService.getById(userId)
+        store.dispatch({ type: SET_USER, user })
+    } catch (err) {
+        showErrorMsg('Cannot load user')
+        console.log('Cannot load user', err)
     } finally {
         store.dispatch({ type: LOADING_DONE })
     }
@@ -24,17 +40,15 @@ export async function removeUser(userId) {
         store.dispatch({ type: REMOVE_USER, userId })
     } catch (err) {
         console.log('UserActions: err in removeUser', err)
+        throw err
     }
 }
 
 export async function login(credentials) {
     try {
         const user = await userService.login(credentials)
-        store.dispatch({
-            type: SET_USER,
-            user
-        })
-        socketService.login(user._id)
+        store.dispatch({ type: SET_USER, user })
+        // socketService.login(user._id)
         return user
     } catch (err) {
         console.log('Cannot login', err)
@@ -45,11 +59,8 @@ export async function login(credentials) {
 export async function signup(credentials) {
     try {
         const user = await userService.signup(credentials)
-        store.dispatch({
-            type: SET_USER,
-            user
-        })
-        socketService.login(user._id)
+        store.dispatch({ type: SET_USER, user })
+        // socketService.login(user._id)
         return user
     } catch (err) {
         console.log('Cannot signup', err)
@@ -60,23 +71,10 @@ export async function signup(credentials) {
 export async function logout() {
     try {
         await userService.logout()
-        store.dispatch({
-            type: SET_USER,
-            user: null
-        })
+        store.dispatch({ type: SET_USER, user: null })
         socketService.logout()
     } catch (err) {
         console.log('Cannot logout', err)
         throw err
-    }
-}
-
-export async function loadUser(userId) {
-    try {
-        const user = await userService.getById(userId)
-        store.dispatch({ type: SET_WATCHED_USER, user })
-    } catch (err) {
-        showErrorMsg('Cannot load user')
-        console.log('Cannot load user', err)
     }
 }
