@@ -2,7 +2,6 @@ import { userService } from '../../services/user'
 import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
-// import { showErrorMsg } from '../../services/event-bus.service'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
 import { REMOVE_USER, SET_USER, SET_USERS, } from '../reducers/user.reducer'
 

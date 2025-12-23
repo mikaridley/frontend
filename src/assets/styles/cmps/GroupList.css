@@ -1,6 +1,5 @@
 .group-list {
   gap: 0.8rem;
-  padding: 0.8rem;
   margin-top: 105px;
 
   height: calc(100vh - 105px - 17px);

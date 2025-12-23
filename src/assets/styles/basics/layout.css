@@ -5,10 +5,8 @@
 
 .home-page-layout {
   display: grid;
-  grid-template-columns: minmax(0px, 150fr) minmax(auto, 1000px) minmax(
-      0px,
-      150fr
-    );
+  grid-template-columns: minmax(0px, 150fr) minmax(auto, 1000px) minmax(0px,
+      150fr);
   grid-template-rows: minmax(65px, auto) 1fr;
 
   height: 100vh;
@@ -17,4 +15,9 @@
 
   background-color: var(--clr-bg-light);
   color: var(--clr-txt-dark);
+}
+
+.board-details-layout {
+  display: flex;
+  padding: 0.8rem;
 }

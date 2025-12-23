@@ -189,7 +189,7 @@ export function GroupList() {
       : null
 
   return (
-    <section className="group-list flex">
+    <section className="group-list board-details-layout">
       <DndContext
         sensors={sensors}
         collisionDetection={pointerWithin}
