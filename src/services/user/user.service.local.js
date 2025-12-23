@@ -1,6 +1,7 @@
 import { storageService } from '../async-storage.service'
 
-const STORAGE_KEY_USER = 'loggedinUser'
+const LOGGEDIN_USER_KEY = 'loggedinUser'
+const USERS_KEY = 'users'
 
 export const userService = {
     login,
@@ -15,7 +16,7 @@ export const userService = {
 }
 
 async function getUsers() {
-    const users = await storageService.query('user')
+    const users = await storageService.query(USERS_KEY)
     return users.map(user => {
         delete user.password
         return user
@@ -23,17 +24,17 @@ async function getUsers() {
 }
 
 async function getById(userId) {
-    return await storageService.get('user', userId)
+    return await storageService.get(USERS_KEY, userId)
 }
 
 function remove(userId) {
-    return storageService.remove('user', userId)
+    return storageService.remove(USERS_KEY, userId)
 }
 
 // async function update({ _id }) {
-//     const user = await storageService.get('user', _id)
+//     const user = await storageService.get(USERS_KEY, _id)
 
-//     await storageService.put('user', user)
+//     await storageService.put(USERS_KEY, user)
 
 // 	// When admin updates other user's details, do not update loggedinUser
 //     const loggedinUser = getLoggedinUser()
@@ -43,8 +44,8 @@ function remove(userId) {
 // }
 
 async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+    const users = await storageService.query(USERS_KEY)
+    const user = users.find(user => user.email === userCred.email)
 
     if (user) return saveLoggedinUser(user)
 }
@@ -52,41 +53,24 @@ async function login(userCred) {
 async function signup(userCred) {
     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
 
-    const user = await storageService.post('user', userCred)
+    const user = await storageService.post(USERS_KEY, userCred)
     return saveLoggedinUser(user)
 }
 
 async function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_USER)
+    sessionStorage.removeItem(LOGGEDIN_USER_KEY)
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_USER))
+    return JSON.parse(sessionStorage.getItem(LOGGEDIN_USER_KEY))
 }
 
 function saveLoggedinUser(user) {
     user = {
         _id: user._id,
-        fullname: user.fullname,
+        email: user.email,
         imgUrl: user.imgUrl,
-        score: user.score,
-        isAdmin: user.isAdmin
     }
-    sessionStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user))
+    sessionStorage.setItem(LOGGEDIN_USER_KEY, JSON.stringify(user))
     return user
-}
-
-// To quickly create an admin user, uncomment the next line
-// _createAdmin()
-async function _createAdmin() {
-    const user = {
-        username: 'admin',
-        password: 'admin',
-        fullname: 'Mustafa Adminsky',
-        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-        score: 10000,
-    }
-
-    const newUser = await storageService.post('user', userCred)
-    console.log('newUser: ', newUser)
 }

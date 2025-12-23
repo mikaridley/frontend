@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { taskService } from '../../../services/task/task.service.local'
-import { makeId } from '../../../services/util.service'
+import { makeId, isImageFile } from '../../../services/util.service'
 import { showErrorMsg } from '../../../services/event-bus.service'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
@@ -80,7 +80,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         reader.readAsDataURL(ev.target.files[0])
     }
 
-    function handleSave(ev) {
+    async function handleSave(ev) {
         ev.preventDefault()
         if (!attachmentName.trim() || !fileDataUrl) return
         const file = fileInputRef.current.files[0]  //single-file input
@@ -94,10 +94,27 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         }
         const updatedAttachments = [...attachments, newAttachment]
         setAttachments(updatedAttachments)
+        
+        // If the new attachment is a photo and there's no cover yet, set it as the cover
+        const shouldSetCover = isImageFile(file.type) && (() => {
+            const task = taskService.getTaskById(board, groupId, taskId)
+            if (!task) return false
+            const hasCoverProp = Object.prototype.hasOwnProperty.call(task, 'cover')
+            const cover = hasCoverProp ? task.cover : undefined
+            // Set cover if: no cover property exists, or cover is empty/falsy (but not explicitly null)
+            return !hasCoverProp || (cover !== null && !cover)
+        })()
+        
         setAttachmentName('')
         setFileDataUrl(null)
         if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
-        onSave('attachments', updatedAttachments)
+        
+        // Save attachments first, then cover if needed
+        await onSave('attachments', updatedAttachments)
+        if (shouldSetCover) {
+            // Save cover after attachments save completes
+            await onSave('cover', { color: newAttachment.file, kind: 'photo' })
+        }
     }
 
     function handleCustomButtonClick() {    //instead of using input file, for better styling

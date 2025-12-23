@@ -5,7 +5,7 @@ import starIcon from '../assets/img/star.svg'
 import yellowStarIcon from '../assets/img/yellow-star.png'
 import moreIcon from '../assets/img/more.svg'
 
-export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, changeBoardColor}) {
+export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, changeBoardColor }) {
   const [boardToEdit, setBoardToEdit] = useState(board)
   const [isStarred, setIsStarred] = useState(board.isStarred)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -25,7 +25,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
   }
 
   return (
-    <header className="board-header flex space-between align-center">
+    <header className="board-header board-details-layout space-between align-center">
       <input
         className="title-input"
         onChange={handleChange}

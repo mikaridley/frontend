@@ -1,48 +1,44 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
-import { userService } from '../services/user'
 import { login } from '../store/actions/user.actions'
 
 export function Login() {
-    const [users, setUsers] = useState([])
-    const [credentials, setCredentials] = useState({ username: '', password: '', fullname: '' })
-
+    const [credentials, setCredentials] = useState({ email: '' })
     const navigate = useNavigate()
 
-    useEffect(() => {
-        loadUsers()
-    }, [])
-
-    async function loadUsers() {
-        const users = await userService.getUsers()
-        setUsers(users)
-    }
-
-    async function onLogin(ev = null) {
+    async function onLogin(ev, creds = credentials) {
         if (ev) ev.preventDefault()
 
-        if (!credentials.username) return
-        await login(credentials)
-        navigate('/')
+        if (!creds.email) return
+        await login(creds)
+        navigate('/board')
     }
 
-    function handleChange(ev) {
-        const field = ev.target.name
-        const value = ev.target.value
-        setCredentials({ ...credentials, [field]: value })
+    function handleChange({ target }) {
+        const value = target.value
+        setCredentials({ email: value })
     }
-    
+
+    function handleGoogleLogin(credentialResponse) {
+        const { email, name, picture } = jwtDecode(credentialResponse.credential)
+        onLogin(null, { email, fullname: name, imgUrl: picture })
+    }
+
     return (
-        <form className="login-form" onSubmit={onLogin}>
-            <select
-                name="username"
-                value={credentials.username}
-                onChange={handleChange}>
-                    <option value="">Select User</option>
-                    {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
-            </select>
-            <button>Login</button>
-        </form>
+        <section className='login'>
+            <form className="login-form" onSubmit={onLogin}>
+                <h1>Signup to continue</h1>
+                <input type='email' required onChange={handleChange} />
+                <button>Login</button>
+
+                {true && <GoogleLogin
+                    onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
+                    onError={() => console.log('Login Failed')}
+                />}
+            </form>
+        </section>
     )
 }

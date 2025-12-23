@@ -10,12 +10,13 @@ import clockLightImg from '../assets/img/clock-light.svg'
 import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
+import attachmentsImg from '../assets/img/attachments.svg'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id } = task
   const navigate = useNavigate()
-
+  console.log(task)
   function openTaskDetails() {
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }
@@ -65,13 +66,12 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
-  const checkListCount = getChecklistCount()
+  const cover = task.attachments?.find(attach => attach.type === 'image/png')
 
+  const checkListCount = getChecklistCount()
   return (
-      <section className="task-preview" onClick={openTaskDetails}>
-        {/* {task.attachments && (
-          <img className="task-attachment" src={task.attachments[0].file} />
-        )} */}
+    <section className="task-preview" onClick={openTaskDetails}>
+      {cover && <img className="task-attachment" src={cover.file} />}
 
       <section className="task-all-details">
         {task.labels && (
@@ -80,8 +80,9 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
               return (
                 <LightTooltip
                   key={label.id}
-                  title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
-                    }`}
+                  title={`Color: ${label.colorName}, title: ${
+                    label.title === '' ? 'none' : '"' + label.title + '"'
+                  }`}
                 >
                   <div
                     className="task-label"
@@ -100,8 +101,9 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
           {status === 'done' ? <img src={doneIcon} /> : <div></div>}
         </button>
         <p
-          className={`task-title ${status !== 'done' ? 'task-not-complete' : ''
-            }`}
+          className={`task-title ${
+            status !== 'done' ? 'task-not-complete' : ''
+          }`}
         >
           {title}
         </p>
@@ -118,60 +120,70 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
           task.dates ||
           task.description ||
           task.members ||
+          task.attachments ||
           task.comments) && (
-            <section className="task-details-container">
-              {task.dates && (
-                <LightTooltip title={getDateToolipTitle()}>
-                  <div className={`task-dates ${getDateStatus()}`}>
-                    <img
-                      src={
-                        getDateStatus() === '' || getDateStatus() === 'late-red'
-                          ? clockLightImg
-                          : clockDarkImg
-                      }
-                    />
-                    <p>{formatDate()}</p>
-                  </div>
-                </LightTooltip>
-              )}
+          <section className="task-details-container">
+            {task.dates && (
+              <LightTooltip title={getDateToolipTitle()}>
+                <div className={`task-dates ${getDateStatus()}`}>
+                  <img
+                    src={
+                      getDateStatus() === '' || getDateStatus() === 'late-red'
+                        ? clockLightImg
+                        : clockDarkImg
+                    }
+                  />
+                  <p>{formatDate()}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.description && (
-                <LightTooltip title={`This card has a description`}>
-                  <img src={descriptionImg} />
-                </LightTooltip>
-              )}
+            {task.description && (
+              <LightTooltip title={`This card has a description`}>
+                <img src={descriptionImg} />
+              </LightTooltip>
+            )}
 
-              {task.comments && (
-                <LightTooltip title={`Comments`}>
-                  <div className="task-comments">
-                    <img src={commentsImg} />
-                    <p>{task.comments.length}</p>
-                  </div>
-                </LightTooltip>
-              )}
+            {task.comments && (
+              <LightTooltip title={`Comments`}>
+                <div className="task-comments">
+                  <img src={commentsImg} />
+                  <p>{task.comments.length}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.checklists && (
-                <LightTooltip title={`Checklist items`}>
-                  <div className="task-checklists">
-                    <img src={checklistImg} />
-                    <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
-                  </div>
-                </LightTooltip>
-              )}
+            {task.attachments && (
+              <LightTooltip title={`Attachments`}>
+                <div className="task-attackments">
+                  <img src={attachmentsImg} />
+                  <p>{task.attachments.length}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.members && (
-                <section className="task-user-container">
-                  {task.members.map(member => (
-                    <LightTooltip key={member._id} title={member.fullname}>
-                      <div className="task-checklists">
-                        <div className="task-user">RH</div>
-                      </div>
-                    </LightTooltip>
-                  ))}
-                </section>
-              )}
-            </section>
-          )}
+            {task.checklists && (
+              <LightTooltip title={`Checklist items`}>
+                <div className="task-checklists">
+                  <img src={checklistImg} />
+                  <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
+                </div>
+              </LightTooltip>
+            )}
+
+            {task.members && (
+              <section className="task-user-container">
+                {task.members.map(member => (
+                  <LightTooltip key={member._id} title={member.fullname}>
+                    <div className="task-checklists">
+                      <div className="task-user">RH</div>
+                    </div>
+                  </LightTooltip>
+                ))}
+              </section>
+            )}
+          </section>
+        )}
       </section>
     </section>
   )

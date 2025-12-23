@@ -1,5 +1,5 @@
 .task-preview {
-  --border-radius: 0.5em;
+  --border-radius: 0.5rem;
   display: grid;
   justify-self: center;
 
@@ -8,7 +8,7 @@
 
   align-items: center;
   margin-block: 0.3rem;
-  width: 256px;
+  width: 100%;
 
   background-color: var(--clr-task);
   border-radius: var(--border-radius);
@@ -49,18 +49,20 @@
       display: flex;
       gap: 0.5rem;
       align-items: center;
+      flex-wrap: wrap;
 
       img {
         width: 17px;
       }
 
       .task-dates {
-        width: 4.375rem;
+        min-width: 4.375rem;
       }
 
       .task-checklists,
       .task-dates,
-      .task-comments {
+      .task-comments,
+      .task-attackments {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -94,6 +96,8 @@
       }
 
       .task-user-container {
+        grid-row: 2;
+
         display: flex;
         gap: 0.3rem;
 

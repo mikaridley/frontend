@@ -7,6 +7,7 @@ import { getColorsBg, getPhotos } from '../../store/actions/board.actions.js'
 import { useSelector } from 'react-redux'
 import { SetBackgroundHeader } from './SetBackgroundHeader.jsx'
 import { ColorsBackground } from './ColorsBackground.jsx'
+import closeImg from '../../assets/img/close.svg'
 
 export function BackgroundContainer({ changeColor }) {
   const backgrounds = getColorsBg()
@@ -98,7 +99,7 @@ export function BackgroundContainer({ changeColor }) {
               <>
                 <div className="board-bg-header">
                   <h2>Board background</h2>
-                  <p onClick={openMoreColors}>X</p>
+                  <img onClick={openMoreColors} src={closeImg} />
                 </div>
                 <div className="open-more-header">
                   <h3>Photos</h3>

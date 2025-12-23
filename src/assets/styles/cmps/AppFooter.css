@@ -21,6 +21,7 @@
     grid-auto-flow: column;
     align-items: center;
     gap: 1rem;
+    letter-spacing: 1px;
 
     img {
       width: 250px;
