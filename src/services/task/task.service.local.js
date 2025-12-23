@@ -17,6 +17,7 @@ export const taskService = {
   getLabels,
   getMembers,
   openAttachmentInNewTab,
+  getDominantColor,
 }
 
 async function addTask(board, group, taskToAdd) {
@@ -24,6 +25,7 @@ async function addTask(board, group, taskToAdd) {
   const task = {
     id: makeId(),
     title: taskToAdd.title,
+    cover: '',
   }
   group.tasks.push(task)
   await storageService.put(STORAGE_KEY, board)
@@ -254,4 +256,56 @@ function openAttachmentInNewTab(attachmentFile) {
         // Regular URL - open directly
         window.open(attachmentFile, '_blank', 'noopener,noreferrer')
     }
+}
+
+function getDominantColor(imageUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Sample from a smaller version for performance
+      canvas.width = 100;
+      canvas.height = 100;
+      
+      ctx.drawImage(img, 0, 0, 100, 100);
+      const imageData = ctx.getImageData(0, 0, 100, 100).data;
+      
+      // Count color frequencies
+      const colorMap = {};
+      
+      for (let i = 0; i < imageData.length; i += 4) {
+        const r = imageData[i];
+        const g = imageData[i + 1];
+        const b = imageData[i + 2];
+        
+        // Skip very light/dark colors (optional)
+        const brightness = (r + g + b) / 3;
+        if (brightness < 20 || brightness > 240) continue;
+        
+        // Group similar colors (reduce precision)
+        const key = `${Math.round(r/10)*10},${Math.round(g/10)*10},${Math.round(b/10)*10}`;
+        colorMap[key] = (colorMap[key] || 0) + 1;
+      }
+      
+      // Find most common color
+      let maxCount = 0;
+      let dominantColor = '128,128,128';
+      
+      for (const [color, count] of Object.entries(colorMap)) {
+        if (count > maxCount) {
+          maxCount = count;
+          dominantColor = color;
+        }
+      }
+      
+      resolve(`rgb(${dominantColor})`);
+    };
+    
+    img.onerror = reject;
+    img.src = imageUrl;
+  });
 }

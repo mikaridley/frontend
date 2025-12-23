@@ -124,7 +124,7 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
                 <div className="popup-body">
                     <h5>Select destination</h5>
                     
-                    <h6>Board</h6>
+                    <h4>Board</h4>
                     <select 
                         value={selectedBoardId} 
                         onChange={(e) => setSelectedBoardId(e.target.value)}
@@ -139,7 +139,7 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
 
                     {selectedBoard && (
                         <>
-                            <h6>List</h6>
+                            <h4>List</h4>
                             <select 
                                 value={selectedGroupId} 
                                 onChange={(e) => setSelectedGroupId(e.target.value)}

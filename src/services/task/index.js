@@ -8,6 +8,7 @@ function getEmptyTask() {
         id: '',
         title: '',
         status: '',
+        cover:'',
     }
 }
 
