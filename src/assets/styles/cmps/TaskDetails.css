@@ -189,7 +189,7 @@
   right: 0;
   bottom: 0;
   background-color: transparent;
-  z-index: 1003;
+  z-index: 1007;
 }
 
 .popup-content {
@@ -256,7 +256,6 @@
     & img {
       width: 16px;
     }
-
   }
 
   & select {
@@ -404,7 +403,6 @@
   height: 16px;
 }
 
-
 /* color picker close button styling */
 .color-picker-close {
   border: none !important;
@@ -424,12 +422,9 @@
 }
 
 .color-picker-close:hover {
-  background-color: #2B2C2F;
+  background-color: #2b2c2f;
   border-radius: 4px;
 }
-
-
-
 
 .task-description-button {
   border: 2px solid #3c3d40;
@@ -484,7 +479,7 @@
 .popup-body input[type='text'] {
   background-color: var(--clr-bg-task-input);
   color: var(--clr-task-txt-dark);
-  border: 2px solid #7E8188;
+  border: 2px solid #7e8188;
   height: 30px;
   padding: 0.5rem 1rem;
 }
@@ -770,7 +765,6 @@
   flex: 1;
 }
 
-
 /* Add Item Form Styles */
 .add-item-form {
   margin-top: 12px;
@@ -953,7 +947,6 @@
   gap: 0.5rem;
 }
 
-
 .date-picker-container input,
 .time-picker-container input {
   color: var(--clr-task-txt-dark);
@@ -1074,19 +1067,19 @@
 }
 
 .popup-body .btn-move-task {
-  display:block;
+  display: block;
   background-color: #669df1;
   color: black;
   border-color: #669df1;
   font-size: 1rem;
 
   &:hover {
-    background-color: #7AADF2;
+    background-color: #7aadf2;
     border-color: #669df1;
   }
 }
 
-.popup-transfer-task .popup-body{
+.popup-transfer-task .popup-body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
