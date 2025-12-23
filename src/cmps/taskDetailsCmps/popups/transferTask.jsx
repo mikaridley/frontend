@@ -4,6 +4,7 @@ import { taskService } from '../../../services/task/task.service.local'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service'
 import { useNavigate } from 'react-router-dom'
 import { loadBoard, updateBoard } from '../../../store/actions/board.actions'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
 export function TransferTask({ board, groupId, taskId, onClose, position }) {
     const [boards, setBoards] = useState([])
@@ -11,6 +12,7 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
     const [selectedGroupId, setSelectedGroupId] = useState(groupId || '')
     const [selectedBoard, setSelectedBoard] = useState(null)
     const isInitialMount = useRef(true)
+    const popupRef = useRef(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -32,6 +34,9 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
         }
         initializeDropdowns()
     }, [])
+
+  // Keep popup fully visible vertically.
+  popupToViewportHook(popupRef, position)
 
     useEffect(() => {  //update the selected board and group when the selected board id changes
         // Skip on initial mount
@@ -112,6 +117,7 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
+                ref={popupRef}
                 className="popup-content popup-transfer-task" 
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {

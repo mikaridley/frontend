@@ -1,10 +1,16 @@
+import { useRef } from 'react'
 import timeIcon from '../../../assets/imgs/icons/time.svg'
 import checkboxIcon from '../../../assets/imgs/icons/checkbox.svg'
 import memberIcon from '../../../assets/imgs/icons/member.svg'
 import attachmentIcon from '../../../assets/imgs/icons/attachment.svg'
 import imageIcon from '../../../assets/imgs/icons/image_icon.svg'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
 export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen, position }) {
+    const popupRef = useRef(null)
+
+  // Measure and adjust so the popup bottom never goes off-screen.
+  popupToViewportHook(popupRef, position)
     const icons = {
         dates: <img src={timeIcon} alt="dates" />,
         checklists: <img src={checkboxIcon} alt="checklists" />,
@@ -16,6 +22,7 @@ export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen, positi
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
+                ref={popupRef}
                 className="popup-content popup-add" 
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {

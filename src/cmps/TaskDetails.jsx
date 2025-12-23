@@ -128,14 +128,19 @@ export function TaskDetails() {
                 />
                 {task && (
                     <>
-                        <TaskDetailsHeader 
-                            task={task} 
-                            board={board} 
-                            groupId={groupId} 
+                        <TaskDetailsHeader
+                            task={task}
+                            board={board}
+                            groupId={groupId}
                             taskId={taskId}
                             onTaskUpdate={setTask}
                         />
-                        <TaskDetailsActions onOpenPopup={openPopup} />
+                        <TaskDetailsActions
+                            onOpenPopup={openPopup}
+                            members={members}
+                            labels={labels}
+                            dates={dates}
+                        />
                     </>
                 )}
                 {task && (

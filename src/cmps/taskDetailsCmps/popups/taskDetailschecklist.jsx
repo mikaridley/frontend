@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { taskService } from '../../../services/task/task.service.local'
 import { showErrorMsg } from '../../../services/event-bus.service'
 import { updateTask } from '../../../store/actions/task.actions'
+import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
 export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, position }) {
     const [checklistTitle, setChecklistTitle] = useState('')
+    const popupRef = useRef(null)
     
     const task = taskService.getTaskById(board, groupId, taskId)
     const existingChecklists = task?.checklists || []
+
+  // Keep popup fully visible vertically.
+  popupToViewportHook(popupRef, position)
 
     function handleSave(ev) {
         ev.preventDefault()
@@ -26,6 +31,7 @@ export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, 
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
+                ref={popupRef}
                 className="popup-content popup-checklists" 
                 onClick={(e) => e.stopPropagation()}
                 style={position ? {
