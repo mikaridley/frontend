@@ -14,8 +14,6 @@ import closeIcon from '../assets/img/close.svg'
 export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
   const board = useSelector(storeState => storeState.boardModule.board)
 
-  console.log('group:', group)
-
   const [groupToEdit, setGroupToEdit] = useState(group)
   const [isActionsOpen, setIsActionsOpen] = useState(false)
 
@@ -59,11 +57,10 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     }
   }
 
-  async function onArchiveTask(ev, task) {
-    ev.stopPropagation()
+  async function archiveTask(task) {
 
     try {
-      await updateTask(board, group.id, task.id, { archivedAt: Date.now })
+      await updateTask(board, group.id, task.id, { archivedAt: Date.now() })
       setTask(taskService.getEmptyTask())
       showSuccessMsg('Task archived')
     } catch (err) {
@@ -121,7 +118,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         <TaskList
           group={group}
           onToggleStatus={onToggleStatus}
-          onArchiveTask={onArchiveTask}
+          archiveTask={archiveTask}
         />
       </SortableContext>
 

@@ -12,6 +12,8 @@ import {
   updateBoard,
 } from '../store/actions/board.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { store } from '../store/store'
+import { SET_BOARD } from '../store/reducers/board.reducer'
 
 export function BoardDetails() {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -25,7 +27,11 @@ export function BoardDetails() {
       console.log('err:', err)
       showErrorMsg('Could not load board')
     }
-  }, [board])
+
+    return () => {
+      store.dispatch({ type: SET_BOARD, board: '' })
+    }
+  }, [])
 
   function onUpdateBoard(boardToEdit) {
     try {

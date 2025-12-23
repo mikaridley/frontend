@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   DndContext,
@@ -30,13 +30,13 @@ export function GroupList() {
   const [isAddingGroup, setIsAddingGroup] = useState(false)
 
   // For drag and drop
-  const [groups, setGroups] = useState(board.groups)
+  const [groups, setGroups] = useState()
   const [activeId, setActiveId] = useState(null)
   const [activeType, setActiveType] = useState(null)
 
-  // useEffect(() => {
-  //   setGroups(board.groups)
-  // }, [])
+  useEffect(() => {
+    setGroups(board.groups)
+  }, [board])
 
   async function onAddGroup(ev) {
     ev.preventDefault()
@@ -71,13 +71,13 @@ export function GroupList() {
     }
   }
 
-  async function archiveGroup(group) {
+  async function archiveGroup(groupToArchive) {
     try {
-      const updatedGroups = groups.filter(group => group.id !== group.id)
+      const updatedGroups = groups.filter(group => group.id !== groupToArchive.id)
       setGroups(updatedGroups)
       setGroup(groupService.getEmptyGroup())
 
-      await updateGroup(board, { ...group, archivedAt: Date.now() })
+      await updateGroup(board, { ...groupToArchive, archivedAt: Date.now() })
       showSuccessMsg('List archived')
     } catch (err) {
       console.log('err:', err)
@@ -149,7 +149,8 @@ export function GroupList() {
         }
         if (group.id === overContainer) {
           const newTasks = [...(group.tasks || [])]
-          newTasks.splice(newIndex, 0, activeGroup.tasks[activeIndex])
+          const movedTask = { ...activeGroup.tasks[activeIndex] }
+          newTasks.splice(newIndex, 0, movedTask)
           return { ...group, tasks: newTasks }
         }
         return group
@@ -158,47 +159,21 @@ export function GroupList() {
   }
 
   async function handleDragEnd({ active, over }) {
-    try {
-      if (!over) return
+    setActiveId(null)
+    setActiveType(null)
 
-      let finalGroups = [...groups]
+    if (!over) return
 
-      if (activeType === 'group' && active.id !== over.id) {
-        const oldIndex = groups.findIndex(group => group.id === active.id)
-        const newIndex = groups.findIndex(group => group.id === over.id)
-
-        if (oldIndex === -1 || newIndex === -1) return
-
-        finalGroups = arrayMove(groups, oldIndex, newIndex)
-        setGroups(finalGroups)
-      } else if (activeType === 'task') {
-        const activeContainer = getContainer(active.id)
-        const overContainer = getContainer(over.id)
-
-        if (activeContainer === overContainer) {
-          const group = groups.find(group => group.id === activeContainer)
-          const oldIndex = group.tasks.findIndex(task => task.id === active.id)
-          const newIndex = group.tasks.findIndex(task => task.id === over.id)
-
-          if (oldIndex !== newIndex) {
-            const newTasks = arrayMove(group.tasks, oldIndex, newIndex)
-            finalGroups = groups.map(group =>
-              group.id === activeContainer ? { ...group, tasks: newTasks } : group
-            )
-            setGroups(finalGroups)
-          }
-        }
-      }
-
+    if (activeType === 'group' && active.id !== over.id) {
+      const oldIndex = groups.findIndex(group => group.id === active.id)
+      const newIndex = groups.findIndex(group => group.id === over.id)
+      const finalGroups = arrayMove(groups, oldIndex, newIndex)
+      setGroups(finalGroups)
       await updateBoard({ ...board, groups: finalGroups })
-      showSuccessMsg('Saved')
-    } catch (err) {
-      showErrorMsg('Failed to save')
-      setGroups(board.groups)
-    } finally {
-      setActiveId(null)
-      setActiveType(null)
+      return
     }
+
+    await updateBoard({ ...board, groups: groups })
   }
 
   const visibleGroups = groups?.filter(group => group && !group.archivedAt) || []
