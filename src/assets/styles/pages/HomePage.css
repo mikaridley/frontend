@@ -1,10 +1,14 @@
 .home-page {
   grid-column: 1/-1;
+  background-color: var(--clr-bg-home-1);
+
+  margin-top: 60px;
 
   .second-header {
-    padding-block: 1em;
+    padding-block: 0.9em;
 
     text-align: center;
+    font-size: 1.15rem;
     background-color: var(--clr-second-home-header);
 
     a {
@@ -15,20 +19,20 @@
 
   .home-main-content {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-
-    padding-top: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 90vh;
 
     background-color: var(--clr-bg-home-2);
 
     .home-sign-up {
       display: grid;
-      gap: 1em;
+      gap: 1.5em;
 
       justify-self: end;
       align-self: center;
 
-      width: 480px;
+      width: 490px;
+      margin-right: 4.5rem;
 
       h2 {
         font-size: 3rem;
@@ -38,14 +42,15 @@
 
       h3 {
         text-wrap: unset;
+        font-size: 1.2rem;
+        letter-spacing: 1.5px;
+        width: 550px;
       }
 
       form {
         display: grid;
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: 300px 170px;
         gap: 1rem;
-
-        padding-inline-end: 3rem;
 
         input {
           border: 1px solid var(--clt-home-input-border);
@@ -69,8 +74,76 @@
         }
       }
 
-      a {
-        color: var(--clr-home-btns);
+      p {
+        a {
+          color: var(--clr-home-btns);
+        }
+      }
+    }
+
+    img {
+      height: 700px;
+      align-self: end;
+    }
+  }
+
+  .home-secondary-content {
+    display: grid;
+    justify-items: center;
+    gap: 3rem;
+
+    padding-block: 50px;
+
+    background-color: var(--clr-home-btns);
+
+    > header {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+
+      padding-inline: 30vw;
+      text-align: center;
+
+      > h2 {
+        font-size: 2rem;
+        color: var(--clr-home-txt-light);
+      }
+
+      > h3 {
+        font-size: 1.2rem;
+        color: var(--clr-home-txt-light);
+        text-wrap: unset;
+      }
+    }
+
+    article {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+
+      width: 1100px;
+      padding: 2rem;
+      border-radius: 10px;
+
+      background-color: var(--clr-bg-home-1);
+
+      .article-content {
+        align-self: center;
+        padding: 3rem;
+
+        header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 2rem;
+
+          h4 {
+            text-transform: uppercase;
+          }
+        }
+
+        p {
+          font-size: 1.3rem;
+        }
       }
     }
   }

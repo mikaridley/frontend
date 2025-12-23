@@ -2,11 +2,14 @@
   grid-column: 1/-1;
 
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) minmax(auto, 1000px) minmax(
-      150px,
-      1fr
-    );
+  grid-template-columns: minmax(0, 1fr) minmax(auto, 1330px) minmax(0, 1fr);
+  z-index: 1;
 
+  position: fixed;
+
+  width: 100vw;
+  height: 60px;
+  background-color: var(--clr-bg-home-1);
   transition: box-shadow 0.3s ease;
 
   .header-content {
@@ -38,7 +41,7 @@
     }
 
     .home-log-in {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     > :nth-child(2) {
@@ -52,6 +55,10 @@
   }
 
   &:hover {
+    box-shadow: 0 8px 10px -6px var(--home-header-shadow);
+  }
+
+  &.scrolled {
     box-shadow: 0 8px 10px -6px var(--home-header-shadow);
   }
 }
