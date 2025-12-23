@@ -12,21 +12,25 @@ import { BoardDetails } from './pages/BoardDetails'
 import { TaskDetails } from './cmps/TaskDetails'
 import { AddBoard } from './cmps/AddBoard'
 
-import { Login } from './pages/Login'
-import { Signup } from './pages/Signup'
+import { LoginSignup } from './pages/LoginSignup'
 import { UserMsg } from './cmps/UserMsg'
 
 export function RootCmp() {
-  const location = useLocation()
+  const { pathname } = useLocation()
+
+  const header = () => {
+    if (pathname === '/login' || pathname === '/signup') return
+    else if (pathname === '/') return <HomePageHeader />
+    else return <AppHeader />
+  }
 
   return (
     <div>
       <UserMsg />
-      <main
-        className={location.pathname === '/' ? 'home-page-layout' : 'main-layout'}
-      >
-        {location.pathname === '/' ? <HomePageHeader /> : <AppHeader />}
-        
+      <main className={pathname === '/' ? 'home-page-layout' : 'main-layout'}>
+
+        {header()}
+
         <Routes>
           <Route path="/" element={<HomePage />} />
 
@@ -37,10 +41,10 @@ export function RootCmp() {
             <Route path=":groupId/:taskId" element={<TaskDetails />} />
           </Route>
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<LoginSignup />} />
+          <Route path="/signup" element={<LoginSignup />} />
         </Routes>
-        {location.pathname === '/' ? <AppFooter /> : ''}
+        {pathname === '/' ? <AppFooter /> : ''}
       </main>
     </div>
   )
