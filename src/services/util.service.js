@@ -1,5 +1,3 @@
-import { Tooltip as MuiTooltip } from '@mui/material'
-
 export function makeId(length = 6) {
   var txt = ''
   var possible =
@@ -106,7 +104,7 @@ export function isImageFile(fileType) {
 // Helper function to get file icon based on file type
 export function getFileIcon(fileType) {
   if (!fileType) return '📄'
-  
+
   if (fileType.includes('pdf')) return '📕'
   if (fileType.includes('word') || fileType.includes('document')) return '📘'
   if (fileType.includes('excel') || fileType.includes('spreadsheet')) return '📗'
@@ -115,32 +113,6 @@ export function getFileIcon(fileType) {
   if (fileType.includes('text') || fileType.includes('plain')) return '📄'
   if (fileType.includes('json')) return '📋'
   if (fileType.includes('csv')) return '📊'
-  
+
   return '📄'
 }
-
-// export function LightTooltip(props) {
-//   return (
-//     <MuiTooltip
-//       arrow
-//       {...props}
-//       componentsProps={{
-//         tooltip: {
-//           sx: {
-//             backgroundColor: '#fff',
-//             color: '#000',
-//             fontSize: '0.75rem',
-//             padding: '4px 8px',
-//             borderRadius: '4px',
-//             boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-//           },
-//         },
-//         arrow: {
-//           sx: {
-//             color: '#fff',
-//           },
-//         },
-//       }}
-//     />
-//   )
-// }

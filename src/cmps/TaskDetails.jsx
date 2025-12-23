@@ -113,23 +113,19 @@ export function TaskDetails() {
     return (
         <div className="task-details-modal" onClick={handleBackdropClick}>
             <div className="task-details">
-                <button
-                    className="modal-close-btn"
-                    onClick={() => navigate(`/board/${boardId}`)}
-                    aria-label="Close"
-                >
-                    ×
-                </button>
+                
                 {/* Row 1: Reserved for future special header + functionality */}
-                <div className="task-details-cover"></div>
-                    <TaskDetailsCover
-                        task={task}
-                        board={board}
-                        groupId={groupId}
-                        taskId={taskId}
-                        onTaskUpdate={setTask}
-                        onOpenPopup={openPopup}
-                    />
+                <TaskDetailsCover
+                    task={task}
+                    board={board}
+                    groupId={groupId}
+                    taskId={taskId}
+                    onTaskUpdate={setTask}
+                    onOpenPopup={openPopup}
+                    attachments={attachments}
+                    boardId={boardId}
+
+                />
                 {task && (
                     <>
                         <TaskDetailsHeader 

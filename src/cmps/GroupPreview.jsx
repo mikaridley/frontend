@@ -14,11 +14,33 @@ import closeIcon from '../assets/img/close.svg'
 export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
   const board = useSelector(storeState => storeState.boardModule.board)
 
-  const [title, setTitle] = useState(group.title)
+  const [groupToEdit, setGroupToEdit] = useState(group)
   const [isActionsOpen, setIsActionsOpen] = useState(false)
 
   const [task, setTask] = useState(taskService.getEmptyTask())
   const [isAddingTask, setIsAddingTask] = useState(false)
+
+  // Group funcs //
+  function onArchiveGroup() {
+    onToggleActions()
+    archiveGroup(group)
+  }
+
+  function onToggleActions() {
+    setIsActionsOpen(prev => !prev)
+  }
+
+  function handleGroupChange({ target }) {
+    const value = target.value
+    setGroupToEdit(prevGroup => ({ ...prevGroup, title: value }))
+  }
+
+  // Task funcs //
+  async function handleSubmit(ev) {
+    ev.preventDefault()
+    await onAddTask()
+    setIsAddingTask(true)
+  }
 
   async function onAddTask() {
     setIsAddingTask(false)
@@ -35,25 +57,16 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     }
   }
 
-  async function handleSubmit(ev) {
-    ev.preventDefault()
-    await onAddTask()
-  }
-
   async function archiveTask(task) {
+
     try {
-      const archivedAt = Date.now()
+      await updateTask(board, group.id, task.id, { archivedAt: Date.now() })
       setTask(taskService.getEmptyTask())
-      await updateTask(board, group.id, task.id, { archivedAt })
       showSuccessMsg('Task archived')
     } catch (err) {
       console.log('err:', err)
       showErrorMsg('Failed to archive')
     }
-  }
-  function onArchiveGroup() {
-    onToggleActions()
-    archiveGroup(group)
   }
 
   async function onToggleStatus(ev, task) {
@@ -70,15 +83,6 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     }
   }
 
-  function onToggleActions() {
-    setIsActionsOpen(prev => !prev)
-  }
-
-  function handleGroupChange({ target }) {
-    const value = target.value
-    setTitle(value)
-  }
-
   function handleTaskChange({ target }) {
     const value = target.value
     setTask(prevTask => ({ ...prevTask, title: value }))
@@ -92,8 +96,8 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         <input
           className="title-input"
           onChange={handleGroupChange}
-          onBlur={() => onUpdateGroup(title, group)}
-          value={title}
+          onBlur={() => onUpdateGroup(groupToEdit)}
+          value={groupToEdit.title}
         />
         <button onClick={onToggleActions}>
           <img src={moreIcon} alt="More actions" />
@@ -108,7 +112,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
       </header>
 
       <SortableContext
-        items={group.tasks ? group.tasks.map(task => task.id) : []}
+        items={group.tasks.length ? group.tasks.map(task => task.id) : []}
         strategy={verticalListSortingStrategy}
       >
         <TaskList
@@ -118,12 +122,11 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         />
       </SortableContext>
 
-      {!isAddingTask ? (
+      {!isAddingTask ?
         <button className="add-btn" onClick={() => setIsAddingTask(true)}>
           Add a Card
         </button>
-      ) : (
-        <form className="add-form" onSubmit={handleSubmit}>
+        : <form className="add-form" onSubmit={handleSubmit}>
           <input
             onChange={handleTaskChange}
             onBlur={onAddTask}
@@ -140,7 +143,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             </button>
           </div>
         </form>
-      )}
+      }
     </section>
   )
 }

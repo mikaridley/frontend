@@ -8,18 +8,18 @@ export const groupService = {
     updateGroup,
 }
 
-async function addGroup(board, groupToAdd) {
+async function addGroup(board, group) {
     if (!board.groups?.length) board.groups = []
 
-    const group = {
-        id: makeId(),
-        title: groupToAdd.title,
+    const newGroup = {
+        id: group.id,
+        title: group.title,
         archivedAt: '',
         tasks: []
     }
     const newBoard = { ...board, groups: [...board.groups, group] }
     await storageService.put(STORAGE_KEY, newBoard)
-    return { newBoard, group }
+    return { newBoard, newGroup }
 }
 
 

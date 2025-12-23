@@ -5,16 +5,14 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  closestCorners,
+  pointerWithin,
   DragOverlay,
 } from '@dnd-kit/core'
 import {
   SortableContext,
-  useSortable,
   arrayMove,
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 import { GroupPreview } from './GroupPreview'
 import { TaskPreview } from './TaskPreview'
@@ -24,6 +22,7 @@ import { addGroup, updateGroup } from '../store/actions/group.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { updateBoard } from '../store/actions/board.actions'
 import closeIcon from '../assets/img/close.svg'
+import { SortableItem } from './SortableItem'
 
 export function GroupList() {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -31,38 +30,40 @@ export function GroupList() {
   const [isAddingGroup, setIsAddingGroup] = useState(false)
 
   // For drag and drop
-  const [groups, setGroups] = useState([])
+  const [groups, setGroups] = useState()
   const [activeId, setActiveId] = useState(null)
   const [activeType, setActiveType] = useState(null)
 
   useEffect(() => {
-    setGroups(board.groups || [])
+    setGroups(board.groups)
   }, [board])
 
   async function onAddGroup(ev) {
     ev.preventDefault()
     setIsAddingGroup(false)
+    if (!group.title) return
 
     try {
-      if (!group.title) return
-      const newGroup = await addGroup(board, group)
-
+      const newGroup = { ...group }
       setGroup(groupService.getEmptyGroup())
-      setGroups(groups => [...groups, newGroup])
+      setGroups(prev => [...prev, newGroup])
 
-      setIsAddingGroup(true)
       showSuccessMsg('Added')
+
+      await addGroup(board, newGroup)
+      setIsAddingGroup(true)
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to Add`)
+      setGroups(board.groups)
     }
   }
 
-  async function onUpdateGroup(title, group) {
+  async function onUpdateGroup(groupToEdit) {
     try {
-      if (!title || group.title === title) return
+      if (!groupToEdit.title || group.title === groupToEdit.title) return
 
-      await updateGroup(board, { ...group, title })
+      await updateGroup(board, groupToEdit)
       showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
@@ -70,112 +71,86 @@ export function GroupList() {
     }
   }
 
-  async function archiveGroup(group) {
+  async function archiveGroup(groupToArchive) {
     try {
-      const updatedGroup = await updateGroup(board, {
-        ...group,
-        archivedAt: Date.now(),
-      })
-      setGroups(prevGroups =>
-        prevGroups.filter(group => group.id !== updatedGroup.id)
-      )
+      const updatedGroups = groups.filter(group => group.id !== groupToArchive.id)
+      setGroups(updatedGroups)
+      setGroup(groupService.getEmptyGroup())
+
+      await updateGroup(board, { ...groupToArchive, archivedAt: Date.now() })
       showSuccessMsg('List archived')
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to archive`)
+      setGroups(board.groups)
     }
-    setGroup(groupService.getEmptyGroup())
   }
 
   function handleChange({ target }) {
     const value = target.value
-    console.log('group:', group)
     setGroup(prevGroup => ({ ...prevGroup, title: value }))
   }
 
   //Drag and drop//
-
-  function SortableItem({ id, children }) {
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      transition,
-      isDragging,
-    } = useSortable({ id })
-
-    return (
-      <div
-        ref={setNodeRef}
-        {...attributes}
-        {...listeners}
-        style={{
-          transform: CSS.Transform.toString(transform),
-          transition,
-          opacity: isDragging ? 0.6 : 1,
-          cursor: 'grab',
-        }}
-      >
-        {children}
-      </div>
-    )
-  }
-
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 5,
-      },
-    })
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   )
 
-  function findGroup(id) {
+  function getContainer(id) {
     if (groups.find(group => group.id === id)) return id
-    return groups.find(group => group.tasks?.some(t => t.id === id))?.id
+    return groups.find(group => group.tasks?.some(task => task.id === id))?.id
   }
 
   function handleDragStart({ active }) {
-    setActiveId(active.id)
-    const isGroup = groups.some(group => group.id === active.id)
+    const id = active.id
+    const isGroup = groups.some(group => group.id === id)
     setActiveType(isGroup ? 'group' : 'task')
+    setActiveId(id)
   }
 
-  async function handleDragOver({ active, over }) {
+  function handleDragOver({ active, over }) {
     const overId = over?.id
-    if (!overId || active.id === overId) return
+    if (!overId || active.id === overId || activeType === 'group') return
 
-    if (activeType === 'group') return
+    const activeContainer = getContainer(active.id)
+    const overContainer = getContainer(overId)
 
-    const activeContainer = findGroup(active.id)
-    const overContainer = findGroup(overId)
+    if (!activeContainer || !overContainer) return
 
-    if (!activeContainer || !overContainer || activeContainer === overContainer)
+    if (activeContainer === overContainer) {
+      setGroups(prev => {
+        return prev.map(group => {
+          if (group.id === activeContainer) {
+            const oldIndex = group.tasks.findIndex(task => task.id === active.id)
+            const newIndex = group.tasks.findIndex(task => task.id === overId)
+            return {
+              ...group,
+              tasks: arrayMove(group.tasks, oldIndex, newIndex)
+            }
+          }
+          return group
+        })
+      })
       return
+    }
 
     setGroups(prev => {
       const activeGroup = prev.find(group => group.id === activeContainer)
       const overGroup = prev.find(group => group.id === overContainer)
 
-      if (!activeGroup || !overGroup || !activeGroup.tasks) return prev
-
-      const activeIndex = activeGroup.tasks.findIndex(
-        task => task.id === active.id
-      )
+      const activeIndex = activeGroup.tasks.findIndex(task => task.id === active.id)
       const overIndex = overGroup.tasks.findIndex(task => task.id === overId)
 
       let newIndex = overIndex >= 0 ? overIndex : overGroup.tasks.length
 
       return prev.map(group => {
         if (group.id === activeContainer) {
-          return {
-            ...group,
-            tasks: group.tasks.filter(task => task.id !== active.id),
-          }
+          return { ...group, tasks: group.tasks.filter(task => task.id !== active.id) }
         }
         if (group.id === overContainer) {
           const newTasks = [...(group.tasks || [])]
-          newTasks.splice(newIndex, 0, activeGroup.tasks[activeIndex])
+          const movedTask = { ...activeGroup.tasks[activeIndex] }
+          newTasks.splice(newIndex, 0, movedTask)
           return { ...group, tasks: newTasks }
         }
         return group
@@ -184,42 +159,40 @@ export function GroupList() {
   }
 
   async function handleDragEnd({ active, over }) {
-    try {
-      if (!over) return
+    setActiveId(null)
+    setActiveType(null)
 
-      if (activeType === 'group') {
-        if (active.id !== over.id) {
-          const oldIndex = groups.findIndex(g => g.id === active.id)
-          const newIndex = groups.findIndex(g => g.id === over.id)
-          const newOrder = arrayMove(groups, oldIndex, newIndex)
-          setGroups(newOrder)
-          await updateBoard({ ...board, groups: newOrder })
-        }
-      } else await updateBoard({ ...board, groups })
-      showSuccessMsg('Saved')
-    } catch (err) {
-      showErrorMsg('Failed to save')
-      setGroups(board.groups)
-    } finally {
-      setActiveId(null)
-      setActiveType(null)
+    if (!over) return
+
+    if (activeType === 'group' && active.id !== over.id) {
+      const oldIndex = groups.findIndex(group => group.id === active.id)
+      const newIndex = groups.findIndex(group => group.id === over.id)
+      const finalGroups = arrayMove(groups, oldIndex, newIndex)
+      setGroups(finalGroups)
+      await updateBoard({ ...board, groups: finalGroups })
+      return
     }
+
+    await updateBoard({ ...board, groups: groups })
   }
 
-  const visibleGroups =
-    groups?.filter(group => group && !group.archivedAt) || []
+  const visibleGroups = groups?.filter(group => group && !group.archivedAt) || []
+
   const activeGroup =
-    activeType === 'group' ? groups.find(group => group.id === activeId) : null
+    activeType === 'group'
+      ? groups.find(group => group.id === activeId)
+      : null
+
   const activeTask =
     activeType === 'task'
-      ? groups.flatMap(group => group.tasks).find(task => task.id === activeId)
+      ? groups.flatMap(group => group.tasks || []).find(task => task.id === activeId)
       : null
 
   return (
     <section className="group-list flex">
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCorners}
+        collisionDetection={pointerWithin}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}

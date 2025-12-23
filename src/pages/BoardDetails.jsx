@@ -15,6 +15,8 @@ import {
   updateBoardOptimistic,
 } from '../store/actions/board.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { store } from '../store/store'
+import { SET_BOARD } from '../store/reducers/board.reducer'
 
 export function BoardDetails() {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -28,14 +30,17 @@ export function BoardDetails() {
       console.log('err:', err)
       showErrorMsg('Could not load board')
     }
+
+    return () => {
+      store.dispatch({ type: SET_BOARD, board: '' })
+    }
   }, [])
 
-  function onUpdateBoard(title) {
+  function onUpdateBoard(boardToEdit) {
     try {
-      if (!title || board.title === title) return
+      if (!boardToEdit.title || board.title === boardToEdit.title) return
 
-      board.title = title
-      updateBoard(board)
+      updateBoard(boardToEdit)
       showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
@@ -85,6 +90,7 @@ export function BoardDetails() {
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
   taskService.getLabels(board)
+
   return (
     <section
       className="board-details"
@@ -101,7 +107,7 @@ export function BoardDetails() {
         onRemoveBoard={onRemoveBoard}
         changeBoardColor={changeBoardColor}
       />
-      <GroupList members={board.members} />
+      <GroupList />
       <Outlet />
     </section>
   )

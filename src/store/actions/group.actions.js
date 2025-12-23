@@ -4,7 +4,7 @@ import { SET_BOARD } from '../reducers/board.reducer'
 
 export async function addGroup(board, group) {
     try {
-        const {newBoard, newGroup} = await groupService.addGroup(board, group)
+        const { newBoard, newGroup } = await groupService.addGroup(board, group)
         store.dispatch({ type: SET_BOARD, board: newBoard })
         return newGroup
     } catch (err) {
