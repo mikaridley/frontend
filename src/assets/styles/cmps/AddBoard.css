@@ -46,15 +46,6 @@
     width: 18px;
   }
 
-  &.from-list {
-    bottom: 3px;
-  }
-
-  &.from-header {
-    top: -190px;
-    left: 162%;
-  }
-
   form {
     display: grid;
     gap: 0.5em;

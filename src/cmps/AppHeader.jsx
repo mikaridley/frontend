@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
@@ -21,6 +21,7 @@ export function AppHeader() {
   const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
   const [boards, setBoards] = useState(null)
   const filterRef = useRef(null)
+  const location = useLocation()
 
   useEffect(() => {
     async function fetchBoards() {
@@ -71,6 +72,14 @@ export function AppHeader() {
     setFilterBy({ title: '' })
   }
 
+  function toggleAddBoard() {
+    if (location.pathname === '/board') {
+      navigate('/board/add-board', { state: 'header' })
+    } else {
+      navigate('/board')
+    }
+  }
+
   return (
     <section className="app-header">
       <Link to="/board">
@@ -115,13 +124,13 @@ export function AppHeader() {
           )}
         </form>
 
-        <Link
+        <button
           className="btn create-btn"
-          to="/board/add-board"
+          onClick={toggleAddBoard}
           state={{ origin: 'header' }}
         >
           Create
-        </Link>
+        </button>
       </section>
 
       <div className="user" onClick={onToggleUserOpen}>

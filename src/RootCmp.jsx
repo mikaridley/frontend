@@ -28,7 +28,6 @@ export function RootCmp() {
     <div>
       <UserMsg />
       <main className={pathname === '/' ? 'home-page-layout' : 'main-layout'}>
-
         {header()}
 
         <Routes>

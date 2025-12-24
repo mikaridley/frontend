@@ -8,27 +8,9 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
   const starBoards = boards.filter(board => board.isStarred)
   const location = useLocation()
   const isCreateOpen = location.pathname === '/board/add-board'
-
   const cardRef = useRef(null)
   const popupRef = useRef(null)
   const [direction, setDirection] = useState('right')
-
-  // useLayoutEffect(() => {
-  //   if (!isCreateOpen) return
-  //   if (!cardRef.current || !popupRef.current) return
-
-  //   const cardRect = cardRef.current.getBoundingClientRect()
-  //   const popupRect = popupRef.current.getBoundingClientRect()
-
-  //   const spaceRight = window.innerWidth - cardRect.right
-  //   const spaceLeft = cardRect.left
-
-  //   if (spaceRight < popupRect.width && spaceLeft > popupRect.width) {
-  //     setDirection('left')
-  //   } else {
-  //     setDirection('right')
-  //   }
-  // }, [isCreateOpen])
 
   useLayoutEffect(() => {
     if (!isCreateOpen) return
@@ -36,21 +18,32 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
 
     const cardRect = cardRef.current.getBoundingClientRect()
     const popupRect = popupRef.current.getBoundingClientRect()
-    const padding = 8 // safe margin from window edge
+    const padding = 8
 
-    let x = cardRect.right + padding
+    /* ---------- X AXIS ---------- */
+    // Prefer right
+    let left = cardRect.right + padding
 
-    // If overflow right → move left
-    if (x + popupRect.width > window.innerWidth) {
-      x = cardRect.left - popupRect.width - padding
+    // If overflow right → move to left
+    if (left + popupRect.width > window.innerWidth) {
+      left = cardRect.left - popupRect.width - padding
     }
 
-    // If still overflow left → clamp to window
-    if (x < padding) {
-      x = padding
+    // Clamp just in case
+    if (left < padding) left = padding
+
+    /* ---------- Y AXIS ---------- */
+    // Always center vertically
+    let top = cardRect.top + cardRect.height / 2 - popupRect.height / 2
+
+    // Clamp Y inside viewport
+    if (top < padding) top = padding
+    if (top + popupRect.height > window.innerHeight - padding) {
+      top = window.innerHeight - popupRect.height - padding
     }
 
-    popupRef.current.style.left = `${x}px`
+    popupRef.current.style.left = `${left}px`
+    popupRef.current.style.top = `${top}px`
   }, [isCreateOpen])
 
   return (
