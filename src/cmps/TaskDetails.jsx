@@ -1,6 +1,6 @@
 import { taskService } from '../services/task'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { showErrorMsg } from '../services/event-bus.service.js'
 import { loadBoard } from '../store/actions/board.actions'
@@ -37,7 +37,8 @@ export function TaskDetails() {
     }
   }, [boardId])
 
-    useEffect(() => {
+    // Function to sync task data from board to local state
+    const syncTaskFromBoard = useCallback(() => {
         if (board && groupId && taskId) {
             const task = taskService.getTaskById(board, groupId, taskId)
             if (task) {
@@ -53,7 +54,11 @@ export function TaskDetails() {
                 navigate(`/board/${boardId}`)
             }
         }
-    }, [board, groupId, taskId, navigate])
+    }, [board, groupId, taskId, navigate, boardId])
+
+    useEffect(() => {
+        syncTaskFromBoard()
+    }, [syncTaskFromBoard])
 
   function openPopup(popupName, event) {
     setActivePopup(popupName)
@@ -75,21 +80,8 @@ export function TaskDetails() {
         if (!board) return
         try {
             await updateTask(board, groupId, taskId, { [popupName]: data })
-            setTask(prevTask => ({ ...prevTask, [popupName]: data }))
-            // Update the corresponding state
-            if (popupName === 'checklists') {
-                setChecklists(data)
-            } else if (popupName === 'labels') {
-                setLabels(data)
-            } else if (popupName === 'members') {
-                setMembers(data)
-            } else if (popupName === 'dates') {
-                setDates(data)
-            } else if (popupName === 'attachments') {
-                setAttachments(data)
-            }
-
-            console.log('Task updated:', { ...task, [popupName]: data })
+            // Manually sync from board to ensure state updates (board is mutated in place)
+            syncTaskFromBoard()
             // Don't close popup for labels and members since they save immediately
             if (popupName !== 'labels' && popupName !== 'members') {
                 closePopup()

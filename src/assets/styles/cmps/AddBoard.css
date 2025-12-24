@@ -22,18 +22,10 @@
 }
 
 .add-board-outlet {
-  position: absolute;
-  margin-left: 8px;
-
-  &.right {
-    left: 100%;
-    margin-left: 8px;
-  }
-
-  &.left {
-    right: 100%;
-    margin-right: 320px;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .add-board {

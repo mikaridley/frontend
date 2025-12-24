@@ -10,20 +10,20 @@ export function ColorsBackground({
 }) {
   return (
     <div className="colors-background">
-      <section className="gradiant-colors">
+      <section className="gradient-colors">
         <SetBackgroundHeader
           onBack={onBack}
           onClose={onClose}
           header={'Colors'}
         />
-        {backgrounds.gradiantColors.map(color => {
+        {backgrounds.gradientColors.map(color => {
           return (
             <BackgroundPreview
               color={color}
               selectedColor={selectedColor.color}
               key={color}
               onChangeBackground={onChangeBackground}
-              kind={'gradiant'}
+              kind={'gradient'}
             />
           )
         })}

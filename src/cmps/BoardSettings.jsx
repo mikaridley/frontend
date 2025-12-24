@@ -14,6 +14,7 @@ import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
+import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 
 export function BoardSettings({
   board,
@@ -88,14 +89,9 @@ export function BoardSettings({
             <img src={shareIcon} />
             <button>share</button>
             <section className="setting-members">
-              {board.members.map((member, idx) => {
+              {board.members.map(member => {
                 return (
-                  <div
-                    style={{ left: `${idx * 4}px` }}
-                    className="setting-member"
-                  >
-                    MH
-                  </div>
+                  <MemberDefaultPhoto size={25} memberName={member.fullname} />
                 )
               })}
             </section>
@@ -111,7 +107,7 @@ export function BoardSettings({
           </div>
 
           <div className="setting-change-background">
-            <div className="menu-item">
+            <div onClick={toggleChangeBackground} className="menu-item">
               <div
                 style={
                   kind === 'photo'
@@ -120,9 +116,7 @@ export function BoardSettings({
                 }
                 className="board-settings-bg-icon"
               ></div>
-              <button onClick={toggleChangeBackground}>
-                Change background
-              </button>
+              <button>Change background</button>
             </div>
           </div>
 

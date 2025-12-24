@@ -11,18 +11,13 @@ export function TaskBackgroundPreview({
     storeState => storeState.boardModule.backgroundLoader
   )
 
-  const kindStyle = kind === 'gradiant' ? 'background' : 'backgroundColor'
+  const kindStyle = kind === 'gradient' ? 'background' : 'backgroundColor'
 
   // For photos, prefer full image URL, but gracefully fall back to the thumb if needed
   const bgToBigBoard =
-    kind === 'photo'
-      ? (color.imageUrlFull || color.imageUrl)
-      : color
+    kind === 'photo' ? color.imageUrlFull || color.imageUrl : color
 
-  const bgToSmallBoard =
-    kind === 'photo'
-      ? color.imageUrl
-      : color
+  const bgToSmallBoard = kind === 'photo' ? color.imageUrl : color
 
   return (
     <div
@@ -54,4 +49,3 @@ export function TaskBackgroundPreview({
     </div>
   )
 }
-

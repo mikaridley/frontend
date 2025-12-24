@@ -30,7 +30,7 @@ const gBackgrounds = {
     '#00aecc',
     '#838c91',
   ],
-  gradiantColors: [
+  gradientColors: [
     'linear-gradient(135deg, #1c2c44, #133160)',
     'linear-gradient(135deg, #0e6ae2, #33aec6)',
     'linear-gradient(135deg, #0c65e1, #093676)',
@@ -184,7 +184,7 @@ function _createBoards() {
         'Wedding',
         false,
         'linear-gradient(135deg, #e34b35, #f89c3c)',
-        'gradiant'
+        'gradient'
       )
     )
     boards.push(
@@ -192,7 +192,7 @@ function _createBoards() {
         'Presents',
         true,
         'linear-gradient(135deg, #21865e, #5bc1ca)',
-        'gradiant'
+        'gradient'
       )
     )
     boards.push(
@@ -200,7 +200,7 @@ function _createBoards() {
         'Surprise party',
         false,
         'linear-gradient(135deg, #0e6ae2, #33aec6)',
-        'gradiant'
+        'gradient'
       )
     )
     saveToStorage(STORAGE_KEY, boards)
@@ -211,7 +211,7 @@ function _createBoard(
   name = 'Board',
   isStarred = false,
   background = 'linear-gradient(135deg, #0e326d, #bd4f99)',
-  kind = 'gradiant'
+  kind = 'gradient'
 ) {
   return {
     _id: makeId(),
