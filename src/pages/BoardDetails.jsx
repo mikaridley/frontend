@@ -4,7 +4,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
-import { taskService } from '../services/task/task.service.local'
+import { taskService } from '../services/task'
 import { Loader } from '../cmps/Loader'
 
 import {
@@ -87,6 +87,9 @@ export function BoardDetails() {
   }
 
   if (!board) return <Loader />
+  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
+
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
   taskService.getLabels(board)

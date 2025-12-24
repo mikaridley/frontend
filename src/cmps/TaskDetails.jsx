@@ -13,6 +13,7 @@ import { TaskDetailsData } from './taskDetailsCmps/TaskDetailsData'
 import { TaskDetailsPopupManager } from './taskDetailsCmps/TaskDetailsPopupManager'
 import { TaskDetailsChecklistManager } from './taskDetailsCmps/TaskDetailsChecklistManager'
 import { TaskDetailsCover } from './taskDetailsCmps/TaskDetailsCover'
+import '../assets/styles/cmps/TaskDetails.css'
 
 
 export function TaskDetails() {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { boardService } from '../../../services/board'
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service'
 import { useNavigate } from 'react-router-dom'
 import { loadBoard, updateBoard } from '../../../store/actions/board.actions'

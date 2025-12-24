@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { makeId, isImageFile } from '../../../services/util.service'
 import { showErrorMsg } from '../../../services/event-bus.service'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'

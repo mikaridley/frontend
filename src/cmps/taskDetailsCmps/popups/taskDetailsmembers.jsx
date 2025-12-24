@@ -1,4 +1,4 @@
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { useState, useEffect, useRef } from 'react'
 import { getMemberInitials } from '../../../services/util.service'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'

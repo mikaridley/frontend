@@ -1,4 +1,4 @@
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { useState, useEffect, useRef } from 'react'
 import editIcon from '../../../assets/imgs/icons/edit_label.svg'
 import { ColorPicker } from '../ColorPicker'

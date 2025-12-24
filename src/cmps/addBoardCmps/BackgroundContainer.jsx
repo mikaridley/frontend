@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { boardService } from '../../services/board/board.service.local'
+import { boardService } from '../../services/board'
 import { MiniBoardPreview } from './MiniBoardPreview'
 import { BackgroundPreview } from './BackgroundPreview'
 import { PhotosBackground } from './PhotosBackground.jsx'

@@ -1,0 +1,20 @@
+@import '../../setup/variables.css';
+
+.task-details-header {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.task-details-header .toggle-done-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transform: translateY(-6px);
+}
+

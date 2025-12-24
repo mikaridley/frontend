@@ -30,12 +30,12 @@ export function GroupList() {
   const [isAddingGroup, setIsAddingGroup] = useState(false)
 
   // For drag and drop
-  const [groups, setGroups] = useState()
+  const [groups, setGroups] = useState([])
   const [activeId, setActiveId] = useState(null)
   const [activeType, setActiveType] = useState(null)
 
   useEffect(() => {
-    setGroups(board.groups)
+    setGroups(board?.groups || [])
   }, [board])
 
   async function onAddGroup(ev) {
@@ -46,7 +46,7 @@ export function GroupList() {
     try {
       const newGroup = { ...group }
       setGroup(groupService.getEmptyGroup())
-      setGroups(prev => [...prev, newGroup])
+      setGroups(prev => [...(prev || []), newGroup])
 
       showSuccessMsg('Added')
 

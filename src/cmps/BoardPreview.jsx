@@ -14,6 +14,9 @@ export function BoardPreview({ board, starToggle }) {
     ev.stopPropagation()
     starToggle(board)
   }
+// if board.style is not defined
+  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const { style } = board
   const kind =

@@ -8,16 +8,27 @@ export const groupService = {
 }
 
 async function addGroup(boardId, groupToAdd) {
-    return httpService.post(`board/${boardId}/group`, groupToAdd)
+    // Ensure boardId is a string
+    const id = typeof boardId === 'string' ? boardId : (boardId?._id ? String(boardId._id) : String(boardId))
+    return httpService.post(`board/${id}/group`, groupToAdd)
 }
 
 async function updateGroup(boardId, groupId, changes) {
-    return httpService.put(`board/${boardId}/group/${groupId}`, changes)
+    // Ensure boardId is a string
+    const id = typeof boardId === 'string' ? boardId : (boardId?._id ? String(boardId._id) : String(boardId))
+    // Handle both group object and groupId string
+    const groupIdStr = typeof groupId === 'string' ? groupId : (groupId?.id ? String(groupId.id) : String(groupId))
+    return httpService.put(`board/${id}/group/${groupIdStr}`, changes)
 }
 async function removeGroup(boardId, groupId) {
-    return httpService.delete(`board/${boardId}/group/${groupId}`)
+    // Ensure boardId is a string
+    const id = typeof boardId === 'string' ? boardId : (boardId?._id ? String(boardId._id) : String(boardId))
+    const groupIdStr = typeof groupId === 'string' ? groupId : (groupId?.id ? String(groupId.id) : String(groupId))
+    return httpService.delete(`board/${id}/group/${groupIdStr}`)
 }
 
 async function reorderGroups(boardId, fromIdx, toIdx) {
-    return httpService.put(`board/${boardId}/group/reorder`, { fromIdx, toIdx })
+    // Ensure boardId is a string
+    const id = typeof boardId === 'string' ? boardId : (boardId?._id ? String(boardId._id) : String(boardId))
+    return httpService.put(`board/${id}/group/reorder`, { fromIdx, toIdx })
 }
