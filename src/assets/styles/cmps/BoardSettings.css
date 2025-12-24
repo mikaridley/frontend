@@ -162,6 +162,7 @@
         align-items: end;
 
         height: 100px;
+        width: 100%;
         border-radius: 5px;
         background-size: cover;
         background-position: center;
@@ -174,6 +175,10 @@
 
           .photo-bg-msg {
             opacity: 0.6;
+            font-size: 0.8rem;
+            > a {
+              font-size: 0.8rem;
+            }
           }
         }
 
@@ -183,6 +188,7 @@
           font-size: 0.9rem;
           padding-left: 0.5rem;
           padding-block: 0.2rem;
+          width: 100%;
         }
       }
     }
