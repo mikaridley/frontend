@@ -20,6 +20,7 @@
 @import 'cmps/AppFooter.css';
 @import 'cmps/UserMsg.css';
 @import 'cmps/Loader.css';
+@import 'cmps/UserDefaultPhoto.css';
 
 /* Home */
 @import 'cmps/HomePageHeader.css';

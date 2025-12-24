@@ -1,3 +1,5 @@
+import { boardService } from './board/board.service.local'
+
 export function makeId(length = 6) {
   var txt = ''
   var possible =
@@ -96,6 +98,12 @@ export function getMemberInitials(fullname) {
   return (first + last).toUpperCase()
 }
 
+export function getRandomColor() {
+  const colors = boardService.getBackgrounds().solidColors
+  const index = getRandomIntInclusive(0, colors.length - 1)
+  return colors[index]
+}
+
 // Helper function to check if a file type is an image
 export function isImageFile(fileType) {
   return fileType && fileType.startsWith('image/')
@@ -107,9 +115,16 @@ export function getFileIcon(fileType) {
 
   if (fileType.includes('pdf')) return '📕'
   if (fileType.includes('word') || fileType.includes('document')) return '📘'
-  if (fileType.includes('excel') || fileType.includes('spreadsheet')) return '📗'
-  if (fileType.includes('powerpoint') || fileType.includes('presentation')) return '📙'
-  if (fileType.includes('zip') || fileType.includes('rar') || fileType.includes('7z')) return '📦'
+  if (fileType.includes('excel') || fileType.includes('spreadsheet'))
+    return '📗'
+  if (fileType.includes('powerpoint') || fileType.includes('presentation'))
+    return '📙'
+  if (
+    fileType.includes('zip') ||
+    fileType.includes('rar') ||
+    fileType.includes('7z')
+  )
+    return '📦'
   if (fileType.includes('text') || fileType.includes('plain')) return '📄'
   if (fileType.includes('json')) return '📋'
   if (fileType.includes('csv')) return '📊'

@@ -1,0 +1,10 @@
+.member-default-photo {
+  border-radius: 50%;
+  font-size: 90%;
+
+  /* demo, will be deleted */
+  color: var(--clr-txt-dark);
+  display: grid;
+  place-items: center;
+  /* end demo */
+}

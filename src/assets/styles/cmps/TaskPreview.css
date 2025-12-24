@@ -106,26 +106,13 @@
         }
       }
 
-      .task-user-container {
+      .task-member-container {
         grid-row: 2;
 
         display: flex;
         gap: 0.3rem;
 
         margin-left: auto;
-
-        .task-user {
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
-
-          /* demo, will be deleted */
-          background-color: rgb(172, 106, 36);
-          color: var(--clr-txt-dark);
-          display: grid;
-          place-items: center;
-          /* end demo */
-        }
       }
     }
   }

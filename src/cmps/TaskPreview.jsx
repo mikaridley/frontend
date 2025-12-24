@@ -11,6 +11,7 @@ import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
 import attachmentsImg from '../assets/img/attachments.svg'
+import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -65,7 +66,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     const date = new Date(task.dates.dateTime)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
-  console.log(task)
+  console.log(task.members)
 
   const checkListCount = getChecklistCount()
   return (
@@ -179,11 +180,14 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
             )}
 
             {task.members && (
-              <section className="task-user-container">
+              <section className="task-member-container">
                 {task.members.map(member => (
                   <LightTooltip key={member._id} title={member.fullname}>
                     <div className="task-checklists">
-                      <div className="task-user">RH</div>
+                      <MemberDefaultPhoto
+                        size={25}
+                        memberName={member.fullname}
+                      />
                     </div>
                   </LightTooltip>
                 ))}
