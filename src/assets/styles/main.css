@@ -41,3 +41,6 @@
 @import 'cmps/TaskPreview.css';
 @import 'cmps/TaskDetails.css';
 @import 'cmps/BackgroundContainer.css';
+
+/* mq */
+@import 'setup/mqHomePage.css';

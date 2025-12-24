@@ -5,13 +5,7 @@
 
 .home-page-layout {
   display: grid;
-  /* grid-template-columns: minmax(0px, 310px) minmax(auto, 1600px) minmax(
-      0px,
-      310px
-    ); */
-  grid-template-rows: minmax(60px, auto) 1fr;
-
-  /* height: 100vh; */
+  grid-template-columns: 100%;
 
   font-family: 'charlie', sans-serif;
 

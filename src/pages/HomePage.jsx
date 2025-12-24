@@ -9,7 +9,7 @@ export function HomePage() {
     <section className="home-page">
       <div className="second-header">
         Accelerate your teams' work with AI features 🤖 now available for all
-        Premium and Enterprise! <a>Learn more</a>.
+        Premium and Enterprise! <a>Learn more.</a>
       </div>
       <section className="home-main-content">
         <div className="home-sign-up">
