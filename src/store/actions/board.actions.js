@@ -14,10 +14,11 @@ import {
 import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
 
 export async function loadBoards(filterBy) {
+  const { loggedinUser } = store.getState().userModule
   store.dispatch({ type: LOADING_START })
 
   try {
-    const boards = await boardService.query(filterBy)
+    const boards = await boardService.query(loggedinUser._id, filterBy)
     store.dispatch(getCmdSetBoards(boards))
   } catch (err) {
     console.log('Cannot load board', err)

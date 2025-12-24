@@ -6,7 +6,6 @@ export function BackgroundPreview({
   onChangeBackground,
   kind,
 }) {
-  console.log(color)
   const isLoading = useSelector(
     storeState => storeState.boardModule.backgroundLoader
   )

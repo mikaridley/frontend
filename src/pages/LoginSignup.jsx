@@ -5,6 +5,8 @@ import { jwtDecode } from 'jwt-decode'
 import { Link } from 'react-router-dom'
 
 import { login, signup } from '../store/actions/user.actions'
+import { userService } from '../services/user'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import leftImg from '../assets/img/login-page-left.png'
 import rightImg from '../assets/img/login-page-right.png'
 
@@ -13,33 +15,78 @@ export function LoginSignup() {
     const [credentials, setCredentials] = useState(userService.getEmptyUser())
     const navigate = useNavigate()
 
-    async function onLogin(ev, creds = credentials) {
+    async function handleSubmit(ev, creds = credentials) {
         if (ev) ev.preventDefault()
+
         if (!creds.email) return
+        let user
 
-        if (pathname === '/login') await login(creds)
-        else await signup(creds)
+        try {
+            if (pathname === '/login') user = await login(creds)
+            else user = await signup(creds)
 
-        navigate('/board')
+            if (!user) return showErrorMsg('Could not log in')
+
+            showSuccessMsg('Logged in successfully')
+            navigate('/board')
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg('Could not log in')
+        }
     }
 
     function handleChange({ target }) {
-        const value = target.value
-        setCredentials({ email: value })
+        const { name: field, value } = target
+        setCredentials(prevCreds => ({ ...prevCreds, [field]: value }))
     }
 
     function handleGoogleLogin(credentialResponse) {
         const { email, name, picture } = jwtDecode(credentialResponse.credential)
-        onLogin(null, { email, fullname: name, imgUrl: picture })
+        handleSubmit(null, { email, fullname: name, imgUrl: picture })
     }
 
+    const { email, password, fullname } = credentials
+
     return (
-        <section className='login-signup'>
+        <section className="login-signup">
             <img src={leftImg} />
-            <div className='login-form'>
-                <form className="login-form" onSubmit={onLogin}>
+            <div className="login-form">
+                <form className="login-form grid" onSubmit={handleSubmit}>
                     <h1>Signup to continue</h1>
-                    <input type='email' required onChange={handleChange} />
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value={email}
+                        placeholder="Enter your email"
+                        onChange={handleChange}
+                        required
+                    />
+                    {pathname === '/signup' &&
+                        <div className="grid">
+                            <label htmlFor="fullname">Fullname</label>
+                            <input
+                                type="fullname"
+                                name="fullname"
+                                value={fullname}
+                                placeholder="Enter your fullname"
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    }
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        value={password}
+                        placeholder="Enter password"
+                        onChange={handleChange}
+                        required
+                    />
+
                     <button>Login</button>
 
                     {true && <GoogleLogin

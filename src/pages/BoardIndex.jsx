@@ -5,15 +5,16 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
   addBoard,
   loadBoards,
-  removeBoard,
   updateBoard,
 } from '../store/actions/board.actions'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Loader } from '../cmps/Loader'
+import { userService } from '../services/user'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
+  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
   const navigate = useNavigate()
   const [newBoardColor, setNewBoardColor] = useState('')
 
@@ -24,6 +25,7 @@ export function BoardIndex() {
   async function _addBoard(ev, value) {
     ev.preventDefault()
     const boardToSave = boardService.getEmptyBoard()
+    boardToSave.members = [loggedinUser]
     boardToSave.title = value
     boardToSave.style.background = {
       color: newBoardColor.color || '#0079bf',
@@ -47,7 +49,7 @@ export function BoardIndex() {
     setNewBoardColor({ color, kind })
   }
 
-  if (!boards.length) return <Loader />
+  if (!boards) return <Loader />
   return (
     <section className="board-index">
       <BoardList

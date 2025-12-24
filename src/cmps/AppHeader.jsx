@@ -6,7 +6,7 @@ import { logout } from '../store/actions/user.actions'
 import logoLightImg from '../assets/img/logo-light.png'
 
 export function AppHeader() {
-  const { imgUrl, fullname } = useSelector(storeState => storeState.userModule.user)
+  const { imgUrl, fullname } = useSelector(storeState => storeState.userModule.loggedinUser)
   const [isUserOpen, setIsUserOpen] = useState()
   const navigate = useNavigate()
 
