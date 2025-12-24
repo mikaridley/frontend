@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 import { getColorsBg, getPhotos } from '../../../store/actions/board.actions'
 import { TaskBackgroundPreview } from '../background/TaskBackgroundPreview'
+import { uploadService } from '../../../services/upload.service'
+import { showErrorMsg } from '../../../services/event-bus.service'
 
 export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave, position }) {
   const popupRef = useRef(null)
@@ -15,6 +17,7 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
   )
 
   const [selectedColor, setSelectedColor] = useState({ color: '#0079bf', kind: 'solid' })
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     // Ensure Unsplash photos are loaded
@@ -34,18 +37,36 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
     if (fileInputRef.current) fileInputRef.current.click()
   }
 
-  function onFileInputChange(ev) {
+  async function onFileInputChange(ev) {
     const file = ev.target.files?.[0]
     if (!file) return
 
-    const reader = new FileReader()
-    reader.onload = event => {
-      const dataUrl = event.target?.result
-      if (!dataUrl || typeof dataUrl !== 'string') return
-      // Save uploaded image as cover (same shape as Unsplash photos)
-      handleChangeCover({ color: dataUrl, kind: 'photo' })
+    // Validate file type (only images for cover)
+    if (!file.type.startsWith('image/')) {
+      showErrorMsg('Please select an image file')
+      ev.target.value = ''
+      return
     }
-    reader.readAsDataURL(file)
+
+    setIsUploading(true)
+    try {
+      // Upload file to Cloudinary via backend
+      const uploadResult = await uploadService.uploadFile(file, {
+        folder: 'task-covers',
+        resource_type: 'image'
+      })
+      
+      const imageUrl = uploadResult.url || uploadResult.secure_url
+      // Save uploaded image as cover (same shape as Unsplash photos)
+      handleChangeCover({ color: imageUrl, kind: 'photo' })
+    } catch (err) {
+      console.error('Failed to upload cover image:', err)
+      showErrorMsg('Failed to upload image. Please try again.')
+    } finally {
+      setIsUploading(false)
+      // Reset file input
+      if (ev.target) ev.target.value = ''
+    }
   }
 
   const gradientColors = backgrounds.gradiantColors || []
@@ -97,8 +118,12 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
           style={{ display: 'none' }}
           onChange={onFileInputChange}
         />
-        <button className="btn-upload-cover" onClick={onUploadButtonClick}>
-          Upload cover image
+        <button 
+          className="btn-upload-cover" 
+          onClick={onUploadButtonClick}
+          disabled={isUploading}
+        >
+          {isUploading ? 'Uploading...' : 'Upload cover image'}
         </button>
 
         <h5>Photo from Unsplash</h5>

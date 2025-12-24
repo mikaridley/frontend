@@ -11,10 +11,17 @@ export function ImgUploader({ onUploaded = null }) {
 
   async function uploadImg(ev) {
     setIsUploading(true)
-    const { secure_url, height, width } = await uploadService.uploadImg(ev)
-    setImgData({ imgUrl: secure_url, width, height })
-    setIsUploading(false)
-    onUploaded && onUploaded(secure_url)
+    try {
+      const { url, secure_url, height, width } = await uploadService.uploadImg(ev)
+      // Use url (from backend) or secure_url (for backward compatibility)
+      const imgUrl = url || secure_url
+      setImgData({ imgUrl, width, height })
+      onUploaded && onUploaded(imgUrl)
+    } catch (err) {
+      console.error('Upload failed:', err)
+    } finally {
+      setIsUploading(false)
+    }
   }
 
   function getUploadLabel() {

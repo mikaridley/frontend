@@ -1,12 +1,16 @@
 import { store } from '../store'
 import { groupService } from '../../services/group'
-import { SET_BOARD } from '../reducers/board.reducer'
+import { updateBoard } from './board.actions'
+import { UPDATE_BOARD } from '../reducers/board.reducer'
 
 export async function addGroup(board, group) {
     try {
-        const { newBoard, newGroup } = await groupService.addGroup(board, group)
-        store.dispatch({ type: SET_BOARD, board: newBoard })
-        return newGroup
+        const updatedBoard = await groupService.addGroup(board, group)
+        // Update store immediately for optimistic UI update
+        store.dispatch({ type: UPDATE_BOARD, board: updatedBoard })
+        // Persist to backend
+        await updateBoard(updatedBoard)
+        return group
     } catch (err) {
         console.log('err:', err)
         throw err
@@ -15,10 +19,13 @@ export async function addGroup(board, group) {
 
 export async function updateGroup(board, group) {
     try {
-        const updatedGroup = await groupService.updateGroup(board, group)
-        store.dispatch({ type: SET_BOARD, board })
-        return updatedGroup
-    } catch {
+        const updatedBoard = await groupService.updateGroup(board, group)
+        // Update store immediately for optimistic UI update
+        store.dispatch({ type: UPDATE_BOARD, board: updatedBoard })
+        // Persist to backend
+        await updateBoard(updatedBoard)
+        return group
+    } catch (err) {
         console.log('err:', err)
         throw err
     }

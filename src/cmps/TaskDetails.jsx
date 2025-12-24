@@ -39,9 +39,10 @@ export function TaskDetails() {
   }, [boardId])
 
     // Function to sync task data from board to local state
-    const syncTaskFromBoard = useCallback(() => {
-        if (board && groupId && taskId) {
-            const task = taskService.getTaskById(board, groupId, taskId)
+    const syncTaskFromBoard = useCallback((boardToSync = null) => {
+        const boardToUse = boardToSync || board
+        if (boardToUse && groupId && taskId) {
+            const task = taskService.getTaskById(boardToUse, groupId, taskId)
             if (task) {
                 setTask(task)
                 setComments(task?.comments || [])
@@ -80,9 +81,11 @@ export function TaskDetails() {
     async function savePopup(popupName, data) {
         if (!board) return
         try {
-            await updateTask(board, groupId, taskId, { [popupName]: data })
-            // Manually sync from board to ensure state updates (board is mutated in place)
-            syncTaskFromBoard()
+            const updatedBoard = await updateTask(board, groupId, taskId, { [popupName]: data })
+            // Sync immediately using the returned updated board (no need to wait for Redux)
+            if (updatedBoard) {
+                syncTaskFromBoard(updatedBoard)
+            }
             // Don't close popup for labels and members since they save immediately
             if (popupName !== 'labels' && popupName !== 'members') {
                 closePopup()
