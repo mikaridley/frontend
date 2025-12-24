@@ -74,6 +74,7 @@ select {
 input {
   &:focus {
     outline: 2px solid var(--clr-create-btn);
+    border: none;
   }
 }
 

@@ -9,6 +9,7 @@ import { userService } from '../services/user'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import leftImg from '../assets/img/login-page-left.png'
 import rightImg from '../assets/img/login-page-right.png'
+import logoImg from '../assets/img/logo-dark.png'
 
 export function LoginSignup() {
     const { pathname } = useLocation()
@@ -48,11 +49,17 @@ export function LoginSignup() {
     const { email, password, fullname } = credentials
 
     return (
-        <section className="login-signup">
+        <section className="login-signup grid">
             <img src={leftImg} />
-            <div className="login-form">
-                <form className="login-form grid" onSubmit={handleSubmit}>
-                    <h1>Signup to continue</h1>
+            <form className="login-form grid" onSubmit={handleSubmit}>
+
+                <img src={logoImg} />
+                {pathname === '/login'
+                    ? <h1>Log in to continue</h1>
+                    : <h1>Sign up to continue</h1>
+                }
+
+                <div className="login-form-input">
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -63,19 +70,21 @@ export function LoginSignup() {
                         onChange={handleChange}
                         required
                     />
-                    {pathname === '/signup' &&
-                        <div className="grid">
-                            <label htmlFor="fullname">Fullname</label>
-                            <input
-                                type="fullname"
-                                name="fullname"
-                                value={fullname}
-                                placeholder="Enter your fullname"
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                    }
+                </div>
+                {pathname === '/signup' &&
+                    <div className="login-form-input">
+                        <label htmlFor="fullname">Fullname</label>
+                        <input
+                            type="fullname"
+                            name="fullname"
+                            value={fullname}
+                            placeholder="Enter your fullname"
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                }
+                <div className="login-form-input">
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
@@ -86,18 +95,21 @@ export function LoginSignup() {
                         onChange={handleChange}
                         required
                     />
+                </div>
 
-                    <button>Login</button>
-
-                    {true && <GoogleLogin
-                        onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
-                        onError={() => console.log('Login Failed')}
-                    />}
-                </form>
                 {pathname === '/login'
-                    ? <Link to='/signup'><p>Create an account</p></Link>
-                    : <Link to='/login'><p>Already have an account? Log in</p></Link>}
-            </div>
+                    ? <button>Continue</button>
+                    : <button>Sign up</button>
+
+                }
+                {true && <GoogleLogin
+                    onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
+                    onError={() => console.log('Login Failed')}
+                />}
+                {pathname === '/login'
+                    ? <Link to='/signup' className='link'>Create an account</Link>
+                    : <Link to='/login' className='link'>Already have an account? Log in</Link>}
+            </form>
             <img src={rightImg} />
         </section>
     )
