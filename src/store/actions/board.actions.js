@@ -6,6 +6,8 @@ import {
   REMOVE_BOARD,
   SET_BOARD,
   SET_BOARDS,
+  SET_FILTER_BY,
+  SET_FILTERED_BOARDS,
   SET_PHOTOS,
   TOGGLE_BOARD_BG_LOADER,
   UPDATE_BOARD,
@@ -13,12 +15,28 @@ import {
 
 import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
 
-export async function loadBoards(filterBy) {
+export async function loadBoards() {
   store.dispatch({ type: LOADING_START })
 
   try {
-    const boards = await boardService.query(filterBy)
+    const boards = await boardService.query()
     store.dispatch(getCmdSetBoards(boards))
+    return boards
+  } catch (err) {
+    console.log('Cannot load board', err)
+    throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
+  }
+}
+
+export async function loadFilteredBoards(filterBy) {
+  store.dispatch({ type: LOADING_START })
+
+  try {
+    const boards = await boardService.queryFiltered(filterBy)
+    store.dispatch(getCmdSetFilteredBoards(boards))
+    return boards
   } catch (err) {
     console.log('Cannot load board', err)
     throw err
@@ -107,10 +125,24 @@ export function toggleBoardBgLoader() {
   store.dispatch(getCmdBoardBgLoader())
 }
 
+export function getDefaultFilter() {
+  return { title: '' }
+}
+
+export function setFilterBy(filterBy) {
+  store.dispatch(getCmdSetFilterBt(filterBy))
+}
+
 // Command Creators:
 function getCmdSetBoards(boards) {
   return {
     type: SET_BOARDS,
+    boards,
+  }
+}
+function getCmdSetFilteredBoards(boards) {
+  return {
+    type: SET_FILTERED_BOARDS,
     boards,
   }
 }
@@ -150,6 +182,10 @@ function getCmdBoardUndo() {
 function getCmdBoardBgLoader() {
   return { type: TOGGLE_BOARD_BG_LOADER }
 }
+function getCmdSetFilterBt(filterBy) {
+  return { type: SET_FILTER_BY, filterBy }
+}
+
 // unitTestActions()
 // async function unitTestActions() {
 //     await loadBoards()

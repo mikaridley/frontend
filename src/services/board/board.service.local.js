@@ -15,6 +15,7 @@ export const boardService = {
   getEmptyBoard,
   getBackgrounds,
   getBoardBackgrounds,
+  queryFiltered,
 }
 window.bs = boardService
 
@@ -44,34 +45,41 @@ const gBackgrounds = {
   ],
 }
 
-async function query(filterBy = { txt: '' }) {
+async function query() {
   var boards = await storageService.query(STORAGE_KEY)
-  const { txt } = filterBy
+  return boards
+}
 
-  // if (txt) {
-  //   const regex = new RegExp(filterBy.txt, 'i')
-  //   boards = boards.filter(board => {
-  //     // Check board name
-  //     if (regex.test(board.title)) return true
+async function queryFiltered(filterBy = { title: '' }) {
+  var boards = await storageService.query(STORAGE_KEY)
 
-  //     // Check group names
-  //     if (board.groups && Array.isArray(board.groups)) {
-  //       for (const group of board.groups) {
-  //         if (group.name && regex.test(group.name)) return true
+  const { title } = filterBy
+  if (!title) return ''
 
-  //         // Check task names within groups
-  //         if (group.tasks && Array.isArray(group.tasks)) {
-  //           for (const task of group.tasks) {
-  //             if (task.name && regex.test(task.name)) return true
-  //             if (task.title && regex.test(task.title)) return true
-  //           }
-  //         }
-  //       }
-  //     }
+  if (title) {
+    const regex = new RegExp(title, 'i')
+    boards = boards.filter(board => {
+      return regex.test(board.title)
+      // Check board name
+      // if (regex.test(board.title)) return true
+      // Check group names
+      // if (board.groups && Array.isArray(board.groups)) {
+      //   for (const group of board.groups) {
+      //     if (group.name && regex.test(group.name)) return true
 
-  //     return false
-  //   })
-  // }
+      //     // Check task names within groups
+      //     if (group.tasks && Array.isArray(group.tasks)) {
+      //       for (const task of group.tasks) {
+      //         if (task.name && regex.test(task.name)) return true
+      //         if (task.title && regex.test(task.title)) return true
+      //       }
+      //     }
+      //   }
+      // }
+
+      // return false
+    })
+  }
 
   // boards = boards.map(({ _id, name }) => ({ _id, name }))
   return boards

@@ -34,7 +34,7 @@ export function BoardDetails() {
     return () => {
       store.dispatch({ type: SET_BOARD, board: '' })
     }
-  }, [])
+  }, [boardId])
 
   function onUpdateBoard(boardToEdit) {
     try {

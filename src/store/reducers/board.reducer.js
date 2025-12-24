@@ -1,4 +1,7 @@
+import { getDefaultFilter } from '../actions/board.actions'
+
 export const SET_BOARDS = 'SET_BOARDS'
+export const SET_FILTERED_BOARDS = 'SET_FILTERED_BOARDS'
 export const SET_BOARD = 'SET_BOARD'
 export const REMOVE_BOARD = 'REMOVE_BOARD'
 export const ADD_BOARD = 'ADD_BOARD'
@@ -6,14 +9,17 @@ export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const SET_PHOTOS = 'SET_PHOTOS'
 export const BOARD_UNDO = 'BOARD_UNDO'
 export const TOGGLE_BOARD_BG_LOADER = 'TOGGLE_BOARD_BG_LOADER'
+export const SET_FILTER_BY = 'SET_FILTER_BY'
 // export const ADD_CAR_MSG = 'ADD_CAR_MSG'
 
 const initialState = {
   boards: [],
+  filteredBoards: [],
   board: null,
   backgroundPhotos: [],
   lastBoards: [],
   backgroundLoader: false,
+  filterBy: getDefaultFilter(),
 }
 
 export function boardReducer(state = initialState, action) {
@@ -22,6 +28,9 @@ export function boardReducer(state = initialState, action) {
   switch (action.type) {
     case SET_BOARDS:
       newState = { ...state, boards: action.boards }
+      break
+    case SET_FILTERED_BOARDS:
+      newState = { ...state, filteredBoards: action.boards }
       break
     case SET_BOARD:
       newState = { ...state, board: action.board }
@@ -64,6 +73,11 @@ export function boardReducer(state = initialState, action) {
       return {
         ...state,
         backgroundLoader: !state.backgroundLoader,
+      }
+    case SET_FILTER_BY:
+      return {
+        ...state,
+        filterBy: { ...state.filterBy, ...action.filterBy },
       }
     // case ADD_CAR_MSG:
     //   if (action.msg && state.car) {
