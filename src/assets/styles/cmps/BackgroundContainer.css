@@ -100,7 +100,7 @@
     }
 
     .solid-colors,
-    .gradiant-colors,
+    .gradient-colors,
     .photos-background {
       display: grid;
       grid-template-columns: repeat(3, 1fr);

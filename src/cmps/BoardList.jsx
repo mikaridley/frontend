@@ -13,21 +13,44 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
   const popupRef = useRef(null)
   const [direction, setDirection] = useState('right')
 
+  // useLayoutEffect(() => {
+  //   if (!isCreateOpen) return
+  //   if (!cardRef.current || !popupRef.current) return
+
+  //   const cardRect = cardRef.current.getBoundingClientRect()
+  //   const popupRect = popupRef.current.getBoundingClientRect()
+
+  //   const spaceRight = window.innerWidth - cardRect.right
+  //   const spaceLeft = cardRect.left
+
+  //   if (spaceRight < popupRect.width && spaceLeft > popupRect.width) {
+  //     setDirection('left')
+  //   } else {
+  //     setDirection('right')
+  //   }
+  // }, [isCreateOpen])
+
   useLayoutEffect(() => {
     if (!isCreateOpen) return
     if (!cardRef.current || !popupRef.current) return
 
     const cardRect = cardRef.current.getBoundingClientRect()
     const popupRect = popupRef.current.getBoundingClientRect()
+    const padding = 8 // safe margin from window edge
 
-    const spaceRight = window.innerWidth - cardRect.right
-    const spaceLeft = cardRect.left
+    let x = cardRect.right + padding
 
-    if (spaceRight < popupRect.width && spaceLeft > popupRect.width) {
-      setDirection('left')
-    } else {
-      setDirection('right')
+    // If overflow right → move left
+    if (x + popupRect.width > window.innerWidth) {
+      x = cardRect.left - popupRect.width - padding
     }
+
+    // If still overflow left → clamp to window
+    if (x < padding) {
+      x = padding
+    }
+
+    popupRef.current.style.left = `${x}px`
   }, [isCreateOpen])
 
   return (

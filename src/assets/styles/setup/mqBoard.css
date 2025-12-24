@@ -1,0 +1,32 @@
+@media (max-width: 1000px) {
+  .board-list {
+    width: 700px;
+
+    .star-boards,
+    .not-star-boards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .board-list {
+    width: 450px;
+
+    .star-boards,
+    .not-star-boards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .board-list {
+    width: 210px;
+
+    .star-boards,
+    .not-star-boards {
+      grid-template-columns: 1fr;
+    }
+  }
+}

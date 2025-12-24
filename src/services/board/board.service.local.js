@@ -30,7 +30,7 @@ const gBackgrounds = {
     '#00aecc',
     '#838c91',
   ],
-  gradiantColors: [
+  gradientColors: [
     'linear-gradient(135deg, #1c2c44, #133160)',
     'linear-gradient(135deg, #0e6ae2, #33aec6)',
     'linear-gradient(135deg, #0c65e1, #093676)',
@@ -44,9 +44,12 @@ const gBackgrounds = {
   ],
 }
 
-async function query(filterBy = { txt: '' }) {
+async function query(userId, filterBy = { txt: '' }) {
   var boards = await storageService.query(STORAGE_KEY)
   const { txt } = filterBy
+
+  boards = boards.filter(board =>
+    board.members.some(member => member._id === userId))
 
   // if (txt) {
   //   const regex = new RegExp(filterBy.txt, 'i')
@@ -122,7 +125,14 @@ function getEmptyBoard() {
       background: { color: '', kind: '' },
     },
     labels: [],
-    members: [],
+    members: [
+      {
+        _id: 'u101',
+        email: 'admin@gmail.com',
+        fullname: 'Admin',
+        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+      },
+    ],
     groups: [],
   }
 }
@@ -174,7 +184,7 @@ function _createBoards() {
         'Wedding',
         false,
         'linear-gradient(135deg, #e34b35, #f89c3c)',
-        'gradiant'
+        'gradient'
       )
     )
     boards.push(
@@ -182,7 +192,7 @@ function _createBoards() {
         'Presents',
         true,
         'linear-gradient(135deg, #21865e, #5bc1ca)',
-        'gradiant'
+        'gradient'
       )
     )
     boards.push(
@@ -190,7 +200,7 @@ function _createBoards() {
         'Surprise party',
         false,
         'linear-gradient(135deg, #0e6ae2, #33aec6)',
-        'gradiant'
+        'gradient'
       )
     )
     saveToStorage(STORAGE_KEY, boards)
@@ -201,7 +211,7 @@ function _createBoard(
   name = 'Board',
   isStarred = false,
   background = 'linear-gradient(135deg, #0e326d, #bd4f99)',
-  kind = 'gradiant'
+  kind = 'gradient'
 ) {
   return {
     _id: makeId(),
@@ -222,146 +232,12 @@ function _createBoard(
     labels: [],
     members: [
       {
-        _id: 'u102',
-        fullname: 'Ran Hirshorn',
-        imgUrl: 'https://www.google.com',
-      },
-      {
-        _id: 'u103',
-        fullname: 'Asya Kandyba',
-        imgUrl: 'https://www.google.com',
-      },
-      {
         _id: 'u101',
-        fullname: 'Mika Haitner',
-        imgUrl: 'https://www.google.com',
+        email: 'admin@gamil.com',
+        fullname: 'Admin',
+        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
       },
     ],
-    //   {
-    //     id: 'D2Y0Ys',
-    //     title: 'Flights',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: '94WTmg',
-    //         title: 'Tel Aviv to Thailand',
-    //         dates: { dateTime: '2025-12-23T09:16:38.000Z' },
-    //         labels: [
-    //           { color: '#ae2e24', title: '', colorName: 'red' },
-    //           { color: '#7f5f01', title: '', colorName: 'yellow' },
-    //         ],
-    //         description: '<p>hi</p>',
-    //         comments: [
-    //           { id: 'nlCgZG', text: '<p>hi</p>', createdAt: 1766308743797 },
-    //         ],
-    //         checklists: [
-    //           {
-    //             id: '1766308747119',
-    //             name: 'hi',
-    //             items: [
-    //               { text: 'hi', isChecked: true },
-    //               { text: 'hhi', isChecked: false },
-    //             ],
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         id: 'K1aX2p',
-    //         title: 'Return flight to Tel Aviv',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: 'kiKKyz',
-    //     title: 'Hotels',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: 'H12aLp',
-    //         title: 'Book hotel in Bangkok',
-    //       },
-    //       {
-    //         id: 'H98Ksd',
-    //         title: 'Reserve resort in Phuket',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: '1YXVeK',
-    //     title: 'To do',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: 'aI7Tj4',
-    //         title: 'Book international flights',
-    //       },
-    //       {
-    //         id: 'Qp93Lm',
-    //         title: 'Check visa requirements',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: 'JZa1a9',
-    //     title: 'Places I want to go',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: 'PL88sa',
-    //         title: 'Phi Phi Islands',
-    //       },
-    //       {
-    //         id: 'PL22Df',
-    //         title: 'Chiang Mai night market',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: 'sGgldB',
-    //     title: 'To Pack',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: 'PK1Lm2',
-    //         title: 'Passport',
-    //       },
-    //       {
-    //         id: 'PK9Qa1',
-    //         title: 'Travel adapter',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: 'F8gI4G',
-    //     title: 'FOOD',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: 'FD77Ss',
-    //         title: 'Pad Thai',
-    //       },
-    //       {
-    //         id: 'FD22Lp',
-    //         title: 'Mango sticky rice',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: 'X9Fun1',
-    //     title: 'Experiences',
-    //     archivedAt: null,
-    //     tasks: [
-    //       {
-    //         id: 'EX01',
-    //         title: 'Thai cooking class',
-    //       },
-    //       {
-    //         id: 'EX02',
-    //         title: 'Scuba diving day',
-    //       },
-    //     ],
-    //   },
-    // ],
     groups: [
       {
         id: 'G-NZ-01',

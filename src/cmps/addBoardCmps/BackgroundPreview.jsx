@@ -6,11 +6,10 @@ export function BackgroundPreview({
   onChangeBackground,
   kind,
 }) {
-  console.log(color)
   const isLoading = useSelector(
     storeState => storeState.boardModule.backgroundLoader
   )
-  const kindStyle = kind === 'gradiant' ? 'background' : 'backgroundColor'
+  const kindStyle = kind === 'gradient' ? 'background' : 'backgroundColor'
   const bgToBigBoard = kind === 'photo' ? color.imageUrlFull : color
   const bgToSmallBoard = kind === 'photo' ? color.imageUrl : color
   return (

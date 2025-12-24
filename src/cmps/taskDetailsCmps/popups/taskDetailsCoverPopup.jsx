@@ -6,11 +6,18 @@ import { TaskBackgroundPreview } from '../background/TaskBackgroundPreview'
 import { uploadService } from '../../../services/upload.service'
 import { showErrorMsg } from '../../../services/event-bus.service'
 
-export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave, position }) {
+export function TaskDetailsCoverPopup({
+  board,
+  groupId,
+  taskId,
+  onClose,
+  onSave,
+  position,
+}) {
   const popupRef = useRef(null)
   const fileInputRef = useRef(null)
   // popupToViewportHook(popupRef, position)
-  
+
   const backgrounds = getColorsBg()
   const photosBg = useSelector(
     storeState => storeState.boardModule.backgroundPhotos
@@ -69,7 +76,7 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
     }
   }
 
-  const gradientColors = backgrounds.gradiantColors || []
+  const gradientColors = backgrounds.gradientColors || []
   const solidColors = backgrounds.solidColors || []
   const allColors = [...gradientColors, ...solidColors]
   const topTenColors = allColors.slice(0, 10)
@@ -77,8 +84,11 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
   const unsplashPhotos = photosBg.slice(0, 6)
 
   // Check if position.left + 300 is out of viewport
-  const viewportWidth = typeof window !== 'undefined' ? window.innerWidth || document.documentElement.clientWidth : 0
-  const leftOffset = position && (position.left + 350) > viewportWidth ? 300 : 0
+  const viewportWidth =
+    typeof window !== 'undefined'
+      ? window.innerWidth || document.documentElement.clientWidth
+      : 0
+  const leftOffset = position && position.left + 350 > viewportWidth ? 300 : 0
 
   return (
     <div className="popup-overlay" onClick={onClose}>
@@ -86,9 +96,18 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
         ref={popupRef}
         className="popup-content popup-cover"
         onClick={e => e.stopPropagation()}
-        style={position ? { top: `${position.top}px`, left: `${position.left-leftOffset}px` } : {}}
+        style={
+          position
+            ? {
+                top: `${position.top}px`,
+                left: `${position.left - leftOffset}px`,
+              }
+            : {}
+        }
       >
-        <button className="popup-close" onClick={onClose}>×</button>
+        <button className="popup-close" onClick={onClose}>
+          ×
+        </button>
         <h4>Task cover</h4>
 
         <button className="btn-remove-cover" onClick={onRemoveCover}>
@@ -105,7 +124,7 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
               onChangeBackground={(colorVal, kind) =>
                 handleChangeCover({ color: colorVal, kind })
               }
-              kind={gradientColors.includes(color) ? 'gradiant' : 'solid'}
+              kind={gradientColors.includes(color) ? 'gradient' : 'solid'}
             />
           ))}
         </div>

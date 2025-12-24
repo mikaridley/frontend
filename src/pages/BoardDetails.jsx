@@ -56,7 +56,6 @@ export function BoardDetails() {
     } catch {
       showErrorMsg('Cannot update board')
     }
-    console.log(board.isStarred)
   }
 
   async function onRemoveBoard(boardId) {

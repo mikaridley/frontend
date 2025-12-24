@@ -3,7 +3,7 @@
 
   position: absolute;
   right: 10px;
-  top: -5px;
+  top: 3px;
 
   width: 355px;
   padding: 0.5rem;
@@ -83,21 +83,6 @@
     .setting-members {
       display: flex;
       flex-direction: row-reverse;
-
-      .setting-member {
-        position: relative;
-
-        /* temporary */
-        background-color: rgb(187, 108, 34);
-        color: var(--clr-txt-dark);
-        display: grid;
-        place-items: center;
-        font-size: 0.7rem;
-        margin-left: auto;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-      }
     }
   }
 
@@ -162,6 +147,7 @@
         align-items: end;
 
         height: 100px;
+        width: 100%;
         border-radius: 5px;
         background-size: cover;
         background-position: center;
@@ -174,6 +160,10 @@
 
           .photo-bg-msg {
             opacity: 0.6;
+            font-size: 0.8rem;
+            > a {
+              font-size: 0.8rem;
+            }
           }
         }
 
@@ -183,6 +173,7 @@
           font-size: 0.9rem;
           padding-left: 0.5rem;
           padding-block: 0.2rem;
+          width: 100%;
         }
       }
     }
@@ -209,7 +200,7 @@
         }
       }
 
-      .gradiant-colors {
+      .gradient-colors {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         justify-self: center;
