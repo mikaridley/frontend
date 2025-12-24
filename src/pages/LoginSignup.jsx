@@ -5,6 +5,8 @@ import { jwtDecode } from 'jwt-decode'
 import { Link } from 'react-router-dom'
 
 import { login, signup } from '../store/actions/user.actions'
+import leftImg from '../assets/img/login-page-left.png'
+import rightImg from '../assets/img/login-page-right.png'
 
 export function LoginSignup() {
     const { pathname } = useLocation()
@@ -33,7 +35,8 @@ export function LoginSignup() {
 
     return (
         <section className='login-signup'>
-            <div>
+            <img src={leftImg} />
+            <div className='login-form'>
                 <form className="login-form" onSubmit={onLogin}>
                     <h1>Signup to continue</h1>
                     <input type='email' required onChange={handleChange} />
@@ -48,6 +51,7 @@ export function LoginSignup() {
                     ? <Link to='/signup'><p>Create an account</p></Link>
                     : <Link to='/login'><p>Already have an account? Log in</p></Link>}
             </div>
+            <img src={rightImg} />
         </section>
     )
 }

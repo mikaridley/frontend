@@ -52,6 +52,9 @@
   --clr-task-soon: #fbc828;
   --clr-task-done: #94c748;
 
+  /* Login */
+  --clr-bg-login: #fafbfc;
+
   /* Footer */
   --clr-footer-bg: #172b4d;
 }
