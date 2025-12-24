@@ -6,7 +6,7 @@ import attachmentIcon from '../../assets/imgs/icons/attachment.svg'
 export function TaskDetailsActions({ onOpenPopup, members = [], labels = [], dates = null }) {
     return (
         <div className="task-details-actions">
-            <button className="btn-add" onClick={(e) => onOpenPopup('add', e)}>Add</button>
+            <button className="btn-add" onClick={(e) => onOpenPopup('add', e)}>+ Add</button>
             <button className="btn-attachments" onClick={(e) => onOpenPopup('attachments', e)}>
                 <img src={attachmentIcon} alt="attachments" />
                 Attachments

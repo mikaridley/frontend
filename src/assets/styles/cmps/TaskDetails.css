@@ -31,10 +31,10 @@
   color: var(--clr-task-txt-dark);
   border-radius: 8px;
   padding: 2rem 0 2rem 0;
-  max-width: 1200px;
+  max-width: 70vw;
   width: 100%;
   max-height: 100vh;
-  min-height: 600px;
+  min-height: 89vh;
   overflow-y: auto;
   overflow-x: visible;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -85,6 +85,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-top:1rem;
 }
 
 .task-details-header .toggle-done-btn {
@@ -1108,7 +1109,7 @@
   box-sizing: border-box;
   cursor: pointer;
   max-height: 32px;
-  margin-left: 3rem;
+  margin-left: 2rem;
   margin-top: 1rem;
   border-radius: 4px;
   &:hover {
