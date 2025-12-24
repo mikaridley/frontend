@@ -10,7 +10,7 @@ export const userService = {
     getUsers,
     getById,
     remove,
-    _getLoggedinUser,
+    getLoggedinUser,
     _saveLoggedinUser,
 }
 
@@ -60,7 +60,7 @@ async function logout() {
     sessionStorage.removeItem(LOGGEDIN_USER_KEY)
 }
 
-function _getLoggedinUser() {
+function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(LOGGEDIN_USER_KEY))
 }
 
