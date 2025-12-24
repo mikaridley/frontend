@@ -14,6 +14,7 @@ import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
+import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 
 export function BoardSettings({
   board,
@@ -90,12 +91,13 @@ export function BoardSettings({
             <section className="setting-members">
               {board.members.map((member, idx) => {
                 return (
-                  <div
-                    style={{ left: `${idx * 4}px` }}
-                    className="setting-member"
-                  >
-                    MH
-                  </div>
+                  // <div
+                  //   style={{ left: `${idx * 4}px` }}
+                  //   className="setting-member"
+                  // >
+                  //   MH
+                  // </div>
+                  <MemberDefaultPhoto size={25} memberName={member.fullname} />
                 )
               })}
             </section>

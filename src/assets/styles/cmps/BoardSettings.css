@@ -83,21 +83,6 @@
     .setting-members {
       display: flex;
       flex-direction: row-reverse;
-
-      .setting-member {
-        position: relative;
-
-        /* temporary */
-        background-color: rgb(187, 108, 34);
-        color: var(--clr-txt-dark);
-        display: grid;
-        place-items: center;
-        font-size: 0.7rem;
-        margin-left: auto;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-      }
     }
   }
 
