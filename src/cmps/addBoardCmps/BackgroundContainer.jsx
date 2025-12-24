@@ -11,11 +11,11 @@ import closeImg from '../../assets/img/close.svg'
 
 export function BackgroundContainer({ changeColor }) {
   const backgrounds = getColorsBg()
-  const gradientColors = backgrounds.gradientColors
+  const gradientColors = backgrounds?.gradientColors || []
 
   const photosBg = useSelector(
     storeState => storeState.boardModule.backgroundPhotos
-  )
+  ) || []
   const [selectedColor, setSelectedColor] = useState('#0079bf')
   const [isOpenMoreBgs, setIsOpenMoreBgs] = useState({
     isOpen: false,
@@ -60,7 +60,7 @@ export function BackgroundContainer({ changeColor }) {
       <h3>Background</h3>
       <section className="background-container">
         <section className="photos-background-preview">
-          {photosBg.slice(0, 4).map(photo => {
+          {photosBg?.slice(0, 4).map(photo => {
             return (
               <BackgroundPreview
                 color={photo}
@@ -112,7 +112,7 @@ export function BackgroundContainer({ changeColor }) {
                   </button>
                 </div>
                 <section className="photos-background">
-                  {photosBg.slice(0, 6).map(photo => {
+                  {photosBg?.slice(0, 6).map(photo => {
                     return (
                       <BackgroundPreview
                         color={photo}
@@ -136,7 +136,7 @@ export function BackgroundContainer({ changeColor }) {
                   </button>
                 </div>
                 <section className="gradient-colors">
-                  {backgrounds.gradientColors.slice(0, 6).map(color => {
+                  {backgrounds?.gradientColors?.slice(0, 6).map(color => {
                     return (
                       <BackgroundPreview
                         color={color}

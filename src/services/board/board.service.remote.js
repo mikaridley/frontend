@@ -12,7 +12,8 @@ export const boardService = {
   getBoardBackgrounds,
 }
 
-async function query(filterBy = { txt: '' }) {
+async function query(userId, filterBy = { txt: '' }) {
+  // userId is passed for compatibility with local service, but backend handles auth via session
   return httpService.get(`board`, filterBy)
 }
 
@@ -45,7 +46,7 @@ const gBackgrounds = {
     '#00aecc',
     '#838c91',
   ],
-  gradiantColors: [
+  gradientColors: [
     'linear-gradient(135deg, #1c2c44, #133160)',
     'linear-gradient(135deg, #0e6ae2, #33aec6)',
     'linear-gradient(135deg, #0c65e1, #093676)',
