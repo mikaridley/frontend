@@ -200,7 +200,7 @@
         }
       }
 
-      .gradiant-colors {
+      .gradient-colors {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         justify-self: center;

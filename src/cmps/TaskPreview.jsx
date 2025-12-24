@@ -74,7 +74,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
       {cover && cover.kind === 'photo' && (
         <img className="task-attachment" src={cover.color} />
       )}
-      {cover && cover.kind === 'gradiant' && (
+      {cover && cover.kind === 'gradient' && (
         <div
           className="task-color-bg"
           style={{ background: cover.color }}
