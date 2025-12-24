@@ -5,7 +5,7 @@
   align-items: center;
 
   position: fixed;
-  z-index: 4;
+  z-index: 200;
 
   width: 100vw;
   padding-inline: 2rem;
@@ -58,12 +58,29 @@
     background-repeat: no-repeat;
   }
 
-  .user {
+  .user>img {
     border-radius: 50%;
     width: 30px;
     height: 30px;
 
-    /* temporary color */
-    background-color: rgb(226, 141, 43);
+    cursor: pointer;
+  }
+
+  .account {
+    position: absolute;
+    right: 5px;
+    top: 55px;
+
+    background-color: var(--clr-group-modal);
+    width: 19rem;
+    border-radius: .5rem;
+    box-shadow: var(--modal-box-shadow);
+
+    .user-details {
+      >img {
+        width: 40px;
+        height: 40px;
+      }
+    }
   }
 }

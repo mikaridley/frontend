@@ -14,10 +14,12 @@
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1000;
   padding: 20px;
   padding-right: 0;
+  padding-top: 5vh;
+  overflow-y: auto;
 }
 
 /* Modal Content 
@@ -31,17 +33,18 @@
   color: var(--clr-task-txt-dark);
   border-radius: 8px;
   padding: 2rem 0 2rem 0;
-  max-width: 1200px;
+  max-width: 70vw;
   width: 100%;
   max-height: 100vh;
-  min-height: 600px;
+  min-height: auto;
+  height: fit-content;
   overflow-y: auto;
   overflow-x: visible;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   position: relative;
   display: grid;
   grid-template-columns: 3fr 2fr;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto;
   gap: 1.5rem;
 
   /* Border between row 1 and row 2 */
@@ -85,6 +88,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-top:1rem;
 }
 
 .task-details-header .toggle-done-btn {
@@ -137,8 +141,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 50%;
   padding: 0;
+  padding-bottom: 2px;
+  padding-left: 1px;
   line-height: 1;
   transition: background-color 0.2s, color 0.2s;
   &:hover {
@@ -227,12 +233,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius:50%;
+  padding-bottom:2px;
+  padding-left: 1px;
 }
 
 .popup-close:hover {
   color: var(--clr-task-txt-dark);
   background-color: #2b2c2f;
-  border-radius: 4px;
 }
 
 .popup-body {
@@ -1104,7 +1112,7 @@
   box-sizing: border-box;
   cursor: pointer;
   max-height: 32px;
-  margin-left: 3rem;
+  margin-left: 2rem;
   margin-top: 1rem;
   border-radius: 4px;
   &:hover {

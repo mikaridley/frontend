@@ -22,7 +22,7 @@
   }
 
   img {
-    width: 20px;
+    width: 16px;
 
     &:hover {
       background-color: var(--clr-ah-grey-1);

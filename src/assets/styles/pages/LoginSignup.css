@@ -1,0 +1,19 @@
+.login-signup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--clr-bg-login);
+
+  height: 100vh;
+
+  img:first-child {
+    place-self: end start;
+  }
+
+  img:last-child {
+    place-self:   end;
+  }
+
+  >.login-form {
+    place-self: center;
+  }
+}

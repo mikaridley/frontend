@@ -7,8 +7,8 @@ import { TaskBackgroundPreview } from '../background/TaskBackgroundPreview'
 export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave, position }) {
   const popupRef = useRef(null)
   const fileInputRef = useRef(null)
-  popupToViewportHook(popupRef, position)
-
+  // popupToViewportHook(popupRef, position)
+  
   const backgrounds = getColorsBg()
   const photosBg = useSelector(
     storeState => storeState.boardModule.backgroundPhotos
@@ -55,13 +55,17 @@ export function TaskDetailsCoverPopup({ board, groupId, taskId, onClose, onSave,
 
   const unsplashPhotos = photosBg.slice(0, 6)
 
+  // Check if position.left + 300 is out of viewport
+  const viewportWidth = typeof window !== 'undefined' ? window.innerWidth || document.documentElement.clientWidth : 0
+  const leftOffset = position && (position.left + 350) > viewportWidth ? 300 : 0
+
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div
         ref={popupRef}
         className="popup-content popup-cover"
         onClick={e => e.stopPropagation()}
-        style={position ? { top: `${position.top}px`, left: `${position.left-100}px` } : {}}
+        style={position ? { top: `${position.top}px`, left: `${position.left-leftOffset}px` } : {}}
       >
         <button className="popup-close" onClick={onClose}>×</button>
         <h4>Task cover</h4>
