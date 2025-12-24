@@ -14,7 +14,7 @@ import attachmentsImg from '../assets/img/attachments.svg'
 
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
-  const { title, status, id } = task
+  const { title, status, id, cover } = task
   const navigate = useNavigate()
   console.log(task)
   function openTaskDetails() {
@@ -65,13 +65,20 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     const date = new Date(task.dates.dateTime)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
-
-  const cover = task.attachments?.find(attach => attach.type === 'image/png')
+  console.log(task)
 
   const checkListCount = getChecklistCount()
   return (
     <section className="task-preview" onClick={openTaskDetails}>
-      {cover && <img className="task-attachment" src={cover.file} />}
+      {cover && cover.kind === 'photo' && (
+        <img className="task-attachment" src={cover.color} />
+      )}
+      {cover && cover.kind === 'gradiant' && (
+        <div
+          className="task-color-bg"
+          style={{ background: cover.color }}
+        ></div>
+      )}
 
       <section className="task-all-details">
         {task.labels && (
