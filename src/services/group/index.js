@@ -13,7 +13,8 @@ function getEmptyGroup() {
     }
 }
 
-const service = (VITE_LOCAL === 'true') ? local : remote
+// const service = (VITE_LOCAL === 'true') ? local : remote
+const service = local
 export const groupService = { getEmptyGroup, ...service }
 
 if (DEV) window.groupService = groupService
