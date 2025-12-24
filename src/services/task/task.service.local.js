@@ -68,7 +68,7 @@ function moveTask(board, fromGroupId, toGroupId, fromIdx, toIdx) {
 
 async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newGroupId) {
   const isSameBoard = sourceBoardId === newBoardId
-  
+
   //Get the source board and group
   const sourceBoard = await storageService.get(STORAGE_KEY, sourceBoardId)
   const sourceGroup = sourceBoard.groups?.find(g => g.id === sourceGroupId)
@@ -82,7 +82,7 @@ async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newG
   if (taskIdx === -1) {
     throw new Error(`Task with id ${task.id} not found in group ${sourceGroupId}`)
   }
-  
+
   // Get the dest board and group
   // If same board, use the same board object to avoid duplicate modifications
   const destBoard = isSameBoard ? sourceBoard : await storageService.get(STORAGE_KEY, newBoardId)
@@ -90,34 +90,34 @@ async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newG
   if (!destGroup) {
     throw new Error(`Group with id ${newGroupId} not found in board ${newBoardId}`)
   }
-  
+
   // Remove task from source
   const taskToMove = sourceGroup.tasks[taskIdx]
   // Create a new tasks array without the task
   sourceGroup.tasks = sourceGroup.tasks.filter(t => t.id !== task.id)
   // Update the source group in the board
   const sourceGroupIdx = destBoard.groups.findIndex(g => g.id === sourceGroupId)
-  destBoard.groups[sourceGroupIdx] = { 
-    ...destBoard.groups[sourceGroupIdx], 
-    tasks: sourceGroup.tasks 
+  destBoard.groups[sourceGroupIdx] = {
+    ...destBoard.groups[sourceGroupIdx],
+    tasks: sourceGroup.tasks
   }
-  
+
   //Add task to destination
   if (!destGroup.tasks) destGroup.tasks = []
   destGroup.tasks.push(taskToMove)
   // Update the dest group in the board
   const destGroupIdx = destBoard.groups.findIndex(g => g.id === newGroupId)
-  destBoard.groups[destGroupIdx] = { 
-    ...destBoard.groups[destGroupIdx], 
-    tasks: destGroup.tasks 
+  destBoard.groups[destGroupIdx] = {
+    ...destBoard.groups[destGroupIdx],
+    tasks: destGroup.tasks
   }
-  
+
   //Save boards (if same board, only save once)
   await storageService.put(STORAGE_KEY, destBoard)
   if (!isSameBoard) {
     await storageService.put(STORAGE_KEY, sourceBoard)
   }
-  
+
   return { sourceBoard: isSameBoard ? destBoard : sourceBoard, destBoard }
 }
 
@@ -187,41 +187,41 @@ function getLabels(board, groupId, taskId) {
   return defaultLabels
 }
 
-function getMembers(board){
-    return board?.members || []
+function getMembers(board) {
+  return board?.members || []
 }
 
 function openAttachmentInNewTab(attachmentFile) {
-    // Check if it's a base64 data URL
-    if (attachmentFile.startsWith('data:')) {
-        try {
-            // Parse the data URL
-            const [header, base64Data] = attachmentFile.split(',')
-            const mimeType = header.match(/data:([^;]+)/)?.[1] || 'image/png'
-            
-            // Convert base64 to binary
-            const binaryString = atob(base64Data)
-            const bytes = new Uint8Array(binaryString.length)
-            for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i)
-            }
-            
-            // Create blob and URL
-            const blob = new Blob([bytes], { type: mimeType })
-            const blobUrl = URL.createObjectURL(blob)
-            
-            // Open the blob URL in a new tab
-            window.open(blobUrl, '_blank', 'noopener,noreferrer')
-            
-            // Clean up the blob URL after a delay
-            setTimeout(() => URL.revokeObjectURL(blobUrl), 1000)
-        } catch (error) {
-            console.error('Error opening attachment:', error)
-            // Fallback: create HTML page with the data URL
-            const newWindow = window.open('', '_blank', 'noopener,noreferrer')
-            if (newWindow) {
-                newWindow.document.open()
-                newWindow.document.write(`
+  // Check if it's a base64 data URL
+  if (attachmentFile.startsWith('data:')) {
+    try {
+      // Parse the data URL
+      const [header, base64Data] = attachmentFile.split(',')
+      const mimeType = header.match(/data:([^;]+)/)?.[1] || 'image/png'
+
+      // Convert base64 to binary
+      const binaryString = atob(base64Data)
+      const bytes = new Uint8Array(binaryString.length)
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i)
+      }
+
+      // Create blob and URL
+      const blob = new Blob([bytes], { type: mimeType })
+      const blobUrl = URL.createObjectURL(blob)
+
+      // Open the blob URL in a new tab
+      window.open(blobUrl, '_blank', 'noopener,noreferrer')
+
+      // Clean up the blob URL after a delay
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000)
+    } catch (error) {
+      console.error('Error opening attachment:', error)
+      // Fallback: create HTML page with the data URL
+      const newWindow = window.open('', '_blank', 'noopener,noreferrer')
+      if (newWindow) {
+        newWindow.document.open()
+        newWindow.document.write(`
                     <!DOCTYPE html>
                     <html>
                         <head>
@@ -249,63 +249,63 @@ function openAttachmentInNewTab(attachmentFile) {
                         </body>
                     </html>
                 `)
-                newWindow.document.close()
-            }
-        }
-    } else {
-        // Regular URL - open directly
-        window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+        newWindow.document.close()
+      }
     }
+  } else {
+    // Regular URL - open directly
+    window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+  }
 }
 
 function getDominantColor(imageUrl) {
   return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    
+    const img = new Image()
+    img.crossOrigin = "Anonymous"
+
     img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+
       // Sample from a smaller version for performance
-      canvas.width = 100;
-      canvas.height = 100;
-      
-      ctx.drawImage(img, 0, 0, 100, 100);
-      const imageData = ctx.getImageData(0, 0, 100, 100).data;
-      
+      canvas.width = 100
+      canvas.height = 100
+
+      ctx.drawImage(img, 0, 0, 100, 100)
+      const imageData = ctx.getImageData(0, 0, 100, 100).data
+
       // Count color frequencies
-      const colorMap = {};
-      
+      const colorMap = {}
+
       for (let i = 0; i < imageData.length; i += 4) {
-        const r = imageData[i];
-        const g = imageData[i + 1];
-        const b = imageData[i + 2];
-        
+        const r = imageData[i]
+        const g = imageData[i + 1]
+        const b = imageData[i + 2]
+
         // Skip very light/dark colors (optional)
-        const brightness = (r + g + b) / 3;
-        if (brightness < 20 || brightness > 240) continue;
-        
+        const brightness = (r + g + b) / 3
+        if (brightness < 20 || brightness > 240) continue
+
         // Group similar colors (reduce precision)
-        const key = `${Math.round(r/10)*10},${Math.round(g/10)*10},${Math.round(b/10)*10}`;
-        colorMap[key] = (colorMap[key] || 0) + 1;
+        const key = `${Math.round(r / 10) * 10},${Math.round(g / 10) * 10},${Math.round(b / 10) * 10}`
+        colorMap[key] = (colorMap[key] || 0) + 1
       }
-      
+
       // Find most common color
-      let maxCount = 0;
-      let dominantColor = '128,128,128';
-      
+      let maxCount = 0
+      let dominantColor = '128,128,128'
+
       for (const [color, count] of Object.entries(colorMap)) {
         if (count > maxCount) {
-          maxCount = count;
-          dominantColor = color;
+          maxCount = count
+          dominantColor = color
         }
       }
-      
-      resolve(`rgb(${dominantColor})`);
-    };
-    
-    img.onerror = reject;
-    img.src = imageUrl;
-  });
+
+      resolve(`rgb(${dominantColor})`)
+    }
+
+    img.onerror = reject
+    img.src = imageUrl
+  })
 }

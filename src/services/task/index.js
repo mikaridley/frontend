@@ -12,7 +12,8 @@ function getEmptyTask() {
     }
 }
 
-const service = (VITE_LOCAL === 'true') ? local : remote
+// const service = (VITE_LOCAL === 'true') ? local : remote
+const service = local
 export const taskService = { getEmptyTask, ...service }
 
 if (DEV) window.taskService = taskService
