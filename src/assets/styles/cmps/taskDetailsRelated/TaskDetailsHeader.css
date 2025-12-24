@@ -18,3 +18,47 @@
   transform: translateY(-6px);
 }
 
+.task-title-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  min-height: fit-content;
+}
+
+.task-details-header h2 {
+  margin: 0;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 0 8px;
+  display: block;
+  width: 100%;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+.task-details-header h2:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.task-title-edit {
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 2px solid #0079bf;
+  border-radius: 3px;
+  padding: 0 8px;
+  margin: 0;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.4;
+  background-color: transparent;
+  outline: none;
+  width: 100%;
+  color: var(--clr-task-txt-dark);
+  box-sizing: border-box;
+  display: block;
+}
+

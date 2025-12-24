@@ -13,8 +13,13 @@ export const boardService = {
 }
 
 async function query(userId, filterBy = { txt: '' }) {
-  // userId is passed for compatibility with local service, but backend handles auth via session
-  return httpService.get(`board`, filterBy)
+  var boards = await httpService.get(`board`, filterBy)
+  const { txt } = filterBy
+
+  // Filter boards to only show boards where the user is a member (same logic as local service)
+  boards = boards.filter(board =>
+    board.members.some(member => member._id === userId))
+  return boards
 }
 
 function getById(boardId) {

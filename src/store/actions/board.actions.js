@@ -37,8 +37,8 @@ export async function loadBoard(boardId) {
     const board = await boardService.getById(boardId)
     const { loggedinUser } = store.getState().userModule
     
-    // Automatically add logged-in user to board members if not already present (remote only)
-    // In local mode, this behavior is handled differently
+    // automatically add logged-in user to board members if not already present (remote only)
+    // in local mode, this behavior is handled differently
     if (VITE_LOCAL !== 'true' && loggedinUser && board && board.members) {
       const isUserMember = board.members.some(member => 
         member._id === loggedinUser._id || member.id === loggedinUser._id
@@ -46,7 +46,7 @@ export async function loadBoard(boardId) {
       
       if (!isUserMember) {
         board.members.push(loggedinUser)
-        // Save the updated board to backend
+        // save the updated board to backend
         await boardService.save(board)
       }
     }
