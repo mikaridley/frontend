@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { makeId, isImageFile } from '../../../services/util.service'
 import { showErrorMsg } from '../../../services/event-bus.service'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
+import { uploadService } from '../../../services/upload.service'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB in bytes
 const ALLOWED_FILE_TYPES = [
@@ -31,6 +32,8 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
     const [attachments, setAttachments] = useState([])
     const [attachmentName, setAttachmentName] = useState('')
     const [fileDataUrl, setFileDataUrl] = useState(null)
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [isUploading, setIsUploading] = useState(false)
     const fileInputRef = useRef(null) //needed for the custom button
     const popupRef = useRef(null)
 
@@ -64,6 +67,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
             return
         }
 
+        setSelectedFile(file)
         loadFileFromInput(ev, (dataUrl) => {
             setFileDataUrl(dataUrl)
             if (!attachmentName.trim()) {
@@ -82,38 +86,57 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
 
     async function handleSave(ev) {
         ev.preventDefault()
-        if (!attachmentName.trim() || !fileDataUrl) return
-        const file = fileInputRef.current.files[0]  //single-file input
-        const newAttachment = {
-            id: makeId(),
-            name: attachmentName,
-            file: fileDataUrl,
-            createdAt: Date.now(),
-            type: file.type,
-            size: file.size
-        }
-        const updatedAttachments = [...attachments, newAttachment]
-        setAttachments(updatedAttachments)
+        if (!attachmentName.trim() || !selectedFile) return
         
-        // If the new attachment is a photo and there's no cover yet, set it as the cover
-        const shouldSetCover = isImageFile(file.type) && (() => {
-            const task = taskService.getTaskById(board, groupId, taskId)
-            if (!task) return false
-            const hasCoverProp = Object.prototype.hasOwnProperty.call(task, 'cover')
-            const cover = hasCoverProp ? task.cover : undefined
-            // Set cover if: no cover property exists, or cover is empty/falsy (but not explicitly null)
-            return !hasCoverProp || (cover !== null && !cover)
-        })()
-        
-        setAttachmentName('')
-        setFileDataUrl(null)
-        if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
-        
-        // Save attachments first, then cover if needed
-        await onSave('attachments', updatedAttachments)
-        if (shouldSetCover) {
-            // Save cover after attachments save completes
-            await onSave('cover', { color: newAttachment.file, kind: 'photo' })
+        setIsUploading(true)
+        try {
+            // Upload file to Cloudinary via backend
+            // Use 'raw' for non-image files (documents, archives, etc.)
+            const resourceType = isImageFile(selectedFile.type) ? 'image' : 'raw'
+            const uploadResult = await uploadService.uploadFile(selectedFile, {
+                folder: 'task-attachments',
+                resource_type: resourceType
+            })
+            
+            const fileUrl = uploadResult.url || uploadResult.secure_url
+            const newAttachment = {
+                id: makeId(),
+                name: attachmentName,
+                file: fileUrl,
+                createdAt: Date.now(),
+                type: selectedFile.type,
+                size: selectedFile.size,
+                public_id: uploadResult.public_id // Store public_id for potential deletion
+            }
+            const updatedAttachments = [...attachments, newAttachment]
+            setAttachments(updatedAttachments)
+            
+            // If the new attachment is a photo and there's no cover yet, set it as the cover
+            const shouldSetCover = isImageFile(selectedFile.type) && (() => {
+                const task = taskService.getTaskById(board, groupId, taskId)
+                if (!task) return false
+                const hasCoverProp = Object.prototype.hasOwnProperty.call(task, 'cover')
+                const cover = hasCoverProp ? task.cover : undefined
+                // Set cover if: no cover property exists, or cover is empty/falsy (but not explicitly null)
+                return !hasCoverProp || (cover !== null && !cover)
+            })()
+            
+            setAttachmentName('')
+            setFileDataUrl(null)
+            setSelectedFile(null)
+            if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
+            
+            // Save attachments first, then cover if needed
+            await onSave('attachments', updatedAttachments)
+            if (shouldSetCover) {
+                // Save cover after attachments save completes
+                await onSave('cover', { color: fileUrl, kind: 'photo' })
+            }
+        } catch (err) {
+            console.error('Failed to upload attachment:', err)
+            showErrorMsg('Failed to upload file. Please try again.')
+        } finally {
+            setIsUploading(false)
         }
     }
 
@@ -142,8 +165,12 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
                         onChange={onFileInput}  //activates after selecting a file
                         style={{ display: 'none' }}
                     />
-                    <button type="button" onClick={handleCustomButtonClick}>Choose File</button>
-                    <button type="submit">Save</button>
+                    <button type="button" onClick={handleCustomButtonClick} disabled={isUploading}>
+                        {isUploading ? 'Uploading...' : 'Choose File'}
+                    </button>
+                    <button type="submit" disabled={isUploading || !selectedFile}>
+                        {isUploading ? 'Uploading...' : 'Save'}
+                    </button>
                 </form>
             </div>
         </div>

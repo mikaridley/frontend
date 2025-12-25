@@ -1,11 +1,16 @@
 import { store } from '../store'
 import { taskService } from '../../services/task'
+import { updateBoard } from './board.actions'
 import { UPDATE_BOARD } from '../reducers/board.reducer'
 
 export async function addTask(board, group, task) {
     try {
-        await taskService.addTask(board, group, task)
-        store.dispatch({ type: UPDATE_BOARD, board })
+        const updatedBoard = await taskService.addTask(board, group, task)
+        // Update store immediately for optimistic UI update
+        store.dispatch({ type: UPDATE_BOARD, board: updatedBoard })
+        // Persist to backend
+        await updateBoard(updatedBoard)
+        return updatedBoard
     } catch (err) {
         console.log('err:', err)
         throw err
@@ -14,8 +19,12 @@ export async function addTask(board, group, task) {
 
 export async function updateTask(board, groupId, taskId, changes) {
     try {
-        await taskService.updateTask(board, groupId, taskId, changes)
-        store.dispatch({ type: UPDATE_BOARD, board })
+        const updatedBoard = await taskService.updateTask(board, groupId, taskId, changes)
+        // Update store immediately for optimistic UI update
+        store.dispatch({ type: UPDATE_BOARD, board: updatedBoard })
+        // Persist to backend
+        await updateBoard(updatedBoard)
+        return updatedBoard
     } catch (err) {
         console.log('err:', err)
         throw err

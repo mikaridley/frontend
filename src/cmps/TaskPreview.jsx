@@ -17,7 +17,6 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id, cover } = task
   const navigate = useNavigate()
-
   function openTaskDetails() {
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }

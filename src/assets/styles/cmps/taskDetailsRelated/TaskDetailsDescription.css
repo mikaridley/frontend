@@ -1,0 +1,59 @@
+@import '../../setup/variables.css';
+
+.description {
+  margin: 0;
+}
+
+.task-description-button {
+  border: 2px solid #3c3d40;
+  box-sizing: border-box;
+  padding: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #2b2c2f;
+  }
+}
+
+.description form button {
+  margin-top: 0.5rem;
+  color: var(--clr-task-txt-dark);
+  border: 2px solid #3c3d40;
+  border-radius: 4px;
+  background-color: #242528;
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #2b2c2f;
+  }
+}
+
+.description form button[type='submit'] {
+  background-color: #5ba4cf;
+  color: black;
+  border-color: #5ba4cf;
+
+  &:hover {
+    background-color: #4a93be;
+    border-color: #4a93be;
+  }
+}
+
+/* Quill Editor Text Color */
+.ql-editor {
+  color: var(--clr-task-txt-dark);
+}
+
+.ql-editor.ql-blank::before {
+  color: #999;
+}
+
+.ql-container {
+  color: var(--clr-task-txt-dark);
+}
+
+.ql-snow .ql-editor {
+  color: var(--clr-task-txt-dark);
+}
+

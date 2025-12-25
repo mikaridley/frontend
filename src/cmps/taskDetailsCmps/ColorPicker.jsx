@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { taskService } from '../../services/task/task.service.local'
+import { taskService } from '../../services/task'
 import { boardService } from '../../services/board'
 import { loadBoard } from '../../store/actions/board.actions'
 

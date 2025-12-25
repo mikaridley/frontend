@@ -102,7 +102,7 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                         </div>
                                     )}
                                 </div>
-                                <button className="btn-show-attachment" title="Show attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file)}><img src={arrowIcon} alt="show attachment" /></button>
+                                <button className="btn-show-attachment" title="Show attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file, attachment.type)}><img src={arrowIcon} alt="show attachment" /></button>
                                 <button onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
                             </div>
                         ))}

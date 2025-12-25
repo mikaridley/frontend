@@ -1,4 +1,4 @@
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { useState, useEffect, useRef } from 'react'
 import editIcon from '../../../assets/imgs/icons/edit_label.svg'
 import { ColorPicker } from '../ColorPicker'
@@ -13,10 +13,10 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     const [editingLabel, setEditingLabel] = useState(null)
     const popupRef = useRef(null)
 
-    // Get available labels from taskService.getLabels
+    // get available labels from taskService.getLabels
     const availableLabels = taskService.getLabels(board)
 
-    // Get current task labels
+    // get current task labels
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
         if (task?.labels && Array.isArray(task.labels)) {
@@ -32,12 +32,12 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                 ? prev.filter(id => id !== labelId)
                 : [...prev, labelId]
             
-            // Calculate selected labels from new selection
+            // calculate selected labels from new selection
             const selectedLabels = availableLabels.filter(label => 
                 newSelection.includes(label.id || label.color)
             )
             
-            // Call onSave to update task and TaskDetails labels state
+            // call onSave to update task and TaskDetails labels state
             if (onSave) {
                 onSave('labels', selectedLabels)
             }
@@ -56,7 +56,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
         label.color?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    // Keep popup fully visible vertically.
+    // keep popup fully visible vertically.
     popupToViewportHook(popupRef, position, [filteredLabels.length, isColorPickerMode])
 
     function editLabel(label) {
@@ -75,7 +75,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     }
 
     async function handleLabelSave(updatedLabel) {
-        // Reload the board to get the updated labels
+        // reload the board to get the updated labels
         if (board?._id) {
             await loadBoard(board._id)
         }

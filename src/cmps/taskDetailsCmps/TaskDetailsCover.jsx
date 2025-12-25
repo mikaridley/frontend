@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
 import { isImageFile } from '../../services/util.service'
-import { taskService } from '../../services/task/task.service.local'
+import { taskService } from '../../services/task'
 import { useNavigate } from 'react-router-dom'
 import imageIcon from '../../assets/imgs/icons/image_icon.svg'
 // receives an image URL and updates the cover background

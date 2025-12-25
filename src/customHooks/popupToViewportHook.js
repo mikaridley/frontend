@@ -11,15 +11,69 @@ export function popupToViewportHook(popupRef, position, extraDeps = []) {
     if (!position || !popupRef?.current) return
 
     const el = popupRef.current
-    const rect = el.getBoundingClientRect() // get the position of the popup and its height
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+    let timeoutId = null
+    let resizeObserver = null
+    let lastHeight = 0
+    let stableCount = 0
+    
+    const adjustPosition = () => {
+      if (!popupRef?.current) return
+      
+      const rect = el.getBoundingClientRect() // get the position of the popup and its height
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
 
-    const margin = 16
-    const overflow = rect.bottom + margin - viewportHeight
+      const margin = 30
+      const overflow = rect.bottom + margin - viewportHeight
 
-    if (overflow > 0) {
-      const newTop = Math.max(margin, rect.top - overflow)
-      el.style.top = `${newTop}px` // move the popup up so its bottom is visible
+      let finalTop = rect.top
+
+      if (overflow > 0) {
+        finalTop = Math.max(0, rect.top - overflow) // prevent going above viewport
+        el.style.top = `${finalTop}px` // move the popup up so its bottom is visible
+      }
+      
+      const availableSpace = viewportHeight - finalTop
+      el.style.maxHeight = `${availableSpace}px`
+      
+      // check if height has stabilized
+      const currentHeight = rect.height
+      if (Math.abs(currentHeight - lastHeight) < 1) {
+        stableCount++
+      } else {
+        stableCount = 0
+      }
+      lastHeight = currentHeight
+    }
+
+    const runAdjustment = () => {
+      adjustPosition()
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          adjustPosition()
+          
+          timeoutId = setTimeout(() => {
+            adjustPosition()
+          }, 50)
+        })
+      })
+    }
+
+    runAdjustment()
+
+    if (window.ResizeObserver) {
+      resizeObserver = new ResizeObserver(() => {
+        if (timeoutId) clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+          adjustPosition()
+        }, 10)
+      })
+      resizeObserver.observe(el)
+    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      if (resizeObserver) resizeObserver.disconnect()
     }
   }, [popupRef, position, ...extraDeps]) // run the effect when the popupRef, position or extraDeps change
 }

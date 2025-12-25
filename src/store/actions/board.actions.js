@@ -15,7 +15,14 @@ import {
 
 import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
 
+<<<<<<< HEAD
 export async function loadBoards() {
+=======
+const { VITE_LOCAL } = import.meta.env
+
+export async function loadBoards(filterBy) {
+  const { loggedinUser } = store.getState().userModule
+>>>>>>> ran-branch
   store.dispatch({ type: LOADING_START })
 
   try {
@@ -50,6 +57,22 @@ export async function loadBoard(boardId) {
 
   try {
     const board = await boardService.getById(boardId)
+    const { loggedinUser } = store.getState().userModule
+    
+    // automatically add logged-in user to board members if not already present (remote only)
+    // in local mode, this behavior is handled differently
+    if (VITE_LOCAL !== 'true' && loggedinUser && board && board.members) {
+      const isUserMember = board.members.some(member => 
+        member._id === loggedinUser._id || member.id === loggedinUser._id
+      )
+      
+      if (!isUserMember) {
+        board.members.push(loggedinUser)
+        // save the updated board to backend
+        await boardService.save(board)
+      }
+    }
+    
     store.dispatch(getCmdSetBoard(board))
   } catch (err) {
     console.log('Cannot load board', err)

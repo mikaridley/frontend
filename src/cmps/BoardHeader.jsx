@@ -30,7 +30,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
         className="title-input"
         onChange={handleChange}
         onBlur={() => onUpdateBoard(boardToEdit)}
-        value={boardToEdit.title}
+        value={boardToEdit.title || ''}
       />
       <div className="header-btns flex">
         <button className="header-star" onClick={onTogleStar}>

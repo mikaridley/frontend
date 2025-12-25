@@ -9,7 +9,19 @@ function getEmptyBoard() {
     return {
         _id: '',
         name: makeId(),
-        members: []
+        isStarred: false,
+        archivedAt: null,
+        createdBy: {
+            _id: '',
+            fullname: '',
+            imgUrl: '',
+        },
+        style: {
+            background: { color: '', kind: '' },
+        },
+        labels: [],
+        members: [],
+        groups: [],
     }
 }
 

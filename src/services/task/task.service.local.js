@@ -191,7 +191,7 @@ function getMembers(board) {
   return board?.members || []
 }
 
-function openAttachmentInNewTab(attachmentFile) {
+async function openAttachmentInNewTab(attachmentFile, fileType = null) {
   // Check if it's a base64 data URL
   if (attachmentFile.startsWith('data:')) {
     try {
@@ -253,8 +253,91 @@ function openAttachmentInNewTab(attachmentFile) {
       }
     }
   } else {
-    // Regular URL - open directly
-    window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+    // Regular URL (Cloudinary or other)
+    // Check if it's a Cloudinary URL
+    const isCloudinaryUrl = attachmentFile.includes('cloudinary.com')
+    
+    if (isCloudinaryUrl && fileType) {
+      // Determine if file should be displayed or downloaded
+      const isImage = fileType.startsWith('image/')
+      const isPDF = fileType === 'application/pdf'
+      const isText = fileType.startsWith('text/')
+      
+      // Handle PDFs - fetch and create blob with correct MIME type
+      if (isPDF) {
+        try {
+          // Fetch the PDF from Cloudinary
+          const response = await fetch(attachmentFile, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/pdf'
+            }
+          })
+          
+          if (!response.ok) {
+            throw new Error('Failed to fetch PDF')
+          }
+          
+          // Create blob with explicit PDF MIME type
+          const blob = await response.blob()
+          const pdfBlob = new Blob([blob], { type: 'application/pdf' })
+          const blobUrl = URL.createObjectURL(pdfBlob)
+          
+          // Open blob URL - browser will display PDF
+          const pdfWindow = window.open(blobUrl, '_blank', 'noopener,noreferrer')
+          
+          if (!pdfWindow) {
+            // Popup blocked - fallback to direct URL
+            window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+          }
+          
+          // Clean up blob URL after window loads (don't revoke too early)
+          setTimeout(() => {
+            // Keep blob URL alive while window is open
+            // Browser will handle cleanup when tab closes
+          }, 100)
+        } catch (error) {
+          console.error('Error opening PDF:', error)
+          // Fallback: try opening Cloudinary URL directly
+          window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+        }
+      } else if (isImage || isText) {
+        // Images and text files - open directly
+        window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+      } else {
+        // For documents that browsers can't display (Word, Excel, archives, etc.)
+        // For Cloudinary raw files, we need to fetch and download
+        try {
+          // Fetch the file and create a blob for download
+          const response = await fetch(attachmentFile)
+          if (!response.ok) throw new Error('Failed to fetch file')
+          
+          const blob = await response.blob()
+          const blobUrl = URL.createObjectURL(blob)
+          
+          // Create a temporary anchor element to trigger download
+          const link = document.createElement('a')
+          link.href = blobUrl
+          // Extract filename from URL or use a default
+          const urlParts = attachmentFile.split('/')
+          const filename = urlParts[urlParts.length - 1].split('?')[0] || 'attachment'
+          link.download = filename
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          
+          // Clean up the blob URL after a delay
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000)
+        } catch (error) {
+          console.error('Error downloading file:', error)
+          // Fallback: try to open directly
+          window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+        }
+      }
+    } else {
+      // Regular URL - open directly
+      window.open(attachmentFile, '_blank', 'noopener,noreferrer')
+    }
   }
 }
 

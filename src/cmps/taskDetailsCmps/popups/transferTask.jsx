@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { boardService } from '../../../services/board'
-import { taskService } from '../../../services/task/task.service.local'
+import { taskService } from '../../../services/task'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service'
 import { useNavigate } from 'react-router-dom'
 import { loadBoard, updateBoard } from '../../../store/actions/board.actions'
@@ -83,6 +83,11 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
             return
         }
 
+        if (!selectedBoard) {
+            showErrorMsg('Please wait for board to load')
+            return
+        }
+
         const task = taskService.getTaskById(board, groupId, taskId)
         if (!task) {
             showErrorMsg('Task not found')
@@ -91,10 +96,10 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
 
         try {
             const { sourceBoard, destBoard } = await taskService.transferTask(
+                board,
                 task,
-                board._id,
                 groupId,
-                selectedBoardId,
+                selectedBoard,
                 selectedGroupId
             )
             // Update both boards in Redux store

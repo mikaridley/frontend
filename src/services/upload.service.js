@@ -1,25 +1,58 @@
+import { httpService } from './http.service'
+
 export const uploadService = {
 	uploadImg,
+	uploadFile,
 }
 
-async function uploadImg(ev) {
-	const CLOUD_NAME = 'vanilla-test-images'
-	const UPLOAD_PRESET = 'stavs_preset'
-	const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
+/**
+ * Upload an image file via backend API
+ * @param {Event} ev - File input event
+ * @param {Object} options - Upload options (folder, resource_type, public_id)
+ * @returns {Promise<Object>} Upload result with url, public_id, width, height, etc.
+ */
+async function uploadImg(ev, options = {}) {
+	const file = ev.target.files[0]
+	if (!file) throw new Error('No file selected')
 
+	return uploadFile(file, options)
+}
+
+/**
+ * Upload a file via backend API
+ * @param {File} file - File to upload
+ * @param {Object} options - Upload options (folder, resource_type, public_id)
+ * @returns {Promise<Object>} Upload result with url, public_id, width, height, etc.
+ */
+async function uploadFile(file, options = {}) {
 	const formData = new FormData()
+	formData.append('file', file)
 	
-    // Building the request body
-	formData.append('file', ev.target.files[0])
-	formData.append('upload_preset', UPLOAD_PRESET)
-	
-    // Sending a post method request to Cloudinary API
+	// Add optional parameters
+	if (options.folder) formData.append('folder', options.folder)
+	if (options.resource_type) formData.append('resource_type', options.resource_type)
+	if (options.public_id) formData.append('public_id', options.public_id)
+
 	try {
-		const res = await fetch(UPLOAD_URL, { method: 'POST', body: formData })
-		const imgData = await res.json()
-		return imgData
+		const response = await httpService.post('upload', formData)
+		
+		// Backend returns: { success: true, data: { url, public_id, width, height, ... } }
+		if (response.success && response.data) {
+			// Return in format compatible with existing code (secure_url for backward compatibility)
+			return {
+				secure_url: response.data.url,
+				url: response.data.url,
+				public_id: response.data.public_id,
+				width: response.data.width,
+				height: response.data.height,
+				format: response.data.format,
+				resource_type: response.data.resource_type,
+				bytes: response.data.bytes
+			}
+		}
+		throw new Error('Invalid response from upload service')
 	} catch (err) {
-		console.error(err)
+		console.error('Upload error:', err)
 		throw err
 	}
 }
