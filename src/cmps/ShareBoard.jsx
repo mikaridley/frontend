@@ -28,7 +28,6 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     }
 
     const { txt } = filterUsers
-    console.log(txt)
 
     return (
         <div className="share-overlay"
