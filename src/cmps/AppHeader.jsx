@@ -1,12 +1,10 @@
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
 import { logout } from '../store/actions/user.actions'
 import logoLightImg from '../assets/img/logo-light.png'
 import {
-  getDefaultFilter,
-  loadBoards,
   loadFilteredBoards,
   setFilterBy,
 } from '../store/actions/board.actions'
@@ -137,16 +135,17 @@ export function AppHeader() {
       <div className="user" onClick={onToggleUserOpen}>
         {imgUrl && <img src={imgUrl} />}
       </div>
-      {isUserOpen && (
-        <div className="account">
-          <h2>account</h2>
-          <div className="user-details">
+      {isUserOpen &&
+        <div className="account grid">
+          <h2>Account</h2>
+          <div className="user-details grid">
             {imgUrl && <img src={imgUrl} />}
             <h1>{fullname}</h1>
+            <p>{email}</p>
           </div>
           <button onClick={onLogout}>Log out</button>
         </div>
-      )}
+      }
     </section>
   )
 }

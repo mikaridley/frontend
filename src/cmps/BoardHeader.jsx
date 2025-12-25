@@ -4,24 +4,30 @@ import { BoardSettings } from './BoardSettings'
 import starIcon from '../assets/img/star.svg'
 import yellowStarIcon from '../assets/img/yellow-star.png'
 import moreIcon from '../assets/img/more.svg'
+import { ShareBoard } from './ShareBoard'
 
 export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, changeBoardColor }) {
   const [boardToEdit, setBoardToEdit] = useState(board)
   const [isStarred, setIsStarred] = useState(board.isStarred)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  function onTogleStar() {
-    setIsStarred(isStarred => !isStarred)
-    starToggle()
-  }
+  const [isShareOpen, setIsShareOpen] = useState(false)
 
   function handleChange({ target }) {
     const value = target.value
     setBoardToEdit(board => ({ ...board, title: value }))
   }
 
+  function onTogleStar() {
+    setIsStarred(isStarred => !isStarred)
+    starToggle()
+  }
+
   function openHeaderMenu() {
     setIsMenuOpen(isMenuOpen => !isMenuOpen)
+  }
+
+  function onToggleShare() {
+    setIsShareOpen(isShareOpen => !isShareOpen)
   }
 
   return (
@@ -36,7 +42,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
         <button className="header-star" onClick={onTogleStar}>
           {isStarred ? <img src={yellowStarIcon} /> : <img src={starIcon} />}
         </button>
-        <button>Share</button>
+        <button onClick={onToggleShare}>Share</button>
         <button className="header-more-icon" onClick={openHeaderMenu}>
           <img src={moreIcon} />
         </button>
@@ -51,6 +57,9 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
           changeBoardColor={changeBoardColor}
         />
       )}
+      {isShareOpen &&
+        <ShareBoard onToggleShare={onToggleShare} onUpdateBoard={onUpdateBoard} />
+      }
     </header>
   )
 }
