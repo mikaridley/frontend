@@ -30,6 +30,8 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
     setIsShareOpen(isShareOpen => !isShareOpen)
   }
 
+  console.log('board:', board)
+
   return (
     <header className="board-header board-details-layout space-between align-center">
       <input
