@@ -68,21 +68,22 @@ export async function loadBoard(boardId) {
   try {
     const board = await boardService.getById(boardId)
     const { loggedinUser } = store.getState().userModule
-    
+
     // automatically add logged-in user to board members if not already present (remote only)
     // in local mode, this behavior is handled differently
     if (VITE_LOCAL !== 'true' && loggedinUser && board && board.members) {
-      const isUserMember = board.members.some(member => 
-        member._id === loggedinUser._id || member.id === loggedinUser._id
+      const isUserMember = board.members.some(
+        member =>
+          member._id === loggedinUser._id || member.id === loggedinUser._id
       )
-      
+
       if (!isUserMember) {
         board.members.push(loggedinUser)
         // save the updated board to backend
         await boardService.save(board)
       }
     }
-    
+
     store.dispatch(getCmdSetBoard(board))
   } catch (err) {
     console.log('Cannot load board', err)
@@ -167,55 +168,55 @@ export function setFilterBy(filterBy) {
 }
 
 // Command Creators:
-function getCmdSetBoards(boards) {
+export function getCmdSetBoards(boards) {
   return {
     type: SET_BOARDS,
     boards,
   }
 }
-function getCmdSetFilteredBoards(boards) {
+export function getCmdSetFilteredBoards(boards) {
   return {
     type: SET_FILTERED_BOARDS,
     boards,
   }
 }
-function getCmdSetBoard(board) {
+export function getCmdSetBoard(board) {
   return {
     type: SET_BOARD,
     board,
   }
 }
-function getCmdRemoveBoard(boardId) {
+export function getCmdRemoveBoard(boardId) {
   return {
     type: REMOVE_BOARD,
     boardId,
   }
 }
-function getCmdAddBoard(board) {
+export function getCmdAddBoard(board) {
   return {
     type: ADD_BOARD,
     board,
   }
 }
-function getCmdUpdateBoard(board) {
+export function getCmdUpdateBoard(board) {
   return {
     type: UPDATE_BOARD,
     board,
   }
 }
-function getCmdGetPhotos(photos) {
+export function getCmdGetPhotos(photos) {
   return {
     type: SET_PHOTOS,
     photos,
   }
 }
-function getCmdBoardUndo() {
+export function getCmdBoardUndo() {
   return { type: BOARD_UNDO }
 }
-function getCmdBoardBgLoader() {
+export function getCmdBoardBgLoader() {
   return { type: TOGGLE_BOARD_BG_LOADER }
 }
-function getCmdSetFilterBt(filterBy) {
+export function getCmdSetFilterBt(filterBy) {
   return { type: SET_FILTER_BY, filterBy }
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
@@ -8,6 +8,7 @@ import { taskService } from '../services/task'
 import { Loader } from '../cmps/Loader'
 
 import {
+  getCmdUpdateBoard,
   loadBoard,
   removeBoard,
   toggleBoardBgLoader,
@@ -17,11 +18,17 @@ import {
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { store } from '../store/store'
 import { SET_BOARD } from '../store/reducers/board.reducer'
+import {
+  SOCKET_EMIT_SET_TOPIC,
+  SOCKET_EVENT_BOARD_UPDATED,
+  socketService,
+} from '../services/socket.service'
 
 export function BoardDetails() {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { boardId } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     try {
@@ -34,6 +41,19 @@ export function BoardDetails() {
     return () => {
       store.dispatch({ type: SET_BOARD, board: '' })
     }
+  }, [boardId])
+
+  useEffect(() => {
+    socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
+
+    socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {
+      console.log('GOT from socket', board)
+      dispatch(getCmdUpdateBoard(board))
+    })
+    return () => {
+      socketService.off(SOCKET_EVENT_BOARD_UPDATED)
+    }
+    // socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {})
   }, [boardId])
 
   function onUpdateBoard(boardToEdit) {
@@ -86,8 +106,10 @@ export function BoardDetails() {
   }
 
   if (!board) return <Loader />
-  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
+  if (!board.style)
+    board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  if (!board.style.background)
+    board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
