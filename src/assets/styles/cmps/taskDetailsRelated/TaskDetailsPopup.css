@@ -24,6 +24,9 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   /* Position will be set dynamically via inline styles */
   transform: translateX(0);
+  & h4, h6, h5, h3, h2{
+    color: var(--clr-task-txt);
+  }
 }
 
 .popup-close {
@@ -138,7 +141,7 @@
 .popup-labels h4,
 .popup-labels h5 {
   margin: 0 0 0.5rem 0;
-  color: var(--clr-task-txt-dark);
+  color: var(--clr-task-txt);
 }
 
 .popup-labels button {

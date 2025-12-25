@@ -12,6 +12,8 @@ export const boardService = {
   getEmptyBoard,
 }
 
+const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_KEY
+
 const gBackgrounds = {
   solidColors: [
     '#0079bf',

@@ -1,7 +1,7 @@
 .board-header {
   position: fixed;
   right: 0;
-  z-index: 201;
+  z-index: 205;
 
   width: 100vw;
   margin-top: 47px;
@@ -9,7 +9,7 @@
   background-color: rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(6px);
 
-  > input {
+  >input {
     color: white;
     font-weight: bold;
     font-size: 1rem;

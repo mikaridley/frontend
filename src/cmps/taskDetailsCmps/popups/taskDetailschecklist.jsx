@@ -151,11 +151,31 @@ export function TaskChecklistsDisplay({
                 return (
                 <div key={checklist.id} className="checklist">
                     {isEditingName ? (
-                        <EditForm
+                        <input
+                            type="text"
+                            className="edit-checklist-name-input"
                             value={editing.initialValue}
-                            onSave={saveEdit}
-                            onCancel={cancelEdit}
-                            className="edit-checklist-name-form"
+                            onChange={(e) => {
+                                setEditing({ ...editing, initialValue: e.target.value })
+                            }}
+                            onBlur={() => {
+                                if (editing.initialValue.trim()) {
+                                    saveEdit(editing.initialValue.trim())
+                                } else {
+                                    cancelEdit()
+                                }
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === 'Escape') {
+                                    e.preventDefault()
+                                    if (editing.initialValue.trim()) {
+                                        saveEdit(editing.initialValue.trim())
+                                    } else {
+                                        cancelEdit()
+                                    }
+                                }
+                            }}
+                            autoFocus
                         />
                     ) : (
                         <h6 onClick={() => startEdit('name', checklist.id, checklist.name)}>{checklist.name}</h6>

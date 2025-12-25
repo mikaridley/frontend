@@ -1,19 +1,17 @@
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
 import { logout } from '../store/actions/user.actions'
 import logoLightImg from '../assets/img/logo-light.png'
 import {
-  getDefaultFilter,
-  loadBoards,
   loadFilteredBoards,
   setFilterBy,
 } from '../store/actions/board.actions'
 import { debounce } from '../services/util.service'
 
 export function AppHeader() {
-  const user = useSelector(storeState => storeState.userModule.user)
+  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
   const [isUserOpen, setIsUserOpen] = useState()
   const navigate = useNavigate()
   const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
@@ -77,8 +75,8 @@ export function AppHeader() {
       navigate('/board')
     }
   }
-  if (user) {
-    var { imgUrl, fullname } = user
+  if (loggedinUser) {
+    var { imgUrl, fullname, email } = loggedinUser
   }
 
   return (
@@ -137,16 +135,17 @@ export function AppHeader() {
       <div className="user" onClick={onToggleUserOpen}>
         {imgUrl && <img src={imgUrl} />}
       </div>
-      {isUserOpen && (
-        <div className="account">
-          <h2>account</h2>
-          <div className="user-details">
+      {isUserOpen &&
+        <div className="account grid">
+          <h2>Account</h2>
+          <div className="user-details grid">
             {imgUrl && <img src={imgUrl} />}
             <h1>{fullname}</h1>
+            <p>{email}</p>
           </div>
           <button onClick={onLogout}>Log out</button>
         </div>
-      )}
+      }
     </section>
   )
 }
