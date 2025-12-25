@@ -4,7 +4,6 @@
     top: -50px;
     width: 100vw;
     height: 100vh;
-    z-index: 207;
 
     justify-content: center;
     grid-template-columns: minmax(20px, 1fr) minmax(auto, 580px) minmax(20px, 1fr);
@@ -13,9 +12,6 @@
     >.share-board {
         grid-column: 2;
         justify-content: center;
-
-        position: relative;
-        z-index: 208;
 
         height: fit-content;
         margin-block-start: 10vh;
