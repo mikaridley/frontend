@@ -16,7 +16,7 @@
 .labels h4,
 .labels h5 {
   margin: 0 0 0.5rem 0;
-  color: var(--clr-task-txt-dark);
+  color: var(--clr-task-txt);
 }
 
 .labels-list {
@@ -125,6 +125,7 @@
 .members h5,
 .dates h5 {
   margin: 0 0 0.5rem 0;
+  color: var(--clr-task-txt);
 }
 
 .date-time-container {
@@ -193,7 +194,7 @@
 
 .attachments h5 {
   margin: 0 0 0.5rem 0;
-  color: var(--clr-task-txt-dark);
+  color: var(--clr-task-txt);
 }
 
 .attachments-list {

@@ -2,6 +2,9 @@
 
 .description {
   margin: 0;
+  & h5{
+    color: var(--clr-task-txt);
+  }
 }
 
 .task-description-button {
