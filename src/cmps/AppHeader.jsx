@@ -13,9 +13,7 @@ import {
 import { debounce } from '../services/util.service'
 
 export function AppHeader() {
-  const { imgUrl, fullname } = useSelector(
-    storeState => storeState.userModule.user
-  )
+  const user = useSelector(storeState => storeState.userModule.user)
   const [isUserOpen, setIsUserOpen] = useState()
   const navigate = useNavigate()
   const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
@@ -78,6 +76,9 @@ export function AppHeader() {
     } else {
       navigate('/board')
     }
+  }
+  if (user) {
+    var { imgUrl, fullname } = user
   }
 
   return (

@@ -45,8 +45,12 @@ const gBackgrounds = {
   ],
 }
 
-async function query() {
+async function query(userId) {
   var boards = await storageService.query(STORAGE_KEY)
+  const { txt } = filterBy
+  boards = boards.filter(board =>
+    board.members.some(member => member._id === userId)
+  )
   return boards
 }
 
