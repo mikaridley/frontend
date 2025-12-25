@@ -15,14 +15,9 @@ import {
 
 import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
 
-<<<<<<< HEAD
-export async function loadBoards() {
-=======
 const { VITE_LOCAL } = import.meta.env
 
-export async function loadBoards(filterBy) {
-  const { loggedinUser } = store.getState().userModule
->>>>>>> ran-branch
+export async function loadBoards() {
   store.dispatch({ type: LOADING_START })
 
   try {

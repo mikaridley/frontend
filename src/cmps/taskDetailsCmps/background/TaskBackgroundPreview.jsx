@@ -13,7 +13,7 @@ export function TaskBackgroundPreview({
 
   const kindStyle = kind === 'gradient' ? 'background' : 'backgroundColor'
 
-  // For photos, prefer full image URL, but gracefully fall back to the thumb if needed
+  // For photos, prefer full image URL, but fall back to the thumb if needed
   const bgToBigBoard =
     kind === 'photo' ? color.imageUrlFull || color.imageUrl : color
 
