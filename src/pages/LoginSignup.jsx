@@ -105,6 +105,7 @@ export function LoginSignup() {
                 {true && <GoogleLogin
                     onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
                     onError={() => console.log('Login Failed')}
+                    width={320}
                 />}
                 {pathname === '/login'
                     ? <Link to='/signup' className='link'>Create an account</Link>
