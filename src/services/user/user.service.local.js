@@ -14,8 +14,14 @@ export const userService = {
     _saveLoggedinUser,
 }
 
-async function getUsers() {
-    const users = await storageService.query(USERS_KEY)
+async function getUsers(filterUsers = {}) {
+    let users = await storageService.query(USERS_KEY)
+
+    if (filterUsers.txt) {
+        const regExp = new RegExp(filterUsers.txt, 'i')
+        users = users.filter(user => regExp.test(user.email) || regExp.test(user.fullname))
+    }
+
     return users.map(user => {
         delete user.password
         return user

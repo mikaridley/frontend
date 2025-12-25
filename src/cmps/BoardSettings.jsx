@@ -94,7 +94,7 @@ export function BoardSettings({
             <section className="setting-members">
               {board.members.map(member => {
                 return (
-                  <MemberDefaultPhoto size={25} memberName={member.fullname} />
+                  <MemberDefaultPhoto key={member._id} size={25} memberName={member.fullname} />
                 )
               })}
             </section>

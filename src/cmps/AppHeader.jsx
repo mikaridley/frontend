@@ -11,7 +11,7 @@ import {
 import { debounce } from '../services/util.service'
 
 export function AppHeader() {
-  const user = useSelector(storeState => storeState.userModule.user)
+  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
   const [isUserOpen, setIsUserOpen] = useState()
   const navigate = useNavigate()
   const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
@@ -75,8 +75,8 @@ export function AppHeader() {
       navigate('/board')
     }
   }
-  if (user) {
-    var { imgUrl, fullname } = user
+  if (loggedinUser) {
+    var { imgUrl, fullname, email } = loggedinUser
   }
 
   return (
