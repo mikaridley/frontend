@@ -28,13 +28,10 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     }
 
     const { txt } = filterUsers
-    console.log(txt)
 
     return (
-        <div className="share-overlay"
-        // onClick={onToggleShare}
-        >
-            <section className="share-board">
+        <div className="share-overlay grid" onClick={onToggleShare}>
+            <section className="share-board grid" onClick={event => event.stopPropagation()}>
                 <h1>Share board</h1>
                 <form className="users-input flex" onSubmit={onAddMember}>
                     <input
