@@ -7,12 +7,15 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedMemberIds, setSelectedMemberIds] = useState([])
     const popupRef = useRef(null)
-    const availableMembers = taskService.getMembers(board)
+    const availableMembers = (taskService.getMembers(board) || []).filter(member => member)
     
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
         if (task?.members && Array.isArray(task.members)) {
-            const memberIds = task.members.map(member => member._id || member.id)
+            const memberIds = task.members
+                .filter(member => member) // Filter out null/undefined members
+                .map(member => member._id || member.id)
+                .filter(id => id) // Filter out any null/undefined IDs
             setSelectedMemberIds(memberIds)
         } else {
             setSelectedMemberIds([])
