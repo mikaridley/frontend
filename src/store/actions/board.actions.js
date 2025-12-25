@@ -18,12 +18,12 @@ import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
 const { VITE_LOCAL } = import.meta.env
 
 export async function loadBoards() {
+  const { loggedinUser } = store.getState().userModule
   store.dispatch({ type: LOADING_START })
 
   try {
-    const boards = await boardService.query()
+    const boards = await boardService.query(loggedinUser._id)
     store.dispatch(getCmdSetBoards(boards))
-    return boards
   } catch (err) {
     console.log('Cannot load board', err)
     throw err
@@ -31,6 +31,21 @@ export async function loadBoards() {
     store.dispatch({ type: LOADING_DONE })
   }
 }
+
+// export async function loadBoards() {
+//   store.dispatch({ type: LOADING_START })
+
+//   try {
+//     const boards = await boardService.query()
+//     store.dispatch(getCmdSetBoards(boards))
+//     return boards
+//   } catch (err) {
+//     console.log('Cannot load board', err)
+//     throw err
+//   } finally {
+//     store.dispatch({ type: LOADING_DONE })
+//   }
+// }
 
 export async function loadFilteredBoards(filterBy) {
   store.dispatch({ type: LOADING_START })
