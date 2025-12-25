@@ -17,7 +17,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id, cover } = task
   const navigate = useNavigate()
-  console.log(task)
+
   function openTaskDetails() {
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }
@@ -66,7 +66,6 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
     const date = new Date(task.dates.dateTime)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
-  console.log(task.members)
 
   const checkListCount = getChecklistCount()
   return (

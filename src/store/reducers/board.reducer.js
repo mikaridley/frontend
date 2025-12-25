@@ -61,7 +61,6 @@ export function boardReducer(state = initialState, action) {
       }
       break
     case SET_PHOTOS:
-      console.log(action.photos)
       newState = { ...state, backgroundPhotos: action.photos }
       break
     case BOARD_UNDO:
