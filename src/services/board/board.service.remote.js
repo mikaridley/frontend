@@ -42,12 +42,18 @@ const gBackgrounds = {
 //   return httpService.get(`board`, filterBy)
 // }
 
-async function query(userId) {
-  var boards = await httpService.get(`board`)
+// async function query(userId) {
+//   var boards = await httpService.get(`board`)
 
-  boards = boards.filter(board =>
-    board.members.some(member => member._id === userId)
-  )
+//   boards = boards.filter(board =>
+//     board.members.some(member => member._id === userId)
+//   )
+//   return boards
+// }
+
+async function query(userId) {
+  const filterBy = userId ? { members: userId } : {}
+  const boards = await httpService.get('board', filterBy)
   return boards
 }
 
