@@ -60,7 +60,7 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                 </form>
                 <h2>Board members</h2>
                 <ul className="board-members">
-                    {board.members.map(member =>
+                    {board.members.filter(member => member).map(member =>
                         <li className='user-details grid' key={member._id}>
                             {member.imgUrl && <img src={member.imgUrl} />}
                             <h1>{member.fullname}</h1>

@@ -8,6 +8,7 @@ function getEmptyUser() {
         email: '',
         fullname: '',
         password: '',
+        imgUrl: '',
     }
 }
 

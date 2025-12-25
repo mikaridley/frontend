@@ -27,7 +27,8 @@
   align-items: flex-start;
   z-index: 1000;
   padding-top: 5vh;
-  overflow-y: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Modal Content 
@@ -192,5 +193,31 @@
     padding-left: 2rem;
     padding-right: 2rem;
     max-height: calc(100vh - 25rem);
+  }
+}
+
+/* Mobile/Phone viewport fixes - ensures task-details is always visible */
+@media (max-width: 600px) {
+  .task-details-modal {
+    /* Center modal content in viewport */
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .task-details {
+    /* Ensure modal content is always in viewport, even with horizontal page scroll */
+    /* Ensure modal content fits viewport */
+    max-width: calc(100vw - 2rem);
+    width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+    margin: 0;
+    box-sizing: border-box;
+    /* Prevent content overflow */
+    overflow-x: hidden;
+    /* Ensure task-details stays centered in viewport regardless of page scroll position */
+    transform: translateX(0);
+    /* Explicitly position to prevent off-screen placement */
+    position: relative;
   }
 }
