@@ -1,0 +1,27 @@
+.share-overlay {
+    position: absolute;
+    left: 0;
+    top: -50px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 207;
+
+    justify-content: center;
+    grid-template-columns: minmax(20px, 1fr) minmax(auto, 580px) minmax(20px, 1fr);
+    background-color: rgba(0, 0, 0, 0.6);
+
+    >.share-board {
+        grid-column: 2;
+        justify-content: center;
+
+        position: relative;
+        z-index: 208;
+
+        height: fit-content;
+        margin-block-start: 10vh;
+        padding: 1.25rem 1.5rem 0;
+
+        background-color: var(--clr-group-modal);
+        color: var(--clr-task-txt);
+    }
+}

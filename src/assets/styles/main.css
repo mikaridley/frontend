@@ -31,6 +31,7 @@
 @import 'cmps/BoardPreview.css';
 @import 'cmps/AddBoard.css';
 @import 'cmps/BoardSettings.css';
+@import 'cmps/ShareBoard.css';
 
 /* Group */
 @import 'cmps/GroupList.css';
