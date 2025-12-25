@@ -54,6 +54,11 @@
 
   /* Login */
   --clr-bg-login: #fafbfc;
+  --clr-login-txt-2: #5e6c84;
+  --clr-login-txt-1: #44546f;
+  --clr-login-txt: #172b4d;
+  --clr-login-btn: #0c66e4;
+  --clr-login-btn-hover: #0055cc;
 
   /* Footer */
   --clr-footer-bg: #172b4d;

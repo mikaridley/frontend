@@ -169,11 +169,19 @@ export function GroupList() {
       const newIndex = groups.findIndex(group => group.id === over.id)
       const finalGroups = arrayMove(groups, oldIndex, newIndex)
       setGroups(finalGroups)
-      await updateBoard({ ...board, groups: finalGroups })
+
+      try {
+        await updateBoard({ ...board, groups: finalGroups })
+      } catch (err) {
+        console.log('err:', err)
+      }
       return
     }
-
-    await updateBoard({ ...board, groups: groups })
+    try {
+      await updateBoard({ ...board, groups: groups })
+    } catch (err) {
+      console.log('err:', err)
+    }
   }
 
   const visibleGroups = groups?.filter(group => group && !group.archivedAt) || []
