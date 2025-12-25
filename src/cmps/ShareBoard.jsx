@@ -21,7 +21,8 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
 
     function onAddMember(ev) {
         ev.preventDefault()
-        onToggleShare()
+
+        if (!user || board.members.find(member => member._id === user._id)) return
 
         const boardToEdit = { ...board, members: [...board.members, user] }
         onUpdateBoard(boardToEdit)
@@ -40,19 +41,20 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                         onChange={handleChange}
                         value={txt}
                     />
-                    <ul>
-                        {filterUsers.txt && users.map(user =>
-                            <li
-                                key={user._id}
-                                className='user-details grid'
-                                onClick={() => setUser(user)}
-                            >
-                                {user.imgUrl && <img src={user.imgUrl} />}
-                                <h1>{user.fullname}</h1>
-                                <p>{user.email}</p>
-                            </li>
-                        )}
-                    </ul>
+                    {filterUsers.txt &&
+                        <ul className="filtered-users">
+                            {users.map(user =>
+                                <li key={user._id}
+                                    className='user-details grid'
+                                    onClick={() => setUser(user)}
+                                >
+                                    {user.imgUrl && <img src={user.imgUrl} />}
+                                    <h1>{user.fullname}</h1>
+                                    <p>{user.email}</p>
+                                </li>
+                            )}
+                        </ul>
+                    }
                     <button>Share</button>
                 </form>
                 <h2>Board members</h2>
