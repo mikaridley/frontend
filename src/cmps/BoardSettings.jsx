@@ -16,9 +16,11 @@ import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
 import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 import { TaskPreview } from './TaskPreview'
-import { taskService } from '../services/task'
 import { removeTask, updateTask } from '../store/actions/task.actions'
 import { showErrorMsg } from '../services/event-bus.service'
+import { removeGroup, updateGroup } from '../store/actions/group.actions'
+import deleteImg from '../assets/img/delete.svg'
+import restoreImg from '../assets/img/restore.svg'
 
 export function BoardSettings({
   board,
@@ -92,7 +94,8 @@ export function BoardSettings({
     })
   }
 
-  function setArchiveopenTo(openTo) {
+  function toggleArchiveopenTo() {
+    const openTo = isArchiveOpen.openTo === 'cards' ? 'lists' : 'cards'
     setIsArchiveOpen({
       ...isArchiveOpen,
       openTo: openTo,
@@ -124,6 +127,26 @@ export function BoardSettings({
     }
   }
 
+  async function onRestoreGroup(group) {
+    console.log(group)
+    const edittedGroup = { ...group, archivedAt: null }
+    try {
+      await updateGroup(board, edittedGroup)
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to unArchive')
+    }
+  }
+
+  async function onDeleteGroup(group) {
+    try {
+      await removeGroup(board, group.id)
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to remove')
+    }
+  }
+
   const archivedTasks = board.groups.flatMap(group =>
     group.tasks
       .filter(task => task.archivedAt)
@@ -132,6 +155,7 @@ export function BoardSettings({
         groupId: group.id,
       }))
   )
+  const archivedGroups = board.groups.filter(group => group.archivedAt)
 
   const { kind, color } = board.style.background
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
@@ -271,29 +295,64 @@ export function BoardSettings({
           />
           <form>
             <input type="text" placeholder="Search archive..." />
-            <button type="button">Switch to lists</button>
+            <button type="button" onClick={toggleArchiveopenTo}>{`${
+              isArchiveOpen.openTo === 'cards'
+                ? 'Switch to lists'
+                : 'Switch to cards'
+            }`}</button>
           </form>
-          {archivedTasks.map(task => {
-            return (
-              <>
-                <TaskPreview
-                  task={task}
-                  onToggleStatus={demoFunction}
-                  archiveTask={demoFunction}
-                  isForArchiveList={true}
-                />
-                <div className="archived-actions">
-                  <button onClick={() => onRestoreTask(task.groupId, task.id)}>
-                    Restore
-                  </button>
-                  <p>•</p>
-                  <button onClick={() => onDeleteTask(task.groupId, task.id)}>
-                    Delete
-                  </button>
-                </div>
-              </>
-            )
-          })}
+          {isArchiveOpen.openTo === 'cards' ? (
+            <>
+              {archivedTasks.map(task => {
+                return (
+                  <div key={task.id}>
+                    <TaskPreview
+                      task={task}
+                      onToggleStatus={demoFunction}
+                      archiveTask={demoFunction}
+                      isForArchiveList={true}
+                    />
+                    <div className="archived-actions">
+                      <button
+                        onClick={() => onRestoreTask(task.groupId, task.id)}
+                      >
+                        Restore
+                      </button>
+                      <p>•</p>
+                      <button
+                        onClick={() => onDeleteTask(task.groupId, task.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          ) : (
+            <section className="archived-lists">
+              {archivedGroups.map(group => {
+                return (
+                  <div className="settings-group-preview" key={group.id}>
+                    <h2>{group.title}</h2>
+                    <button
+                      className="settings-restore-icon"
+                      onClick={() => onRestoreGroup(group)}
+                    >
+                      <img src={restoreImg} />
+                      Restore
+                    </button>
+                    <button
+                      onClick={() => onDeleteGroup(group)}
+                      className="settings-delete-icon"
+                    >
+                      <img src={deleteImg} />
+                    </button>
+                  </div>
+                )
+              })}
+            </section>
+          )}
         </div>
       )}
     </section>
