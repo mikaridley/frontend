@@ -31,9 +31,22 @@ export function LoginSignup() {
             showSuccessMsg('Logged in successfully')
             navigate('/board')
         } catch (err) {
-            console.log('err:', err)
-            console.log('err.response:', err.response)
-            const errorMsg = err.response?.data?.err || err.message || 'Could not log in'
+            // Always log full error details
+            console.error('[Login/Signup Error]:', {
+                error: err,
+                response: err.response,
+                message: err.message,
+                userMessage: err.userMessage,
+                isNetworkError: err.isNetworkError
+            })
+            
+            // Use enhanced error message from httpService, or fallback
+            const errorMsg = err.userMessage || 
+                           err.response?.data?.err || 
+                           err.response?.data?.message || 
+                           err.message || 
+                           'Could not log in. Please try again.'
+            
             showErrorMsg(errorMsg)
         }
     }
@@ -106,7 +119,10 @@ export function LoginSignup() {
                 }
                 {true && <GoogleLogin
                     onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
-                    onError={() => console.log('Login Failed')}
+                    onError={() => {
+                        console.error('[Google Login Error]: Authentication failed')
+                        showErrorMsg('Google authentication failed. Please try again.')
+                    }}
                     width={320}
                 />}
                 {pathname === '/login'
