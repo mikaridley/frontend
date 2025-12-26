@@ -11,6 +11,7 @@ import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
 import attachmentsImg from '../assets/img/attachments.svg'
+
 export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id, cover } = task

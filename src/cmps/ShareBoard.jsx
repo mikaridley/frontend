@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 
 import { loadUsers } from "../store/actions/user.actions"
 
-
 export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     const board = useSelector(storeState => storeState.boardModule.board)
     const users = useSelector(storeState => storeState.userModule.users)

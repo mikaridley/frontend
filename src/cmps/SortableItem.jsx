@@ -15,6 +15,7 @@ export function SortableItem({ id, children }) {
         transform: CSS.Translate.toString(transform),
         transition,
         opacity: isDragging ? 0.6 : 1,
+        height: 'fit-content'
     }
 
     return (
