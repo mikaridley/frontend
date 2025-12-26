@@ -1,4 +1,7 @@
 .board-header {
+  position: relative;
+  z-index: 205;
+
   width: 100%;
 
   background-color: rgba(0, 0, 0, 0.24);

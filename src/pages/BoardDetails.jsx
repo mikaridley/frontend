@@ -46,7 +46,6 @@ export function BoardDetails() {
     socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
 
     socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {
-      console.log('GOT from socket', board)
       dispatch(getCmdUpdateBoard(board))
     })
     return () => {
