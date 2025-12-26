@@ -33,7 +33,7 @@
     grid-template-columns: auto 1fr;
     gap: 0.5rem;
 
-    padding: 0.7rem;
+    padding: 0.5rem;
     width: 100%;
 
     .task-title {
@@ -113,6 +113,12 @@
         gap: 0.3rem;
 
         margin-left: auto;
+
+        .member-photo {
+          img {
+            width: 27px;
+          }
+        }
       }
     }
   }

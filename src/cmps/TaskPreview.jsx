@@ -17,6 +17,9 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id, cover } = task
   const navigate = useNavigate()
+  const loggedinUser = useSelector(
+    storeState => storeState.userModule.loggedinUser
+  )
 
   function openTaskDetails() {
     navigate(`/board/${board._id}/${group.id}/${id}`)
@@ -182,11 +185,15 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
               <section className="task-member-container">
                 {task.members.map(member => (
                   <LightTooltip key={member._id} title={member.fullname}>
-                    <div className="task-checklists">
-                      <MemberDefaultPhoto
-                        size={25}
-                        memberName={member.fullname}
-                      />
+                    <div className="member-photo">
+                      {loggedinUser ? (
+                        <img src={loggedinUser.imgUrl} />
+                      ) : (
+                        <MemberDefaultPhoto
+                          size={25}
+                          memberName={member.fullname}
+                        />
+                      )}
                     </div>
                   </LightTooltip>
                 ))}

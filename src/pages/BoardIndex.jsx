@@ -32,7 +32,7 @@ export function BoardIndex() {
   useEffect(() => {
     loadBoards()
 
-    // socketService.emit(SOCKET_EMIT_SET_TOPIC, loggedinUser._id)
+    // socketService.emit(SOCKET_EMIT_SET_TOPIC, worspace._id)
 
     // socketService.on(SOCKET_EVENT_BOARD_ADDED, board => {
     //   console.log('GOT from socket', board)
