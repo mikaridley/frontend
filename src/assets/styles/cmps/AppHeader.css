@@ -4,10 +4,7 @@
   justify-content: space-between;
   align-items: center;
 
-  position: fixed;
-  z-index: 207;
-
-  width: 100vw;
+  width: 100%;
   padding-inline: 2rem;
   padding-block: 0.5rem;
   border-bottom: 1px solid var(--clr-ah-grey);
@@ -58,7 +55,7 @@
     background-repeat: no-repeat;
   }
 
-  .user>img {
+  .user > img {
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -71,32 +68,31 @@
     right: 5px;
     top: 52px;
 
-
-    padding-block: 1rem .2rem;
+    padding-block: 1rem 0.2rem;
     width: 19rem;
 
     background-color: var(--clr-group-modal);
     border-radius: 0.5rem;
     box-shadow: var(--modal-box-shadow);
 
-    >* {
-      padding: .5rem 1rem;
+    > * {
+      padding: 0.5rem 1rem;
     }
 
-    >h2 {
-      font-size: .6875rem;
+    > h2 {
+      font-size: 0.6875rem;
       font-weight: normal;
       text-transform: uppercase;
       color: var(--clr-modal-txt);
     }
 
-    >button {
+    > button {
       background-color: var(--clr-group-modal);
       color: inherit;
       text-align: start;
 
       &:hover {
-        background-color: var(--clr-modal-btn-hover)
+        background-color: var(--clr-modal-btn-hover);
       }
     }
 
@@ -133,7 +129,7 @@
 
         background-color: var(--clr-ah-grey-2);
 
-        >h2 {
+        > h2 {
           margin-bottom: 1rem;
           padding-inline: 1rem;
           font-size: 0.9rem;
