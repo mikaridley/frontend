@@ -87,6 +87,7 @@
       .member-photo {
         img {
           width: 40px;
+          border-radius: 50%;
         }
       }
     }
@@ -119,6 +120,7 @@
         > :nth-child(1) {
           grid-column: 2;
         }
+
         > :nth-child(2) {
           justify-self: end;
         }
@@ -167,7 +169,8 @@
           .photo-bg-msg {
             opacity: 0.6;
             font-size: 0.8rem;
-            > a {
+
+            >a {
               font-size: 0.8rem;
             }
           }

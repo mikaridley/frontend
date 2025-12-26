@@ -32,11 +32,9 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                     <div
                                         key={member._id}
                                         className="member-tag"
-                                        //add later onClick - open member's details popup
+                                    //add later onClick - open member's details popup
                                     >
-                                        <div className="member-avatar" title={member.fullname}>
-                                            {getMemberInitials(member.fullname)}
-                                        </div>
+                                        <img src={member.imgUrl} className="member-avatar" />
                                     </div>
                                 ))}
                                 <button className="btn-add-label" onClick={(e) => onOpenPopup('members', e)}> + </button>

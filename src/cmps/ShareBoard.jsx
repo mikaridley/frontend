@@ -7,7 +7,7 @@ import { loadUsers } from "../store/actions/user.actions"
 export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     const board = useSelector(storeState => storeState.boardModule.board)
     const users = useSelector(storeState => storeState.userModule.users)
-    const [user, setUser] = useState()
+    const [selectedUser, setSelectedUser] = useState()
     const [filterUsers, setFilterUsers] = useState({ txt: '' })
 
     useEffect(() => {
@@ -22,13 +22,16 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     function onAddMember(ev) {
         ev.preventDefault()
 
-        if (!user || board.members.find(member => member._id === user._id)) return
+        if (!selectedUser || board.members.find(member => member._id === selectedUser._id)) return
 
-        const boardToEdit = { ...board, members: [...board.members, user] }
+        const boardToEdit = { ...board, members: [...board.members, selectedUser] }
         onUpdateBoard(boardToEdit)
     }
 
     const { txt } = filterUsers
+
+    console.log('user:', users)
+    console.log('members:', board.members)
 
     return (
         <div className="share-overlay grid" onClick={onToggleShare}>
@@ -46,7 +49,7 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                             {users.map(user =>
                                 <li key={user._id}
                                     className='user-details grid'
-                                    onClick={() => setUser(user)}
+                                    onClick={() => setSelectedUser(user)}
                                 >
                                     {user.imgUrl && <img src={user.imgUrl} />}
                                     <h1>{user.fullname}</h1>

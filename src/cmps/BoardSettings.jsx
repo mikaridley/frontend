@@ -14,7 +14,7 @@ import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-import { MemberDefaultPhoto } from './MemberDefaultPhoto'
+// import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 
 export function BoardSettings({
   board,
@@ -100,14 +100,9 @@ export function BoardSettings({
               {board.members.map(member => {
                 return (
                   <div className="member-photo">
-                    {loggedinUser ? (
-                      <img src={loggedinUser.imgUrl} />
-                    ) : (
-                      <MemberDefaultPhoto
-                        size={25}
-                        memberName={member.fullname}
-                      />
-                    )}
+                    {member.imgUrl &&
+                      <img src={member.imgUrl} />
+                    }
                   </div>
                 )
               })}
