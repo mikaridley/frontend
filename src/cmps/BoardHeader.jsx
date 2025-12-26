@@ -40,7 +40,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
         value={boardToEdit.title || ''}
       />
       <div className="header-btns flex align-center">
-        <ul className="members flex">
+        <ul className="members grid">
           {board.members.map(member =>
             <li>
               {member.imgUrl && <img src={member.imgUrl} />}

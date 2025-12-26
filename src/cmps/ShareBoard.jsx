@@ -25,12 +25,18 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
 
         const boardToEdit = { ...board, members: [...board.members, selectedUser] }
         onUpdateBoard(boardToEdit)
+        setSelectedUser(null)
+    }
+
+    function onSelectMember(user) {
+        setSelectedUser(user)
+        setFilterUsers({ txt: '' })
     }
 
     const { txt } = filterUsers
+    const placeHolder = selectedUser ? '' : 'Email adress or name'
 
-    console.log('user:', users)
-    console.log('members:', board.members)
+    console.log('selectedUser:', selectedUser)
 
     return (
         <div className="share-overlay grid" onClick={onToggleShare}>
@@ -39,16 +45,20 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                 <form className="users-input flex" onSubmit={onAddMember}>
                     <input
                         type="text"
-                        placeholder="Email adress or name"
+                        onClick={() => setSelectedUser(null)}
+                        placeholder={placeHolder}
                         onChange={handleChange}
                         value={txt}
                     />
+                    {selectedUser &&
+                        <p className="selected-user">{selectedUser.fullname}</p>
+                    }
                     {filterUsers.txt &&
-                        <ul className="filtered-users">
+                        <ul className="filtered-users grid">
                             {users.map(user =>
                                 <li key={user._id}
                                     className='user-details grid'
-                                    onClick={() => setSelectedUser(user)}
+                                    onClick={() => onSelectMember(user)}
                                 >
                                     {user.imgUrl && <img src={user.imgUrl} />}
                                     <h1>{user.fullname}</h1>
@@ -57,7 +67,7 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                             )}
                         </ul>
                     }
-                    <button>Share</button>
+                    <button className="btn">Share</button>
                 </form>
                 <h2>Board members</h2>
                 <ul className="board-members">

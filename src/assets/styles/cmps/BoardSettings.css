@@ -61,7 +61,7 @@
     align-items: center;
     gap: 1rem;
 
-    height: 2.5rem;
+    height: 2rem;
     padding-inline: 1rem;
 
     cursor: pointer;
@@ -86,7 +86,7 @@
 
       .member-photo {
         img {
-          width: 40px;
+          width: 2rem;
           border-radius: 50%;
         }
       }

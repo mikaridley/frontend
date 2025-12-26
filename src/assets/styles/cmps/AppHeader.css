@@ -8,8 +8,7 @@
   z-index: 303;
 
   width: 100%;
-  padding-inline: 2rem;
-  padding-block: 0.5rem;
+  padding: 0.5rem;
   border-bottom: 1px solid var(--clr-ah-grey);
 
   background-color: var(--clr-bg-dark);
@@ -60,8 +59,8 @@
 
   .user > img {
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
 
     cursor: pointer;
   }

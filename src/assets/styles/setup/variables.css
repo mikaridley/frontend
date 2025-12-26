@@ -37,8 +37,9 @@
   --clr-close-board-hover: #fd9891;
   --modal-box-shadow: 0px 2px 5px #202020;
   --clr-modal-btn-hover: rgba(206, 206, 217, 0.07);
-    /* Group */
-    --clr-group: #101204;
+
+  /* Group */
+  --clr-group: #101204;
   --clr-group-txt: #a9abaf;
   --clr-group-modal: #2b2c2f;
   --group-width: 17rem;
