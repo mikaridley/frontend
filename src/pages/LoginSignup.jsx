@@ -32,7 +32,9 @@ export function LoginSignup() {
             navigate('/board')
         } catch (err) {
             console.log('err:', err)
-            showErrorMsg('Could not log in')
+            console.log('err.response:', err.response)
+            const errorMsg = err.response?.data?.err || err.message || 'Could not log in'
+            showErrorMsg(errorMsg)
         }
     }
 
