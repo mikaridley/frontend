@@ -24,8 +24,10 @@ export function BoardSettings({
   onRemoveBoard,
   changeBoardColor,
 }) {
-  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
+  if (!board.style)
+    board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  if (!board.style.background)
+    board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
@@ -37,6 +39,9 @@ export function BoardSettings({
     storeState => storeState.boardModule.backgroundPhotos
   )
   const backgrounds = getColorsBg()
+  const loggedinUser = useSelector(
+    storeState => storeState.userModule.loggedinUser
+  )
 
   useEffect(() => {
     _getPhotos()
@@ -94,7 +99,16 @@ export function BoardSettings({
             <section className="setting-members">
               {board.members.map(member => {
                 return (
-                  <MemberDefaultPhoto key={member._id} size={25} memberName={member.fullname} />
+                  <div className="member-photo">
+                    {loggedinUser ? (
+                      <img src={loggedinUser.imgUrl} />
+                    ) : (
+                      <MemberDefaultPhoto
+                        size={25}
+                        memberName={member.fullname}
+                      />
+                    )}
+                  </div>
                 )
               })}
             </section>

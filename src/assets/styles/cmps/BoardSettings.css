@@ -83,6 +83,12 @@
     .setting-members {
       display: flex;
       flex-direction: row-reverse;
+
+      .member-photo {
+        img {
+          width: 40px;
+        }
+      }
     }
   }
 
