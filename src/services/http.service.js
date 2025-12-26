@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-const BASE_URL = process.env.NODE_ENV === 'production'
+const BASE_URL = import.meta.env.PROD
     ? '/api/'
     : '//localhost:3030/api/'
 

@@ -1,7 +1,7 @@
+const { DEV, VITE_LOCAL } = import.meta.env
+
 import { userService as local } from './user.service.local'
 import { userService as remote } from './user.service.remote'
-
-const { DEV, VITE_LOCAL } = import.meta.env
 
 function getEmptyUser() {
     return {
