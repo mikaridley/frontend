@@ -99,7 +99,7 @@ export function BoardSettings({
             <section className="setting-members">
               {board.members.map(member => {
                 return (
-                  <div className="member-photo">
+                  <div key={member.id} className="member-photo">
                     {loggedinUser ? (
                       <img src={loggedinUser.imgUrl} />
                     ) : (
