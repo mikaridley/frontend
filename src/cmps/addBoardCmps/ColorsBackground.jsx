@@ -1,5 +1,5 @@
 import { BackgroundPreview } from './BackgroundPreview'
-import { SetBackgroundHeader } from './SetBackgroundHeader'
+import { PopUpHeader } from './PopUpHeader'
 
 export function ColorsBackground({
   backgrounds,
@@ -11,11 +11,7 @@ export function ColorsBackground({
   return (
     <div className="colors-background">
       <section className="gradient-colors">
-        <SetBackgroundHeader
-          onBack={onBack}
-          onClose={onClose}
-          header={'Colors'}
-        />
+        <PopUpHeader onBack={onBack} onClose={onClose} header={'Colors'} />
         {backgrounds.gradientColors.map(color => {
           return (
             <BackgroundPreview

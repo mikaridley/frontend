@@ -5,7 +5,6 @@ import { BackgroundPreview } from './BackgroundPreview'
 import { PhotosBackground } from './PhotosBackground.jsx'
 import { getColorsBg, getPhotos } from '../../store/actions/board.actions.js'
 import { useSelector } from 'react-redux'
-import { SetBackgroundHeader } from './SetBackgroundHeader.jsx'
 import { ColorsBackground } from './ColorsBackground.jsx'
 import closeImg from '../../assets/img/close.svg'
 
@@ -13,9 +12,8 @@ export function BackgroundContainer({ changeColor }) {
   const backgrounds = getColorsBg()
   const gradientColors = backgrounds?.gradientColors || []
 
-  const photosBg = useSelector(
-    storeState => storeState.boardModule.backgroundPhotos
-  ) || []
+  const photosBg =
+    useSelector(storeState => storeState.boardModule.backgroundPhotos) || []
   const [selectedColor, setSelectedColor] = useState('#0079bf')
   const [isOpenMoreBgs, setIsOpenMoreBgs] = useState({
     isOpen: false,

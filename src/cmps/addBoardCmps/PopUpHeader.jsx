@@ -1,7 +1,7 @@
 import closeImg from '../../assets/img/close.svg'
 import backImg from '../../assets/img/back.svg'
 
-export function SetBackgroundHeader({ onBack, onClose, header }) {
+export function PopUpHeader({ onBack, onClose, header }) {
   return (
     <header className="background-header">
       <img src={backImg} onClick={onBack} />

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { BackgroundPreview } from './BackgroundPreview'
-import { SetBackgroundHeader } from './SetBackgroundHeader'
+import { PopUpHeader } from './PopUpHeader'
 
 export function PhotosBackground({
   photosBg,
@@ -12,7 +12,7 @@ export function PhotosBackground({
 }) {
   return (
     <section className="photos-background">
-      <SetBackgroundHeader
+      <PopUpHeader
         onBack={goBack}
         onClose={onClose}
         header={'Photos by Unsplash'}

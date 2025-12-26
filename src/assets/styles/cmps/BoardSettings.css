@@ -254,4 +254,51 @@
       }
     }
   }
+
+  .archived-tasks {
+    display: grid;
+
+    form {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+
+      > input {
+        border: 1px solid var(--clr-task-txt);
+        border-radius: 5px;
+        padding: 0.6rem;
+
+        background-color: var(--clr-task);
+      }
+
+      > button {
+        display: grid;
+        place-items: center;
+        border-radius: 5px;
+        height: 100%;
+        background-color: var(--clr-ah-grey-1);
+
+        &:hover {
+          background-color: var(--clr-ah-grey);
+        }
+      }
+    }
+
+    .archived-actions {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      margin-block: 0.5rem;
+
+      > button:hover {
+        text-decoration: underline;
+        color: var(--clr-create-btn);
+      }
+
+      > p {
+        margin: 0;
+      }
+    }
+  }
 }
