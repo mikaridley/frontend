@@ -48,13 +48,11 @@ export function GroupList() {
       setGroup(groupService.getEmptyGroup())
       setGroups(prev => [...(prev || []), newGroup])
 
-      showSuccessMsg('Added')
-
       await addGroup(board, newGroup)
       setIsAddingGroup(true)
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg(`Failed to Add`)
+      showErrorMsg(`Failed to add`)
       setGroups(board.groups)
     }
   }
@@ -64,7 +62,6 @@ export function GroupList() {
       if (!groupToEdit.title || group.title === groupToEdit.title) return
 
       await updateGroup(board, groupToEdit)
-      showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to update`)

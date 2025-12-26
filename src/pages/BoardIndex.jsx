@@ -54,6 +54,13 @@ export function BoardIndex() {
       color: newBoardColor.color || '#0079bf',
       kind: newBoardColor.kind || 'solid',
     }
+    console.log(loggedinUser)
+    if (loggedinUser)
+      boardToSave.createdBy = {
+        _id: loggedinUser._id,
+        fullname: loggedinUser.fullname,
+        imgUrl: loggedinUser.imgUrl,
+      }
     const savedBoard = await addBoard(boardToSave)
     navigate(`/board/${savedBoard._id}`)
   }
@@ -62,9 +69,8 @@ export function BoardIndex() {
     board.isStarred = !board.isStarred
     try {
       await updateBoard(board)
-      showSuccessMsg('Board has been updated')
-    } catch {
-      showErrorMsg('Cannot update board')
+    } catch (err) {
+      console.log(err)
     }
   }
 

@@ -42,7 +42,7 @@ export function BoardSettings({
   const loggedinUser = useSelector(
     storeState => storeState.userModule.loggedinUser
   )
-
+  console.log(board)
   useEffect(() => {
     _getPhotos()
   }, [])

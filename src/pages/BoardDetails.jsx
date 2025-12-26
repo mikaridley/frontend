@@ -35,7 +35,6 @@ export function BoardDetails() {
       loadBoard(boardId)
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg('Could not load board')
     }
 
     return () => {
@@ -59,12 +58,9 @@ export function BoardDetails() {
   function onUpdateBoard(boardToEdit) {
     try {
       if (!boardToEdit.title) return
-
       updateBoard(boardToEdit)
-      showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg(`Failed to update`)
     }
   }
 
@@ -72,16 +68,15 @@ export function BoardDetails() {
     board.isStarred = !board.isStarred
     try {
       await updateBoard(board)
-      showSuccessMsg('Board has been updated')
-    } catch {
-      showErrorMsg('Cannot update board')
+    } catch (err) {
+      console.log(err)
     }
   }
 
   async function onRemoveBoard(boardId) {
     try {
       await removeBoard(boardId)
-      showSuccessMsg('Board removed')
+      showSuccessMsg('Board has been removed')
       navigate(`/board`)
     } catch {
       showErrorMsg('Cannot remove board')
@@ -100,8 +95,8 @@ export function BoardDetails() {
     try {
       await updateBoardOptimistic(updatedBoard)
       toggleBoardBgLoader()
-    } catch {
-      showErrorMsg('Cannot update board')
+    } catch (err) {
+      console.log(err)
     }
   }
 
