@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
@@ -19,6 +19,21 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
   const [task, setTask] = useState(taskService.getEmptyTask())
   const [isAddingTask, setIsAddingTask] = useState(false)
+  const groupActionsRef = useRef(null)
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (!groupActionsRef.current?.contains(ev.target)) {
+        setIsActionsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   // Group funcs //
   function onArchiveGroup() {
@@ -103,6 +118,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             onToggleActions={onToggleActions}
             onArchiveGroup={onArchiveGroup}
             setIsAddingTask={setIsAddingTask}
+            groupActionsRef={groupActionsRef}
           />
         )}
       </header>

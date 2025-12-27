@@ -16,6 +16,7 @@ export function AppHeader() {
   const [boards, setBoards] = useState(null)
   const filterRef = useRef(null)
   const location = useLocation()
+  const userRef = useRef(null)
 
   useEffect(() => {
     async function fetchBoards() {
@@ -31,6 +32,20 @@ export function AppHeader() {
       if (!filterRef.current?.contains(ev.target)) {
         clearFilter()
         setBoards(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (!userRef.current?.contains(ev.target)) {
+        setIsUserOpen(false)
       }
     }
 
@@ -132,7 +147,7 @@ export function AppHeader() {
         {imgUrl && <img src={imgUrl} />}
       </div>
       {isUserOpen && (
-        <div className="account grid">
+        <div className="account grid" ref={userRef}>
           <h2>Account</h2>
           <div className="user-details grid">
             {imgUrl && <img src={imgUrl} referrerPolicy="no-referrer" />}
