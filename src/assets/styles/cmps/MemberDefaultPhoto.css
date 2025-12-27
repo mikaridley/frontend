@@ -1,9 +1,0 @@
-.member-default-photo {
-  border-radius: 50%;
-  font-size: 80%;
-
-  background-color: rgb(187, 108, 34);
-  color: var(--clr-txt-dark);
-  display: grid;
-  place-items: center;
-}

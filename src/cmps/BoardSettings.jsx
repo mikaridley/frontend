@@ -173,8 +173,10 @@ export function BoardSettings({
             <section className="setting-members">
               {board.members.map(member => {
                 return (
-                  <div key={member._id} className="member-photo">
-                    <img src={loggedinUser.imgUrl} />
+                  <div className="member-photo">
+                    {member.imgUrl &&
+                      <img src={member.imgUrl} />
+                    }
                   </div>
                 )
               })}

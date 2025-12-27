@@ -8,7 +8,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
     const [selectedMemberIds, setSelectedMemberIds] = useState([])
     const popupRef = useRef(null)
     const availableMembers = (taskService.getMembers(board) || []).filter(member => member)
-    
+
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
         if (task?.members && Array.isArray(task.members)) {
@@ -23,10 +23,10 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
     }, [board, groupId, taskId])
 
     // Separate members into two groups: task members and non-task members
-    const taskMembers = availableMembers.filter(member => 
+    const taskMembers = availableMembers.filter(member =>
         selectedMemberIds.includes(member._id)
     )
-    const nonTaskMembers = availableMembers.filter(member => 
+    const nonTaskMembers = availableMembers.filter(member =>
         !selectedMemberIds.includes(member._id)
     )
 
@@ -38,8 +38,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
         member.fullname?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-  // Keep popup fully visible vertically.
-  popupToViewportHook(popupRef, position)
+    // Keep popup fully visible vertically.
+    popupToViewportHook(popupRef, position)
 
     async function toggleMember(memberId, e) {
         if (e) e.stopPropagation()
@@ -48,17 +48,17 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
             const newSelection = isSelected
                 ? prev.filter(id => id !== memberId)   //remove memberId from selectedMemberIds
                 : [...prev, memberId]   //add memberId to selectedMemberIds
-            
+
             // Calculate selected members from new selection
-            const selectedMembers = availableMembers.filter(member => 
+            const selectedMembers = availableMembers.filter(member =>
                 newSelection.includes(member._id)
             )
-            
+
             // Call onSave to update task and TaskDetails members state
             if (onSave) {
                 onSave('members', selectedMembers)
             }
-            
+
             return newSelection
         })
     }
@@ -85,7 +85,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </form>
-                    
+
                     {/* Task Members Section */}
                     {filteredTaskMembers.length > 0 && (
                         <div className="members-section">
@@ -97,7 +97,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
                                     <div className="member-info">
-                                        <span className="member-avatar">{getMemberInitials(member.fullname)}</span><span>{member.fullname}</span>
+                                        <img src={member.imgUrl} className="member-avatar" />
+                                        <span>{member.fullname}</span>
                                     </div>
                                 </div>
                             ))}
@@ -115,7 +116,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
                                     <div className="member-info">
-                                        <span className="member-avatar">{getMemberInitials(member.fullname)}</span><span>{member.fullname}</span>
+                                        <img src={member.imgUrl} className="member-avatar" />
+                                        <span>{member.fullname}</span>
                                     </div>
                                 </div>
                             ))}

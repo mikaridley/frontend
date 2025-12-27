@@ -3,12 +3,8 @@ import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
 import { logout } from '../store/actions/user.actions'
+import { loadFilteredBoards, setFilterBy, } from '../store/actions/board.actions'
 import logoLightImg from '../assets/img/logo-light.png'
-import {
-  loadFilteredBoards,
-  setFilterBy,
-} from '../store/actions/board.actions'
-import { debounce } from '../services/util.service'
 
 export function AppHeader() {
   const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
@@ -75,6 +71,7 @@ export function AppHeader() {
       navigate('/board')
     }
   }
+
   if (loggedinUser) {
     var { imgUrl, fullname, email } = loggedinUser
   }
@@ -139,7 +136,7 @@ export function AppHeader() {
         <div className="account grid">
           <h2>Account</h2>
           <div className="user-details grid">
-            {imgUrl && <img src={imgUrl} />}
+            {imgUrl && <img src={imgUrl} referrerPolicy="no-referrer" />}
             <h1>{fullname}</h1>
             <p>{email}</p>
           </div>

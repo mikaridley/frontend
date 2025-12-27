@@ -16,13 +16,13 @@ import {
 
 import { GroupPreview } from './GroupPreview'
 import { TaskPreview } from './TaskPreview'
-
-import { groupService } from '../services/group/'
-import { addGroup, updateGroup } from '../store/actions/group.actions'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { updateBoard } from '../store/actions/board.actions'
-import closeIcon from '../assets/img/close.svg'
 import { SortableItem } from './SortableItem'
+
+import { addGroup, updateGroup } from '../store/actions/group.actions'
+import { updateBoard } from '../store/actions/board.actions'
+import { groupService } from '../services/group/'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import closeIcon from '../assets/img/close.svg'
 
 export function GroupList() {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -199,8 +199,8 @@ export function GroupList() {
   const activeTask =
     activeType === 'task'
       ? groups
-          .flatMap(group => group.tasks || [])
-          .find(task => task.id === activeId)
+        .flatMap(group => group.tasks || [])
+        .find(task => task.id === activeId)
       : null
 
   return (
