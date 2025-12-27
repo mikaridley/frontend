@@ -16,13 +16,13 @@ import {
 
 import { GroupPreview } from './GroupPreview'
 import { TaskPreview } from './TaskPreview'
-
-import { groupService } from '../services/group/'
-import { addGroup, updateGroup } from '../store/actions/group.actions'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { updateBoard } from '../store/actions/board.actions'
-import closeIcon from '../assets/img/close.svg'
 import { SortableItem } from './SortableItem'
+
+import { addGroup, updateGroup } from '../store/actions/group.actions'
+import { updateBoard } from '../store/actions/board.actions'
+import { groupService } from '../services/group/'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import closeIcon from '../assets/img/close.svg'
 
 export function GroupList() {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -48,13 +48,11 @@ export function GroupList() {
       setGroup(groupService.getEmptyGroup())
       setGroups(prev => [...(prev || []), newGroup])
 
-      showSuccessMsg('Added')
-
       await addGroup(board, newGroup)
       setIsAddingGroup(true)
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg(`Failed to Add`)
+      showErrorMsg(`Failed to add`)
       setGroups(board.groups)
     }
   }
@@ -64,7 +62,6 @@ export function GroupList() {
       if (!groupToEdit.title || group.title === groupToEdit.title) return
 
       await updateGroup(board, groupToEdit)
-      showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to update`)
@@ -73,7 +70,9 @@ export function GroupList() {
 
   async function archiveGroup(groupToArchive) {
     try {
-      const updatedGroups = groups.filter(group => group.id !== groupToArchive.id)
+      const updatedGroups = groups.filter(
+        group => group.id !== groupToArchive.id
+      )
       setGroups(updatedGroups)
       setGroup(groupService.getEmptyGroup())
 
@@ -121,11 +120,13 @@ export function GroupList() {
       setGroups(prev => {
         return prev.map(group => {
           if (group.id === activeContainer) {
-            const oldIndex = group.tasks.findIndex(task => task.id === active.id)
+            const oldIndex = group.tasks.findIndex(
+              task => task.id === active.id
+            )
             const newIndex = group.tasks.findIndex(task => task.id === overId)
             return {
               ...group,
-              tasks: arrayMove(group.tasks, oldIndex, newIndex)
+              tasks: arrayMove(group.tasks, oldIndex, newIndex),
             }
           }
           return group
@@ -138,14 +139,19 @@ export function GroupList() {
       const activeGroup = prev.find(group => group.id === activeContainer)
       const overGroup = prev.find(group => group.id === overContainer)
 
-      const activeIndex = activeGroup.tasks.findIndex(task => task.id === active.id)
+      const activeIndex = activeGroup.tasks.findIndex(
+        task => task.id === active.id
+      )
       const overIndex = overGroup.tasks.findIndex(task => task.id === overId)
 
       let newIndex = overIndex >= 0 ? overIndex : overGroup.tasks.length
 
       return prev.map(group => {
         if (group.id === activeContainer) {
-          return { ...group, tasks: group.tasks.filter(task => task.id !== active.id) }
+          return {
+            ...group,
+            tasks: group.tasks.filter(task => task.id !== active.id),
+          }
         }
         if (group.id === overContainer) {
           const newTasks = [...(group.tasks || [])]
@@ -184,16 +190,17 @@ export function GroupList() {
     }
   }
 
-  const visibleGroups = groups?.filter(group => group && !group.archivedAt) || []
+  const visibleGroups =
+    groups?.filter(group => group && !group.archivedAt) || []
 
   const activeGroup =
-    activeType === 'group'
-      ? groups.find(group => group.id === activeId)
-      : null
+    activeType === 'group' ? groups.find(group => group.id === activeId) : null
 
   const activeTask =
     activeType === 'task'
-      ? groups.flatMap(group => group.tasks || []).find(task => task.id === activeId)
+      ? groups
+        .flatMap(group => group.tasks || [])
+        .find(task => task.id === activeId)
       : null
 
   return (
@@ -209,7 +216,13 @@ export function GroupList() {
           items={visibleGroups.map(group => group.id)}
           strategy={rectSortingStrategy}
         >
-          <div style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 12,
+            }}
+          >
             {!!visibleGroups?.length &&
               visibleGroups.map(group => (
                 <SortableItem key={group.id} id={group.id}>

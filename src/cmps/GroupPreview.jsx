@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
@@ -19,6 +19,21 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
   const [task, setTask] = useState(taskService.getEmptyTask())
   const [isAddingTask, setIsAddingTask] = useState(false)
+  const groupActionsRef = useRef(null)
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (!groupActionsRef.current?.contains(ev.target)) {
+        setIsActionsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   // Group funcs //
   function onArchiveGroup() {
@@ -48,21 +63,18 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
     try {
       await addTask(board, group, task)
-      showSuccessMsg('Added')
-
       setTask(taskService.getEmptyTask())
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg('Failed to Add')
+      showErrorMsg('Failed to add')
     }
   }
 
   async function archiveTask(task) {
-
     try {
       await updateTask(board, group.id, task.id, { archivedAt: Date.now() })
       setTask(taskService.getEmptyTask())
-      showSuccessMsg('Task archived')
+      showSuccessMsg('Card archived')
     } catch (err) {
       console.log('err:', err)
       showErrorMsg('Failed to archive')
@@ -77,7 +89,6 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     try {
       await updateTask(board, group.id, task.id, { status: newStatus })
       setTask({ ...task, status: newStatus })
-      showSuccessMsg('Task status updated')
     } catch (err) {
       showErrorMsg('Failed to update task status')
     }
@@ -107,6 +118,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             onToggleActions={onToggleActions}
             onArchiveGroup={onArchiveGroup}
             setIsAddingTask={setIsAddingTask}
+            groupActionsRef={groupActionsRef}
           />
         )}
       </header>
@@ -122,11 +134,12 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         />
       </SortableContext>
 
-      {!isAddingTask ?
+      {!isAddingTask ? (
         <button className="add-btn" onClick={() => setIsAddingTask(true)}>
           Add a Card
         </button>
-        : <form className="add-form" onSubmit={handleSubmit}>
+      ) : (
+        <form className="add-form" onSubmit={handleSubmit}>
           <input
             onChange={handleTaskChange}
             onBlur={onAddTask}
@@ -143,7 +156,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
             </button>
           </div>
         </form>
-      }
+      )}
     </section>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import { BoardHeader } from '../cmps/BoardHeader'
@@ -8,6 +8,7 @@ import { taskService } from '../services/task'
 import { Loader } from '../cmps/Loader'
 
 import {
+  getCmdUpdateBoard,
   loadBoard,
   removeBoard,
   toggleBoardBgLoader,
@@ -17,18 +18,23 @@ import {
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { store } from '../store/store'
 import { SET_BOARD } from '../store/reducers/board.reducer'
+import {
+  SOCKET_EMIT_SET_TOPIC,
+  SOCKET_EVENT_BOARD_UPDATED,
+  socketService,
+} from '../services/socket.service'
 
 export function BoardDetails() {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { boardId } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     try {
       loadBoard(boardId)
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg('Could not load board')
     }
 
     return () => {
@@ -36,15 +42,24 @@ export function BoardDetails() {
     }
   }, [boardId])
 
+  useEffect(() => {
+    socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
+
+    socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {
+      dispatch(getCmdUpdateBoard(board))
+    })
+    return () => {
+      socketService.off(SOCKET_EVENT_BOARD_UPDATED)
+    }
+    // socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {})
+  }, [boardId])
+
   function onUpdateBoard(boardToEdit) {
     try {
       if (!boardToEdit.title) return
-
       updateBoard(boardToEdit)
-      showSuccessMsg('Updated')
     } catch (err) {
       console.log('err:', err)
-      showErrorMsg(`Failed to update`)
     }
   }
 
@@ -52,16 +67,15 @@ export function BoardDetails() {
     board.isStarred = !board.isStarred
     try {
       await updateBoard(board)
-      showSuccessMsg('Board has been updated')
-    } catch {
-      showErrorMsg('Cannot update board')
+    } catch (err) {
+      console.log(err)
     }
   }
 
   async function onRemoveBoard(boardId) {
     try {
       await removeBoard(boardId)
-      showSuccessMsg('Board removed')
+      showSuccessMsg('Board has been removed')
       navigate(`/board`)
     } catch {
       showErrorMsg('Cannot remove board')
@@ -80,14 +94,16 @@ export function BoardDetails() {
     try {
       await updateBoardOptimistic(updatedBoard)
       toggleBoardBgLoader()
-    } catch {
-      showErrorMsg('Cannot update board')
+    } catch (err) {
+      console.log(err)
     }
   }
 
   if (!board) return <Loader />
-  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
+  // if (!board.style)
+  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  // if (!board.style.background)
+  //   board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'

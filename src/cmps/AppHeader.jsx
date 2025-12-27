@@ -3,21 +3,20 @@ import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
 import { logout } from '../store/actions/user.actions'
+import { loadFilteredBoards, setFilterBy } from '../store/actions/board.actions'
 import logoLightImg from '../assets/img/logo-light.png'
-import {
-  loadFilteredBoards,
-  setFilterBy,
-} from '../store/actions/board.actions'
-import { debounce } from '../services/util.service'
 
 export function AppHeader() {
-  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
+  const loggedinUser = useSelector(
+    storeState => storeState.userModule.loggedinUser
+  )
   const [isUserOpen, setIsUserOpen] = useState()
   const navigate = useNavigate()
   const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
   const [boards, setBoards] = useState(null)
   const filterRef = useRef(null)
   const location = useLocation()
+  const userRef = useRef(null)
 
   useEffect(() => {
     async function fetchBoards() {
@@ -33,6 +32,20 @@ export function AppHeader() {
       if (!filterRef.current?.contains(ev.target)) {
         clearFilter()
         setBoards(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (!userRef.current?.contains(ev.target)) {
+        setIsUserOpen(false)
       }
     }
 
@@ -75,10 +88,8 @@ export function AppHeader() {
       navigate('/board')
     }
   }
-  if (loggedinUser) {
-    var { imgUrl, fullname, email } = loggedinUser
-  }
 
+  const { imgUrl, fullname, email } = loggedinUser
   return (
     <section className="app-header">
       <Link to="/board">
@@ -135,17 +146,17 @@ export function AppHeader() {
       <div className="user" onClick={onToggleUserOpen}>
         {imgUrl && <img src={imgUrl} />}
       </div>
-      {isUserOpen &&
-        <div className="account grid">
+      {isUserOpen && (
+        <div className="account grid" ref={userRef}>
           <h2>Account</h2>
           <div className="user-details grid">
-            {imgUrl && <img src={imgUrl} />}
+            {imgUrl && <img src={imgUrl} referrerPolicy="no-referrer" />}
             <h1>{fullname}</h1>
             <p>{email}</p>
           </div>
           <button onClick={onLogout}>Log out</button>
         </div>
-      }
+      )}
     </section>
   )
 }

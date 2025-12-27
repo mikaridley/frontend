@@ -14,6 +14,7 @@ import { TaskDetailsPopupManager } from './taskDetailsCmps/TaskDetailsPopupManag
 import { TaskDetailsChecklistManager } from './taskDetailsCmps/TaskDetailsChecklistManager'
 import { TaskDetailsCover } from './taskDetailsCmps/TaskDetailsCover'
 import '../assets/styles/cmps/TaskDetails.css'
+import { Loader } from './Loader.jsx'
 
 
 export function TaskDetails() {
@@ -32,11 +33,11 @@ export function TaskDetails() {
 
 
 
-  useEffect(() => {
-    if (boardId) {
-      loadBoard(boardId)
-    }
-  }, [boardId])
+    useEffect(() => {
+        if (boardId) {
+            loadBoard(boardId)
+        }
+    }, [boardId])
 
     // function to sync task data from board to local state
     const syncTaskFromBoard = useCallback((boardToSync = null) => {
@@ -74,9 +75,9 @@ export function TaskDetails() {
     }
   }
 
-  function closePopup() {
-    setActivePopup(null)
-  }
+    function closePopup() {
+        setActivePopup(null)
+    }
 
     async function savePopup(popupName, data) {
         if (!board) return
@@ -96,15 +97,13 @@ export function TaskDetails() {
         }
     }
 
-  function handleBackdropClick(ev) {
-    if (ev.target === ev.currentTarget) {
-      navigate(`/board/${boardId}`)
+    function handleBackdropClick(ev) {
+        if (ev.target === ev.currentTarget) {
+            navigate(`/board/${boardId}`)
+        }
     }
-  }
 
-  if (!board) {
-    return <div>Loading...</div>
-  }
+    if (!board) return <Loader />
 
     return (
         <div className="task-details-modal" onClick={handleBackdropClick}>

@@ -11,14 +11,23 @@ import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
 import attachmentsImg from '../assets/img/attachments.svg'
-import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 
-export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
+export function TaskPreview({
+  task,
+  group,
+  onToggleStatus,
+  archiveTask,
+  isForArchiveList,
+}) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id, cover } = task
   const navigate = useNavigate()
+  const loggedinUser = useSelector(
+    storeState => storeState.userModule.loggedinUser
+  )
 
   function openTaskDetails() {
+    if (!group) return
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }
 
@@ -107,6 +116,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
         >
           {status === 'done' ? <img src={doneIcon} /> : <div></div>}
         </button>
+
         <p
           className={`task-title ${
             status !== 'done' ? 'task-not-complete' : ''
@@ -115,7 +125,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
           {title}
         </p>
 
-        {status === 'done' && (
+        {status === 'done' && !isForArchiveList && (
           <button className="archive-btn" onClick={onArchiveTask}>
             <LightTooltip title={`Archive card`}>
               <img src={archiveIcon} />
@@ -182,11 +192,8 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
               <section className="task-member-container">
                 {task.members.map(member => (
                   <LightTooltip key={member._id} title={member.fullname}>
-                    <div className="task-checklists">
-                      <MemberDefaultPhoto
-                        size={25}
-                        memberName={member.fullname}
-                      />
+                    <div className="member-photo">
+                      {member.imgUrl && <img src={member.imgUrl} />}
                     </div>
                   </LightTooltip>
                 ))}

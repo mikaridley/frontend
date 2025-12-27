@@ -1,14 +1,14 @@
 .group-preview {
   display: flex;
-  padding: .5rem;
-  max-height: 100%;
+  padding: 0.5rem;
+  max-height: 80vh;
   width: var(--group-width);
   flex-grow: 1;
 
   background-color: var(--clr-group);
-  border-radius: .75rem;
+  border-radius: 0.75rem;
 
-  >button {
+  > button {
     padding: var(--gap) 2.5em;
     color: var(--clr-task-txt);
     background-color: inherit;
@@ -22,7 +22,7 @@
     position: relative;
     margin-block-end: 0.3rem;
 
-    >input {
+    > input {
       width: 100%;
 
       color: var(--clr-task-txt);
@@ -30,7 +30,7 @@
       font-weight: 700;
     }
 
-    >button {
+    > button {
       background-color: inherit;
       border-radius: 0.5em;
 

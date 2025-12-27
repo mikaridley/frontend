@@ -1,6 +1,7 @@
 .main-layout {
   display: grid;
   grid-template-rows: auto 1fr;
+  height: 100vh;
 }
 
 .home-page-layout {
@@ -15,5 +16,5 @@
 
 .board-details-layout {
   display: flex;
-  padding: .75rem;
+  padding: 0.75rem;
 }

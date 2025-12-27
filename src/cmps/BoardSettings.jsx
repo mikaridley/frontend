@@ -6,15 +6,16 @@ import labelIcon from '../assets/img/label.svg'
 import activityIcon from '../assets/img/activity.svg'
 import archiveIcon from '../assets/img/archive.svg'
 import closeBoardIcon from '../assets/img/close-board.svg'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PhotosBackground } from './addBoardCmps/PhotosBackground'
 import { useSelector } from 'react-redux'
-import { SetBackgroundHeader } from './addBoardCmps/SetBackgroundHeader'
+import { PopUpHeader } from './addBoardCmps/PopUpHeader'
 import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-import { MemberDefaultPhoto } from './MemberDefaultPhoto'
+import { SettingsArchive } from './SettingsArchive'
+import { CloseCheckModal } from './CloseCheckModal'
 
 export function BoardSettings({
   board,
@@ -23,23 +24,45 @@ export function BoardSettings({
   isStarred,
   onRemoveBoard,
   changeBoardColor,
+  onToggleShare,
 }) {
-  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
+  // if (!board.style)
+  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  // if (!board.style.background)
+  //   board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
     isOpen: false,
-    openKind: '',
+    openTo: '',
+  })
+  const [isArchiveOpen, setIsArchiveOpen] = useState({
+    isOpen: false,
+    openTo: 'cards',
   })
   const [selectedColor, setSelectedColor] = useState(board.style.background)
   const photosBg = useSelector(
     storeState => storeState.boardModule.backgroundPhotos
   )
   const backgrounds = getColorsBg()
+  const settingsRef = useRef(null)
 
   useEffect(() => {
     _getPhotos()
+  }, [])
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (!settingsRef.current?.contains(ev.target)) {
+        openHeaderMenu()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [])
 
   async function _getPhotos() {
@@ -65,10 +88,17 @@ export function BoardSettings({
     })
   }
 
-  function setOpenKind(openTo) {
+  function toggleArchive() {
+    setIsArchiveOpen({
+      ...isArchiveOpen,
+      isOpen: !isArchiveOpen.isOpen,
+    })
+  }
+
+  function setBgopenTo(openTo) {
     setIsChangeBackgroundOpen({
       ...isChangeBackgroundOpen,
-      openKind: openTo,
+      openTo: openTo,
     })
   }
 
@@ -80,8 +110,8 @@ export function BoardSettings({
   const { kind, color } = board.style.background
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
-    <section className="board-settings">
-      {!isChangeBackgroundOpen.isOpen ? (
+    <section className="board-settings" ref={settingsRef}>
+      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && (
         <>
           <header className="board-settings-header">
             <h2>Menu</h2>
@@ -90,18 +120,22 @@ export function BoardSettings({
 
           <div className="menu-item">
             <img src={shareIcon} />
-            <button>share</button>
-            <section className="setting-members">
-              {board.members.map(member => {
-                return (
-                  <MemberDefaultPhoto key={member._id} size={25} memberName={member.fullname} />
-                )
-              })}
-            </section>
-          </div>
+            <button
+              onClick={() => {
+                onToggleShare()
+                openHeaderMenu()
+              }}
+            >
+              share
+            </button>
 
-          <div className="board-settings-users">
-            <div className="board-settings-user"></div>
+            <section className="setting-members">
+              {board.members.map(member => (
+                <div className="member-photo" key={member._id}>
+                  {member.imgUrl && <img src={member.imgUrl} />}
+                </div>
+              ))}
+            </section>
           </div>
 
           <div onClick={onTogleStar} className="menu-item">
@@ -133,7 +167,7 @@ export function BoardSettings({
             <button>Activity</button>
           </div>
 
-          <div className="menu-item">
+          <div className="menu-item" onClick={toggleArchive}>
             <img src={archiveIcon} />
             <button>Archived items</button>
           </div>
@@ -145,60 +179,67 @@ export function BoardSettings({
             </div>
 
             {isRemoveModalOpen && (
-              <div className="are-you-sure-close-board">
-                <header>
-                  <h3>Close board?</h3>
-                  <img onClick={onToggleRemoveModal} src={closeIcon} />
-                </header>
-                <button onClick={removeBoard}>Close</button>
-              </div>
+              <CloseCheckModal
+                onRemove={removeBoard}
+                onCloseModal={onToggleRemoveModal}
+                text={'Close board?'}
+                buttonText={'Close'}
+              />
             )}
           </div>
         </>
-      ) : (
+      )}
+      {isChangeBackgroundOpen.isOpen && (
         <div className="board-settings-bg-options">
-          {isChangeBackgroundOpen.openKind === '' && (
+          {isChangeBackgroundOpen.openTo === '' && (
             <section className="board-settings-bg-all">
-              <SetBackgroundHeader
+              <PopUpHeader
                 onBack={toggleChangeBackground}
-                onClose={toggleChangeBackground}
+                onClose={openHeaderMenu}
                 header={'Change background'}
               />
               <div
                 className="card-preview"
-                onClick={() => setOpenKind('photos')}
+                onClick={() => setBgopenTo('photos')}
               >
                 <img src={photosImg} />
                 <h3>Photos</h3>
               </div>
               <div
                 className="card-preview"
-                onClick={() => setOpenKind('colors')}
+                onClick={() => setBgopenTo('colors')}
               >
                 <img src={colorsImg} />
                 <h3>Colors</h3>
               </div>
             </section>
           )}
-          {isChangeBackgroundOpen.openKind === 'photos' && (
+          {isChangeBackgroundOpen.openTo === 'photos' && (
             <PhotosBackground
               photosBg={photosBg}
-              onClose={toggleChangeBackground}
-              goBack={() => setOpenKind('')}
+              onClose={openHeaderMenu}
+              goBack={() => setBgopenTo('')}
               selectedColor={selectedColor}
               onChangeBackground={onChangeBackground}
             />
           )}
-          {isChangeBackgroundOpen.openKind === 'colors' && (
+          {isChangeBackgroundOpen.openTo === 'colors' && (
             <ColorsBackground
               backgrounds={backgrounds}
-              onClose={toggleChangeBackground}
-              onBack={() => setOpenKind('')}
+              onClose={openHeaderMenu}
+              onBack={() => setBgopenTo('')}
               selectedColor={selectedColor}
               onChangeBackground={onChangeBackground}
             />
           )}
         </div>
+      )}
+      {isArchiveOpen.isOpen && (
+        <SettingsArchive
+          board={board}
+          openHeaderMenu={openHeaderMenu}
+          toggleArchive={toggleArchive}
+        />
       )}
     </section>
   )

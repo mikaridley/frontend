@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 import { loadUsers } from "../store/actions/user.actions"
-
+import closeIcon from '../assets/img/close.svg'
 
 export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     const board = useSelector(storeState => storeState.boardModule.board)
     const users = useSelector(storeState => storeState.userModule.users)
-    const [user, setUser] = useState()
+    const [selectedUser, setSelectedUser] = useState()
     const [filterUsers, setFilterUsers] = useState({ txt: '' })
 
     useEffect(() => {
@@ -22,31 +22,48 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     function onAddMember(ev) {
         ev.preventDefault()
 
-        if (!user || board.members.find(member => member._id === user._id)) return
+        if (!selectedUser || board.members.find(member => member._id === selectedUser._id)) return
 
-        const boardToEdit = { ...board, members: [...board.members, user] }
+        const boardToEdit = { ...board, members: [...board.members, selectedUser] }
         onUpdateBoard(boardToEdit)
+        setSelectedUser(null)
+    }
+
+    function onSelectMember(user) {
+        setSelectedUser(user)
+        setFilterUsers({ txt: '' })
     }
 
     const { txt } = filterUsers
+    const placeHolder = selectedUser ? '' : 'Email adress or name'
 
     return (
         <div className="share-overlay grid" onClick={onToggleShare}>
             <section className="share-board grid" onClick={event => event.stopPropagation()}>
-                <h1>Share board</h1>
+                <header className="share-header flex space-between">
+                    <h1>Share board</h1>
+                    <button onClick={onToggleShare}>
+                        <img src={closeIcon} />
+                    </button>
+                </header>
+
                 <form className="users-input flex" onSubmit={onAddMember}>
                     <input
                         type="text"
-                        placeholder="Email adress or name"
+                        onClick={() => setSelectedUser(null)}
+                        placeholder={placeHolder}
                         onChange={handleChange}
                         value={txt}
                     />
+                    {selectedUser &&
+                        <p className="selected-user">{selectedUser.fullname}</p>
+                    }
                     {filterUsers.txt &&
-                        <ul className="filtered-users">
+                        <ul className="filtered-users grid">
                             {users.map(user =>
                                 <li key={user._id}
                                     className='user-details grid'
-                                    onClick={() => setUser(user)}
+                                    onClick={() => onSelectMember(user)}
                                 >
                                     {user.imgUrl && <img src={user.imgUrl} />}
                                     <h1>{user.fullname}</h1>
@@ -55,7 +72,7 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                             )}
                         </ul>
                     }
-                    <button>Share</button>
+                    <button className="btn">Share</button>
                 </form>
                 <h2>Board members</h2>
                 <ul className="board-members">
@@ -68,6 +85,6 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                     )}
                 </ul>
             </section>
-        </div>
+        </div >
     )
 }

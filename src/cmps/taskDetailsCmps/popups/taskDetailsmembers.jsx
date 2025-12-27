@@ -8,7 +8,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
     const [selectedMemberIds, setSelectedMemberIds] = useState([])
     const popupRef = useRef(null)
     const availableMembers = (taskService.getMembers(board) || []).filter(member => member)
-    
+
     useEffect(() => {
         const task = taskService.getTaskById(board, groupId, taskId)
         if (task?.members && Array.isArray(task.members)) {
@@ -26,7 +26,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
     const taskMembers = availableMembers.filter(member => 
         selectedMemberIds.includes(member._id)
     )
-    const nonTaskMembers = availableMembers.filter(member => 
+    const nonTaskMembers = availableMembers.filter(member =>
         !selectedMemberIds.includes(member._id)
     )
 
@@ -58,7 +58,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
             if (onSave) {
                 onSave('members', selectedMembers)
             }
-            
+
             return newSelection
         })
     }
@@ -97,7 +97,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
                                     <div className="member-info">
-                                        <span className="member-avatar">{getMemberInitials(member.fullname)}</span><span>{member.fullname}</span>
+                                        <img src={member.imgUrl} className="member-avatar" />
+                                        <span>{member.fullname}</span>
                                     </div>
                                 </div>
                             ))}
@@ -115,7 +116,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                                     onClick={(e) => toggleMember(member._id, e)}
                                 >
                                     <div className="member-info">
-                                        <span className="member-avatar">{getMemberInitials(member.fullname)}</span><span>{member.fullname}</span>
+                                        <img src={member.imgUrl} className="member-avatar" />
+                                        <span>{member.fullname}</span>
                                     </div>
                                 </div>
                             ))}

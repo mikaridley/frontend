@@ -13,13 +13,10 @@ import {
   UPDATE_BOARD,
 } from '../reducers/board.reducer'
 
-import { LOADING_START, LOADING_DONE } from '../reducers/system.reducer'
-
 const { VITE_LOCAL } = import.meta.env
 
 export async function loadBoards() {
   const { loggedinUser } = store.getState().userModule
-  store.dispatch({ type: LOADING_START })
 
   try {
     const boards = await boardService.query(loggedinUser._id)
@@ -28,28 +25,31 @@ export async function loadBoards() {
     console.log('Cannot load board', err)
     throw err
   } finally {
-    store.dispatch({ type: LOADING_DONE })
   }
 }
 
-// export async function loadBoards() {
-//   store.dispatch({ type: LOADING_START })
+export async function loadBoard(boardId) {
+  try {
+    const board = await boardService.getById(boardId)
+    const { loggedinUser } = store.getState().userModule
 
-//   try {
-//     const boards = await boardService.query()
-//     store.dispatch(getCmdSetBoards(boards))
-//     return boards
-//   } catch (err) {
-//     console.log('Cannot load board', err)
-//     throw err
-//   } finally {
-//     store.dispatch({ type: LOADING_DONE })
-//   }
-// }
+    if (VITE_LOCAL !== 'true' && loggedinUser && board && board.members) {
+      const isUserMember = board.members.some(
+        member => member._id === loggedinUser._id || member.id === loggedinUser._id)
+
+      if (!isUserMember) {
+        board.members.push(loggedinUser)
+        await boardService.save(board)
+      }
+    }
+    store.dispatch(getCmdSetBoard(board))
+  } catch (err) {
+    console.log('Cannot load board', err)
+    throw err
+  }
+}
 
 export async function loadFilteredBoards(filterBy) {
-  store.dispatch({ type: LOADING_START })
-
   try {
     const boards = await boardService.queryFiltered(filterBy)
     store.dispatch(getCmdSetFilteredBoards(boards))
@@ -57,38 +57,6 @@ export async function loadFilteredBoards(filterBy) {
   } catch (err) {
     console.log('Cannot load board', err)
     throw err
-  } finally {
-    store.dispatch({ type: LOADING_DONE })
-  }
-}
-
-export async function loadBoard(boardId) {
-  store.dispatch({ type: LOADING_START })
-
-  try {
-    const board = await boardService.getById(boardId)
-    const { loggedinUser } = store.getState().userModule
-    
-    // automatically add logged-in user to board members if not already present (remote only)
-    // in local mode, this behavior is handled differently
-    if (VITE_LOCAL !== 'true' && loggedinUser && board && board.members) {
-      const isUserMember = board.members.some(member => 
-        member._id === loggedinUser._id || member.id === loggedinUser._id
-      )
-      
-      if (!isUserMember) {
-        board.members.push(loggedinUser)
-        // save the updated board to backend
-        await boardService.save(board)
-      }
-    }
-    
-    store.dispatch(getCmdSetBoard(board))
-  } catch (err) {
-    console.log('Cannot load board', err)
-    throw err
-  } finally {
-    store.dispatch({ type: LOADING_DONE })
   }
 }
 
@@ -167,66 +135,54 @@ export function setFilterBy(filterBy) {
 }
 
 // Command Creators:
-function getCmdSetBoards(boards) {
+export function getCmdSetBoards(boards) {
   return {
     type: SET_BOARDS,
     boards,
   }
 }
-function getCmdSetFilteredBoards(boards) {
+export function getCmdSetFilteredBoards(boards) {
   return {
     type: SET_FILTERED_BOARDS,
     boards,
   }
 }
-function getCmdSetBoard(board) {
+export function getCmdSetBoard(board) {
   return {
     type: SET_BOARD,
     board,
   }
 }
-function getCmdRemoveBoard(boardId) {
+export function getCmdRemoveBoard(boardId) {
   return {
     type: REMOVE_BOARD,
     boardId,
   }
 }
-function getCmdAddBoard(board) {
+export function getCmdAddBoard(board) {
   return {
     type: ADD_BOARD,
     board,
   }
 }
-function getCmdUpdateBoard(board) {
+export function getCmdUpdateBoard(board) {
   return {
     type: UPDATE_BOARD,
     board,
   }
 }
-function getCmdGetPhotos(photos) {
+export function getCmdGetPhotos(photos) {
   return {
     type: SET_PHOTOS,
     photos,
   }
 }
-function getCmdBoardUndo() {
+export function getCmdBoardUndo() {
   return { type: BOARD_UNDO }
 }
-function getCmdBoardBgLoader() {
+export function getCmdBoardBgLoader() {
   return { type: TOGGLE_BOARD_BG_LOADER }
 }
-function getCmdSetFilterBt(filterBy) {
+export function getCmdSetFilterBt(filterBy) {
   return { type: SET_FILTER_BY, filterBy }
 }
-
-// unitTestActions()
-// async function unitTestActions() {
-//     await loadBoards()
-//     await addBoard(carService.getEmptyCar())
-//     await updateBoard({
-//         _id: 'm1oC7',
-//         vendor: 'Car-Good',
-//     })
-//     await removeBoard('m1oC7')
-//     // TODO unit test addCarMsg
-// }
