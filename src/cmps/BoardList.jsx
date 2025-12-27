@@ -6,6 +6,9 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 
 export function BoardList({ boards, addBoard, starToggle, changeColor }) {
   const starBoards = boards.filter(board => board.isStarred)
+  const recentlyViewedBoards = useSelector(
+    storeState => storeState.boardModule.recentlyViewedBoards
+  )
   const location = useLocation()
   const isCreateOpen = location.pathname === '/board/add-board'
   const cardRef = useRef(null)
@@ -48,18 +51,40 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
 
   return (
     <section className="board-list">
-      <h2 className="star-boards-header">Starred boards</h2>
-      <section className="star-boards">
-        {starBoards.map(board => {
-          return (
-            <BoardPreview
-              key={board._id}
-              board={board}
-              starToggle={starToggle}
-            />
-          )
-        })}
-      </section>
+      {starBoards.length > 0 && (
+        <>
+          <h2 className="star-boards-header">Starred boards</h2>
+          <section className="star-boards">
+            {starBoards.map(board => {
+              return (
+                <BoardPreview
+                  key={board._id}
+                  board={board}
+                  starToggle={starToggle}
+                />
+              )
+            })}
+          </section>
+        </>
+      )}
+
+      {recentlyViewedBoards.length > 0 && (
+        <>
+          <h2 className="recently-viewed-boards-header">Recently viewed</h2>
+          <section className="recently-viewed-boards">
+            {recentlyViewedBoards.slice(0, 4).map(board => {
+              return (
+                <BoardPreview
+                  key={board._id}
+                  board={board}
+                  starToggle={starToggle}
+                />
+              )
+            })}
+          </section>
+        </>
+      )}
+
       <h2>Boards</h2>
       <section className="not-star-boards">
         {boards.map(board => {

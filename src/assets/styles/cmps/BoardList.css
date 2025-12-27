@@ -7,7 +7,7 @@
 
   h2 {
     margin-bottom: 1rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .star-boards-header::before {
@@ -27,8 +27,26 @@
     vertical-align: middle;
   }
 
+  .recently-viewed-boards-header::before {
+    content: '';
+    display: inline-block;
+
+    position: relative;
+    top: -2px;
+
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+
+    background-image: url('/src/assets/img/recently-viewed.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+  }
+
   .star-boards,
-  .not-star-boards {
+  .not-star-boards,
+  .recently-viewed-boards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 107px;
