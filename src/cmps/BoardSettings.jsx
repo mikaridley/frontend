@@ -232,7 +232,7 @@ export function BoardSettings({
             )}
           </div>
         </>
-      )}{' '}
+      )}
       {isChangeBackgroundOpen.isOpen && (
         <div className="board-settings-bg-options">
           {isChangeBackgroundOpen.openTo === '' && (
