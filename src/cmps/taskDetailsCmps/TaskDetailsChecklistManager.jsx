@@ -116,7 +116,7 @@ export function TaskDetailsChecklistManager({ checklists: initialChecklists, boa
             onChecklistsUpdate(updatedChecklists)
             onTaskUpdate({ ...task, checklists: updatedChecklists })
             await updateTask(board, groupId, taskId, { checklists: updatedChecklists })
-            // Clear text and immediately start adding another item
+            // clear text and immediately start adding another item
             setNewItemText('')
             startAddingItem(checklistId)
         } catch (err) {

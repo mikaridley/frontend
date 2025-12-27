@@ -1,12 +1,53 @@
 @import '../../setup/variables.css';
 
 .task-details-header {
-  grid-column: 1;
-  grid-row: 2;
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #242528;
+  padding-top: 1rem;
+  padding-bottom: 0;
+  margin-left: -2rem;
+  margin-right: -2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  transition: box-shadow 0.5s ease-in-out;
+  align-self: flex-start;
+  width: calc(100% + 4rem);
+  box-sizing: border-box;
+
+  &.scrolled {
+    box-shadow: 0 4px 8px -4px rgba(111, 111, 111, 0.3);
+  }
+
+  & .btn-add {
+    margin-top: -0.5rem;
+    color: var(--clr-task-txt-dark);
+    border: 2px solid #3c3d40;
+    border-radius: 4px;
+    background-color: #242528;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    
+    &:hover {
+      background-color: #2b2c2f;
+    }
+  }
 }
 
 .task-details-header .toggle-done-btn {

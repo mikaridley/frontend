@@ -7,9 +7,9 @@ import { uploadService } from '../../../services/upload.service'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB in bytes
 const ALLOWED_FILE_TYPES = [
-    // Images
+    // images
     'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml',
-    // Documents
+    // documents
     'application/pdf',
     'text/plain',
     'application/msword',
@@ -18,12 +18,12 @@ const ALLOWED_FILE_TYPES = [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'application/vnd.ms-powerpoint',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    // Archives
+    // archives
     'application/zip',
     'application/x-zip-compressed',
     'application/x-rar-compressed',
     'application/x-7z-compressed',
-    // Other
+    // other
     'application/json',
     'text/csv'
 ]
@@ -46,21 +46,21 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         }
     }, [board, groupId, taskId])
 
-  // Keep popup fully visible vertically.
+  // keep popup fully visible vertically
   popupToViewportHook(popupRef, position)
 
     function onFileInput(ev) {
         const file = ev.target.files[0]
         if (!file) return
 
-        // Validate file size
+        // validate file size
         if (file.size > MAX_FILE_SIZE) {
             showErrorMsg(`File size exceeds ${MAX_FILE_SIZE / (1024 * 1024)}MB limit`)
             ev.target.value = ''
             return
         }
 
-        // Validate file type
+        // validate file type
         if (!ALLOWED_FILE_TYPES.includes(file.type)) {
             showErrorMsg('File type not supported. Please use images or documents.')
             ev.target.value = ''
@@ -90,8 +90,8 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         
         setIsUploading(true)
         try {
-            // Upload file to Cloudinary via backend
-            // Use 'raw' for non-image files (documents, archives, etc.)
+            // upload file to cloudinary via backend
+            // use 'raw' for non-image files (documents, archives, etc.)
             const resourceType = isImageFile(selectedFile.type) ? 'image' : 'raw'
             const uploadResult = await uploadService.uploadFile(selectedFile, {
                 folder: 'task-attachments',
@@ -106,18 +106,18 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
                 createdAt: Date.now(),
                 type: selectedFile.type,
                 size: selectedFile.size,
-                public_id: uploadResult.public_id // Store public_id for potential deletion
+                public_id: uploadResult.public_id // store public_id for potential deletion
             }
             const updatedAttachments = [...attachments, newAttachment]
             setAttachments(updatedAttachments)
             
-            // If the new attachment is a photo and there's no cover yet, set it as the cover
+            // if the new attachment is a photo and there's no cover yet, set it as the cover
             const shouldSetCover = isImageFile(selectedFile.type) && (() => {
                 const task = taskService.getTaskById(board, groupId, taskId)
                 if (!task) return false
                 const hasCoverProp = Object.prototype.hasOwnProperty.call(task, 'cover')
                 const cover = hasCoverProp ? task.cover : undefined
-                // Set cover if: no cover property exists, or cover is empty/falsy (but not explicitly null)
+                // set cover if: no cover property exists, or cover is empty/falsy (but not explicitly null)
                 return !hasCoverProp || (cover !== null && !cover)
             })()
             
@@ -126,10 +126,10 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
             setSelectedFile(null)
             if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
             
-            // Save attachments first, then cover if needed
+            // save attachments first, then cover if needed
             await onSave('attachments', updatedAttachments)
             if (shouldSetCover) {
-                // Save cover after attachments save completes
+                // save cover after attachments save completes
                 await onSave('cover', { color: fileUrl, kind: 'photo' })
             }
         } catch (err) {
@@ -140,7 +140,7 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
         }
     }
 
-    function handleCustomButtonClick() {    //instead of using input file, for better styling
+    function handleCustomButtonClick() {    // instead of using input file, for better styling
         fileInputRef.current?.click()
     }
 

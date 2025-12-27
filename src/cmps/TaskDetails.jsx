@@ -38,7 +38,7 @@ export function TaskDetails() {
     }
   }, [boardId])
 
-    // Function to sync task data from board to local state
+    // function to sync task data from board to local state
     const syncTaskFromBoard = useCallback((boardToSync = null) => {
         const boardToUse = boardToSync || board
         if (boardToUse && groupId && taskId) {
@@ -64,7 +64,7 @@ export function TaskDetails() {
 
   function openPopup(popupName, event) {
     setActivePopup(popupName)
-    // Store button position for popup positioning
+    // store button position for popup positioning
     if (event?.currentTarget) {
       const buttonRect = event.currentTarget.getBoundingClientRect()
       setPopupPosition({
@@ -82,11 +82,11 @@ export function TaskDetails() {
         if (!board) return
         try {
             const updatedBoard = await updateTask(board, groupId, taskId, { [popupName]: data })
-            // Sync immediately using the returned updated board (no need to wait for Redux)
+            // sync immediately using the returned updated board (no need to wait for redux)
             if (updatedBoard) {
                 syncTaskFromBoard(updatedBoard)
             }
-            // Don't close popup for labels and members since they save immediately
+            // don't close popup for labels and members since they save immediately
             if (popupName !== 'labels' && popupName !== 'members') {
                 closePopup()
             }
@@ -110,7 +110,7 @@ export function TaskDetails() {
         <div className="task-details-modal" onClick={handleBackdropClick}>
             <div className="task-details">
                 
-                {/* Row 1: Reserved for future special header + functionality */}
+                {/* row 1: reserved for future special header + functionality */}
                 <TaskDetailsCover
                     task={task}
                     board={board}
@@ -122,23 +122,6 @@ export function TaskDetails() {
                     boardId={boardId}
 
                 />
-                {task && (
-                    <>
-                        <TaskDetailsHeader
-                            task={task}
-                            board={board}
-                            groupId={groupId}
-                            taskId={taskId}
-                            onTaskUpdate={setTask}
-                        />
-                        <TaskDetailsActions
-                            onOpenPopup={openPopup}
-                            members={members}
-                            labels={labels}
-                            dates={dates}
-                        />
-                    </>
-                )}
                 {task && (
                     <div className="task-details-comments">
                         <TaskDetailsComments
@@ -156,6 +139,24 @@ export function TaskDetails() {
                 )}
                 <div className="task-details-content">
                     <div className="task-details-main">
+                        {task && (
+                            <TaskDetailsHeader
+                                task={task}
+                                board={board}
+                                groupId={groupId}
+                                taskId={taskId}
+                                onTaskUpdate={setTask}
+                                onOpenPopup={openPopup}
+                            />
+                        )}
+                        {task && (
+                            <TaskDetailsActions
+                                onOpenPopup={openPopup}
+                                members={members}
+                                labels={labels}
+                                dates={dates}
+                            />
+                        )}
                         <TaskDetailsData
                             members={members}
                             labels={labels}

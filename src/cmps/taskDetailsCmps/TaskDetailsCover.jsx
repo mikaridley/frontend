@@ -4,7 +4,8 @@ import { isImageFile } from '../../services/util.service'
 import { taskService } from '../../services/task'
 import { useNavigate } from 'react-router-dom'
 import imageIcon from '../../assets/imgs/icons/image_icon.svg'
-// receives an image URL and updates the cover background
+import { LightTooltip } from '../LightToolTip'
+// receives an image url and updates the cover background
 function setCoverBackgroundFromImage(imageUrl) {
   if (!imageUrl) return
   taskService
@@ -35,9 +36,9 @@ export function TaskDetailsCover({
   const group = board.groups.find(group => group.id === groupId)
   if (!group) return null
 
-  // Distinguish between:
+  // distinguish between:
   // - cover is completely unset (no 'cover' prop on the task) -> we may fall back to first photo attachment
-  // - cover was explicitly set to null (via "Remove cover") -> show nothing, no fallback
+  // - cover was explicitly set to null (via "remove cover") -> show nothing, no fallback
   const hasCoverProp =
     task && Object.prototype.hasOwnProperty.call(task, 'cover')
   const cover = hasCoverProp ? task.cover : undefined
@@ -91,14 +92,15 @@ export function TaskDetailsCover({
 
   return (
     <div className="task-details-cover" style={coverStyle}>
-      <button
-        className="group-transfer-btn"
-        onClick={handleTransferClick}
-        title={group.title}
-      >
-        {group.title}
-        <img src={arrowDownIcon} alt="transfer" />
-      </button>
+      <LightTooltip title={group.title}>
+        <button
+          className="group-transfer-btn"
+          onClick={handleTransferClick}
+        >
+          {group.title}
+          <img src={arrowDownIcon} alt="transfer" />
+        </button>
+      </LightTooltip>
       {coverImageUrl && (
         <img
           src={coverImageUrl}
@@ -113,17 +115,21 @@ export function TaskDetailsCover({
         />
       )}
       <div className="task-details-cover-actions">
-        <button className="btn-image" onClick={e => onOpenPopup('cover', e)}>
-          <img src={imageIcon} alt="image" />
-        </button>
+        <LightTooltip title="cover">
+          <button className="btn-image" onClick={e => onOpenPopup('cover', e)}>
+            <img src={imageIcon} alt="image" />
+          </button>
+        </LightTooltip>
       </div>
-      <button
-        className="modal-close-btn"
-        onClick={() => navigate(`/board/${boardId}`)}
-        aria-label="Close"
-      >
-        ×
-      </button>
+      <LightTooltip title="Close">
+        <button
+          className="modal-close-btn"
+          onClick={() => navigate(`/board/${boardId}`)}
+          aria-label="Close"
+        >
+          ×
+        </button>
+      </LightTooltip>
     </div>
   )
 }

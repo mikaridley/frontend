@@ -7,7 +7,7 @@ import nextYearIcon from '../../../assets/imgs/icons/next_year.svg'
 import nextMonthIcon from '../../../assets/imgs/icons/next_month.svg'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, dates, position }) {
-    // Single state object combining date and time
+    // single state object combining date and time
     const [dateTime, setDateTime] = useState(dates ? new Date(dates.dateTime) : new Date());
     const popupRef = useRef(null)
 
@@ -16,7 +16,7 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
         const inputDate = e.target.value;
         const newDateTime = new Date(inputDate);
         if (!isNaN(newDateTime.getTime())) {
-            // Keep the current time, only update the date
+            // keep the current time, only update the date
             newDateTime.setHours(dateTime.getHours());
             newDateTime.setMinutes(dateTime.getMinutes());
             setDateTime(newDateTime);
@@ -38,14 +38,14 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
     };
 
     const handleTimeInputChange = (e) => {  //2 way binding input to time
-        const timeValue = e.target.value; // Format: "HH:mm"
+        const timeValue = e.target.value; // format: "HH:mm"
         const [hours, minutes] = timeValue.split(':');
         const newDateTime = new Date(dateTime);
         newDateTime.setHours(parseInt(hours), parseInt(minutes));
         setDateTime(newDateTime);
   };
 
-  // Keep popup fully visible vertically.
+  // keep popup fully visible vertically
   popupToViewportHook(popupRef, position)
 
     const renderCustomHeader = ({
