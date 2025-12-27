@@ -1,6 +1,7 @@
 .board-details {
   display: grid;
   grid-template-rows: auto 1fr;
+  overflow-y: hidden;
 
   background-size: cover;
   background-position: center;
