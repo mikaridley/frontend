@@ -18,6 +18,7 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [taskForDelete, setTaskForDelete] = useState('')
   const [groupForDelete, setGroupForDelete] = useState('')
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
 
   function toggleArchiveopenTo() {
     const openTo = isArchiveOpen.openTo === 'cards' ? 'lists' : 'cards'
@@ -100,10 +101,15 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
     return archivedGroups
   }
 
-  function onToggleRemoveModal(id) {
-    setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)
+  function onToggleRemoveModal(ev, id) {
+    const rect = ev.currentTarget.getBoundingClientRect()
+    setModalPosition({
+      top: rect.bottom + window.scrollY, // below the button
+      left: rect.left + window.scrollX, // aligned to the button
+    })
     setTaskForDelete(id)
     setGroupForDelete(id)
+    setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)
   }
 
   return (
@@ -145,23 +151,22 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
                     Restore
                   </button>
                   <p>•</p>
-                  <button onClick={() => onToggleRemoveModal(task.id)}>
+                  <button onClick={ev => onToggleRemoveModal(ev, task.id)}>
                     Delete
                   </button>
 
                   {isRemoveModalOpen && taskForDelete === task.id && (
                     <CloseCheckModal
                       onRemove={() => onDeleteTask(task.groupId, task.id)}
-                      onCloseModal={() => onToggleRemoveModal('')}
+                      onCloseModal={ev => onToggleRemoveModal(ev, '')}
                       text={'Delete card?'}
                       moreText={
                         'All actions will be removed from the activity feed and you won’t be able to re-open the card. There is no undo.'
                       }
                       buttonText={'Delete'}
                       style={{
-                        width: '300px',
-                        bottom: '0px',
-                        transform: 'translate(0, 100%)',
+                        top: modalPosition.top - 50,
+                        left: modalPosition.left - 70,
                       }}
                     />
                   )}
@@ -187,7 +192,7 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
                   Restore
                 </button>
                 <button
-                  onClick={() => onToggleRemoveModal(group.id)}
+                  onClick={ev => onToggleRemoveModal(ev, group.id)}
                   className="settings-delete-icon"
                 >
                   <img src={deleteImg} />
@@ -196,17 +201,15 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
                 {isRemoveModalOpen && groupForDelete === group.id && (
                   <CloseCheckModal
                     onRemove={() => onDeleteGroup(group)}
-                    onCloseModal={() => onToggleRemoveModal('')}
+                    onCloseModal={ev => onToggleRemoveModal(ev, '')}
                     text={'Delete list?'}
                     moreText={
                       'All actions will be removed from the activity feed and you won’t be able to re-open the card. There is no undo.'
                     }
                     buttonText={'Delete'}
                     style={{
-                      width: '300px',
-                      bottom: '10px',
-                      transform: 'translate(0, 100%)',
-                      right: '15px',
+                      top: modalPosition.top - 50,
+                      left: modalPosition.left - 280,
                     }}
                   />
                 )}

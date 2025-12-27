@@ -100,10 +100,10 @@ export function BoardDetails() {
   }
 
   if (!board) return <Loader />
-  if (!board.style)
-    board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background)
-    board.style.background = { kind: 'solid', color: '#0079bf' }
+  // if (!board.style)
+  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  // if (!board.style.background)
+  //   board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'

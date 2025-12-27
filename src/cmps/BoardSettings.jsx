@@ -25,10 +25,10 @@ export function BoardSettings({
   onRemoveBoard,
   changeBoardColor,
 }) {
-  if (!board.style)
-    board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background)
-    board.style.background = { kind: 'solid', color: '#0079bf' }
+  // if (!board.style)
+  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
+  // if (!board.style.background)
+  //   board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
