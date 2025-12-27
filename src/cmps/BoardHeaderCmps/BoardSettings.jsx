@@ -5,7 +5,7 @@ import { ColorsBackground } from '../addBoardCmps/ColorsBackground'
 import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { SettingsArchive } from './SettingsArchive'
 import { PhotosBackground } from '../../cmps/addBoardCmps/PhotosBackground'
-import { TaskDetailsLabels } from './taskDetailsCmps/popups/taskDetailslabels'
+import { TaskDetailsLabels } from '../taskDetailsCmps/popups/taskDetailslabels'
 import { CloseCheckModal } from './CloseCheckModal'
 
 import { getColorsBg, getPhotos } from '../../store/actions/board.actions'
@@ -30,11 +30,6 @@ export function BoardSettings({
   changeBoardColor,
   onToggleShare,
 }) {
-  // if (!board.style)
-  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  // if (!board.style.background)
-  //   board.style.background = { kind: 'solid', color: '#0079bf' }
-
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
     isOpen: false,
