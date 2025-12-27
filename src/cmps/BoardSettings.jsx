@@ -1,3 +1,16 @@
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
+import { PopUpHeader } from './addBoardCmps/PopUpHeader'
+import { PhotosBackground } from './addBoardCmps/PhotosBackground'
+import { ColorsBackground } from './addBoardCmps/ColorsBackground'
+import { TaskPreview } from './TaskPreview'
+
+import { getColorsBg, getPhotos } from '../store/actions/board.actions'
+import { removeTask, updateTask } from '../store/actions/task.actions'
+import { removeGroup, updateGroup } from '../store/actions/group.actions'
+import { showErrorMsg } from '../services/event-bus.service'
+
 import closeIcon from '../assets/img/close.svg'
 import shareIcon from '../assets/img/share.svg'
 import starIcon from '../assets/img/star.svg'
@@ -6,18 +19,8 @@ import labelIcon from '../assets/img/label.svg'
 import activityIcon from '../assets/img/activity.svg'
 import archiveIcon from '../assets/img/archive.svg'
 import closeBoardIcon from '../assets/img/close-board.svg'
-import { useEffect, useState } from 'react'
-import { PhotosBackground } from './addBoardCmps/PhotosBackground'
-import { useSelector } from 'react-redux'
-import { PopUpHeader } from './addBoardCmps/PopUpHeader'
 import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
-import { ColorsBackground } from './addBoardCmps/ColorsBackground'
-import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-import { TaskPreview } from './TaskPreview'
-import { removeTask, updateTask } from '../store/actions/task.actions'
-import { showErrorMsg } from '../services/event-bus.service'
-import { removeGroup, updateGroup } from '../store/actions/group.actions'
 import deleteImg from '../assets/img/delete.svg'
 import restoreImg from '../assets/img/restore.svg'
 
@@ -28,7 +31,9 @@ export function BoardSettings({
   isStarred,
   onRemoveBoard,
   changeBoardColor,
+  onToggleShare,
 }) {
+
   if (!board.style)
     board.style = { background: { kind: 'solid', color: '#0079bf' } }
   if (!board.style.background)
@@ -106,7 +111,7 @@ export function BoardSettings({
     changeBoardColor({ color, kind })
   }
 
-  function demoFunction() {}
+  function demoFunction() { }
 
   async function onRestoreTask(groupId, taskId) {
     try {
@@ -169,17 +174,16 @@ export function BoardSettings({
 
           <div className="menu-item">
             <img src={shareIcon} />
-            <button>share</button>
+            <button onClick={() => { onToggleShare(); openHeaderMenu() }}>share</button>
+
             <section className="setting-members">
-              {board.members.map(member => {
-                return (
-                  <div className="member-photo">
-                    {member.imgUrl &&
-                      <img src={member.imgUrl} />
-                    }
-                  </div>
-                )
-              })}
+              {board.members.map(member =>
+                <div className="member-photo" key={member._id}>
+                  {member.imgUrl &&
+                    <img src={member.imgUrl} />
+                  }
+                </div>
+              )}
             </section>
           </div>
 
@@ -289,11 +293,10 @@ export function BoardSettings({
           />
           <form>
             <input type="text" placeholder="Search archive..." />
-            <button type="button" onClick={toggleArchiveopenTo}>{`${
-              isArchiveOpen.openTo === 'cards'
-                ? 'Switch to lists'
-                : 'Switch to cards'
-            }`}</button>
+            <button type="button" onClick={toggleArchiveopenTo}>{`${isArchiveOpen.openTo === 'cards'
+              ? 'Switch to lists'
+              : 'Switch to cards'
+              }`}</button>
           </form>
           {isArchiveOpen.openTo === 'cards' ? (
             <>

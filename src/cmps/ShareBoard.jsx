@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 import { loadUsers } from "../store/actions/user.actions"
+import closeIcon from '../assets/img/close.svg'
 
 export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -36,12 +37,16 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
     const { txt } = filterUsers
     const placeHolder = selectedUser ? '' : 'Email adress or name'
 
-    console.log('selectedUser:', selectedUser)
-
     return (
         <div className="share-overlay grid" onClick={onToggleShare}>
             <section className="share-board grid" onClick={event => event.stopPropagation()}>
-                <h1>Share board</h1>
+                <header className="share-header flex space-between">
+                    <h1>Share board</h1>
+                    <button onClick={onToggleShare}>
+                        <img src={closeIcon} />
+                    </button>
+                </header>
+
                 <form className="users-input flex" onSubmit={onAddMember}>
                     <input
                         type="text"
@@ -80,6 +85,6 @@ export function ShareBoard({ onToggleShare, onUpdateBoard }) {
                     )}
                 </ul>
             </section>
-        </div>
+        </div >
     )
 }

@@ -63,6 +63,7 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
           isStarred={isStarred}
           onRemoveBoard={onRemoveBoard}
           changeBoardColor={changeBoardColor}
+          onToggleShare={onToggleShare}
         />
       )}
       {isShareOpen &&
