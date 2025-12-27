@@ -6,7 +6,7 @@ import labelIcon from '../assets/img/label.svg'
 import activityIcon from '../assets/img/activity.svg'
 import archiveIcon from '../assets/img/archive.svg'
 import closeBoardIcon from '../assets/img/close-board.svg'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PhotosBackground } from './addBoardCmps/PhotosBackground'
 import { useSelector } from 'react-redux'
 import { PopUpHeader } from './addBoardCmps/PopUpHeader'
@@ -44,9 +44,24 @@ export function BoardSettings({
     storeState => storeState.boardModule.backgroundPhotos
   )
   const backgrounds = getColorsBg()
+  const settingsRef = useRef(null)
 
   useEffect(() => {
     _getPhotos()
+  }, [])
+
+  useEffect(() => {
+    function handleClickOutside(ev) {
+      if (!settingsRef.current?.contains(ev.target)) {
+        openHeaderMenu()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [])
 
   async function _getPhotos() {
@@ -94,7 +109,7 @@ export function BoardSettings({
   const { kind, color } = board.style.background
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
-    <section className="board-settings">
+    <section className="board-settings" ref={settingsRef}>
       {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && (
         <>
           <header className="board-settings-header">
