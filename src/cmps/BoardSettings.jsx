@@ -9,12 +9,17 @@ import closeBoardIcon from '../assets/img/close-board.svg'
 import { useEffect, useState } from 'react'
 import { PhotosBackground } from './addBoardCmps/PhotosBackground'
 import { useSelector } from 'react-redux'
-import { SetBackgroundHeader } from './addBoardCmps/SetBackgroundHeader'
+import { PopUpHeader } from './addBoardCmps/PopUpHeader'
 import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-// import { MemberDefaultPhoto } from './MemberDefaultPhoto'
+import { TaskPreview } from './TaskPreview'
+import { removeTask, updateTask } from '../store/actions/task.actions'
+import { showErrorMsg } from '../services/event-bus.service'
+import { removeGroup, updateGroup } from '../store/actions/group.actions'
+import deleteImg from '../assets/img/delete.svg'
+import restoreImg from '../assets/img/restore.svg'
 
 export function BoardSettings({
   board,
@@ -32,7 +37,11 @@ export function BoardSettings({
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
     isOpen: false,
-    openKind: '',
+    openTo: '',
+  })
+  const [isArchiveOpen, setIsArchiveOpen] = useState({
+    isOpen: false,
+    openTo: 'cards',
   })
   const [selectedColor, setSelectedColor] = useState(board.style.background)
   const photosBg = useSelector(
@@ -42,7 +51,7 @@ export function BoardSettings({
   const loggedinUser = useSelector(
     storeState => storeState.userModule.loggedinUser
   )
-  console.log(board)
+
   useEffect(() => {
     _getPhotos()
   }, [])
@@ -70,10 +79,25 @@ export function BoardSettings({
     })
   }
 
-  function setOpenKind(openTo) {
+  function toggleArchive() {
+    setIsArchiveOpen({
+      ...isArchiveOpen,
+      isOpen: !isArchiveOpen.isOpen,
+    })
+  }
+
+  function setBgopenTo(openTo) {
     setIsChangeBackgroundOpen({
       ...isChangeBackgroundOpen,
-      openKind: openTo,
+      openTo: openTo,
+    })
+  }
+
+  function toggleArchiveopenTo() {
+    const openTo = isArchiveOpen.openTo === 'cards' ? 'lists' : 'cards'
+    setIsArchiveOpen({
+      ...isArchiveOpen,
+      openTo: openTo,
     })
   }
 
@@ -82,11 +106,61 @@ export function BoardSettings({
     changeBoardColor({ color, kind })
   }
 
+  function demoFunction() {}
+
+  async function onRestoreTask(groupId, taskId) {
+    try {
+      await updateTask(board, groupId, taskId, { archivedAt: null })
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to unArchive')
+    }
+  }
+
+  async function onDeleteTask(groupId, taskId) {
+    try {
+      await removeTask(board, groupId, taskId)
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to unArchive')
+    }
+  }
+
+  async function onRestoreGroup(group) {
+    console.log(group)
+    const edittedGroup = { ...group, archivedAt: null }
+    try {
+      await updateGroup(board, edittedGroup)
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to unArchive')
+    }
+  }
+
+  async function onDeleteGroup(group) {
+    try {
+      await removeGroup(board, group.id)
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to remove')
+    }
+  }
+
+  const archivedTasks = board.groups.flatMap(group =>
+    group.tasks
+      .filter(task => task.archivedAt)
+      .map(task => ({
+        ...task,
+        groupId: group.id,
+      }))
+  )
+  const archivedGroups = board.groups.filter(group => group.archivedAt)
+
   const { kind, color } = board.style.background
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section className="board-settings">
-      {!isChangeBackgroundOpen.isOpen ? (
+      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && (
         <>
           <header className="board-settings-header">
             <h2>Menu</h2>
@@ -107,10 +181,6 @@ export function BoardSettings({
                 )
               })}
             </section>
-          </div>
-
-          <div className="board-settings-users">
-            <div className="board-settings-user"></div>
           </div>
 
           <div onClick={onTogleStar} className="menu-item">
@@ -142,7 +212,7 @@ export function BoardSettings({
             <button>Activity</button>
           </div>
 
-          <div className="menu-item">
+          <div className="menu-item" onClick={toggleArchive}>
             <img src={archiveIcon} />
             <button>Archived items</button>
           </div>
@@ -164,48 +234,124 @@ export function BoardSettings({
             )}
           </div>
         </>
-      ) : (
+      )}{' '}
+      {isChangeBackgroundOpen.isOpen && (
         <div className="board-settings-bg-options">
-          {isChangeBackgroundOpen.openKind === '' && (
+          {isChangeBackgroundOpen.openTo === '' && (
             <section className="board-settings-bg-all">
-              <SetBackgroundHeader
+              <PopUpHeader
                 onBack={toggleChangeBackground}
-                onClose={toggleChangeBackground}
+                onClose={openHeaderMenu}
                 header={'Change background'}
               />
               <div
                 className="card-preview"
-                onClick={() => setOpenKind('photos')}
+                onClick={() => setBgopenTo('photos')}
               >
                 <img src={photosImg} />
                 <h3>Photos</h3>
               </div>
               <div
                 className="card-preview"
-                onClick={() => setOpenKind('colors')}
+                onClick={() => setBgopenTo('colors')}
               >
                 <img src={colorsImg} />
                 <h3>Colors</h3>
               </div>
             </section>
           )}
-          {isChangeBackgroundOpen.openKind === 'photos' && (
+          {isChangeBackgroundOpen.openTo === 'photos' && (
             <PhotosBackground
               photosBg={photosBg}
-              onClose={toggleChangeBackground}
-              goBack={() => setOpenKind('')}
+              onClose={openHeaderMenu}
+              goBack={() => setBgopenTo('')}
               selectedColor={selectedColor}
               onChangeBackground={onChangeBackground}
             />
           )}
-          {isChangeBackgroundOpen.openKind === 'colors' && (
+          {isChangeBackgroundOpen.openTo === 'colors' && (
             <ColorsBackground
               backgrounds={backgrounds}
-              onClose={toggleChangeBackground}
-              onBack={() => setOpenKind('')}
+              onClose={openHeaderMenu}
+              onBack={() => setBgopenTo('')}
               selectedColor={selectedColor}
               onChangeBackground={onChangeBackground}
             />
+          )}
+        </div>
+      )}
+      {isArchiveOpen.isOpen && (
+        <div className="archived-tasks">
+          <PopUpHeader
+            onBack={toggleArchive}
+            onClose={openHeaderMenu}
+            header={'Archived items'}
+          />
+          <form>
+            <input type="text" placeholder="Search archive..." />
+            <button type="button" onClick={toggleArchiveopenTo}>{`${
+              isArchiveOpen.openTo === 'cards'
+                ? 'Switch to lists'
+                : 'Switch to cards'
+            }`}</button>
+          </form>
+          {isArchiveOpen.openTo === 'cards' ? (
+            <>
+              {!archivedTasks.length && (
+                <div className="no-archived-items">No archived cards</div>
+              )}
+              {archivedTasks.map(task => {
+                return (
+                  <div key={task.id}>
+                    <TaskPreview
+                      task={task}
+                      onToggleStatus={demoFunction}
+                      archiveTask={demoFunction}
+                      isForArchiveList={true}
+                    />
+                    <div className="archived-actions">
+                      <button
+                        onClick={() => onRestoreTask(task.groupId, task.id)}
+                      >
+                        Restore
+                      </button>
+                      <p>•</p>
+                      <button
+                        onClick={() => onDeleteTask(task.groupId, task.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          ) : (
+            <section className="archived-lists">
+              {!archivedGroups.length && (
+                <div className="no-archived-items">No archived lists</div>
+              )}
+              {archivedGroups.map(group => {
+                return (
+                  <div className="settings-group-preview" key={group.id}>
+                    <h2>{group.title}</h2>
+                    <button
+                      className="settings-restore-icon"
+                      onClick={() => onRestoreGroup(group)}
+                    >
+                      <img src={restoreImg} />
+                      Restore
+                    </button>
+                    <button
+                      onClick={() => onDeleteGroup(group)}
+                      className="settings-delete-icon"
+                    >
+                      <img src={deleteImg} />
+                    </button>
+                  </div>
+                )
+              })}
+            </section>
           )}
         </div>
       )}

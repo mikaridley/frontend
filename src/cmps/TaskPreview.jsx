@@ -12,7 +12,13 @@ import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
 import attachmentsImg from '../assets/img/attachments.svg'
 
-export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
+export function TaskPreview({
+  task,
+  group,
+  onToggleStatus,
+  archiveTask,
+  isForArchiveList,
+}) {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { title, status, id, cover } = task
   const navigate = useNavigate()
@@ -21,6 +27,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
   )
 
   function openTaskDetails() {
+    if (!group) return
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }
 
@@ -115,7 +122,7 @@ export function TaskPreview({ task, group, onToggleStatus, archiveTask }) {
           {title}
         </p>
 
-        {status === 'done' && (
+        {status === 'done' && !isForArchiveList && (
           <button className="archive-btn" onClick={onArchiveTask}>
             <LightTooltip title={`Archive card`}>
               <img src={archiveIcon} />
