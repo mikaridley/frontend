@@ -7,20 +7,17 @@ import { TaskPreview } from './TaskPreview'
 import deleteImg from '../assets/img/delete.svg'
 import restoreImg from '../assets/img/restore.svg'
 import { useSelector } from 'react-redux'
+import { CloseCheckModal } from './CloseCheckModal'
 
-export function SettingsArchive({ openHeaderMenu, board }) {
+export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   const [isArchiveOpen, setIsArchiveOpen] = useState({
     isOpen: false,
     openTo: 'cards',
   })
   const [filterBy, setFilterBy] = useState('')
-
-  function toggleArchive() {
-    setIsArchiveOpen({
-      ...isArchiveOpen,
-      isOpen: !isArchiveOpen.isOpen,
-    })
-  }
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
+  const [taskForDelete, setTaskForDelete] = useState('')
+  const [groupForDelete, setGroupForDelete] = useState('')
 
   function toggleArchiveopenTo() {
     const openTo = isArchiveOpen.openTo === 'cards' ? 'lists' : 'cards'
@@ -103,6 +100,12 @@ export function SettingsArchive({ openHeaderMenu, board }) {
     return archivedGroups
   }
 
+  function onToggleRemoveModal(id) {
+    setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)
+    setTaskForDelete(id)
+    setGroupForDelete(id)
+  }
+
   return (
     <div className="archived-tasks">
       <PopUpHeader
@@ -124,7 +127,7 @@ export function SettingsArchive({ openHeaderMenu, board }) {
         }`}</button>
       </form>
       {isArchiveOpen.openTo === 'cards' ? (
-        <>
+        <div>
           {!getArchivedTasks().length && (
             <div className="no-archived-items">No archived cards</div>
           )}
@@ -142,14 +145,31 @@ export function SettingsArchive({ openHeaderMenu, board }) {
                     Restore
                   </button>
                   <p>•</p>
-                  <button onClick={() => onDeleteTask(task.groupId, task.id)}>
+                  <button onClick={() => onToggleRemoveModal(task.id)}>
                     Delete
                   </button>
+
+                  {isRemoveModalOpen && taskForDelete === task.id && (
+                    <CloseCheckModal
+                      onRemove={() => onDeleteTask(task.groupId, task.id)}
+                      onCloseModal={() => onToggleRemoveModal('')}
+                      text={'Delete card?'}
+                      moreText={
+                        'All actions will be removed from the activity feed and you won’t be able to re-open the card. There is no undo.'
+                      }
+                      buttonText={'Delete'}
+                      style={{
+                        width: '300px',
+                        bottom: '0px',
+                        transform: 'translate(0, 100%)',
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             )
           })}
-        </>
+        </div>
       ) : (
         <section className="archived-lists">
           {!getArchivedGroups().length && (
@@ -167,11 +187,29 @@ export function SettingsArchive({ openHeaderMenu, board }) {
                   Restore
                 </button>
                 <button
-                  onClick={() => onDeleteGroup(group)}
+                  onClick={() => onToggleRemoveModal(group.id)}
                   className="settings-delete-icon"
                 >
                   <img src={deleteImg} />
                 </button>
+
+                {isRemoveModalOpen && groupForDelete === group.id && (
+                  <CloseCheckModal
+                    onRemove={() => onDeleteGroup(group)}
+                    onCloseModal={() => onToggleRemoveModal('')}
+                    text={'Delete list?'}
+                    moreText={
+                      'All actions will be removed from the activity feed and you won’t be able to re-open the card. There is no undo.'
+                    }
+                    buttonText={'Delete'}
+                    style={{
+                      width: '300px',
+                      bottom: '10px',
+                      transform: 'translate(0, 100%)',
+                      right: '15px',
+                    }}
+                  />
+                )}
               </div>
             )
           })}

@@ -1,11 +1,15 @@
 .board-settings {
   display: grid;
+  grid-template-rows: auto 1fr;
 
   position: absolute;
-  right: 10px;
+  right: 5px;
   top: 1px;
 
-  width: 355px;
+  overflow-y: auto;
+
+  width: 364px;
+  max-height: 85vh;
   padding: 0.5rem;
   border-radius: 0.5rem;
 
@@ -95,50 +99,6 @@
 
   .settings-close-board {
     position: relative;
-
-    .are-you-sure-close-board {
-      display: grid;
-      justify-items: center;
-      gap: 1rem;
-
-      position: absolute;
-      bottom: 105%;
-
-      width: 100%;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.345);
-
-      background-color: var(--clr-group-modal);
-
-      header {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-
-        width: 100%;
-
-        > :nth-child(1) {
-          grid-column: 2;
-        }
-
-        > :nth-child(2) {
-          justify-self: end;
-        }
-      }
-
-      button {
-        padding: 0.5rem;
-        border-radius: 5px;
-
-        text-align: center;
-        background-color: var(--clr-close-board);
-        color: var(--clr-txt-dark);
-
-        &:hover {
-          background-color: var(--clr-close-board-hover);
-        }
-      }
-    }
   }
 
   .board-settings-bg-options {
@@ -259,7 +219,8 @@
   }
 
   .archived-tasks {
-    display: grid;
+    display: flex;
+    flex-direction: column;
 
     form {
       display: flex;
@@ -294,6 +255,8 @@
       align-items: center;
       width: max-content;
       margin-block: 0.5rem;
+
+      position: relative;
 
       > button:hover {
         text-decoration: underline;
@@ -363,5 +326,64 @@
     margin-top: 0.5rem;
     background-color: var(--clr-ah-grey-1);
     font-size: 0.9rem;
+  }
+}
+
+.are-you-sure-close-board {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+
+  position: absolute;
+  bottom: 105%;
+  z-index: 500;
+
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.345);
+
+  text-wrap: balance;
+  background-color: var(--clr-group-modal);
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+
+    width: 100%;
+
+    > :nth-child(1) {
+      grid-column: 2;
+    }
+
+    > img {
+      justify-self: end;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--clr-ah-grey-1);
+        box-shadow: 0 0 0 7px var(--clr-ah-grey-1);
+        border-radius: 3px;
+      }
+    }
+  }
+
+  p {
+    width: 100%;
+    padding-inline: 1rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 0.5rem;
+    border-radius: 5px;
+
+    text-align: center;
+    background-color: var(--clr-close-board);
+    color: var(--clr-txt-dark);
+
+    &:hover {
+      background-color: var(--clr-close-board-hover);
+    }
   }
 }

@@ -15,6 +15,7 @@ import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
 import { SettingsArchive } from './SettingsArchive'
+import { CloseCheckModal } from './CloseCheckModal'
 
 export function BoardSettings({
   board,
@@ -156,13 +157,12 @@ export function BoardSettings({
             </div>
 
             {isRemoveModalOpen && (
-              <div className="are-you-sure-close-board">
-                <header>
-                  <h3>Close board?</h3>
-                  <img onClick={onToggleRemoveModal} src={closeIcon} />
-                </header>
-                <button onClick={removeBoard}>Close</button>
-              </div>
+              <CloseCheckModal
+                onRemove={removeBoard}
+                onCloseModal={onToggleRemoveModal}
+                text={'Close board?'}
+                buttonText={'Close'}
+              />
             )}
           </div>
         </>
@@ -213,7 +213,11 @@ export function BoardSettings({
         </div>
       )}
       {isArchiveOpen.isOpen && (
-        <SettingsArchive board={board} openHeaderMenu={openHeaderMenu} />
+        <SettingsArchive
+          board={board}
+          openHeaderMenu={openHeaderMenu}
+          toggleArchive={toggleArchive}
+        />
       )}
     </section>
   )
