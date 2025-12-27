@@ -48,7 +48,7 @@ export function BoardDetails() {
     return () => {
       store.dispatch({ type: SET_BOARD, board: '' })
     }
-  }, [filterBy])
+  }, [filterBy, boardId])
 
   useEffect(() => {
     socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
