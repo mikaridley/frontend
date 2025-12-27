@@ -303,6 +303,9 @@ export function BoardSettings({
           </form>
           {isArchiveOpen.openTo === 'cards' ? (
             <>
+              {!archivedTasks.length && (
+                <div className="no-archived-items">No archived cards</div>
+              )}
               {archivedTasks.map(task => {
                 return (
                   <div key={task.id}>
@@ -331,6 +334,9 @@ export function BoardSettings({
             </>
           ) : (
             <section className="archived-lists">
+              {!archivedGroups.length && (
+                <div className="no-archived-items">No archived lists</div>
+              )}
               {archivedGroups.map(group => {
                 return (
                   <div className="settings-group-preview" key={group.id}>

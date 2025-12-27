@@ -304,7 +304,6 @@
 
   .archived-lists {
     display: grid;
-    padding-bottom: 1rem;
 
     .settings-group-preview {
       position: relative;
@@ -349,5 +348,16 @@
         opacity: 0.1;
       }
     }
+  }
+
+  .no-archived-items {
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    background-color: var(--clr-ah-grey-1);
+    font-size: 0.9rem;
   }
 }
