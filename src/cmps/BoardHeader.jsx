@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { ShareBoard } from './ShareBoard'
 import { BoardSettings } from './BoardSettings'
 
-import starIcon from '../assets/img/star.svg'
+import starIcon from '../assets/img/star-white.svg'
 import yellowStarIcon from '../assets/img/yellow-star.png'
-import moreIcon from '../assets/img/more.svg'
-// import filterIcon from '../assets/img/filter.svg'
+import moreIcon from '../assets/img/more-white.svg'
+import filterIcon from '../assets/img/filter.svg'
 
 export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, changeBoardColor }) {
   const [boardToEdit, setBoardToEdit] = useState(board)
@@ -49,9 +49,9 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
           )}
         </ul>
 
-        {/* <button>
+        <button className='filter-btn'>
           <img src={filterIcon} />
-        </button> */}
+        </button>
         <button className="header-star" onClick={onToggleStar}>
           {isStarred ? <img src={yellowStarIcon} /> : <img src={starIcon} />}
         </button>
