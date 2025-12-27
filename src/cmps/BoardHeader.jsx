@@ -40,10 +40,10 @@ export function BoardHeader({ board, onUpdateBoard, starToggle, onRemoveBoard, c
         value={boardToEdit.title || ''}
       />
       <div className="header-btns flex align-center">
-        <ul className="members grid">
-          {board.members.map(member =>
+        <ul className="members flex">
+          {board.members.map((member, idx) =>
             <li>
-              {member.imgUrl && <img src={member.imgUrl} />}
+              {member.imgUrl && <img src={member.imgUrl} style={{ left: `${5*idx}px` }} />}
             </li>
           )}
         </ul>

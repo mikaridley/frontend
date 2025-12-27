@@ -92,7 +92,10 @@
 
     .members {
       grid-auto-flow: column;
+      flex-direction: row-reverse;
+
       img {
+        position: relative;
         width: 28px;
         border-radius: 50%;
       }
