@@ -219,15 +219,3 @@ export function getCmdBoardBgLoader() {
 export function getCmdSetFilterBt(filterBy) {
   return { type: SET_FILTER_BY, filterBy }
 }
-
-// unitTestActions()
-// async function unitTestActions() {
-//     await loadBoards()
-//     await addBoard(carService.getEmptyCar())
-//     await updateBoard({
-//         _id: 'm1oC7',
-//         vendor: 'Car-Good',
-//     })
-//     await removeBoard('m1oC7')
-//     // TODO unit test addCarMsg
-// }

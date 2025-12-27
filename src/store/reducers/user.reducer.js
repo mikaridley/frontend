@@ -8,7 +8,6 @@ export const REMOVE_USER = 'REMOVE_USER'
 const initialState = {
     loggedinUser: userService.getLoggedinUser(),
     users: [],
-    // watchedUser: null
 }
 
 export function userReducer(state = initialState, action) {
@@ -17,9 +16,6 @@ export function userReducer(state = initialState, action) {
         case SET_USER:
             newState = { ...state, loggedinUser: action.user }
             break
-        // case SET_WATCHED_USER:
-        //     newState = { ...state, watchedUser: action.user }
-        //     break
         case REMOVE_USER:
             newState = {
                 ...state,
@@ -31,8 +27,5 @@ export function userReducer(state = initialState, action) {
             break
         default:
     }
-    // For debug:
-    // window.userState = newState
-    // console.log('State:', newState)
     return newState
 }
