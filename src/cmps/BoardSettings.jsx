@@ -1,3 +1,16 @@
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
+import { PopUpHeader } from './addBoardCmps/PopUpHeader'
+import { PhotosBackground } from './addBoardCmps/PhotosBackground'
+import { ColorsBackground } from './addBoardCmps/ColorsBackground'
+import { TaskPreview } from './TaskPreview'
+
+import { getColorsBg, getPhotos } from '../store/actions/board.actions'
+import { removeTask, updateTask } from '../store/actions/task.actions'
+import { removeGroup, updateGroup } from '../store/actions/group.actions'
+import { showErrorMsg } from '../services/event-bus.service'
+
 import closeIcon from '../assets/img/close.svg'
 import shareIcon from '../assets/img/share.svg'
 import starIcon from '../assets/img/star.svg'
@@ -24,6 +37,7 @@ export function BoardSettings({
   isStarred,
   onRemoveBoard,
   changeBoardColor,
+  onToggleShare,
 }) {
   // if (!board.style)
   //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
@@ -119,15 +133,21 @@ export function BoardSettings({
 
           <div className="menu-item">
             <img src={shareIcon} />
-            <button>share</button>
+            <button
+              onClick={() => {
+                onToggleShare()
+                openHeaderMenu()
+              }}
+            >
+              share
+            </button>
+
             <section className="setting-members">
-              {board.members.map(member => {
-                return (
-                  <div key={member._id} className="member-photo">
-                    {member.imgUrl && <img src={member.imgUrl} />}
-                  </div>
-                )
-              })}
+              {board.members.map(member => (
+                <div className="member-photo" key={member._id}>
+                  {member.imgUrl && <img src={member.imgUrl} />}
+                </div>
+              ))}
             </section>
           </div>
 

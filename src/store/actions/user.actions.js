@@ -2,35 +2,26 @@ import { userService } from '../../services/user'
 import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
-import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
 import { REMOVE_USER, SET_USER, SET_USERS } from '../reducers/user.reducer'
 
 export async function loadUsers(filterBy = {}) {
-  store.dispatch({ type: LOADING_START })
-
   try {
     const users = await userService.getUsers(filterBy)
     store.dispatch({ type: SET_USERS, users })
   } catch (err) {
     console.log('UserActions: err in loadUsers', err)
     throw err
-  } finally {
-    store.dispatch({ type: LOADING_DONE })
-  }
+  } 
 }
 
 export async function loadUser(userId) {
-  store.dispatch({ type: LOADING_START })
-
   try {
     const user = await userService.getById(userId)
     store.dispatch({ type: SET_USER, user })
   } catch (err) {
-    showErrorMsg('Cannot load user')
     console.log('Cannot load user', err)
-  } finally {
-    store.dispatch({ type: LOADING_DONE })
-  }
+    throw err
+  } 
 }
 
 export async function removeUser(userId) {
@@ -51,6 +42,18 @@ export async function login(credentials) {
     return user
   } catch (err) {
     console.log('Cannot login', err)
+    throw err
+  }
+}
+
+export async function loginWithGoogle(googleUser) {
+  try {
+    const user = await userService.loginWithGoogle(googleUser)
+    store.dispatch({ type: SET_USER, user })
+    socketService.login(user._id)
+    return user
+  } catch (err) {
+    console.log('Cannot login with Google', err)
     throw err
   }
 }

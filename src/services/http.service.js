@@ -25,7 +25,7 @@ export const httpService = {
 async function ajax(endpoint, method = 'GET', data = null) {
     const url = `${BASE_URL}${endpoint}`
     const params = (method === 'GET') ? data : null
-    
+
     const options = { url, method, data, params }
 
     try {
@@ -42,27 +42,27 @@ async function ajax(endpoint, method = 'GET', data = null) {
             response: err.response?.data,
             isNetworkError: !err.response
         })
-        
+
         // Handle 401 unauthorized
         if (err.response && err.response.status === 401) {
             sessionStorage.clear()
-            window.location.assign('/')
+            // window.location.assign('/')
         }
-        
+
         // Enhance error object with more details for better error handling
         if (!err.response) {
             // Network error - no response from server
             err.isNetworkError = true
-            err.userMessage = err.code === 'ERR_NETWORK' 
+            err.userMessage = err.code === 'ERR_NETWORK'
                 ? 'Network error: Could not connect to server'
                 : err.code === 'ECONNABORTED'
-                ? 'Request timeout: Server took too long to respond'
-                : 'Connection error: Please check your internet connection'
+                    ? 'Request timeout: Server took too long to respond'
+                    : 'Connection error: Please check your internet connection'
         } else {
             // Server responded with error
             err.userMessage = err.response?.data?.err || err.response?.data?.message || err.message
         }
-        
+
         throw err
     }
 }

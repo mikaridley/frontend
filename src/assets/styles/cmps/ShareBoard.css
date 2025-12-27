@@ -23,12 +23,19 @@
     background-color: var(--clr-group-modal);
     color: var(--clr-task-txt);
 
-    h1 {
-        font-size: 1.25rem;
-        font-weight: 400;
+    >.share-header{
+        >h1 {
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+
+        >button{
+            background-color: inherit;
+        }
     }
 
-    h2 {
+
+    >h2 {
         width: fit-content;
         padding-block: .3rem;
 

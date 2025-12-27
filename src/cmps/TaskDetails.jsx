@@ -14,6 +14,7 @@ import { TaskDetailsPopupManager } from './taskDetailsCmps/TaskDetailsPopupManag
 import { TaskDetailsChecklistManager } from './taskDetailsCmps/TaskDetailsChecklistManager'
 import { TaskDetailsCover } from './taskDetailsCmps/TaskDetailsCover'
 import '../assets/styles/cmps/TaskDetails.css'
+import { Loader } from './Loader.jsx'
 
 
 export function TaskDetails() {
@@ -32,11 +33,11 @@ export function TaskDetails() {
 
 
 
-  useEffect(() => {
-    if (boardId) {
-      loadBoard(boardId)
-    }
-  }, [boardId])
+    useEffect(() => {
+        if (boardId) {
+            loadBoard(boardId)
+        }
+    }, [boardId])
 
     // Function to sync task data from board to local state
     const syncTaskFromBoard = useCallback((boardToSync = null) => {
@@ -62,21 +63,21 @@ export function TaskDetails() {
         syncTaskFromBoard()
     }, [syncTaskFromBoard])
 
-  function openPopup(popupName, event) {
-    setActivePopup(popupName)
-    // Store button position for popup positioning
-    if (event?.currentTarget) {
-      const buttonRect = event.currentTarget.getBoundingClientRect()
-      setPopupPosition({
-        top: buttonRect.bottom + 8, // 8px gap below button
-        left: buttonRect.left,
-      })
+    function openPopup(popupName, event) {
+        setActivePopup(popupName)
+        // Store button position for popup positioning
+        if (event?.currentTarget) {
+            const buttonRect = event.currentTarget.getBoundingClientRect()
+            setPopupPosition({
+                top: buttonRect.bottom + 8, // 8px gap below button
+                left: buttonRect.left,
+            })
+        }
     }
-  }
 
-  function closePopup() {
-    setActivePopup(null)
-  }
+    function closePopup() {
+        setActivePopup(null)
+    }
 
     async function savePopup(popupName, data) {
         if (!board) return
@@ -96,20 +97,18 @@ export function TaskDetails() {
         }
     }
 
-  function handleBackdropClick(ev) {
-    if (ev.target === ev.currentTarget) {
-      navigate(`/board/${boardId}`)
+    function handleBackdropClick(ev) {
+        if (ev.target === ev.currentTarget) {
+            navigate(`/board/${boardId}`)
+        }
     }
-  }
 
-  if (!board) {
-    return <div>Loading...</div>
-  }
+    if (!board) return <Loader />
 
     return (
         <div className="task-details-modal" onClick={handleBackdropClick}>
             <div className="task-details">
-                
+
                 {/* Row 1: Reserved for future special header + functionality */}
                 <TaskDetailsCover
                     task={task}
