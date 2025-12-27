@@ -26,8 +26,8 @@ export async function loadUser(userId) {
     const user = await userService.getById(userId)
     store.dispatch({ type: SET_USER, user })
   } catch (err) {
-    showErrorMsg('Cannot load user')
     console.log('Cannot load user', err)
+    throw err
   } finally {
     store.dispatch({ type: LOADING_DONE })
   }
@@ -51,6 +51,18 @@ export async function login(credentials) {
     return user
   } catch (err) {
     console.log('Cannot login', err)
+    throw err
+  }
+}
+
+export async function loginWithGoogle(googleUser) {
+  try {
+    const user = await userService.loginWithGoogle(googleUser)
+    store.dispatch({ type: SET_USER, user })
+    socketService.login(user._id)
+    return user
+  } catch (err) {
+    console.log('Cannot login with Google', err)
     throw err
   }
 }

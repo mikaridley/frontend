@@ -22,6 +22,10 @@
   .header-btns {
     gap: .3rem;
 
+    >button {
+      background-color: inherit;
+    }
+
     .header-more-icon {
       background: none;
 

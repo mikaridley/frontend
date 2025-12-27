@@ -3,13 +3,14 @@ import { httpService } from '../http.service'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 export const userService = {
-	login,
-	logout,
-	signup,
 	getUsers,
 	getById,
 	remove,
 	update,
+	login,
+	loginWithGoogle,
+	signup,
+	logout,
 	getLoggedinUser,
 	saveLoggedinUser,
 }
@@ -19,8 +20,7 @@ function getUsers(filterBy = {}) {
 }
 
 async function getById(userId) {
-	const user = await httpService.get(`user/${userId}`)
-	return user
+	return await httpService.get(`user/${userId}`)
 }
 
 function remove(userId) {
@@ -30,8 +30,7 @@ function remove(userId) {
 async function update({ _id, score }) {
 	const user = await httpService.put(`user/${_id}`, { _id, score })
 
-	// When admin updates other user's details, do not update loggedinUser
-	const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
+	const loggedinUser = getLoggedinUser()
 	if (loggedinUser._id === user._id) saveLoggedinUser(user)
 
 	return user
@@ -39,6 +38,11 @@ async function update({ _id, score }) {
 
 async function login(userCred) {
 	const user = await httpService.post('auth/login', userCred)
+	if (user) return saveLoggedinUser(user)
+}
+
+async function loginWithGoogle(userCred) {
+	const user = await httpService.post('auth/google', userCred)
 	if (user) return saveLoggedinUser(user)
 }
 
