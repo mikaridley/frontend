@@ -77,31 +77,6 @@ function createDummySocketService() {
       else
         listenersMap[eventName] = listenersMap[eventName].filter(l => l !== cb)
     },
-    emit(eventName, data) {
-      var listeners = listenersMap[eventName]
-      if (eventName === SOCKET_EMIT_SEND_MSG) {
-        listeners = listenersMap[SOCKET_EVENT_ADD_MSG]
-      }
-
-      if (!listeners) return
-
-      listeners.forEach(listener => {
-        listener(data)
-      })
-    },
-    // Functions for easy testing of pushed data
-    testChatMsg() {
-      this.emit(SOCKET_EVENT_ADD_MSG, {
-        from: 'Someone',
-        txt: 'Aha it worked!',
-      })
-    },
-    testUserUpdate() {
-      this.emit(SOCKET_EVENT_USER_UPDATED, {
-        ...userService.getLoggedinUser(),
-        score: 555,
-      })
-    },
   }
   window.listenersMap = listenersMap
   return socketService
