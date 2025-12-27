@@ -1,10 +1,9 @@
 .group-list {
   gap: 0.8rem;
+  margin-top: 55px;
 
   color: var(--clr-group-txt);
   font-size: 0.876rem;
-
-  overflow-y: hidden;
 
   > button {
     flex: 0 0 270px;

@@ -1,10 +1,9 @@
 .group-preview {
   display: flex;
   padding: 0.5rem;
-  max-height: 100%;
+  max-height: 80vh;
   width: var(--group-width);
   flex-grow: 1;
-  flex-basis: 270px;
 
   background-color: var(--clr-group);
   border-radius: 0.75rem;
