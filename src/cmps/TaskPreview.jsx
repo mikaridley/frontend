@@ -188,8 +188,8 @@ export function TaskPreview({
               {task.members && (
                 <section className="task-member-container">
                   {task.members.map(member => (
-                    <LightTooltip key={member._id} title={member.fullname}>
-                      <div className="member-photo">
+                    <LightTooltip title={member.fullname}>
+                      <div className="member-photo" key={member._id}>
                         {member.imgUrl &&
                           <img src={member.imgUrl} />
                         }

@@ -51,12 +51,12 @@
     align-items: center;
     gap: 1rem;
 
-    height: 2rem;
+    height: 2.3rem;
     padding-inline: 1rem;
 
     cursor: pointer;
 
-    > img {
+    >img {
       width: 16px;
 
       &:hover {
@@ -267,7 +267,7 @@
       gap: 0.5rem;
       margin-bottom: 0.5rem;
 
-      > input {
+      >input {
         border: 1px solid var(--clr-task-txt);
         border-radius: 5px;
         padding: 0.6rem;
@@ -275,7 +275,7 @@
         background-color: var(--clr-task);
       }
 
-      > button {
+      >button {
         display: grid;
         place-items: center;
         border-radius: 5px;
@@ -294,12 +294,12 @@
       width: max-content;
       margin-block: 0.5rem;
 
-      > button:hover {
+      >button:hover {
         text-decoration: underline;
         color: var(--clr-create-btn);
       }
 
-      > p {
+      >p {
         margin: 0;
       }
     }
@@ -315,12 +315,12 @@
       align-items: center;
       padding: 0.75rem;
 
-      > h2 {
+      >h2 {
         font-size: 1rem;
         padding: 0.5rem;
       }
 
-      > button {
+      >button {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -333,7 +333,7 @@
           background-color: var(--clr-ah-grey);
         }
 
-        > img {
+        >img {
           width: 20px;
           pointer-events: none;
         }
