@@ -96,8 +96,9 @@ export function TaskPreview({
               return (
                 <LightTooltip
                   key={label.id}
-                  title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
-                    }`}
+                  title={`Color: ${label.colorName}, title: ${
+                    label.title === '' ? 'none' : '"' + label.title + '"'
+                  }`}
                 >
                   <div
                     className="task-label"
@@ -115,9 +116,11 @@ export function TaskPreview({
         >
           {status === 'done' ? <img src={doneIcon} /> : <div></div>}
         </button>
+
         <p
-          className={`task-title ${status !== 'done' ? 'task-not-complete' : ''
-            }`}
+          className={`task-title ${
+            status !== 'done' ? 'task-not-complete' : ''
+          }`}
         >
           {title}
         </p>
@@ -136,70 +139,68 @@ export function TaskPreview({
           task.members ||
           task.attachments ||
           task.comments) && (
-            <section className="task-details-container">
-              {task.dates && (
-                <LightTooltip title={getDateToolipTitle()}>
-                  <div className={`task-dates ${getDateStatus()}`}>
-                    <img
-                      src={
-                        getDateStatus() === '' || getDateStatus() === 'late-red'
-                          ? clockLightImg
-                          : clockDarkImg
-                      }
-                    />
-                    <p>{formatDate()}</p>
-                  </div>
-                </LightTooltip>
-              )}
+          <section className="task-details-container">
+            {task.dates && (
+              <LightTooltip title={getDateToolipTitle()}>
+                <div className={`task-dates ${getDateStatus()}`}>
+                  <img
+                    src={
+                      getDateStatus() === '' || getDateStatus() === 'late-red'
+                        ? clockLightImg
+                        : clockDarkImg
+                    }
+                  />
+                  <p>{formatDate()}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.description && (
-                <LightTooltip title={`This card has a description`}>
-                  <img src={descriptionImg} />
-                </LightTooltip>
-              )}
+            {task.description && (
+              <LightTooltip title={`This card has a description`}>
+                <img src={descriptionImg} />
+              </LightTooltip>
+            )}
 
-              {task.comments && (
-                <LightTooltip title={`Comments`}>
-                  <div className="task-comments">
-                    <img src={commentsImg} />
-                    <p>{task.comments.length}</p>
-                  </div>
-                </LightTooltip>
-              )}
+            {task.comments && (
+              <LightTooltip title={`Comments`}>
+                <div className="task-comments">
+                  <img src={commentsImg} />
+                  <p>{task.comments.length}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.attachments && (
-                <LightTooltip title={`Attachments`}>
-                  <div className="task-attackments">
-                    <img src={attachmentsImg} />
-                    <p>{task.attachments.length}</p>
-                  </div>
-                </LightTooltip>
-              )}
+            {task.attachments && (
+              <LightTooltip title={`Attachments`}>
+                <div className="task-attackments">
+                  <img src={attachmentsImg} />
+                  <p>{task.attachments.length}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.checklists && (
-                <LightTooltip title={`Checklist items`}>
-                  <div className="task-checklists">
-                    <img src={checklistImg} />
-                    <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
-                  </div>
-                </LightTooltip>
-              )}
+            {task.checklists && (
+              <LightTooltip title={`Checklist items`}>
+                <div className="task-checklists">
+                  <img src={checklistImg} />
+                  <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
+                </div>
+              </LightTooltip>
+            )}
 
-              {task.members && (
-                <section className="task-member-container">
-                  {task.members.map(member => (
-                    <LightTooltip title={member.fullname}>
-                      <div className="member-photo" key={member._id}>
-                        {member.imgUrl &&
-                          <img src={member.imgUrl} />
-                        }
-                      </div>
-                    </LightTooltip>
-                  ))}
-                </section>
-              )}
-            </section>
-          )}
+            {task.members && (
+              <section className="task-member-container">
+                {task.members.map(member => (
+                  <LightTooltip key={member._id} title={member.fullname}>
+                    <div className="member-photo">
+                      {member.imgUrl && <img src={member.imgUrl} />}
+                    </div>
+                  </LightTooltip>
+                ))}
+              </section>
+            )}
+          </section>
+        )}
       </section>
     </section>
   )

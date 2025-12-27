@@ -3,11 +3,13 @@ import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 
 import { logout } from '../store/actions/user.actions'
-import { loadFilteredBoards, setFilterBy, } from '../store/actions/board.actions'
+import { loadFilteredBoards, setFilterBy } from '../store/actions/board.actions'
 import logoLightImg from '../assets/img/logo-light.png'
 
 export function AppHeader() {
-  const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
+  const loggedinUser = useSelector(
+    storeState => storeState.userModule.loggedinUser
+  )
   const [isUserOpen, setIsUserOpen] = useState()
   const navigate = useNavigate()
   const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
@@ -72,10 +74,7 @@ export function AppHeader() {
     }
   }
 
-  if (loggedinUser) {
-    var { imgUrl, fullname, email } = loggedinUser
-  }
-
+  const { imgUrl, fullname, email } = loggedinUser
   return (
     <section className="app-header">
       <Link to="/board">
@@ -132,7 +131,7 @@ export function AppHeader() {
       <div className="user" onClick={onToggleUserOpen}>
         {imgUrl && <img src={imgUrl} />}
       </div>
-      {isUserOpen &&
+      {isUserOpen && (
         <div className="account grid">
           <h2>Account</h2>
           <div className="user-details grid">
@@ -142,7 +141,7 @@ export function AppHeader() {
           </div>
           <button onClick={onLogout}>Log out</button>
         </div>
-      }
+      )}
     </section>
   )
 }

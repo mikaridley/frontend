@@ -14,12 +14,7 @@ import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-import { TaskPreview } from './TaskPreview'
-import { removeTask, updateTask } from '../store/actions/task.actions'
-import { showErrorMsg } from '../services/event-bus.service'
-import { removeGroup, updateGroup } from '../store/actions/group.actions'
-import deleteImg from '../assets/img/delete.svg'
-import restoreImg from '../assets/img/restore.svg'
+import { SettingsArchive } from './SettingsArchive'
 
 export function BoardSettings({
   board,
@@ -48,9 +43,6 @@ export function BoardSettings({
     storeState => storeState.boardModule.backgroundPhotos
   )
   const backgrounds = getColorsBg()
-  const loggedinUser = useSelector(
-    storeState => storeState.userModule.loggedinUser
-  )
 
   useEffect(() => {
     _getPhotos()
@@ -93,68 +85,10 @@ export function BoardSettings({
     })
   }
 
-  function toggleArchiveopenTo() {
-    const openTo = isArchiveOpen.openTo === 'cards' ? 'lists' : 'cards'
-    setIsArchiveOpen({
-      ...isArchiveOpen,
-      openTo: openTo,
-    })
-  }
-
   function onChangeBackground(color, kind) {
     setSelectedColor({ color, kind })
     changeBoardColor({ color, kind })
   }
-
-  function demoFunction() {}
-
-  async function onRestoreTask(groupId, taskId) {
-    try {
-      await updateTask(board, groupId, taskId, { archivedAt: null })
-    } catch (err) {
-      console.log('err:', err)
-      showErrorMsg('Failed to unArchive')
-    }
-  }
-
-  async function onDeleteTask(groupId, taskId) {
-    try {
-      await removeTask(board, groupId, taskId)
-    } catch (err) {
-      console.log('err:', err)
-      showErrorMsg('Failed to unArchive')
-    }
-  }
-
-  async function onRestoreGroup(group) {
-    console.log(group)
-    const edittedGroup = { ...group, archivedAt: null }
-    try {
-      await updateGroup(board, edittedGroup)
-    } catch (err) {
-      console.log('err:', err)
-      showErrorMsg('Failed to unArchive')
-    }
-  }
-
-  async function onDeleteGroup(group) {
-    try {
-      await removeGroup(board, group.id)
-    } catch (err) {
-      console.log('err:', err)
-      showErrorMsg('Failed to remove')
-    }
-  }
-
-  const archivedTasks = board.groups.flatMap(group =>
-    group.tasks
-      .filter(task => task.archivedAt)
-      .map(task => ({
-        ...task,
-        groupId: group.id,
-      }))
-  )
-  const archivedGroups = board.groups.filter(group => group.archivedAt)
 
   const { kind, color } = board.style.background
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
@@ -173,10 +107,8 @@ export function BoardSettings({
             <section className="setting-members">
               {board.members.map(member => {
                 return (
-                  <div className="member-photo">
-                    {member.imgUrl &&
-                      <img src={member.imgUrl} />
-                    }
+                  <div key={member._id} className="member-photo">
+                    {member.imgUrl && <img src={member.imgUrl} />}
                   </div>
                 )
               })}
@@ -281,79 +213,7 @@ export function BoardSettings({
         </div>
       )}
       {isArchiveOpen.isOpen && (
-        <div className="archived-tasks">
-          <PopUpHeader
-            onBack={toggleArchive}
-            onClose={openHeaderMenu}
-            header={'Archived items'}
-          />
-          <form>
-            <input type="text" placeholder="Search archive..." />
-            <button type="button" onClick={toggleArchiveopenTo}>{`${
-              isArchiveOpen.openTo === 'cards'
-                ? 'Switch to lists'
-                : 'Switch to cards'
-            }`}</button>
-          </form>
-          {isArchiveOpen.openTo === 'cards' ? (
-            <>
-              {!archivedTasks.length && (
-                <div className="no-archived-items">No archived cards</div>
-              )}
-              {archivedTasks.map(task => {
-                return (
-                  <div key={task.id}>
-                    <TaskPreview
-                      task={task}
-                      onToggleStatus={demoFunction}
-                      archiveTask={demoFunction}
-                      isForArchiveList={true}
-                    />
-                    <div className="archived-actions">
-                      <button
-                        onClick={() => onRestoreTask(task.groupId, task.id)}
-                      >
-                        Restore
-                      </button>
-                      <p>•</p>
-                      <button
-                        onClick={() => onDeleteTask(task.groupId, task.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                )
-              })}
-            </>
-          ) : (
-            <section className="archived-lists">
-              {!archivedGroups.length && (
-                <div className="no-archived-items">No archived lists</div>
-              )}
-              {archivedGroups.map(group => {
-                return (
-                  <div className="settings-group-preview" key={group.id}>
-                    <h2>{group.title}</h2>
-                    <button
-                      className="settings-restore-icon"
-                      onClick={() => onRestoreGroup(group)}
-                    >
-                      <img src={restoreImg} />
-                      Restore
-                    </button>
-                    <button
-                      onClick={() => onDeleteGroup(group)}
-                      className="settings-delete-icon"
-                    >
-                      <img src={deleteImg} />
-                    </button>
-                  </div>
-                )
-              })}
-            </section>
-          )}
-        </div>
+        <SettingsArchive board={board} openHeaderMenu={openHeaderMenu} />
       )}
     </section>
   )
