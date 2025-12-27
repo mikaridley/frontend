@@ -1,6 +1,6 @@
 @import '../../setup/variables.css';
 
-/* Checklist Styles */
+/* checklist styles */
 .checklists {
   margin: 1rem 0;
 }
@@ -98,7 +98,7 @@
   flex: 1;
 }
 
-/* Add Item Form Styles */
+/* add item form styles */
 .add-item-form {
   margin-top: 12px;
 }

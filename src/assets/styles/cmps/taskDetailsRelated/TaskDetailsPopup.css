@@ -22,9 +22,14 @@
   overflow-y: auto;
   position: fixed;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  /* Position will be set dynamically via inline styles */
+  /* position will be set dynamically via inline styles */
   transform: translateX(0);
-  & h4, h6, h5, h3, h2{
+
+  & h4,
+  h6,
+  h5,
+  h3,
+  h2 {
     color: var(--clr-task-txt);
   }
 }
@@ -172,7 +177,7 @@
   }
 }
 
-/* Labels Styles */
+/* labels styles */
 .labels-header {
   display: flex;
   justify-content: space-between;
@@ -227,6 +232,7 @@
   display: flex;
   align-items: center;
   transition: filter 0.2s ease;
+  justify-content: center;
 
   &:hover {
     filter: brightness(1.1) saturate(1.1);
@@ -333,3 +339,70 @@
   border: none !important;
 }
 
+/* Inline popup for board-settings context */
+.popup-labels-inline {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  max-height: 80vh;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem;
+}
+
+/* Override board-settings button width for label popup buttons */
+.popup-labels-inline button {
+  width: auto !important;
+}
+
+.popup-labels-inline .label-item {
+  gap: 1rem;
+  & button {
+    background-color: transparent;
+    &:hover {
+      background-color: #242528;
+    }
+  }
+}
+
+.popup-labels-inline .label-item .label-color {
+  max-width: 80%;
+  justify-content: center;
+}
+.popup-labels-inline .popup-close {
+  margin-top: -0.5rem;
+  font-size: 1.5rem;
+  color: var(--clr-task-txt-dark);
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2b2c2f;
+  }
+}
+.popup-labels-inline .color-picker-close {
+  background-color: transparent;
+}
+
+.popup-labels-inline .color-picker-menu {
+  & h4,h5 {
+    color: var(--clr-task-txt-dark);
+  }
+}
+
+.popup-labels-inline .color-picker-menu .color-picker-actions .color-picker-save{
+  background-color: #5ba4cf;
+  color: white;
+  border-color: #5ba4cf;
+
+  &:hover {
+    background-color: #4a93be;
+  }
+}
+.popup-labels-inline .color-picker-menu .color-picker-actions button{
+  text-align: center;
+}

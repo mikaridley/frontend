@@ -2,11 +2,13 @@
 
 .task-details-row {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  column-gap: 2rem;
+  row-gap: 0;
   align-items: flex-start;
 }
 
-/* Labels Display Styles */
+/* labels display styles */
 .labels {
   margin: 1rem 0;
 }
@@ -55,11 +57,7 @@
   }
 }
 
-/* Members Styles */
-.member-list {
-  
-}
-
+/* members styles */
 .member-item {
   display: flex;
   flex-direction: row;
@@ -116,10 +114,11 @@
   cursor: pointer;
 }
 
-/* Members and Dates Styles */
+/* members and dates styles */
 .members,
 .dates {
   margin: 1rem 0;
+  flex: 0 1 auto;
 }
 
 .members h5,
@@ -157,6 +156,7 @@
   padding: 0.5rem 0.2rem 0.2rem 0.5rem;
   cursor: pointer;
   color: var(--clr-txt-light);
+  white-space: nowrap;
   &:hover {
     background-color: #e3e4f21f;
     color: var(--clr-txt-light);
@@ -170,7 +170,7 @@
   margin-top: 1rem;
 }
 
-/* Style the calendar icon for date input - disabled functionality */
+/* style the calendar icon for date input - disabled functionality */
 .date-picker-container input::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: not-allowed;
@@ -179,7 +179,7 @@
   margin-left: -1rem;
 }
 
-/* Style the clock icon for time input - disabled functionality */
+/* style the clock icon for time input - disabled functionality */
 .time-picker-container input::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: not-allowed;
@@ -187,7 +187,7 @@
   pointer-events: none;
 }
 
-/* Attachments Display Styles */
+/* attachments display styles */
 .attachments {
   margin: 1rem 0;
 }

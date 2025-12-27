@@ -9,7 +9,7 @@ import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen, position }) {
     const popupRef = useRef(null)
 
-  // Measure and adjust so the popup bottom never goes off-screen.
+  // measure and adjust so the popup bottom never goes off-screen
   popupToViewportHook(popupRef, position)
     const icons = {
         dates: <img src={timeIcon} alt="dates" />,

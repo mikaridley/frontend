@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { taskService } from '../../services/task'
 import { boardService } from '../../services/board'
 import { loadBoard } from '../../store/actions/board.actions'
+import { LightTooltip } from '../LightToolTip'
 
 
 const colorPalette = [
@@ -145,18 +146,18 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
                     <h5>Select a color</h5>
                     <div className="color-grid">
                         {colorPalette.map((colorObj, idx) => (
-                            <div
-                                key={idx}
-                                className={`color-swatch ${labelColor.color === colorObj.color ? 'selected' : ''}`}
-                                style={{ backgroundColor: colorObj.color }}
-                                onClick={() => setLabelColor(colorObj)}
-                                title={colorObj.title}
-                            />
+                            <LightTooltip key={idx} title={colorObj.title}>
+                                <div
+                                    className={`color-swatch ${labelColor.color === colorObj.color ? 'selected' : ''}`}
+                                    style={{ backgroundColor: colorObj.color }}
+                                    onClick={() => setLabelColor(colorObj)}
+                                />
+                            </LightTooltip>
                         ))}
                     </div>
                 </div>
                 <div className="color-picker-actions">
-                <button onClick={handleSave}>Save</button>
+                <button className="color-picker-save" onClick={handleSave}>Save</button>
                     {isEditMode && (
                         <button className="color-picker-delete" onClick={handleDelete}>Delete</button>
                     )}

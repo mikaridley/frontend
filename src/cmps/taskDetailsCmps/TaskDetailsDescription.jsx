@@ -41,7 +41,7 @@ export function TaskDetailsDescription({ description: initialDescription, attach
                     ) : (
                         <>
                             {(() => {
-                                // Filter to get only photo/image attachments
+                                // filter to get only photo/image attachments
                                 const photoAttachments = attachments.filter(attachment => 
                                     isImageFile(attachment.type)
                                 )

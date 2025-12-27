@@ -11,7 +11,7 @@ export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, 
     const task = taskService.getTaskById(board, groupId, taskId)
     const existingChecklists = task?.checklists || []
 
-  // Keep popup fully visible vertically.
+  // keep popup fully visible vertically
   popupToViewportHook(popupRef, position)
 
     function handleSave(ev) {
@@ -59,7 +59,7 @@ export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, 
     )
 }
 
-// Reusable edit form component
+// reusable edit form component
 function EditForm({ value, onSave, onCancel, className = "edit-item-form" }) {
     const [text, setText] = useState(value)
 
@@ -103,7 +103,7 @@ function EditForm({ value, onSave, onCancel, className = "edit-item-form" }) {
     )
 }
 
-// Display component for checklists
+// display component for checklists
 export function TaskChecklistsDisplay({
     checklists,
     onToggleItem,
@@ -254,7 +254,7 @@ export function TaskChecklistsDisplay({
     )
 }
 
-// Utility functions for managing checklist items
+// utility functions for managing checklist items
 export async function addItemToChecklist(checklistId, newItemText, checklists, board, groupId, taskId, task, setChecklists, setTask) {
     if (!newItemText.trim()) return false
     

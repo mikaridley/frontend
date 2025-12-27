@@ -3,26 +3,28 @@ import { updateTask } from '../../store/actions/task.actions'
 import { showErrorMsg } from "../../services/event-bus.service.js"
 import doneIcon from '../../assets/img/done.svg'
 import emptyCircleIcon from '../../assets/img/empty-circle.svg'
+import { LightTooltip } from '../LightToolTip'
 
-export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate }) {
+export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate, onOpenPopup }) {
     const [isEditing, setIsEditing] = useState(false)
     const [titleValue, setTitleValue] = useState(task?.title || '')
+    const [isScrolled, setIsScrolled] = useState(false)
     const textareaRef = useRef(null)
     const h2Ref = useRef(null)
     const savedHeightRef = useRef(null)
 
-    // Handle focus/select only when entering edit mode
+    // handle focus/select only when entering edit mode
     useEffect(() => {
         if (isEditing && textareaRef.current) {
             const textarea = textareaRef.current
-            // If we have a saved height, use it to prevent layout shift
+            // if we have a saved height, use it to prevent layout shift
             if (savedHeightRef.current) {
                 textarea.style.height = 'auto'
                 const contentHeight = textarea.scrollHeight - 14
                 textarea.style.height = Math.max(savedHeightRef.current - 14, contentHeight-14) + 'px'
-                savedHeightRef.current = null // Clear after first use
+                savedHeightRef.current = null // clear after first use
             } else {
-                // Auto-resize textarea to fit content (reduced height)
+                // auto-resize textarea to fit content (reduced height)
                 textarea.style.height = 'auto'
                 textarea.style.height = (textarea.scrollHeight - 14) + 'px'
             }
@@ -31,11 +33,11 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate }
         }
     }, [isEditing])
 
-    // Handle height resizing on content change (without focus/select)
+    // handle height resizing on content change (without focus/select)
     useEffect(() => {
         if (isEditing && textareaRef.current) {
             const textarea = textareaRef.current
-            // Auto-resize textarea to fit content (reduced height)
+            // auto-resize textarea to fit content (reduced height)
             textarea.style.height = 'auto'
             textarea.style.height = (textarea.scrollHeight - 14) + 'px'
         }
@@ -44,6 +46,19 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate }
     useEffect(() => {
         setTitleValue(task?.title || '')
     }, [task?.title])
+
+    // handle scroll detection for sticky header
+    useEffect(() => {
+        const contentElement = document.querySelector('.task-details-content')
+        if (!contentElement) return
+
+        const onScroll = () => {
+            setIsScrolled(contentElement.scrollTop > 0)
+        }
+
+        contentElement.addEventListener('scroll', onScroll)
+        return () => contentElement.removeEventListener('scroll', onScroll)
+    }, [])
 
     async function onToggleStatus(ev) {
         ev.stopPropagation()
@@ -99,7 +114,7 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate }
 
     function handleClick() {
         if (!isEditing && h2Ref.current) {
-            // Measure h2 height before switching to edit mode
+            // measure h2 height before switching to edit mode
             savedHeightRef.current = h2Ref.current.offsetHeight
             setIsEditing(true)
         }
@@ -108,11 +123,15 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate }
     if (!task) return null
 
     return (
-        <div className="task-details-header">
+        <div className={`task-details-header ${isScrolled ? 'scrolled' : ''}`}>
             <button className="toggle-done-btn" onClick={onToggleStatus}>
                 {task.status === 'done' ?
-                    <img title="Mark incomplete" src={doneIcon} style={{ width: '20px', height: '20px' }} alt="Done" />
-                    : <img title="Mark complete" src={emptyCircleIcon} style={{ width: '20px', height: '20px' }} alt="Not done" />
+                    <LightTooltip title="Mark incomplete">
+                        <img src={doneIcon} style={{ width: '20px', height: '20px' }} alt="Done" />
+                    </LightTooltip>
+                    : <LightTooltip title="Mark complete">
+                        <img src={emptyCircleIcon} style={{ width: '20px', height: '20px' }} alt="Not done" />
+                    </LightTooltip>
                 }
             </button>
             <div className="task-title-wrapper">
@@ -129,6 +148,14 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate }
                     <h2 ref={h2Ref} onClick={handleClick}>{task.title}</h2>
                 )}
             </div>
+            {onOpenPopup && (
+                <button 
+                    className={`btn-add ${isScrolled ? 'visible' : ''}`} 
+                    onClick={(e) => onOpenPopup('add', e)}
+                >
+                    + Add
+                </button>
+            )}
         </div>
     )
 }

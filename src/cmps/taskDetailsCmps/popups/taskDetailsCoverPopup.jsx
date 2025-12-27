@@ -27,7 +27,7 @@ export function TaskDetailsCoverPopup({
   const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
-    // Ensure Unsplash photos are loaded
+    // ensure unsplash photos are loaded
     getPhotos().catch(err => console.error('Failed to load backgrounds', err))
   }, [])
 
@@ -48,7 +48,7 @@ export function TaskDetailsCoverPopup({
     const file = ev.target.files?.[0]
     if (!file) return
 
-    // Validate file type (only images for cover)
+    // validate file type (only images for cover)
     if (!file.type.startsWith('image/')) {
       showErrorMsg('Please select an image file')
       ev.target.value = ''
@@ -57,21 +57,21 @@ export function TaskDetailsCoverPopup({
 
     setIsUploading(true)
     try {
-      // Upload file to Cloudinary via backend
+      // upload file to cloudinary via backend
       const uploadResult = await uploadService.uploadFile(file, {
         folder: 'task-covers',
         resource_type: 'image'
       })
       
       const imageUrl = uploadResult.url || uploadResult.secure_url
-      // Save uploaded image as cover (same shape as Unsplash photos)
+      // save uploaded image as cover (same shape as unsplash photos)
       handleChangeCover({ color: imageUrl, kind: 'photo' })
     } catch (err) {
       console.error('Failed to upload cover image:', err)
       showErrorMsg('Failed to upload image. Please try again.')
     } finally {
       setIsUploading(false)
-      // Reset file input
+      // reset file input
       if (ev.target) ev.target.value = ''
     }
   }
@@ -83,7 +83,7 @@ export function TaskDetailsCoverPopup({
 
   const unsplashPhotos = photosBg.slice(0, 6)
 
-  // Check if position.left + 300 is out of viewport
+  // check if position.left + 300 is out of viewport
   const viewportWidth =
     typeof window !== 'undefined'
       ? window.innerWidth || document.documentElement.clientWidth

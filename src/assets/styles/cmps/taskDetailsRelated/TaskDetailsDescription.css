@@ -43,7 +43,7 @@
   }
 }
 
-/* Quill Editor Text Color */
+/* quill editor text color */
 .ql-editor {
   color: var(--clr-task-txt-dark);
 }
