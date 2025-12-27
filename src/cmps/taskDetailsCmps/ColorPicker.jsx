@@ -157,7 +157,7 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
                     </div>
                 </div>
                 <div className="color-picker-actions">
-                <button onClick={handleSave}>Save</button>
+                <button className="color-picker-save" onClick={handleSave}>Save</button>
                     {isEditMode && (
                         <button className="color-picker-delete" onClick={handleDelete}>Delete</button>
                     )}

@@ -6,6 +6,7 @@ import { updateTask } from '../../../store/actions/task.actions'
 import { loadBoard } from '../../../store/actions/board.actions'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 
+
 export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, position }) {
     const [selectedLabelIds, setSelectedLabelIds] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
@@ -13,19 +14,27 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     const [editingLabel, setEditingLabel] = useState(null)
     const popupRef = useRef(null)
 
+    // Check if we're in board-only mode (no task context)
+    const isBoardOnlyMode = !groupId || !taskId
+
     // get available labels from taskService.getLabels
     const availableLabels = taskService.getLabels(board)
 
-    // get current task labels
+    // get current task labels (only if we have task context)
     useEffect(() => {
-        const task = taskService.getTaskById(board, groupId, taskId)
-        if (task?.labels && Array.isArray(task.labels)) {
-            const labelIds = task.labels.map(label => label.id || label.color)
-            setSelectedLabelIds(labelIds)
+        if (!isBoardOnlyMode) {
+            const task = taskService.getTaskById(board, groupId, taskId)
+            if (task?.labels && Array.isArray(task.labels)) {
+                const labelIds = task.labels.map(label => label.id || label.color)
+                setSelectedLabelIds(labelIds)
+            }
         }
-    }, [board, groupId, taskId])
+    }, [board, groupId, taskId, isBoardOnlyMode])
 
     async function toggleLabel(labelId) {
+        // Only allow toggling if we're in task mode (not board-only mode)
+        if (isBoardOnlyMode) return
+        
         setSelectedLabelIds(prev => {
             const isSelected = prev.includes(labelId)
             const newSelection = isSelected
@@ -47,6 +56,8 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     }
 
     function isLabelSelected(label) {
+        // In board-only mode, no labels are selected
+        if (isBoardOnlyMode) return false
         const labelId = label.id || label.color
         return selectedLabelIds.includes(labelId)
     }
@@ -81,6 +92,85 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
         }
         closeColorPicker()
     }
+    
+    // In board-only mode, render without overlay to fit in board-settings container
+    if (isBoardOnlyMode) {
+        return (
+            <div 
+                ref={popupRef}
+                className="popup-content popup-labels popup-labels-inline" 
+            >
+                <button className="popup-close" onClick={onClose}>×</button>
+                
+                {isColorPickerMode ? (
+                    <ColorPicker
+                        board={board}
+                        groupId={groupId}
+                        taskId={taskId}
+                        label={editingLabel}
+                        onClose={closeColorPicker}
+                        onCloseAll={onClose}
+                        onSave={handleLabelSave}
+                    />
+                ) : (
+                    <>
+                        <h3>Labels</h3>
+                        <form>
+                            <input 
+                                type="text" 
+                                placeholder="Search labels..." 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </form>
+                        <div className="labels-header">
+                            <h5>Labels</h5>
+                            
+                        </div>
+                        
+                        <div className="popup-body popup-labels-body">
+                            {filteredLabels.map((label) => {
+                                const labelId = label.id || label.color
+                                const isSelected = isLabelSelected(label)
+                                return (
+                                    <div 
+                                        key={labelId} 
+                                        className={`label-item ${isSelected ? 'selected' : ''}`}
+                                        onClick={!isBoardOnlyMode ? () => toggleLabel(labelId) : undefined}
+                                    >
+                                        {!isBoardOnlyMode && (
+                                            <input 
+                                                type="checkbox" 
+                                                checked={isSelected}
+                                                onChange={() => toggleLabel(labelId)}
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
+                                        )}
+                                        <div 
+                                            className="label-color" 
+                                            style={{ backgroundColor: label.color }}
+                                        >
+                                            <span>{label.title ||''}</span>
+                                        </div>
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                editLabel(label)
+                                            }}
+                                        >
+                                            <img src={editIcon} alt="edit" />
+                                        </button>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <button className="btn-create-label" onClick={createNewLabel}>Create a new label</button>
+                    </>
+                )}
+            </div>
+        )
+    }
+    
     return (
         <div className="popup-overlay" onClick={onClose}>
             <div 
@@ -128,14 +218,16 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                                     <div 
                                         key={labelId} 
                                         className={`label-item ${isSelected ? 'selected' : ''}`}
-                                        onClick={() => toggleLabel(labelId)}
+                                        onClick={!isBoardOnlyMode ? () => toggleLabel(labelId) : undefined}
                                     >
-                                        <input 
-                                            type="checkbox" 
-                                            checked={isSelected}
-                                            onChange={() => toggleLabel(labelId)}
-                                            onClick={(e) => e.stopPropagation()}
-                                        />
+                                        {!isBoardOnlyMode && (
+                                            <input 
+                                                type="checkbox" 
+                                                checked={isSelected}
+                                                onChange={() => toggleLabel(labelId)}
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
+                                        )}
                                         <div 
                                             className="label-color" 
                                             style={{ backgroundColor: label.color }}

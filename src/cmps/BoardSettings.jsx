@@ -16,7 +16,7 @@ import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
 import { SettingsArchive } from './SettingsArchive'
 import { CloseCheckModal } from './CloseCheckModal'
-
+import { TaskDetailsLabels } from './taskDetailsCmps/popups/taskDetailslabels'
 export function BoardSettings({
   board,
   openHeaderMenu,
@@ -39,6 +39,10 @@ export function BoardSettings({
   const [isArchiveOpen, setIsArchiveOpen] = useState({
     isOpen: false,
     openTo: 'cards',
+  })
+  const [isLabelsOpen, setIsLabelsOpen] = useState({
+    isOpen: false,
+    openTo: '',
   })
   const [selectedColor, setSelectedColor] = useState(board.style.background)
   const photosBg = useSelector(
@@ -88,6 +92,13 @@ export function BoardSettings({
     })
   }
 
+  function toggleLabels() {
+    setIsLabelsOpen({
+      ...isLabelsOpen,
+      isOpen: !isLabelsOpen.isOpen,
+    })
+  }
+
   function toggleArchive() {
     setIsArchiveOpen({
       ...isArchiveOpen,
@@ -111,7 +122,7 @@ export function BoardSettings({
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section className="board-settings" ref={settingsRef}>
-      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && (
+      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && !isLabelsOpen.isOpen && (
         <>
           <header className="board-settings-header">
             <h2>Menu</h2>
@@ -157,7 +168,7 @@ export function BoardSettings({
             </div>
           </div>
 
-          <div className="menu-item">
+          <div onClick={toggleLabels} className="menu-item">
             <img src={labelIcon} />
             <button>Labels</button>
           </div>
@@ -239,6 +250,12 @@ export function BoardSettings({
           board={board}
           openHeaderMenu={openHeaderMenu}
           toggleArchive={toggleArchive}
+        />
+      )}
+      {isLabelsOpen.isOpen && (
+        <TaskDetailsLabels
+          board={board}
+          onClose={toggleLabels}
         />
       )}
     </section>
