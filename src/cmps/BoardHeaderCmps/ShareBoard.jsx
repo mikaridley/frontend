@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
-import { loadUsers } from "../store/actions/user.actions"
+import { loadUsers } from "../../store/actions/user.actions"
 import closeIcon from '../assets/img/close.svg'
 
 export function ShareBoard({ onToggleShare, onUpdateBoard }) {

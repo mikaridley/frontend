@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ShareBoard } from './ShareBoard'
+import { ShareBoard } from '../ShareBoard'
 import { BoardSettings } from './BoardSettings'
 
 import starIcon from '../assets/img/star-white.svg'
