@@ -80,6 +80,17 @@ export function debounce(func, timeout = 300) {
   }
 }
 
+export function getValidValues(obj) {
+  const newObj = {}
+  for (const key in obj) {
+    const value = obj[key]
+    if (value) {
+      newObj[key] = value
+    }
+  }
+  return newObj
+}
+
 export function saveToStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value))
 }

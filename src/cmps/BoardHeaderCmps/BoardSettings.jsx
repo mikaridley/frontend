@@ -1,21 +1,24 @@
-import closeIcon from '../assets/img/close.svg'
-import shareIcon from '../assets/img/share.svg'
-import starIcon from '../assets/img/star.svg'
-import yellowStarIcon from '../assets/img/yellow-star.png'
-import labelIcon from '../assets/img/label.svg'
-import activityIcon from '../assets/img/activity.svg'
-import archiveIcon from '../assets/img/archive.svg'
-import closeBoardIcon from '../assets/img/close-board.svg'
 import { useEffect, useRef, useState } from 'react'
-import { PhotosBackground } from '../addBoardCmps/PhotosBackground'
 import { useSelector } from 'react-redux'
-import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
-import photosImg from '../assets/img/photos.jpg'
-import colorsImg from '../assets/img/colors.png'
+
 import { ColorsBackground } from '../addBoardCmps/ColorsBackground'
-import { getColorsBg, getPhotos } from '../../store/actions/board.actions'
+import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { SettingsArchive } from './SettingsArchive'
+import { PhotosBackground } from '../../cmps/addBoardCmps/PhotosBackground'
+
+import { getColorsBg, getPhotos } from '../../store/actions/board.actions'
 import { CloseCheckModal } from './CloseCheckModal'
+
+import closeIcon from '../../assets/img/close.svg'
+import shareIcon from '../../assets/img/share.svg'
+import starIcon from '../../assets/img/star.svg'
+import yellowStarIcon from '../../assets/img/yellow-star.png'
+import labelIcon from '../../assets/img/label.svg'
+import activityIcon from '../../assets/img/activity.svg'
+import archiveIcon from '../../assets/img/archive.svg'
+import closeBoardIcon from '../../assets/img/close-board.svg'
+import photosImg from '../../assets/img/photos.jpg'
+import colorsImg from '../../assets/img/colors.png'
 
 export function BoardSettings({
   board,

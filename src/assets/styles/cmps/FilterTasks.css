@@ -1,0 +1,6 @@
+.filter-tasks {
+    background-color: var(--clr-group-modal);
+    position: absolute;
+    z-index: 2;
+    top: 0;
+}

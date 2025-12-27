@@ -1,5 +1,6 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
+import { Activity } from 'react'
 import { makeId } from '../util.service'
 
 import { boardService as local } from './board.service.local'
@@ -31,8 +32,19 @@ function getDefaultFilter() {
     }
 }
 
+function getSearchParams(searchParams) {
+    return {
+        txt: searchParams.get('txt') || '',
+        members: searchParams.get('members') || [],
+        status: searchParams.get('status') || [],
+        dueDate: searchParams.get('dueDate') || [],
+        labels: searchParams.get('labels') || [],
+        Activity: searchParams.get('Activity') || [],
+    }
+}
+
 const service = (VITE_LOCAL === 'true') ? local : remote
-export const boardService = { getEmptyBoard, getDefaultFilter, ...service }
+export const boardService = { getEmptyBoard, getDefaultFilter, getSearchParams, ...service }
 
 // Easy access to this service from the dev tools console
 // when using script - dev / dev:local

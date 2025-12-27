@@ -1,4 +1,4 @@
-import closeIcon from '../assets/img/close.svg'
+import closeIcon from '../../assets/img/close.svg'
 
 export function CloseCheckModal({
   onRemove,

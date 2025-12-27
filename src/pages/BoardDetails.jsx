@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
-import { BoardHeader } from '../cmps/BoardHeader'
+import { BoardHeader } from '../cmps/BoardHeaderCmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
 import { taskService } from '../services/task'
 import { Loader } from '../cmps/Loader'
@@ -23,16 +23,24 @@ import {
   SOCKET_EVENT_BOARD_UPDATED,
   socketService,
 } from '../services/socket.service'
+import { boardService } from '../services/board'
+import { useSearchParams } from 'react-router-dom'
+import { getValidValues } from '../services/util.service'
 
 export function BoardDetails() {
   const board = useSelector(storeState => storeState.boardModule.board)
   const { boardId } = useParams()
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [filterBy, setFilterBy] = useState(boardService.getSearchParams(searchParams))
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
     try {
-      loadBoard(boardId)
+      loadBoard(boardId, filterBy)
+      setSearchParams(getValidValues(filterBy))
     } catch (err) {
       console.log('err:', err)
     }
@@ -40,7 +48,7 @@ export function BoardDetails() {
     return () => {
       store.dispatch({ type: SET_BOARD, board: '' })
     }
-  }, [boardId])
+  }, [filterBy])
 
   useEffect(() => {
     socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
@@ -82,6 +90,10 @@ export function BoardDetails() {
     }
   }
 
+  function onSetFilterBy(newFilterBy) {
+    setFilterBy(filterBy => ({ ...filterBy, ...newFilterBy }))
+  }
+
   async function changeBoardColor({ color, kind }) {
     toggleBoardBgLoader()
     const updatedBoard = {
@@ -100,13 +112,10 @@ export function BoardDetails() {
   }
 
   if (!board) return <Loader />
-  // if (!board.style)
-  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  // if (!board.style.background)
-  //   board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const bg =
     board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
+
   taskService.getLabels(board)
 
   return (
@@ -124,6 +133,8 @@ export function BoardDetails() {
         starToggle={starToggle}
         onRemoveBoard={onRemoveBoard}
         changeBoardColor={changeBoardColor}
+        onSetFilterBy={onSetFilterBy}
+        filterBy={filterBy}
       />
       <GroupList />
       <Outlet />
