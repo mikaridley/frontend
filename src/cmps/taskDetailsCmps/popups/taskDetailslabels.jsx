@@ -93,163 +93,102 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
         closeColorPicker()
     }
     
-    // In board-only mode, render without overlay to fit in board-settings container
-    if (isBoardOnlyMode) {
-        return (
-            <div 
-                ref={popupRef}
-                className="popup-content popup-labels popup-labels-inline" 
-            >
-                <button className="popup-close" onClick={onClose}>×</button>
-                
-                {isColorPickerMode ? (
-                    <ColorPicker
-                        board={board}
-                        groupId={groupId}
-                        taskId={taskId}
-                        label={editingLabel}
-                        onClose={closeColorPicker}
-                        onCloseAll={onClose}
-                        onSave={handleLabelSave}
-                    />
-                ) : (
-                    <>
-                        <h3>Labels</h3>
-                        <form>
-                            <input 
-                                type="text" 
-                                placeholder="Search labels..." 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </form>
-                        <div className="labels-header">
-                            <h5>Labels</h5>
-                            
-                        </div>
+    // Shared content for both inline and regular popup modes
+    const popupContent = (
+        <>
+            <button className="popup-close" onClick={onClose}>×</button>
+            
+            {isColorPickerMode ? (
+                <ColorPicker
+                    board={board}
+                    groupId={groupId}
+                    taskId={taskId}
+                    label={editingLabel}
+                    onClose={closeColorPicker}
+                    onCloseAll={onClose}
+                    onSave={handleLabelSave}
+                />
+            ) : (
+                <>
+                    <h3>Labels</h3>
+                    <form>
+                        <input 
+                            type="text" 
+                            placeholder="Search labels..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </form>
+                    <div className="labels-header">
+                        <h5>Labels</h5>
                         
-                        <div className="popup-body popup-labels-body">
-                            {filteredLabels.map((label) => {
-                                const labelId = label.id || label.color
-                                const isSelected = isLabelSelected(label)
-                                return (
+                    </div>
+                    
+                    <div className="popup-body popup-labels-body">
+                        {filteredLabels.map((label) => {
+                            const labelId = label.id || label.color
+                            const isSelected = isLabelSelected(label)
+                            return (
+                                <div 
+                                    key={labelId} 
+                                    className={`label-item ${isSelected ? 'selected' : ''}`}
+                                    onClick={!isBoardOnlyMode ? () => toggleLabel(labelId) : undefined}
+                                >
+                                    {!isBoardOnlyMode && (
+                                        <input 
+                                            type="checkbox" 
+                                            checked={isSelected}
+                                            onChange={() => toggleLabel(labelId)}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                    )}
                                     <div 
-                                        key={labelId} 
-                                        className={`label-item ${isSelected ? 'selected' : ''}`}
-                                        onClick={!isBoardOnlyMode ? () => toggleLabel(labelId) : undefined}
+                                        className="label-color" 
+                                        style={{ backgroundColor: label.color }}
                                     >
-                                        {!isBoardOnlyMode && (
-                                            <input 
-                                                type="checkbox" 
-                                                checked={isSelected}
-                                                onChange={() => toggleLabel(labelId)}
-                                                onClick={(e) => e.stopPropagation()}
-                                            />
-                                        )}
-                                        <div 
-                                            className="label-color" 
-                                            style={{ backgroundColor: label.color }}
-                                        >
-                                            <span>{label.title ||''}</span>
-                                        </div>
-                                        <button 
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                editLabel(label)
-                                            }}
-                                        >
-                                            <img src={editIcon} alt="edit" />
-                                        </button>
+                                        <span>{label.title ||''}</span>
                                     </div>
-                                )
-                            })}
-                        </div>
-                        <button className="btn-create-label" onClick={createNewLabel}>Create a new label</button>
-                    </>
-                )}
-            </div>
-        )
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            editLabel(label)
+                                        }}
+                                    >
+                                        <img src={editIcon} alt="edit" />
+                                    </button>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <button className="btn-create-label" onClick={createNewLabel}>Create a new label</button>
+                </>
+            )}
+        </>
+    )
+
+    // In board-only mode, render without overlay to fit in board-settings container
+    const popupInner = (
+        <div 
+            ref={popupRef}
+            className={`popup-content popup-labels ${isBoardOnlyMode ? 'popup-labels-inline' : ''}`}
+            onClick={!isBoardOnlyMode ? (e) => e.stopPropagation() : undefined}
+            style={!isBoardOnlyMode && position ? {
+                top: `${position.top}px`,
+                left: `${position.left}px`
+            } : {}}
+        >
+            {popupContent}
+        </div>
+    )
+
+    // Conditionally wrap with overlay for non-inline mode
+    if (isBoardOnlyMode) {
+        return popupInner
     }
-    
+
     return (
         <div className="popup-overlay" onClick={onClose}>
-            <div 
-                ref={popupRef}
-                className="popup-content popup-labels" 
-                onClick={(e) => e.stopPropagation()}
-                style={position ? {
-                    top: `${position.top}px`,
-                    left: `${position.left}px`
-                } : {}}
-            >
-                <button className="popup-close" onClick={onClose}>×</button>
-                
-                {isColorPickerMode ? (
-                    <ColorPicker
-                        board={board}
-                        groupId={groupId}
-                        taskId={taskId}
-                        label={editingLabel}
-                        onClose={closeColorPicker}
-                        onCloseAll={onClose}
-                        onSave={handleLabelSave}
-                    />
-                ) : (
-                    <>
-                        <h3>Labels</h3>
-                        <form>
-                            <input 
-                                type="text" 
-                                placeholder="Search labels..." 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </form>
-                        <div className="labels-header">
-                            <h5>Labels</h5>
-                            
-                        </div>
-                        
-                        <div className="popup-body popup-labels-body">
-                            {filteredLabels.map((label) => {
-                                const labelId = label.id || label.color
-                                const isSelected = isLabelSelected(label)
-                                return (
-                                    <div 
-                                        key={labelId} 
-                                        className={`label-item ${isSelected ? 'selected' : ''}`}
-                                        onClick={!isBoardOnlyMode ? () => toggleLabel(labelId) : undefined}
-                                    >
-                                        {!isBoardOnlyMode && (
-                                            <input 
-                                                type="checkbox" 
-                                                checked={isSelected}
-                                                onChange={() => toggleLabel(labelId)}
-                                                onClick={(e) => e.stopPropagation()}
-                                            />
-                                        )}
-                                        <div 
-                                            className="label-color" 
-                                            style={{ backgroundColor: label.color }}
-                                        >
-                                            <span>{label.title ||''}</span>
-                                        </div>
-                                        <button 
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                editLabel(label)
-                                            }}
-                                        >
-                                            <img src={editIcon} alt="edit" />
-                                        </button>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                        <button className="btn-create-label" onClick={createNewLabel}>Create a new label</button>
-                    </>
-                )}
-            </div>
+            {popupInner}
         </div>
     )
 }
