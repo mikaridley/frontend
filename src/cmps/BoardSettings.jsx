@@ -14,7 +14,6 @@ import photosImg from '../assets/img/photos.jpg'
 import colorsImg from '../assets/img/colors.png'
 import { ColorsBackground } from './addBoardCmps/ColorsBackground'
 import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 import { TaskPreview } from './TaskPreview'
 import { removeTask, updateTask } from '../store/actions/task.actions'
 import { showErrorMsg } from '../services/event-bus.service'
@@ -175,14 +174,7 @@ export function BoardSettings({
               {board.members.map(member => {
                 return (
                   <div key={member._id} className="member-photo">
-                    {loggedinUser ? (
-                      <img src={loggedinUser.imgUrl} />
-                    ) : (
-                      <MemberDefaultPhoto
-                        size={25}
-                        memberName={member.fullname}
-                      />
-                    )}
+                    <img src={loggedinUser.imgUrl} />
                   </div>
                 )
               })}

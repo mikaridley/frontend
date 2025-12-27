@@ -11,7 +11,6 @@ import clockDarkImg from '../assets/img/clock-dark.svg'
 import descriptionImg from '../assets/img/description.svg'
 import commentsImg from '../assets/img/comments.svg'
 import attachmentsImg from '../assets/img/attachments.svg'
-import { MemberDefaultPhoto } from './MemberDefaultPhoto'
 
 export function TaskPreview({
   task,
@@ -193,14 +192,7 @@ export function TaskPreview({
                 {task.members.map(member => (
                   <LightTooltip key={member._id} title={member.fullname}>
                     <div className="member-photo">
-                      {loggedinUser ? (
-                        <img src={loggedinUser.imgUrl} />
-                      ) : (
-                        <MemberDefaultPhoto
-                          size={25}
-                          memberName={member.fullname}
-                        />
-                      )}
+                      <img src={loggedinUser.imgUrl} />
                     </div>
                   </LightTooltip>
                 ))}
