@@ -10,7 +10,7 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
     const [newComment, setNewComment] = useState('')
     const [isAddingComment, setIsAddingComment] = useState(false)
 
-    // Update comments when initialComments changes
+    // update comments when initialComments changes
     useEffect(() => {
         setComments(initialComments || [])
     }, [initialComments])

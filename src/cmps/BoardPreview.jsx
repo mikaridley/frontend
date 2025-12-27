@@ -2,11 +2,15 @@ import { useNavigate } from 'react-router'
 
 import starImg from '../assets/img/star.svg'
 import fullStarImg from '../assets/img/full-star.svg'
+import { getCmdAddRecentlyViewedBoard } from '../store/actions/board.actions'
+import { useDispatch } from 'react-redux'
 
 export function BoardPreview({ board, starToggle }) {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   function onOpenBoard() {
+    dispatch(getCmdAddRecentlyViewedBoard(board))
     navigate(`/board/${board._id}`)
   }
 
@@ -14,9 +18,6 @@ export function BoardPreview({ board, starToggle }) {
     ev.stopPropagation()
     starToggle(board)
   }
-// if board.style is not defined
-  if (!board.style) board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  if (!board.style.background) board.style.background = { kind: 'solid', color: '#0079bf' }
 
   const { style } = board
   const kind =

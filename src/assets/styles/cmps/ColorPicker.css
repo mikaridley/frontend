@@ -1,6 +1,7 @@
 /* Color Picker Styles */
 .color-picker-menu {
     width: 100%;
+    
 }
 
 .color-picker-header {
@@ -15,20 +16,17 @@
 .color-picker-header h4 {
     margin-left: -2.5rem !important;
     font-size: 16px;
-    color: #333;
+    color: var(--clr-task-txt-dark);
     flex: 1;
     text-align: center;
 }
 
-.color-picker-body {
-    padding: 0;
-}
 
 .color-picker-body h5 {
     margin: 16px 0 8px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #333;
+    color: var(--clr-task-txt-dark);
 }
 
 .color-picker-body input[type="text"] {

@@ -10,6 +10,7 @@ export const SET_PHOTOS = 'SET_PHOTOS'
 export const BOARD_UNDO = 'BOARD_UNDO'
 export const TOGGLE_BOARD_BG_LOADER = 'TOGGLE_BOARD_BG_LOADER'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
+export const ADD_RECENTLY_VIEWED_BOARD = 'ADD_RECENTLY_VIEWED_BOARD'
 
 const initialState = {
   boards: [],
@@ -19,6 +20,7 @@ const initialState = {
   lastBoards: [],
   backgroundLoader: false,
   filterBy: getDefaultFilter(),
+  recentlyViewedBoards: [],
 }
 
 export function boardReducer(state = initialState, action) {
@@ -72,6 +74,15 @@ export function boardReducer(state = initialState, action) {
         ...state,
         backgroundLoader: !state.backgroundLoader,
       }
+    case ADD_RECENTLY_VIEWED_BOARD:
+      const filteredBoards = state.recentlyViewedBoards.filter(
+        board => board._id !== action.board._id
+      )
+      newState = {
+        ...state,
+        recentlyViewedBoards: [action.board, ...filteredBoards],
+      }
+      break
     case SET_FILTER_BY:
       return {
         ...state,

@@ -13,24 +13,24 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
         const task = taskService.getTaskById(board, groupId, taskId)
         if (task?.members && Array.isArray(task.members)) {
             const memberIds = task.members
-                .filter(member => member) // Filter out null/undefined members
+                .filter(member => member) // filter out null/undefined members
                 .map(member => member._id || member.id)
-                .filter(id => id) // Filter out any null/undefined IDs
+                .filter(id => id) // filter out any null/undefined ids
             setSelectedMemberIds(memberIds)
         } else {
             setSelectedMemberIds([])
         }
     }, [board, groupId, taskId])
 
-    // Separate members into two groups: task members and non-task members
-    const taskMembers = availableMembers.filter(member =>
+    // separate members into two groups: task members and non-task members
+    const taskMembers = availableMembers.filter(member => 
         selectedMemberIds.includes(member._id)
     )
     const nonTaskMembers = availableMembers.filter(member =>
         !selectedMemberIds.includes(member._id)
     )
 
-    // Filter members based on search term
+    // filter members based on search term
     const filteredTaskMembers = taskMembers.filter(member =>
         member.fullname?.toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -38,8 +38,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
         member.fullname?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    // Keep popup fully visible vertically.
-    popupToViewportHook(popupRef, position)
+  // keep popup fully visible vertically
+  popupToViewportHook(popupRef, position)
 
     async function toggleMember(memberId, e) {
         if (e) e.stopPropagation()
@@ -48,13 +48,13 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
             const newSelection = isSelected
                 ? prev.filter(id => id !== memberId)   //remove memberId from selectedMemberIds
                 : [...prev, memberId]   //add memberId to selectedMemberIds
-
-            // Calculate selected members from new selection
-            const selectedMembers = availableMembers.filter(member =>
+            
+            // calculate selected members from new selection
+            const selectedMembers = availableMembers.filter(member => 
                 newSelection.includes(member._id)
             )
-
-            // Call onSave to update task and TaskDetails members state
+            
+            // call onSave to update task and taskDetails members state
             if (onSave) {
                 onSave('members', selectedMembers)
             }
@@ -85,8 +85,8 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </form>
-
-                    {/* Task Members Section */}
+                    
+                    {/* task members section */}
                     {filteredTaskMembers.length > 0 && (
                         <div className="members-section">
                             <h5>Task Members</h5>
@@ -105,7 +105,7 @@ export function TaskDetailsMembers({ board, groupId, taskId, onClose, onSave, po
                         </div>
                     )}
 
-                    {/* Non-Task Members Section */}
+                    {/* non-task members section */}
                     {filteredNonTaskMembers.length > 0 && (
                         <div className="members-section">
                             <h5>Board Members</h5>

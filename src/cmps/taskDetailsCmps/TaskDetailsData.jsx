@@ -4,6 +4,7 @@ import { showErrorMsg } from "../../services/event-bus.service.js"
 import arrowIcon from '../../assets/imgs/icons/arrow_right.svg'
 import { getMemberInitials, isImageFile, getFileIcon } from '../../services/util.service'
 import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
+import { LightTooltip } from '../LightToolTip'
 
 export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate, onAttachmentsUpdate }) {
 
@@ -32,9 +33,13 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                     <div
                                         key={member._id}
                                         className="member-tag"
-                                    //add later onClick - open member's details popup
+                                        // add later onClick - open member's details popup
                                     >
-                                        <img src={member.imgUrl} className="member-avatar" />
+                                        <LightTooltip title={member.fullname}>
+                                            <div className="member-avatar">
+                                                {getMemberInitials(member.fullname)}
+                                            </div>
+                                        </LightTooltip>
                                     </div>
                                 ))}
                                 <button className="btn-add-label" onClick={(e) => onOpenPopup('members', e)}> + </button>
@@ -62,7 +67,14 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                     {dates && (
                         <div className="dates">
                             <h5>Due date</h5>
-                            <button className="btn-date" onClick={(e) => onOpenPopup('dates', e)}>{new Date(dates.dateTime).toLocaleString()}
+                            <button className="btn-date" onClick={(e) => onOpenPopup('dates', e)}>{new Date(dates.dateTime).toLocaleString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true
+                            })}
                                 <img src={arrowDownIcon} />
                             </button>
                         </div>
@@ -100,7 +112,9 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                         </div>
                                     )}
                                 </div>
-                                <button className="btn-show-attachment" title="Show attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file, attachment.type)}><img src={arrowIcon} alt="show attachment" /></button>
+                                <LightTooltip title="Show attachment">
+                                    <button className="btn-show-attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file, attachment.type)}><img src={arrowIcon} alt="show attachment" /></button>
+                                </LightTooltip>
                                 <button onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
                             </div>
                         ))}

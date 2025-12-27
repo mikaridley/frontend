@@ -2,6 +2,7 @@ import { boardService } from '../../services/board'
 import { store } from '../store'
 import {
   ADD_BOARD,
+  ADD_RECENTLY_VIEWED_BOARD,
   BOARD_UNDO,
   REMOVE_BOARD,
   SET_BOARD,
@@ -35,7 +36,9 @@ export async function loadBoard(boardId) {
 
     if (VITE_LOCAL !== 'true' && loggedinUser && board && board.members) {
       const isUserMember = board.members.some(
-        member => member._id === loggedinUser._id || member.id === loggedinUser._id)
+        member =>
+          member._id === loggedinUser._id || member.id === loggedinUser._id
+      )
 
       if (!isUserMember) {
         board.members.push(loggedinUser)
@@ -185,4 +188,10 @@ export function getCmdBoardBgLoader() {
 }
 export function getCmdSetFilterBt(filterBy) {
   return { type: SET_FILTER_BY, filterBy }
+}
+export function getCmdAddRecentlyViewedBoard(board) {
+  return {
+    type: ADD_RECENTLY_VIEWED_BOARD,
+    board,
+  }
 }
