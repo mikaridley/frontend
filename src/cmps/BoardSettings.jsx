@@ -1,16 +1,3 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-
-import { PopUpHeader } from './addBoardCmps/PopUpHeader'
-import { PhotosBackground } from './addBoardCmps/PhotosBackground'
-import { ColorsBackground } from './addBoardCmps/ColorsBackground'
-import { TaskPreview } from './TaskPreview'
-
-import { getColorsBg, getPhotos } from '../store/actions/board.actions'
-import { removeTask, updateTask } from '../store/actions/task.actions'
-import { removeGroup, updateGroup } from '../store/actions/group.actions'
-import { showErrorMsg } from '../services/event-bus.service'
-
 import closeIcon from '../assets/img/close.svg'
 import shareIcon from '../assets/img/share.svg'
 import starIcon from '../assets/img/star.svg'
