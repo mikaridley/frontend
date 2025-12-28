@@ -72,14 +72,16 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   function demoFunction() {}
 
   function getArchivedTasks() {
-    const archivedTasks = board.groups.flatMap(group =>
-      group.tasks
-        .filter(task => task.archivedAt)
-        .map(task => ({
-          ...task,
-          groupId: group.id,
-        }))
-    )
+    const archivedTasks = board.groups
+      .filter(group => !group.archivedAt)
+      .flatMap(group =>
+        group.tasks
+          .filter(task => task.archivedAt)
+          .map(task => ({
+            ...task,
+            groupId: group.id,
+          }))
+      )
     if (filterBy.length) {
       const archivedTasksFiltered = archivedTasks.filter(task =>
         task.title.toLowerCase().includes(filterBy.toLowerCase())
