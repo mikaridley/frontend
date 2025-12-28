@@ -136,6 +136,9 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
                     <button className="popup-close" onClick={onCloseAll || onClose}>×</button>
                 </div>
             )}
+            <div className="color-picker-preview">
+                <div className="color-picker-preview-color" style={{ backgroundColor: labelColor.color }}></div>
+            </div>
             <div className="color-picker-body">
                 <h5>Title</h5>
                 <input
