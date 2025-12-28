@@ -56,7 +56,7 @@
 
 .color-swatch {
     width: 100%;
-    aspect-ratio: 2.5 / 1;
+    aspect-ratio: 3 / 1.8;
     border-radius: 4px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;

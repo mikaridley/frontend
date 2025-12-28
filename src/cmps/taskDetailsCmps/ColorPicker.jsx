@@ -6,12 +6,12 @@ import { LightTooltip } from '../LightToolTip'
 
 
 const colorPalette = [
-    { 'color': '#2d5a4a', 'title': 'subtle Green' }, { 'color': '#5d4d1f', 'title': 'subtle yellow' }, { 'color': '#6b3c1e', 'title': 'subtle orange' }, { 'color': '#5e2828', 'title': 'subtle red' }, { 'color': '#4a2d5a', 'title': 'subtle purple' },
-    { 'color': '#3d6e5a', 'title': 'green' }, { 'color': '#8b7534', 'title': 'yellow' }, { 'color': '#a0652d', 'title': 'orange' }, { 'color': '#b85745', 'title': 'red' }, { 'color': '#7d5ba6', 'title': 'purple' },
-    { 'color': '#7fccb3', 'title': 'bold green' }, { 'color': '#d4a944', 'title': 'bold yellow' }, { 'color': '#f9a847', 'title': 'bold orange' }, { 'color': '#ff9d88', 'title': 'bold red' }, { 'color': '#c4a3ff', 'title': 'bold purple' },
-    { 'color': '#1a3a6b', 'title': 'subtle blue' }, { 'color': '#2d5866', 'title': 'subtle sky' }, { 'color': '#4a5a2d', 'title': 'subtle lime' }, { 'color': '#5a3047', 'title': 'subtle pink' }, { 'color': '#4a4a4a', 'title': 'subtle black' },
-    { 'color': '#3d6bb3', 'title': 'blue' }, { 'color': '#4a8a9d', 'title': 'sky' }, { 'color': '#6b8c3d', 'title': 'lime' }, { 'color': '#a35a8c', 'title': 'pink' }, { 'color': '#7a7a7a', 'title': 'black' },
-    { 'color': '#7fa8e5', 'title': 'bold blue' }, { 'color': '#7fd4e5', 'title': 'bold sky' }, { 'color': '#b3d97f', 'title': 'bold lime' }, { 'color': '#ff9dcc', 'title': 'bold pink' }, { 'color': '#b3b3b3', 'title': 'bold black' }
+    { 'color': '#164B35', 'title': 'subtle Green' }, { 'color': '#533F04', 'title': 'subtle yellow' }, { 'color': '#693200', 'title': 'subtle orange' }, { 'color': '#5D1F1A', 'title': 'subtle red' }, { 'color': '#48245D', 'title': 'subtle purple' },
+    { 'color': '#216E4E', 'title': 'green' }, { 'color': '#7F5F01', 'title': 'yellow' }, { 'color': '#9E4C00', 'title': 'orange' }, { 'color': '#AE2E24', 'title': 'red' }, { 'color': '#803FA5', 'title': 'purple' },
+    { 'color': '#4BCE97', 'title': 'bold green' }, { 'color': '#DDB30E', 'title': 'bold yellow' }, { 'color': '#FCA700', 'title': 'bold orange' }, { 'color': '#F87168', 'title': 'bold red' }, { 'color': '#C97CF4', 'title': 'bold purple' },
+    { 'color': '#123263', 'title': 'subtle blue' }, { 'color': '#164555', 'title': 'subtle sky' }, { 'color': '#37471F', 'title': 'subtle lime' }, { 'color': '#50253F', 'title': 'subtle pink' }, { 'color': '#4B4D51', 'title': 'subtle black' },
+    { 'color': '#1558BC', 'title': 'blue' }, { 'color': '#206A83', 'title': 'sky' }, { 'color': '#4C6B1F', 'title': 'lime' }, { 'color': '#943D73', 'title': 'pink' }, { 'color': '#63666B', 'title': 'black' },
+    { 'color': '#669DF1', 'title': 'bold blue' }, { 'color': '#6CC3E0', 'title': 'bold sky' }, { 'color': '#94C748', 'title': 'bold lime' }, { 'color': '#E774BB', 'title': 'bold pink' }, { 'color': '#96999E', 'title': 'bold black' }
 ]
 
 export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll, onSave, hideHeader }) {
@@ -73,12 +73,12 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
             // Initialize board.labels with default labels if it's empty
             if (updatedBoard.labels.length === 0) {
                 updatedBoard.labels = [
-                    { color: '#b85745', title: '' },
-                    { color: '#8b7534', title: '' },
-                    { color: '#3d6e5a', title: '' },
-                    { color: '#3d6bb3', title: '' },
-                    { color: '#a35a8c', title: '' },
-                    { color: '#a0652d', title: '' }
+                    { color: '#AE2E24', title: '' },
+                    { color: '#DDB30E', title: '' },
+                    { color: '#216E4E', title: '' },
+                    { color: '#1558BC', title: '' },
+                    { color: '#C97CF4', title: '' },
+                    { color: '#7F5F01', title: '' }
                 ]
             }
 
