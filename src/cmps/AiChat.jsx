@@ -17,7 +17,7 @@ export function AiChat({ addAiBoard }) {
 
     try {
       const aiResult = await sendAICommand(input)
-      const aiMessage = { role: 'ai', content: aiResult }
+      const aiMessage = { role: 'ai', content: 'Working on it...' }
       setMessages(prev => [...prev, aiMessage])
       addAiBoard(aiResult)
     } catch (err) {
