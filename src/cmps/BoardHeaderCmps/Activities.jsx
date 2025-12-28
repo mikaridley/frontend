@@ -2,10 +2,10 @@ import { useState, useMemo } from 'react'
 import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { getMemberInitials } from '../../services/util.service'
 import { ACTIVITY_TYPES } from '../../services/activity.service'
-
+import { useNavigate } from 'react-router-dom'
 export function Activities({ board, onClose }) {
   const [filter, setFilter] = useState('all') // 'all' or 'comments'
-
+  const navigate = useNavigate()
   // Filter activities based on selected tab
   const filteredActivities = useMemo(() => {
     if (!board?.activities) return []
@@ -32,7 +32,7 @@ export function Activities({ board, onClose }) {
       case ACTIVITY_TYPES.BOARD_CREATED:
         return <>created this board</>
       case ACTIVITY_TYPES.BOARD_TITLE_CHANGED:
-        return <>renamed this board from "{activity.oldTitle}" to "{activity.newTitle}"</>
+        return <>renamed this board from {activity.oldTitle} to {activity.newTitle}</>
       case ACTIVITY_TYPES.BOARD_BACKGROUND_CHANGED:
         return <>changed the board background</>
       case ACTIVITY_TYPES.MEMBER_ADDED_TO_BOARD:
@@ -62,23 +62,23 @@ export function Activities({ board, onClose }) {
       
       // Group activities
       case ACTIVITY_TYPES.GROUP_CREATED:
-        return <>created list "{activity.groupTitle}"</>
+        return <>created list {activity.groupTitle}</>
       case ACTIVITY_TYPES.GROUP_RENAMED:
-        return <>renamed list "{activity.oldTitle}" to "{activity.newTitle}"</>
+        return <>renamed list {activity.oldTitle} to {activity.newTitle}</>
       case ACTIVITY_TYPES.GROUP_ARCHIVED:
-        return <>archived list "{activity.groupTitle}"</>
+        return <>archived list {activity.groupTitle}</>
       
       // Task activities
       case ACTIVITY_TYPES.TASK_CREATED:
-        return <>added "{activity.taskTitle}" to "{activity.groupTitle}"</>
+        return <>added "{activity.taskTitle}" to <div onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.groupTitle}</div></>
       case ACTIVITY_TYPES.TASK_TITLE_CHANGED:
-        return <>renamed "{activity.oldTitle}" to "{activity.taskTitle}" in "{activity.groupTitle}"</>
+        return <>renamed "{activity.oldTitle}" to "{activity.taskTitle}" in <div onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.groupTitle}</div></>
       case ACTIVITY_TYPES.TASK_MOVED:
-        return <>moved "{activity.taskTitle}" from "{activity.fromGroupTitle}" to "{activity.toGroupTitle}"</>
+        return <>moved "{activity.taskTitle}" from {activity.fromGroupId} to <div onClick={() => navigate(`/board/${board._id}/${activity.toGroupId}`)}>{activity.toGroupTitle}</div></>
       case ACTIVITY_TYPES.TASK_TRANSFERRED:
         return <>transferred "{activity.taskTitle}" to another board</>
       case ACTIVITY_TYPES.TASK_DELETED:
-        return <>deleted "{activity.taskTitle}" from "{activity.groupTitle}"</>
+        return <>deleted "{activity.taskTitle}" from <div onClick={() => navigate(`/board/${board._id}/${activity.groupId}`)}>{activity.groupTitle}</div></>
       
       // Task detail activities
       case ACTIVITY_TYPES.MEMBER_ADDED_TO_TASK:
@@ -90,7 +90,7 @@ export function Activities({ board, onClose }) {
             ) : (
               'a member'
             )}{' '}
-            to "{activity.taskTitle}"
+            to <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div>
           </>
         )
       case ACTIVITY_TYPES.MEMBER_REMOVED_FROM_TASK:
@@ -102,39 +102,39 @@ export function Activities({ board, onClose }) {
             ) : (
               'a member'
             )}{' '}
-            from "{activity.taskTitle}"
+            from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div>
           </>
         )
       case ACTIVITY_TYPES.LABEL_ADDED_TO_TASK:
-        return <>added label "{activity.labelTitle}" to "{activity.taskTitle}"</>
+        return <>added label "{activity.labelTitle}" to <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.LABEL_REMOVED_FROM_TASK:
-        return <>removed label "{activity.labelTitle}" from "{activity.taskTitle}"</>
+        return <>removed label "{activity.labelTitle}" from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.DUE_DATE_ADDED:
-        return <>set due date for "{activity.taskTitle}"</>
+        return <>set due date for <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.DUE_DATE_CHANGED:
-        return <>changed due date for "{activity.taskTitle}"</>
+        return <>changed due date for <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.DUE_DATE_REMOVED:
-        return <>removed due date from "{activity.taskTitle}"</>
+        return <>removed due date from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div> </>
       case ACTIVITY_TYPES.ATTACHMENT_ADDED:
-        return <>added attachment "{activity.attachmentName}" to "{activity.taskTitle}"</>
+        return <>added attachment "{activity.attachmentName}" to <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.ATTACHMENT_REMOVED:
-        return <>removed attachment "{activity.attachmentName}" from "{activity.taskTitle}"</>
+        return <>removed attachment "{activity.attachmentName}" from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.COMMENT_ADDED:
-        return <>commented on "{activity.taskTitle}"</>
+        return <>commented on <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.COMMENT_REMOVED:
-        return <>removed a comment from "{activity.taskTitle}"</>
+        return <>removed a comment from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.CHECKLIST_ADDED:
-        return <>added checklist "{activity.checklistName}" to "{activity.taskTitle}"</>
+        return <>added checklist "{activity.checklistName}" to <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.CHECKLIST_REMOVED:
-        return <>removed checklist "{activity.checklistName}" from "{activity.taskTitle}"</>
+        return <>removed checklist "{activity.checklistName}" from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.CHECKLIST_ITEM_COMPLETED:
-        return <>completed an item in "{activity.taskTitle}"</>
+        return <>completed an item in <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.CHECKLIST_ITEM_UNCHECKED:
-        return <>unchecked an item in "{activity.taskTitle}"</>
+        return <>unchecked an item in <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.COVER_ADDED:
-        return <>added cover to "{activity.taskTitle}"</>
+        return <>added cover to <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       case ACTIVITY_TYPES.COVER_REMOVED:
-        return <>removed cover from "{activity.taskTitle}"</>
+        return <>removed cover from <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div></>
       
       default:
         return <>performed an action</>

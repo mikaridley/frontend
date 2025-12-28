@@ -61,6 +61,7 @@ export async function removeTask(board, groupId, taskId) {
       taskId,
       taskTitle: task?.title,
       groupTitle: group?.title,
+      groupId,
     })
     
     // update store immediately for optimistic UI update

@@ -16,6 +16,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
       taskTitle: changes.title,
       oldTitle: oldTask?.title,
       groupTitle: group?.title,
+      groupId,
     })
   }
 
@@ -34,6 +35,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         memberName: member.fullname,
         groupTitle: group?.title,
+        groupId,
       })
     })
 
@@ -43,6 +45,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         memberName: member.fullname,
         groupTitle: group?.title,
+        groupId,
       })
     })
   }
@@ -62,6 +65,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         labelTitle: label.title || label.color,
         groupTitle: group?.title,
+        groupId,
       })
     })
 
@@ -71,6 +75,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         labelTitle: label.title || label.color,
         groupTitle: group?.title,
+        groupId,
       })
     })
   }
@@ -83,12 +88,14 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         dueDate: changes.dates.dueDate,
         groupTitle: group?.title,
+        groupId,
       })
     } else if (oldTask?.dates && !changes.dates) {
       logActivity(updatedBoard, ACTIVITY_TYPES.DUE_DATE_REMOVED, {
         taskId,
         taskTitle: newTask?.title,
         groupTitle: group?.title,
+        groupId,
       })
     } else if (
       oldTask?.dates?.dueDate !== changes.dates?.dueDate &&
@@ -100,6 +107,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         oldDueDate: oldTask.dates.dueDate,
         newDueDate: changes.dates.dueDate,
         groupTitle: group?.title,
+        groupId,
       })
     }
   }
@@ -119,6 +127,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         attachmentName: attachment.name,
         groupTitle: group?.title,
+        groupId,
       })
     })
 
@@ -128,6 +137,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         attachmentName: attachment.name,
         groupTitle: group?.title,
+        groupId,
       })
     })
   }
@@ -146,6 +156,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskId,
         taskTitle: newTask?.title,
         groupTitle: group?.title,
+        groupId,
       })
     })
 
@@ -154,6 +165,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskId,
         taskTitle: newTask?.title,
         groupTitle: group?.title,
+        groupId,
       })
     })
   }
@@ -173,6 +185,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         checklistName: checklist.name,
         groupTitle: group?.title,
+        groupId,
       })
     })
 
@@ -182,6 +195,53 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskTitle: newTask?.title,
         checklistName: checklist.name,
         groupTitle: group?.title,
+        groupId,
+      })
+    })
+
+    // Log checklist item checked/unchecked changes
+    const oldChecklists = oldTask?.checklists || []
+    const newChecklists = changes.checklists || []
+    
+    // Check each checklist for item changes
+    newChecklists.forEach(newChecklist => {
+      const oldChecklist = oldChecklists.find(oc => oc.id === newChecklist.id)
+      if (!oldChecklist) return // Skip if checklist is new (already logged above)
+      
+      const oldItems = oldChecklist.items || []
+      const newItems = newChecklist.items || []
+      
+      // Check each item in the new checklist
+      newItems.forEach((newItem, itemIndex) => {
+        const oldItem = oldItems[itemIndex]
+        
+        // Only log if item exists in both old and new, and isChecked status changed
+        if (oldItem && oldItem.text === newItem.text) {
+          const wasChecked = oldItem.isChecked || false
+          const isNowChecked = newItem.isChecked || false
+          
+          if (wasChecked !== isNowChecked) {
+            if (isNowChecked) {
+              logActivity(updatedBoard, ACTIVITY_TYPES.CHECKLIST_ITEM_COMPLETED, {
+                taskId,
+                taskTitle: newTask?.title,
+                checklistName: newChecklist.name,
+                itemText: newItem.text,
+                groupTitle: group?.title,
+                groupId,
+              })
+            } else {
+              logActivity(updatedBoard, ACTIVITY_TYPES.CHECKLIST_ITEM_UNCHECKED, {
+                taskId,
+                taskTitle: newTask?.title,
+                checklistName: newChecklist.name,
+                itemText: newItem.text,
+                groupTitle: group?.title,
+                groupId,
+              })
+            }
+          }
+        }
       })
     })
   }
@@ -193,12 +253,14 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
         taskId,
         taskTitle: newTask?.title,
         groupTitle: group?.title,
+        groupId,
       })
     } else if (!changes.cover && oldTask?.cover) {
       logActivity(updatedBoard, ACTIVITY_TYPES.COVER_REMOVED, {
         taskId,
         taskTitle: newTask?.title,
         groupTitle: group?.title,
+        groupId,
       })
     }
   }
