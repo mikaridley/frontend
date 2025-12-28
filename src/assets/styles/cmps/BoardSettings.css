@@ -35,11 +35,17 @@
       font-size: 0.9rem;
     }
 
-    img {
+    > img {
       margin-right: 1rem;
       width: 1rem;
       height: 1rem;
       cursor: pointer;
+
+      &:hover {
+        background-color: var(--clr-ah-grey-1);
+        box-shadow: 0 0 0 4px var(--clr-ah-grey-1);
+        border-radius: 5px;
+      }
     }
 
     > :nth-child(1) {
