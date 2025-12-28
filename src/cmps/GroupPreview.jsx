@@ -23,13 +23,16 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
 
   useEffect(() => {
     function handleClickOutside(ev) {
-      if (!groupActionsRef.current?.contains(ev.target)) {
+      // Check if click is outside the actions menu AND outside the toggle button
+      if (
+        !groupActionsRef.current?.contains(ev.target) &&
+        !ev.target.closest('.group-header > button')
+      ) {
         setIsActionsOpen(false)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }

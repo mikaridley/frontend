@@ -44,13 +44,16 @@ export function AppHeader() {
 
   useEffect(() => {
     function handleClickOutside(ev) {
-      if (!userRef.current?.contains(ev.target)) {
+      // if click is NOT inside user menu AND NOT on the user button
+      if (
+        !userRef.current?.contains(ev.target) &&
+        !ev.target.closest('.user')
+      ) {
         setIsUserOpen(false)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
