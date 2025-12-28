@@ -91,12 +91,12 @@
 
 .color-picker-actions {
     display: flex;
+    justify-content: space-between;
     gap: 8px;
     margin-top: 20px;
 }
 
 .color-picker-actions button {
-    flex: 1;
     padding: 10px 16px;
     border: none;
     border-radius: 4px;
@@ -116,7 +116,7 @@
 }
 
 .color-picker-actions button:last-child {
-    background-color: #0079bf;
+    background-color: var(--clr-home-btns);
     color: white;
 }
 
@@ -124,3 +124,10 @@
     background-color: #026aa7;
 }
 
+.color-picker-actions .color-picker-save{
+    background-color: var(--clr-home-btns);
+    color: white;
+    &:hover {
+        background-color: var(--clr-home-btns-hover);
+    }
+}
