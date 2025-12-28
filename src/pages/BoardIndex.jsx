@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { BoardList } from '../cmps/BoardList'
 import { boardService } from '../services/board'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
   addBoard,
   loadBoards,

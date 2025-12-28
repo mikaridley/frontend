@@ -76,7 +76,11 @@ export function GroupList() {
       setGroups(updatedGroups)
       setGroup(groupService.getEmptyGroup())
 
-      await updateGroup(board, { ...groupToArchive, archivedAt: Date.now() })
+      await updateGroup(
+        board,
+        { ...groupToArchive, archivedAt: Date.now() },
+        true
+      )
       showSuccessMsg('List archived')
     } catch (err) {
       console.log('err:', err)
@@ -199,8 +203,8 @@ export function GroupList() {
   const activeTask =
     activeType === 'task'
       ? groups
-        .flatMap(group => group.tasks || [])
-        .find(task => task.id === activeId)
+          .flatMap(group => group.tasks || [])
+          .find(task => task.id === activeId)
       : null
 
   return (

@@ -1,6 +1,6 @@
 import { store } from '../store'
 import { groupService } from '../../services/group'
-import { updateBoard } from './board.actions'
+import { getCmdUpdateBoard, updateBoard } from './board.actions'
 import { UPDATE_BOARD } from '../reducers/board.reducer'
 
 export async function addGroup(board, group) {
@@ -17,13 +17,20 @@ export async function addGroup(board, group) {
   }
 }
 
-export async function updateGroup(board, group) {
+export async function updateGroup(board, group, isArchive) {
+  const prevGroup = { ...group, archivedAt: null }
+  const prevBoard = {
+    ...board,
+    groups: board.groups.map(group =>
+      group.id === prevGroup.id ? prevGroup : group
+    ),
+  }
+
+  // const prevBoard = board
   try {
     const updatedBoard = await groupService.updateGroup(board, group)
-    // Update store immediately for optimistic UI update
-    store.dispatch({ type: UPDATE_BOARD, board: updatedBoard })
     // Persist to backend
-    await updateBoard(updatedBoard)
+    await updateBoard(updatedBoard, prevBoard, isArchive)
     return group
   } catch (err) {
     console.log('err:', err)

@@ -84,10 +84,10 @@ export async function addBoard(board) {
   }
 }
 
-export async function updateBoard(board) {
+export async function updateBoard(board, prevBoard, isArchive = false) {
   try {
     const savedBoard = await boardService.save(board)
-    store.dispatch(getCmdUpdateBoard(savedBoard))
+    store.dispatch(getCmdUpdateBoard(savedBoard, prevBoard, isArchive))
     console.log('Board has been saved')
     return savedBoard
   } catch (err) {
@@ -137,6 +137,10 @@ export function setFilterBy(filterBy) {
   store.dispatch(getCmdSetFilterBt(filterBy))
 }
 
+export function undoBoard() {
+  store.dispatch(getCmdBoardUndo())
+}
+
 // Command Creators:
 export function getCmdSetBoards(boards) {
   return {
@@ -168,10 +172,12 @@ export function getCmdAddBoard(board) {
     board,
   }
 }
-export function getCmdUpdateBoard(board) {
+export function getCmdUpdateBoard(board, prevBoard, isArchive = false) {
   return {
     type: UPDATE_BOARD,
     board,
+    prevBoard,
+    isArchive,
   }
 }
 export function getCmdGetPhotos(photos) {

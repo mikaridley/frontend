@@ -15,7 +15,7 @@ import {
   updateBoard,
   updateBoardOptimistic,
 } from '../store/actions/board.actions'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { showErrorMsg } from '../services/event-bus.service'
 import { store } from '../store/store'
 import { SET_BOARD } from '../store/reducers/board.reducer'
 import {
@@ -75,7 +75,6 @@ export function BoardDetails() {
   async function onRemoveBoard(boardId) {
     try {
       await removeBoard(boardId)
-      showSuccessMsg('Board has been removed')
       navigate(`/board`)
     } catch {
       showErrorMsg('Cannot remove board')

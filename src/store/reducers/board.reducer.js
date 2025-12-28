@@ -17,7 +17,7 @@ const initialState = {
   filteredBoards: [],
   board: null,
   backgroundPhotos: [],
-  lastBoards: [],
+  lastBoard: [],
   backgroundLoader: false,
   filterBy: getDefaultFilter(),
   recentlyViewedBoards: [],
@@ -47,7 +47,7 @@ export function boardReducer(state = initialState, action) {
       newState = { ...state, boards: [...state.boards, action.board] }
       break
     case UPDATE_BOARD:
-      const lastBoards = [...state.boards]
+      if (action.isArchive) var lastBoard = { ...action.prevBoard }
       boards = state.boards.map(board =>
         board._id === action.board._id ? action.board : board
       )
@@ -58,16 +58,17 @@ export function boardReducer(state = initialState, action) {
           state.board && state.board._id === action.board._id
             ? action.board
             : state.board,
-        lastBoards,
+        lastBoard,
       }
       break
     case SET_PHOTOS:
       newState = { ...state, backgroundPhotos: action.photos }
       break
     case BOARD_UNDO:
+      console.log('state.lastBoard', state.lastBoard)
       return {
         ...state,
-        boards: [...state.lastBoards],
+        board: state.lastBoard,
       }
     case TOGGLE_BOARD_BG_LOADER:
       return {

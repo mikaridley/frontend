@@ -2,6 +2,7 @@ import { eventBus } from '../services/event-bus.service'
 import { useState, useEffect, useRef } from 'react'
 import closeImg from '../assets/img/close.svg'
 import userMessageImg from '../assets/img/user-message.svg'
+import { undoBoard } from '../store/actions/board.actions'
 
 export function UserMsg() {
   const [msg, setMsg] = useState(null)
@@ -27,7 +28,7 @@ export function UserMsg() {
   }
 
   function onUndoBoard() {
-    // undoBoard()
+    undoBoard()
   }
 
   return (
