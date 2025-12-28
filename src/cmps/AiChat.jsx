@@ -29,10 +29,14 @@ export function AiChat({ addAiBoard }) {
     }
   }
 
+  function toggleIsOpen() {
+    setIsOpen(prev => !prev)
+  }
+
   return (
     <div className={`ai-chat ${isOpen ? 'open' : 'closed'}`}>
-      <button className="toggle-btn" onClick={() => setIsOpen(prev => !prev)}>
-        AI
+      <button className="toggle-btn" onClick={toggleIsOpen}>
+        Ai
       </button>
 
       {isOpen && (

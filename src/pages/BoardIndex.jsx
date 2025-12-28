@@ -73,10 +73,7 @@ export function BoardIndex() {
     const boardToSave = boardService.getEmptyBoard()
     boardToSave.members = [loggedinUser]
     boardToSave.title = boardObject.title
-    boardToSave.style.background = {
-      color: getRandomColor() || '#0079bf',
-      kind: 'solid',
-    }
+    boardToSave.style.background = getRandomColor()
 
     if (loggedinUser)
       boardToSave.createdBy = {
@@ -111,12 +108,6 @@ export function BoardIndex() {
 
   function changeColor({ color, kind }) {
     setNewBoardColor({ color, kind })
-  }
-
-  function handleCreateBoardFromAI(boardData) {
-    // optional: call your addBoard function
-    console.log(boardData)
-    _addBoard(boardData)
   }
 
   if (!boards) return <Loader />

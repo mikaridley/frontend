@@ -99,9 +99,15 @@ export function getMemberInitials(fullname) {
 }
 
 export function getRandomColor() {
-  const colors = boardService.getBackgrounds().solidColors
-  const index = getRandomIntInclusive(0, colors.length - 1)
-  return colors[index]
+  const solidColors = boardService.getBackgrounds().solidColors
+  const index = getRandomIntInclusive(0, solidColors.length - 1)
+  const gradientColors = boardService.getBackgrounds().gradientColors
+  const index2 = getRandomIntInclusive(0, gradientColors.length - 1)
+  const result =
+    Math.random() < 0.5
+      ? { color: solidColors[index], kind: 'solid' }
+      : { color: gradientColors[index2], kind: 'gradient' }
+  return result
 }
 
 // Helper function to check if a file type is an image
