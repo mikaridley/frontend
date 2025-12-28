@@ -14,7 +14,7 @@ const colorPalette = [
     { 'color': '#7fa8e5', 'title': 'bold blue' }, { 'color': '#7fd4e5', 'title': 'bold sky' }, { 'color': '#b3d97f', 'title': 'bold lime' }, { 'color': '#ff9dcc', 'title': 'bold pink' }, { 'color': '#b3b3b3', 'title': 'bold black' }
 ]
 
-export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll, onSave }) {
+export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll, onSave, hideHeader }) {
     const [labelTitle, setLabelTitle] = useState(label?.title || '')
     const [labelColor, setLabelColor] = useState(   //current selected label color
         label?.color //if label has a color, find the color in the color palette, if not, use the first color
@@ -127,13 +127,15 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
 
     return (
         <div className="color-picker-menu">
-            <div className="color-picker-header">
-                <button className="color-picker-close" onClick={onClose}>
-                    <span style={{ pointerEvents: 'none' }}>&lt;</span>
-                </button>
-                <h4>{isEditMode ? 'Edit Label' : 'Create Label'}</h4>
-                <button className="popup-close" onClick={onCloseAll || onClose}>×</button>
-            </div>
+            {!hideHeader && (
+                <div className="color-picker-header">
+                    <button className="color-picker-close" onClick={onClose}>
+                        <span style={{ pointerEvents: 'none' }}>&lt;</span>
+                    </button>
+                    <h4>{isEditMode ? 'Edit Label' : 'Create Label'}</h4>
+                    <button className="popup-close" onClick={onCloseAll || onClose}>×</button>
+                </div>
+            )}
             <div className="color-picker-body">
                 <h5>Title</h5>
                 <input
