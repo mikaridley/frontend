@@ -24,8 +24,8 @@ import { groupService } from '../services/group/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import closeIcon from '../assets/img/close.svg'
 
-export function GroupList() {
-  const board = useSelector(storeState => storeState.boardModule.board)
+export function GroupList({ board }) {
+  // const board = useSelector(storeState => storeState.boardModule.board)
   const [group, setGroup] = useState(groupService.getEmptyGroup())
   const [isAddingGroup, setIsAddingGroup] = useState(false)
 

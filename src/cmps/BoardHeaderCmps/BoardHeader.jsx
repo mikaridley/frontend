@@ -67,7 +67,11 @@ export function BoardHeader({
           <img src={filterIcon} />
         </button>
         {isFilterOpen &&
-          <FilterTasks onSetFilterBy={onSetFilterBy} filterBy={filterBy} />
+          <FilterTasks
+            onSetFilterBy={onSetFilterBy}
+            filterBy={filterBy}
+            onToggleFilter={onToggleFilter}
+          />
         }
 
         <button className="header-star" onClick={onToggleStar}>
