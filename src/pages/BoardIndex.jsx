@@ -18,6 +18,8 @@ import {
   getCmdAddBoard,
   getCmdRemoveBoard,
 } from '../store/actions/board.actions'
+import { AiChat } from '../cmps/AiChat'
+import { getRandomColor, makeId } from '../services/util.service'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
@@ -64,6 +66,40 @@ export function BoardIndex() {
     navigate(`/board/${savedBoard._id}`)
   }
 
+  async function addAiBoard(board) {
+    const boardObject = JSON.parse(board)
+    console.log(boardObject)
+
+    const boardToSave = boardService.getEmptyBoard()
+    boardToSave.members = [loggedinUser]
+    boardToSave.title = boardObject.title
+    boardToSave.style.background = {
+      color: getRandomColor() || '#0079bf',
+      kind: 'solid',
+    }
+
+    if (loggedinUser)
+      boardToSave.createdBy = {
+        _id: loggedinUser._id,
+        fullname: loggedinUser.fullname,
+        imgUrl: loggedinUser.imgUrl,
+      }
+
+    if (boardObject.groups && boardObject.groups.length) {
+      boardToSave.groups = boardObject.groups.map(group => ({
+        id: makeId(), // generate unique ID for the group
+        title: group.title,
+        tasks: group.tasks.map(task => ({
+          id: makeId(), // generate unique ID for each task
+          title: task.title,
+        })),
+      }))
+    }
+
+    const savedBoard = await addBoard(boardToSave)
+    navigate(`/board/${savedBoard._id}`)
+  }
+
   async function starToggle(board) {
     board.isStarred = !board.isStarred
     try {
@@ -77,6 +113,12 @@ export function BoardIndex() {
     setNewBoardColor({ color, kind })
   }
 
+  function handleCreateBoardFromAI(boardData) {
+    // optional: call your addBoard function
+    console.log(boardData)
+    _addBoard(boardData)
+  }
+
   if (!boards) return <Loader />
   return (
     <section className="board-index">
@@ -86,6 +128,7 @@ export function BoardIndex() {
         starToggle={starToggle}
         changeColor={changeColor}
       />
+      <AiChat addAiBoard={addAiBoard} />
     </section>
   )
 }

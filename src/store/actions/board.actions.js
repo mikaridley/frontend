@@ -141,6 +141,16 @@ export function undoBoard() {
   store.dispatch(getCmdBoardUndo())
 }
 
+export async function sendAICommand(prompt) {
+  try {
+    const res = await boardService.aiCommand(prompt)
+    return res.result
+  } catch (err) {
+    console.log('AI command failed:', err)
+    throw err
+  }
+}
+
 // Command Creators:
 export function getCmdSetBoards(boards) {
   return {
