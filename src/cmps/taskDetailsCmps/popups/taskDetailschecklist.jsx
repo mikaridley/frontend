@@ -3,7 +3,7 @@ import { taskService } from '../../../services/task'
 import { showErrorMsg } from '../../../services/event-bus.service'
 import { updateTask } from '../../../store/actions/task.actions'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
-
+import checklistIcon from '../../../assets/imgs/icons/checkbox.svg'
 export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, position }) {
     const [checklistTitle, setChecklistTitle] = useState('')
     const popupRef = useRef(null)
@@ -148,6 +148,11 @@ export function TaskChecklistsDisplay({
         <div className="checklists">
             {checklists.map(checklist => {
                 const isEditingName = editing?.type === 'name' && editing.checklistId === checklist.id
+                const items = checklist.items || []
+                const checkedCount = items.filter(item => item.isChecked).length
+                const totalCount = items.length
+                const progressPercentage = totalCount > 0 ? (checkedCount / totalCount) * 100 : 0
+                
                 return (
                 <div key={checklist.id} className="checklist">
                     {isEditingName ? (
@@ -178,8 +183,21 @@ export function TaskChecklistsDisplay({
                             autoFocus
                         />
                     ) : (
+                        <div className="checklist-name">
+                        <img src={checklistIcon} className="checklist-icon" />
                         <h6 onClick={() => startEdit('name', checklist.id, checklist.name)}>{checklist.name}</h6>
+                        </div>
                     )}
+                    <div className="checklist-progress">
+                        <span className="progress-percentage">
+                            {progressPercentage.toFixed(0)}%
+                        </span>
+                        <progress 
+                            value={progressPercentage} 
+                            max="100"
+                            className={progressPercentage === 100 ? 'complete' : ''}
+                        ></progress>
+                    </div>
                     {checklist.items && checklist.items.map((item, index) => {
                         const isEditingItem = editing?.type === 'item' && editing.checklistId === checklist.id && editing.itemIndex === index
                         return (

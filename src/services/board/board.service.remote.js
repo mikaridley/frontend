@@ -189,5 +189,6 @@ function getEmptyBoard() {
       },
     ],
     groups: [],
+    activities: [],
   }
 }

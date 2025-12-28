@@ -5,6 +5,7 @@ import { ColorPicker } from '../ColorPicker'
 import { updateTask } from '../../../store/actions/task.actions'
 import { loadBoard } from '../../../store/actions/board.actions'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
+import { PopUpHeader } from '../../addBoardCmps/PopUpHeader'
 
 
 export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, position }) {
@@ -96,21 +97,40 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     // Shared content for both inline and regular popup modes
     const popupContent = (
         <>
-            <button className="popup-close" onClick={onClose}>×</button>
-            
             {isColorPickerMode ? (
-                <ColorPicker
-                    board={board}
-                    groupId={groupId}
-                    taskId={taskId}
-                    label={editingLabel}
-                    onClose={closeColorPicker}
-                    onCloseAll={onClose}
-                    onSave={handleLabelSave}
-                />
+                <>
+                    {isBoardOnlyMode && (
+                        <PopUpHeader 
+                            onBack={closeColorPicker}
+                            onClose={onClose}
+                            header={editingLabel ? 'Edit label' : 'Create label'}
+                        />
+                    )}
+                    <ColorPicker
+                        board={board}
+                        groupId={groupId}
+                        taskId={taskId}
+                        label={editingLabel}
+                        onClose={closeColorPicker}
+                        onCloseAll={onClose}
+                        onSave={handleLabelSave}
+                        hideHeader={isBoardOnlyMode}
+                    />
+                </>
             ) : (
                 <>
-                    <h3>Labels</h3>
+                    {isBoardOnlyMode ? (
+                        <PopUpHeader 
+                            onBack={onClose}
+                            onClose={onClose}
+                            header="Labels"
+                        />
+                    ) : (
+                        <>
+                            <button className="popup-close" onClick={onClose}>×</button>
+                            <h3>Labels</h3>
+                        </>
+                    )}
                     <form>
                         <input 
                             type="text" 
