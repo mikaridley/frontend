@@ -13,6 +13,7 @@ import {
   TOGGLE_BOARD_BG_LOADER,
   UPDATE_BOARD,
 } from '../reducers/board.reducer'
+import { ACTIVITY_TYPES, logActivity } from '../../services/activity.service'
 
 const { VITE_LOCAL } = import.meta.env
 
