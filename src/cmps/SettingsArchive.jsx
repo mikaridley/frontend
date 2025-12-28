@@ -38,6 +38,7 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   }
 
   async function onDeleteTask(groupId, taskId) {
+    setIsRemoveModalOpen(false)
     try {
       await removeTask(board, groupId, taskId)
     } catch (err) {
@@ -57,6 +58,7 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   }
 
   async function onDeleteGroup(group) {
+    setIsRemoveModalOpen(false)
     try {
       await removeGroup(board, group.id)
     } catch (err) {
@@ -104,6 +106,7 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   }
 
   function onToggleRemoveModal(ev, id) {
+    setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)
     const rect = ev.currentTarget.getBoundingClientRect()
     setModalPosition({
       top: rect.bottom + window.scrollY, // below the button
@@ -111,7 +114,6 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
     })
     setTaskForDelete(id)
     setGroupForDelete(id)
-    setIsRemoveModalOpen(isRemoveModalOpen => !isRemoveModalOpen)
   }
 
   return (
