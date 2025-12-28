@@ -32,6 +32,7 @@
 @import 'cmps/BoardSettings.css';
 @import 'cmps/ShareBoard.css';
 @import 'cmps/FilterTasks.css';
+@import 'cmps/Activities.css';
 
 /* Group */
 @import 'cmps/GroupList.css';

@@ -73,12 +73,12 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
             // Initialize board.labels with default labels if it's empty
             if (updatedBoard.labels.length === 0) {
                 updatedBoard.labels = [
-                    { color: '#AE2E24', title: '' },
-                    { color: '#DDB30E', title: '' },
-                    { color: '#216E4E', title: '' },
-                    { color: '#1558BC', title: '' },
-                    { color: '#C97CF4', title: '' },
-                    { color: '#7F5F01', title: '' }
+                    { color: '#AE2E24', title: 'red' },
+                    { color: '#DDB30E', title: 'bold yellow' },
+                    { color: '#216E4E', title: 'green' },
+                    { color: '#1558BC', title: 'blue' },
+                    { color: '#C97CF4', title: 'bold purple' },
+                    { color: '#7F5F01', title: 'yellow' }
                 ]
             }
 

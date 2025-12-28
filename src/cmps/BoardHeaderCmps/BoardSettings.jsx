@@ -7,6 +7,7 @@ import { SettingsArchive } from './SettingsArchive'
 import { PhotosBackground } from '../../cmps/addBoardCmps/PhotosBackground'
 import { TaskDetailsLabels } from '../taskDetailsCmps/popups/taskDetailslabels'
 import { CloseCheckModal } from './CloseCheckModal'
+import { Activities } from './Activities'
 
 import { getColorsBg, getPhotos } from '../../store/actions/board.actions'
 
@@ -38,6 +39,10 @@ export function BoardSettings({
   const [isArchiveOpen, setIsArchiveOpen] = useState({
     isOpen: false,
     openTo: 'cards',
+  })
+  const [isActivityOpen, setIsActivityOpen] = useState({
+    isOpen: false,
+    openTo: '',
   })
   const [isLabelsOpen, setIsLabelsOpen] = useState({
     isOpen: false,
@@ -98,6 +103,13 @@ export function BoardSettings({
     })
   }
 
+  function toggleActivity() {
+    setIsActivityOpen({
+      ...isActivityOpen,
+      isOpen: !isActivityOpen.isOpen,
+    })
+  }
+
   function toggleArchive() {
     setIsArchiveOpen({
       ...isArchiveOpen,
@@ -121,7 +133,7 @@ export function BoardSettings({
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section className="board-settings" ref={settingsRef}>
-      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && !isLabelsOpen.isOpen && (
+      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && !isLabelsOpen.isOpen && !isActivityOpen.isOpen && (
         <>
           <header className="board-settings-header">
             <h2>Menu</h2>
@@ -172,7 +184,7 @@ export function BoardSettings({
             <button>Labels</button>
           </div>
 
-          <div className="menu-item">
+          <div onClick={toggleActivity} className="menu-item">
             <img src={activityIcon} />
             <button>Activity</button>
           </div>
@@ -255,6 +267,12 @@ export function BoardSettings({
         <TaskDetailsLabels
           board={board}
           onClose={toggleLabels}
+        />
+      )}
+      {isActivityOpen.isOpen && (
+        <Activities
+          board={board}
+          onClose={toggleActivity}
         />
       )}
     </section>

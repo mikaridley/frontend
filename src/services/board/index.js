@@ -23,6 +23,7 @@ function getEmptyBoard() {
         labels: [],
         members: [],
         groups: [],
+        activities: [],
     }
 }
 
