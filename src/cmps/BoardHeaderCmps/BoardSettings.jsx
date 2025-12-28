@@ -1,22 +1,27 @@
-import closeIcon from '../assets/img/close.svg'
-import shareIcon from '../assets/img/share.svg'
-import starIcon from '../assets/img/star.svg'
-import yellowStarIcon from '../assets/img/yellow-star.png'
-import labelIcon from '../assets/img/label.svg'
-import activityIcon from '../assets/img/activity.svg'
-import archiveIcon from '../assets/img/archive.svg'
-import closeBoardIcon from '../assets/img/close-board.svg'
 import { useEffect, useRef, useState } from 'react'
-import { PhotosBackground } from './addBoardCmps/PhotosBackground'
 import { useSelector } from 'react-redux'
-import { PopUpHeader } from './addBoardCmps/PopUpHeader'
-import photosImg from '../assets/img/photos.jpg'
-import colorsImg from '../assets/img/colors.png'
-import { ColorsBackground } from './addBoardCmps/ColorsBackground'
-import { getColorsBg, getPhotos } from '../store/actions/board.actions'
+
+import { ColorsBackground } from '../addBoardCmps/ColorsBackground'
+import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { SettingsArchive } from './SettingsArchive'
+import { PhotosBackground } from '../../cmps/addBoardCmps/PhotosBackground'
+import { TaskDetailsLabels } from '../taskDetailsCmps/popups/taskDetailslabels'
 import { CloseCheckModal } from './CloseCheckModal'
-import { TaskDetailsLabels } from './taskDetailsCmps/popups/taskDetailslabels'
+import { Activities } from './Activities'
+
+import { getColorsBg, getPhotos } from '../../store/actions/board.actions'
+
+import closeIcon from '../../assets/img/close.svg'
+import shareIcon from '../../assets/img/share.svg'
+import starIcon from '../../assets/img/star.svg'
+import yellowStarIcon from '../../assets/img/yellow-star.png'
+import labelIcon from '../../assets/img/label.svg'
+import activityIcon from '../../assets/img/activity.svg'
+import archiveIcon from '../../assets/img/archive.svg'
+import closeBoardIcon from '../../assets/img/close-board.svg'
+import photosImg from '../../assets/img/photos.jpg'
+import colorsImg from '../../assets/img/colors.png'
+
 export function BoardSettings({
   board,
   openHeaderMenu,
@@ -26,11 +31,6 @@ export function BoardSettings({
   changeBoardColor,
   onToggleShare,
 }) {
-  // if (!board.style)
-  //   board.style = { background: { kind: 'solid', color: '#0079bf' } }
-  // if (!board.style.background)
-  //   board.style.background = { kind: 'solid', color: '#0079bf' }
-
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [isChangeBackgroundOpen, setIsChangeBackgroundOpen] = useState({
     isOpen: false,
@@ -39,6 +39,10 @@ export function BoardSettings({
   const [isArchiveOpen, setIsArchiveOpen] = useState({
     isOpen: false,
     openTo: 'cards',
+  })
+  const [isActivityOpen, setIsActivityOpen] = useState({
+    isOpen: false,
+    openTo: '',
   })
   const [isLabelsOpen, setIsLabelsOpen] = useState({
     isOpen: false,
@@ -99,6 +103,13 @@ export function BoardSettings({
     })
   }
 
+  function toggleActivity() {
+    setIsActivityOpen({
+      ...isActivityOpen,
+      isOpen: !isActivityOpen.isOpen,
+    })
+  }
+
   function toggleArchive() {
     setIsArchiveOpen({
       ...isArchiveOpen,
@@ -122,7 +133,7 @@ export function BoardSettings({
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section className="board-settings" ref={settingsRef}>
-      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && !isLabelsOpen.isOpen && (
+      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && !isLabelsOpen.isOpen && !isActivityOpen.isOpen && (
         <>
           <header className="board-settings-header">
             <h2>Menu</h2>
@@ -173,7 +184,7 @@ export function BoardSettings({
             <button>Labels</button>
           </div>
 
-          <div className="menu-item">
+          <div onClick={toggleActivity} className="menu-item">
             <img src={activityIcon} />
             <button>Activity</button>
           </div>
@@ -256,6 +267,12 @@ export function BoardSettings({
         <TaskDetailsLabels
           board={board}
           onClose={toggleLabels}
+        />
+      )}
+      {isActivityOpen.isOpen && (
+        <Activities
+          board={board}
+          onClose={toggleActivity}
         />
       )}
     </section>

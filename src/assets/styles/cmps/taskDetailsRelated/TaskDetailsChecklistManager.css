@@ -15,6 +15,49 @@
   color: var(--clr-task-txt);
 }
 
+/* progress bar styles */
+.checklist-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-percentage {
+  color: var(--clr-task-txt);
+  font-size: 14px;
+  min-width: 40px;
+}
+
+.checklist-progress progress {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  accent-color: white;
+}
+
+.checklist-progress progress::-webkit-progress-value {/* for chrome */
+  background-color: white;
+}
+
+.checklist-progress progress::-moz-progress-bar {/* for firefox */
+  background-color: white;
+}
+
+.checklist-progress progress.complete {
+  accent-color: var(--clr-task-done);
+}
+
+.checklist-progress progress.complete::-webkit-progress-value {/* for chrome */
+  background-color: var(--clr-task-done);
+}
+
+.checklist-progress progress.complete::-moz-progress-bar {/* for firefox */
+  background-color: var(--clr-task-done);
+}
+
+
 .checklist-item {
   display: flex;
   align-items: center;
@@ -226,4 +269,14 @@
 
 .edit-checklist-name-input:focus {
   outline-color: #5ba4cf;
+}
+
+.checklist-icon{
+  width: 16px;
+  height: 16px;
+  color: var(--clr-task-txt);
+}
+.checklist-name{
+  display: flex;
+  gap: 0.5rem;
 }

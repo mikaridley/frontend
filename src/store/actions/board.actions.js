@@ -76,6 +76,8 @@ export async function removeBoard(boardId) {
 export async function addBoard(board) {
   try {
     const savedBoard = await boardService.save(board)
+    logActivity(savedBoard, ACTIVITY_TYPES.BOARD_CREATED, { boardTitle: savedBoard.title })
+    await boardService.save(savedBoard)
     store.dispatch(getCmdAddBoard(savedBoard))
     return savedBoard
   } catch (err) {
@@ -86,6 +88,18 @@ export async function addBoard(board) {
 
 export async function updateBoard(board, prevBoard, isArchive = false) {
   try {
+    // check if title changed
+    const oldBoard = store.getState().boardModule.board
+    if (oldBoard && board.title !== oldBoard.title) {
+      logActivity(board, ACTIVITY_TYPES.BOARD_TITLE_CHANGED, { 
+        oldTitle: oldBoard.title, 
+        newTitle: board.title 
+      })
+    }
+    // check if background changed
+    if (oldBoard && JSON.stringify(board.style?.background) !== JSON.stringify(oldBoard.style?.background)) {
+      logActivity(board, ACTIVITY_TYPES.BOARD_BACKGROUND_CHANGED)
+    }
     const savedBoard = await boardService.save(board)
     store.dispatch(getCmdUpdateBoard(savedBoard, prevBoard, isArchive))
     console.log('Board has been saved')

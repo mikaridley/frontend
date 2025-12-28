@@ -20,6 +20,7 @@ import { Loader } from './Loader.jsx'
 export function TaskDetails() {
     const { boardId, groupId, taskId } = useParams()
     const board = useSelector(storeState => storeState.boardModule.board)
+    const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
     const [task, setTask] = useState(null)
     const [activePopup, setActivePopup] = useState(null)
     const navigate = useNavigate()

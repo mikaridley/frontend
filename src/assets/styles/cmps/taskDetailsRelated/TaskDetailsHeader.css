@@ -77,6 +77,7 @@
   width: 100%;
   border: 2px solid transparent;
   box-sizing: border-box;
+  font-size: xx-large;
 }
 
 .task-details-header h2:hover {

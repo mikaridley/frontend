@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react'
-import { showErrorMsg } from '../services/event-bus.service'
-import { removeGroup, updateGroup } from '../store/actions/group.actions'
-import { removeTask, updateTask } from '../store/actions/task.actions'
-import { PopUpHeader } from './addBoardCmps/PopUpHeader'
-import { TaskPreview } from './TaskPreview'
-import deleteImg from '../assets/img/delete.svg'
-import restoreImg from '../assets/img/restore.svg'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
+
+import { TaskPreview } from '../TaskPreview'
+import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { CloseCheckModal } from './CloseCheckModal'
+
+import { removeGroup, updateGroup } from '../../store/actions/group.actions'
+import { removeTask, updateTask } from '../../store/actions/task.actions'
+import { showErrorMsg } from '../../services/event-bus.service'
+import deleteImg from '../../assets/img/delete.svg'
+import restoreImg from '../../assets/img/restore.svg'
 
 export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
   const [isArchiveOpen, setIsArchiveOpen] = useState({
@@ -71,7 +72,7 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
     setFilterBy(target.value)
   }
 
-  function demoFunction() {}
+  function demoFunction() { }
 
   function getArchivedTasks() {
     const archivedTasks = board.groups
@@ -130,11 +131,10 @@ export function SettingsArchive({ openHeaderMenu, board, toggleArchive }) {
           onChange={handleChange}
           value={filterBy}
         />
-        <button type="button" onClick={toggleArchiveopenTo}>{`${
-          isArchiveOpen.openTo === 'cards'
+        <button type="button" onClick={toggleArchiveopenTo}>{`${isArchiveOpen.openTo === 'cards'
             ? 'Switch to lists'
             : 'Switch to cards'
-        }`}</button>
+          }`}</button>
       </form>
       {isArchiveOpen.openTo === 'cards' ? (
         <div>
