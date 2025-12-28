@@ -3,4 +3,29 @@
     position: absolute;
     z-index: 2;
     top: 0;
+
+    font-size: .875rem;
+    color: var(--clr-group-txt);
+
+    >.filter-header {
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+
+        >h1 {
+            grid-column: 2;
+        }
+
+        >button {
+            background-color: inherit;
+            justify-self: end;
+
+            width: 2rem;
+            height: 2rem;
+
+            >img {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router'
+import { useSearchParams } from 'react-router-dom'
 
 import { BoardHeader } from '../cmps/BoardHeaderCmps/BoardHeader'
 import { GroupList } from '../cmps/GroupList'
@@ -15,6 +16,8 @@ import {
   updateBoard,
   updateBoardOptimistic,
 } from '../store/actions/board.actions'
+import { boardService } from '../services/board'
+import { getValidValues } from '../services/util.service'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { store } from '../store/store'
 import { SET_BOARD } from '../store/reducers/board.reducer'
@@ -23,9 +26,6 @@ import {
   SOCKET_EVENT_BOARD_UPDATED,
   socketService,
 } from '../services/socket.service'
-import { boardService } from '../services/board'
-import { useSearchParams } from 'react-router-dom'
-import { getValidValues } from '../services/util.service'
 
 export function BoardDetails() {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -33,22 +33,24 @@ export function BoardDetails() {
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [filterBy, setFilterBy] = useState(boardService.getSearchParams(searchParams))
+  const [filteredBoard, setFilteredBoard] = useState(board)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
     try {
-      loadBoard(boardId, filterBy)
-      setSearchParams(getValidValues(filterBy))
+      loadBoard(boardId)
     } catch (err) {
       console.log('err:', err)
     }
+  }, [boardId])
 
-    return () => {
-      store.dispatch({ type: SET_BOARD, board: '' })
-    }
-  }, [filterBy])
+  useEffect(() => {
+    setSearchParams(getValidValues(filterBy))
+    if (!board) return
+    setFilteredBoard(boardService.getFilteredBoard(board, filterBy))
+  }, [filterBy, board])
 
   useEffect(() => {
     socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
@@ -58,8 +60,8 @@ export function BoardDetails() {
     })
     return () => {
       socketService.off(SOCKET_EVENT_BOARD_UPDATED)
+      store.dispatch({ type: SET_BOARD, board: '' })
     }
-    // socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {})
   }, [boardId])
 
   function onUpdateBoard(boardToEdit) {
@@ -136,7 +138,7 @@ export function BoardDetails() {
         onSetFilterBy={onSetFilterBy}
         filterBy={filterBy}
       />
-      <GroupList />
+      <GroupList board={filteredBoard} />
       <Outlet />
     </section>
   )

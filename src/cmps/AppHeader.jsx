@@ -68,7 +68,8 @@ export function AppHeader() {
     setFilterBy({ title: target.value })
   }
 
-  function onToggleUserOpen() {
+  function onToggleUserOpen(ev) {
+    ev.stopPropagation()
     setIsUserOpen(isUserOpen => !isUserOpen)
   }
 

@@ -10,6 +10,7 @@ export const boardService = {
   getBackgrounds,
   getBoardBackgrounds,
   getEmptyBoard,
+  getFilteredBoard,
 }
 
 const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_KEY
@@ -40,19 +41,6 @@ const gBackgrounds = {
   ],
 }
 
-// async function query(filterBy = { txt: '' }) {
-//   return httpService.get(`board`, filterBy)
-// }
-
-// async function query(userId) {
-//   var boards = await httpService.get(`board`)
-
-//   boards = boards.filter(board =>
-//     board.members.some(member => member._id === userId)
-//   )
-//   return boards
-// }
-
 async function query(userId) {
   const filterBy = userId ? { members: userId } : {}
   const boards = await httpService.get('board', filterBy)
@@ -60,19 +48,7 @@ async function query(userId) {
 }
 
 async function queryFiltered(filterBy = { title: '' }) {
-  var boards = await httpService.get(`board`, filterBy)
-
-  // const { title } = filterBy
-  // if (!title) return ''
-
-  // if (title) {
-  //   const regex = new RegExp(title, 'i')
-  //   boards = boards.filter(board => {
-  //     return regex.test(board.title)
-  //   })
-  // }
-
-  return boards
+  return await httpService.get(`board`, filterBy)
 }
 
 function getById(boardId) {
@@ -127,6 +103,67 @@ async function getRandomBackground(count = 15) {
     author: photo.user.name,
     authorLink: photo.user.links.html,
   }))
+}
+
+function getFilteredBoard(board, filterBy) {
+  if (!filterBy) return board
+
+  const groups = board.groups.map(group => {
+    let { tasks } = group
+
+    if (filterBy.txt) {
+      console.log('filterBy.txt:', filterBy.txt)
+      const regExp = new RegExp(filterBy.txt, 'i')
+      tasks = tasks.filter(task => regExp.test(task.title))
+    }
+
+    if (filterBy.members.length) {
+      tasks = tasks.filter(task =>
+        filterBy.members.some(member => {
+          if (member === 'none') return !task.members || !task.members.length
+          return task.members?.some(taskMember => taskMember._id === member)
+        })
+      )
+    }
+
+    if (filterBy.status) {
+      if (filterBy.status === 'done') {
+        tasks = tasks.filter(task => task.status === 'done')
+      } else {
+        tasks = tasks.filter(task => task.status === 'inProgress' || !task.status)
+      }
+    }
+
+    if (filterBy.dueDate.length) {
+      if (filterBy.dueDate.includes('none')) {
+        tasks = tasks.filter(task => !task.dates)
+      } else {
+        tasks = tasks.filter(task => {
+          const now = Date.now()
+          const target = new Date(task.dates?.dateTime)
+          const diffMs = target - now
+          const diffHours = diffMs / (1000 * 60 * 60)
+
+          if (filterBy.dueDate.includes('overdue')) {
+            return diffHours <= 0 && task.status !== 'done'
+          } else {
+            return diffHours <= 24 && diffHours >= 0 && task.status !== 'done'
+          }
+        })
+      }
+    }
+
+    if (filterBy.labels.length) {
+      tasks = tasks.filter(task =>
+        filterBy.labels.some(label => {
+          if (label === 'none') return !task.labels || !task.labels.length
+          return task.labels?.some(taskLabel => taskLabel.id === label)
+        })
+      )
+    }
+    return { ...group, tasks }
+  })
+  return { ...board, groups }
 }
 
 function getEmptyBoard() {

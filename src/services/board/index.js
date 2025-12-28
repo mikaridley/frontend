@@ -35,11 +35,11 @@ function getDefaultFilter() {
 function getSearchParams(searchParams) {
     return {
         txt: searchParams.get('txt') || '',
-        members: searchParams.get('members') || [],
-        status: searchParams.get('status') || [],
-        dueDate: searchParams.get('dueDate') || [],
-        labels: searchParams.get('labels') || [],
-        Activity: searchParams.get('Activity') || [],
+        members: searchParams.getAll('members') || [],
+        status: searchParams.get('status') || '',
+        dueDate: searchParams.getAll('dueDate') || [],
+        labels: searchParams.getAll('labels') || [],
+        activity: searchParams.getAll('activity') || [],
     }
 }
 

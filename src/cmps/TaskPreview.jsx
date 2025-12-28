@@ -89,20 +89,17 @@ export function TaskPreview({
       <section className="task-all-details">
         {task.labels && (
           <div className="task-labels-container">
-            {task.labels.map(label => {
-              return (
-                <LightTooltip
-                  key={label.id}
-                  title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
-                    }`}
-                >
-                  <div
-                    className="task-label"
-                    style={{ backgroundColor: label.color }}
-                  ></div>
-                </LightTooltip>
-              )
-            })}
+            {task.labels.map(label =>
+              <LightTooltip key={label.id}
+                title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
+              >
+                <div
+                  className="task-label"
+                  style={{ backgroundColor: label.color }}
+                ></div>
+              </LightTooltip>
+
+            )}
           </div>
         )}
 
