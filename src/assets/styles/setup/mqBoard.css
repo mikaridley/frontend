@@ -20,6 +20,20 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+
+  .task-preview {
+    p {
+      &.task-not-complete {
+        left: -5px;
+      }
+    }
+  }
+
+  .toggle-done-btn {
+    > div {
+      opacity: 1;
+    }
+  }
 }
 
 @media (max-width: 500px) {
