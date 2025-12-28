@@ -3,7 +3,8 @@
     width: 700px;
 
     .star-boards,
-    .not-star-boards {
+    .not-star-boards,
+    .recently-viewed-boards {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -14,7 +15,8 @@
     width: 450px;
 
     .star-boards,
-    .not-star-boards {
+    .not-star-boards,
+    .recently-viewed-boards {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -25,7 +27,8 @@
     width: 210px;
 
     .star-boards,
-    .not-star-boards {
+    .not-star-boards,
+    .recently-viewed-boards {
       grid-template-columns: 1fr;
     }
   }
