@@ -7,7 +7,7 @@ export function AddBoard() {
   const { addBoard, changeColor, popupRef } = useOutletContext()
   const [boardName, setBoardName] = useState('')
   const location = useLocation()
-  const origin = location.state?.origin || 'board-list' // default
+  const origin = location.state?.origin || 'board-list'
 
   function handleChange({ target }) {
     let value = target.value

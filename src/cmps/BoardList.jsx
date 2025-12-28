@@ -24,22 +24,24 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
     const padding = 8
 
     /* ---------- X AXIS ---------- */
-    // Prefer right
+    // Prefer RIGHT
     let left = cardRect.right + padding
+    let dir = 'right'
 
-    // If overflow right → move to left
-    if (left + popupRect.width > window.innerWidth) {
+    // If no space on the right → move LEFT
+    if (left + popupRect.width > window.innerWidth - padding) {
       left = cardRect.left - popupRect.width - padding
+      dir = 'left'
     }
 
-    // Clamp just in case
+    // Final safety clamp
     if (left < padding) left = padding
 
     /* ---------- Y AXIS ---------- */
-    // Always center vertically
+    // Center vertically
     let top = cardRect.top + cardRect.height / 2 - popupRect.height / 2
 
-    // Clamp Y inside viewport
+    // Clamp inside viewport
     if (top < padding) top = padding
     if (top + popupRect.height > window.innerHeight - padding) {
       top = window.innerHeight - popupRect.height - padding
@@ -47,6 +49,7 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
 
     popupRef.current.style.left = `${left}px`
     popupRef.current.style.top = `${top}px`
+    setDirection(dir)
   }, [isCreateOpen])
 
   return (
