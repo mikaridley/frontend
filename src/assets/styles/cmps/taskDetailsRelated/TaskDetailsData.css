@@ -24,7 +24,8 @@
 .labels-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px;
+  align-items: center;
 }
 
 .label-tag {
@@ -33,8 +34,8 @@
   color: rgba(0, 0, 0, 0.654);
   font-weight: 600;
   font-size: 14px;
-  min-height: 32px;
-  min-width: 40px;
+  height: 30px;
+  min-width: 48px;
   display: flex;
   align-items: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -46,11 +47,16 @@
 
 .btn-add-label {
   border-radius: 4px;
-  padding: 0.5rem 0.8rem;
+  padding: 0.4rem 0.65rem;
   background-color: #ceced912;
   border: none;
   cursor: pointer;
   color: var(--clr-task-txt-dark);
+  font-size: 1.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #e3e4f21f;
@@ -298,5 +304,18 @@
     cursor: pointer;
     color: var(--clr-task-txt-dark);
   }
+}
+
+.attachments-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.attachments-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: -0.5rem;
+  margin-bottom: -0.5rem;
 }
 

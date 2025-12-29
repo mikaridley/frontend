@@ -31,12 +31,15 @@
 
 .checklist-progress progress {
   flex: 1;
-  height: 8px;
+  height: 4px;
   border-radius: 4px;
   overflow: hidden;
   accent-color: white;
+  background-color: #3c3d40;
 }
-
+.checklist-progress progress::-webkit-progress-bar {
+  background-color: #3c3d40;
+}
 .checklist-progress progress::-webkit-progress-value {/* for chrome */
   background-color: white;
 }
@@ -97,7 +100,6 @@
   &:hover {
     cursor: pointer;
     background-color: #2b2c2f;
-    color: rgb(255, 40, 40);
   }
 }
 
@@ -121,7 +123,7 @@
 
 .checklist-item input[type='checkbox']:checked {
   background-color: #5ba4cf;
-  border-color: white;
+  /* border-color: white; */
 }
 
 .checklist-item input[type='checkbox']:checked::after {
@@ -226,18 +228,19 @@
 }
 
 .btn-add-item-trigger {
-  background-color: #2b2c2f;
-  color: var(--clr-task-txt-dark);
-  border: 2px solid #3c3d40;
+  background-color: #CECED912;
+  color:#CECFD2;
+  /* border: 2px solid #3c3d40; */
   border-radius: 4px;
   padding: 8px 12px;
   cursor: pointer;
   font-size: 14px;
   margin-top: 8px;
+  margin-left:1rem
 }
 
 .btn-add-item-trigger:hover {
-  background-color: #3c3d40;
+  background-color: #E3E4F21F;
 }
 
 .edit-checklist-name-form input[type='text'] {
@@ -275,8 +278,27 @@
   width: 16px;
   height: 16px;
   color: var(--clr-task-txt);
+  margin-top: -0.5rem;
 }
 .checklist-name{
   display: flex;
   gap: 0.5rem;
+  align-items: center;
+  position: relative;
+}
+
+.btn-delete-checklist {
+  background-color: #CECED912;
+  color:#CECFD2;
+  /* border: 2px solid #3c3d40; */
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-left:auto;
+}
+
+.btn-delete-checklist:hover {
+  background-color: #E3E4F21F;
 }

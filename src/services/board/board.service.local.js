@@ -240,7 +240,14 @@ function _createBoard(
         kind,
       },
     },
-    labels: [],
+    labels: [
+      { color: '#AE2E24', title: '' },
+      { color: '#DDB30E', title: '' },
+      { color: '#216E4E', title: '' },
+      { color: '#1558BC', title: '' },
+      { color: '#C97CF4', title: '' },
+      { color: '#7F5F01', title: '' }
+    ],
     members: [
       {
         _id: 'u101',

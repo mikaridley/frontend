@@ -2,7 +2,7 @@ import { taskService } from '../services/task'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { showErrorMsg } from '../services/event-bus.service.js'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { loadBoard } from '../store/actions/board.actions'
 import { updateTask } from '../store/actions/task.actions'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
@@ -104,13 +104,24 @@ export function TaskDetails() {
         }
     }
 
+    async function onArchiveTask(task) {
+        if (!board || !task) return
+        try {
+            await updateTask(board, groupId, task.id, { archivedAt: Date.now() })
+            showSuccessMsg('Card archived')
+            navigate(`/board/${boardId}`)
+        } catch (err) {
+            console.log('err:', err)
+            showErrorMsg('Failed to archive')
+        }
+    }
+
     if (!board) return <Loader />
 
     return (
         <div className="task-details-modal" onClick={handleBackdropClick}>
             <div className="task-details">
                 
-                {/* row 1: reserved for future special header + functionality */}
                 <TaskDetailsCover
                     task={task}
                     board={board}
@@ -120,7 +131,7 @@ export function TaskDetails() {
                     onOpenPopup={openPopup}
                     attachments={attachments}
                     boardId={boardId}
-
+                    onArchiveTask={onArchiveTask}
                 />
                 {task && (
                     <div className="task-details-comments">
@@ -134,6 +145,7 @@ export function TaskDetails() {
                                 setComments(updatedComments)
                                 setTask({ ...task, comments: updatedComments })
                             }}
+                            loggedinUser={loggedinUser}
                         />
                     </div>
                 )}
