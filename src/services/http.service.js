@@ -27,6 +27,11 @@ async function ajax(endpoint, method = 'GET', data = null) {
     const params = (method === 'GET') ? data : null
 
     const options = { url, method, data, params }
+    
+    if (data instanceof FormData) {
+        options.headers = options.headers || {}
+        delete options.headers['Content-Type']
+    }
 
     try {
         const res = await axios(options)
