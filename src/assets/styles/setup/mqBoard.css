@@ -44,6 +44,10 @@
       opacity: 1;
     }
   }
+
+  .archive-btn {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 620px) {
