@@ -9,15 +9,6 @@ import {
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Loader } from '../cmps/Loader'
-import {
-  SOCKET_EMIT_SET_TOPIC,
-  SOCKET_EVENT_BOARD_ADDED,
-  SOCKET_EVENT_BOARD_REMOVED,
-} from '../services/socket.service'
-import {
-  getCmdAddBoard,
-  getCmdRemoveBoard,
-} from '../store/actions/board.actions'
 import { AiChat } from '../cmps/AiChat'
 import { getRandomColor, makeId } from '../services/util.service'
 
@@ -28,22 +19,9 @@ export function BoardIndex() {
   )
   const navigate = useNavigate()
   const [newBoardColor, setNewBoardColor] = useState('')
-  const dispatch = useDispatch()
 
   useEffect(() => {
     loadBoards()
-
-    // socketService.emit(SOCKET_EMIT_SET_TOPIC, worspace._id)
-
-    // socketService.on(SOCKET_EVENT_BOARD_ADDED, board => {
-    //   console.log('GOT from socket', board)
-    //   dispatch(getCmdAddBoard(board))
-    // })
-
-    // socketService.on(SOCKET_EVENT_BOARD_REMOVED, boardId => {
-    //   console.log('GOT from socket', boardId)
-    //   dispatch(getCmdRemoveBoard(boardId))
-    // })
   }, [])
 
   async function _addBoard(ev, value) {
@@ -84,10 +62,10 @@ export function BoardIndex() {
 
     if (boardObject.groups && boardObject.groups.length) {
       boardToSave.groups = boardObject.groups.map(group => ({
-        id: makeId(), // generate unique ID for the group
+        id: makeId(),
         title: group.title,
         tasks: group.tasks.map(task => ({
-          id: makeId(), // generate unique ID for each task
+          id: makeId(),
           title: task.title,
         })),
       }))
