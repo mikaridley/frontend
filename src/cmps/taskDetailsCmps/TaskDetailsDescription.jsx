@@ -49,7 +49,7 @@ export function TaskDetailsDescription({ description: initialDescription, attach
                                 const photoAttachments = attachments.filter(attachment => 
                                     isImageFile(attachment.type)
                                 )
-                                return photoAttachments.length > 0 ? (
+                                return photoAttachments.length > 0 ? (  //if there are photo attachments, show the first one
                                     <img src={photoAttachments[0].file} style={{ width: '100px', height: '100px', objectFit: 'cover', justifySelf: 'center' }} alt={photoAttachments[0].name} className="attachment-description-img" />
                                 ) : (
                                     <span>Add a more detailed description...</span>
