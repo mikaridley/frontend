@@ -191,7 +191,7 @@ export function AppHeader() {
       </section>
 
       <div className="user" onClick={onToggleUserOpen}>
-        {imgUrl && <img src={imgUrl} />}
+        {imgUrl && <img src={imgUrl} referrerPolicy="no-referrer" />}
       </div>
       {isUserOpen && (
         <div className="account grid" ref={userRef}>
