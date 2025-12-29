@@ -5,15 +5,20 @@
   color: var(--clr-group-txt);
   font-size: 0.876rem;
 
-  > button {
+  >button {
     flex: 0 0 270px;
     background-color: rgba(255, 255, 255, 0.24);
     color: white;
     white-space: nowrap;
   }
 
-  > .add-form {
+  >.add-form {
     flex: 0 0 270px;
     height: max-content;
   }
+}
+
+.group-list [data-swappable="true"],
+.group-list [role="button"] {
+  touch-action: none;
 }

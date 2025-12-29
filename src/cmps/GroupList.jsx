@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   DndContext,
   PointerSensor,
   useSensor,
   useSensors,
+  TouchSensor,
   pointerWithin,
   DragOverlay,
 } from '@dnd-kit/core'
@@ -58,6 +58,7 @@ export function GroupList({ board }) {
   }
 
   async function onUpdateGroup(groupToEdit) {
+    const { title } = groupToEdit
     try {
       await updateGroup(board, groupToEdit)
     } catch (err) {
@@ -94,7 +95,15 @@ export function GroupList({ board }) {
 
   //Drag and drop//
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    })
   )
 
   function getContainer(id) {
@@ -201,8 +210,8 @@ export function GroupList({ board }) {
   const activeTask =
     activeType === 'task'
       ? groups
-          .flatMap(group => group.tasks || [])
-          .find(task => task.id === activeId)
+        .flatMap(group => group.tasks || [])
+        .find(task => task.id === activeId)
       : null
 
   return (
