@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import imageIcon from '../../assets/imgs/icons/image_icon.svg'
 import { LightTooltip } from '../LightToolTip'
 import archiveIcon from '../../assets/img/archive.svg'
+import { updateTask } from '../../store/actions/task.actions'
+import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 // receives an image url and updates the cover background
 function setCoverBackgroundFromImage(imageUrl) {
   if (!imageUrl) return
@@ -30,13 +32,24 @@ export function TaskDetailsCover({
   onOpenPopup,
   attachments,
   boardId,
-  onArchiveTask,
 }) {
   const navigate = useNavigate()
   if (!board || !board.groups || !groupId) return null
 
   const group = board.groups.find(group => group.id === groupId)
   if (!group) return null
+
+  async function onArchiveTask(task) {
+    if (!board || !task) return
+    try {
+      await updateTask(board, groupId, task.id, { archivedAt: Date.now() })
+      showSuccessMsg('Card archived')
+      navigate(`/board/${boardId}`)
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Failed to archive')
+    }
+  }
 
   // distinguish between:
   // - cover is completely unset (no 'cover' prop on the task) -> we may fall back to first photo attachment

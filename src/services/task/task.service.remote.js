@@ -16,6 +16,7 @@ export const taskService = {
   getMembers,
   openAttachmentInNewTab,
   getDominantColor,
+  calculateHeight,
 }
 
 async function addTask(board, group, taskToAdd) {
@@ -476,4 +477,40 @@ function getDominantColor(imageUrl) {
     img.onerror = reject
     img.src = imageUrl
   })
+}
+
+// Function to calculate precise height using a hidden measurement element
+function calculateHeight(textarea, measureElement) {
+  if (!measureElement) {
+    // Fallback: use scrollHeight but try to account for extra space
+    textarea.style.height = 'auto'
+    return textarea.scrollHeight
+  }
+
+  // Use hidden div to measure actual text height
+  const measure = measureElement
+  const styles = window.getComputedStyle(textarea)
+
+  // Copy all relevant styles to measurement element
+  measure.style.width = styles.width
+  measure.style.fontSize = styles.fontSize
+  measure.style.fontWeight = styles.fontWeight
+  measure.style.fontFamily = styles.fontFamily
+  measure.style.lineHeight = styles.lineHeight
+  measure.style.padding = styles.padding
+  measure.style.border = styles.border
+  measure.style.boxSizing = styles.boxSizing
+  measure.style.wordWrap = styles.wordWrap
+  measure.style.whiteSpace = 'pre-wrap'
+  measure.style.visibility = 'hidden'
+  measure.style.position = 'absolute'
+  measure.style.top = '-9999px'
+  measure.style.left = '-9999px'
+
+  measure.textContent = textarea.value || ' '
+
+  // Get the actual height needed for the content
+  const height = measure.offsetHeight
+
+  return height
 }
