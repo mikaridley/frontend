@@ -72,15 +72,7 @@ export function BoardDetails() {
       updateBoard(boardToEdit)
     } catch (err) {
       console.log('err:', err)
-    }
-  }
-
-  async function starToggle() {
-    board.isStarred = !board.isStarred
-    try {
-      await updateBoard(board)
-    } catch (err) {
-      console.log(err)
+      showErrorMsg(`Failed to update`)
     }
   }
 
@@ -132,8 +124,8 @@ export function BoardDetails() {
     >
       <BoardHeader
         board={board}
-        onUpdateBoard={onUpdateBoard}
-        starToggle={starToggle}
+        onUpdateBoard={updateBoard}
+        // starToggle={starToggle}
         onRemoveBoard={onRemoveBoard}
         changeBoardColor={changeBoardColor}
         onSetFilterBy={onSetFilterBy}

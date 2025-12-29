@@ -59,8 +59,6 @@ export function GroupList({ board }) {
 
   async function onUpdateGroup(groupToEdit) {
     try {
-      if (!groupToEdit.title || group.title === groupToEdit.title) return
-
       await updateGroup(board, groupToEdit)
     } catch (err) {
       console.log('err:', err)

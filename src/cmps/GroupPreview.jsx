@@ -53,6 +53,14 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
     setGroupToEdit(prevGroup => ({ ...prevGroup, title: value }))
   }
 
+  function onUpdateGroupTitle() {
+    const { title } = groupToEdit
+    if (!title || group.title === title || !title.trim().length) {
+      return setGroupToEdit(prevGroup => ({ ...prevGroup, title: group.title }))
+    }
+    onUpdateGroup(groupToEdit)
+  }
+
   // Task funcs //
   async function handleSubmit(ev) {
     ev.preventDefault()
@@ -110,7 +118,7 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
         <input
           className="title-input"
           onChange={handleGroupChange}
-          onBlur={() => onUpdateGroup(groupToEdit)}
+          onBlur={onUpdateGroupTitle}
           value={groupToEdit.title}
         />
         <button onClick={onToggleActions}>
