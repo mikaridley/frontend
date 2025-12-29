@@ -133,84 +133,91 @@ export function BoardSettings({
   const bgStyle = kind === 'solid' ? 'backgroundColor' : 'background'
   return (
     <section className="board-settings" ref={settingsRef}>
-      {!isChangeBackgroundOpen.isOpen && !isArchiveOpen.isOpen && !isLabelsOpen.isOpen && !isActivityOpen.isOpen && (
-        <>
-          <header className="board-settings-header">
-            <h2>Menu</h2>
-            <img onClick={openHeaderMenu} src={closeIcon} />
-          </header>
+      {!isChangeBackgroundOpen.isOpen &&
+        !isArchiveOpen.isOpen &&
+        !isLabelsOpen.isOpen &&
+        !isActivityOpen.isOpen && (
+          <>
+            <header className="board-settings-header">
+              <h2>Menu</h2>
+              <img onClick={openHeaderMenu} src={closeIcon} />
+            </header>
 
-          <div className="menu-item">
-            <img src={shareIcon} />
-            <button
-              onClick={() => {
-                onToggleShare()
-                openHeaderMenu()
-              }}
-            >
-              share
-            </button>
+            <div className="menu-item">
+              <img src={shareIcon} />
+              <button
+                onClick={() => {
+                  onToggleShare()
+                  openHeaderMenu()
+                }}
+              >
+                share
+              </button>
 
-            <section className="setting-members">
-              {board.members.map(member => (
-                <div className="member-photo" key={member._id}>
-                  {member.imgUrl && <img src={member.imgUrl} />}
-                </div>
-              ))}
-            </section>
-          </div>
-
-          <div onClick={onTogleStar} className="menu-item">
-            {isStarred ? <img src={yellowStarIcon} /> : <img src={starIcon} />}
-            <button>star</button>
-          </div>
-
-          <div className="setting-change-background">
-            <div onClick={toggleChangeBackground} className="menu-item">
-              <div
-                style={
-                  kind === 'photo'
-                    ? { backgroundImage: `url(${color})` }
-                    : { [bgStyle]: color }
-                }
-                className="board-settings-bg-icon"
-              ></div>
-              <button>Change background</button>
-            </div>
-          </div>
-
-          <div onClick={toggleLabels} className="menu-item">
-            <img src={labelIcon} />
-            <button>Labels</button>
-          </div>
-
-          <div onClick={toggleActivity} className="menu-item">
-            <img src={activityIcon} />
-            <button>Activity</button>
-          </div>
-
-          <div className="menu-item" onClick={toggleArchive}>
-            <img src={archiveIcon} />
-            <button>Archived items</button>
-          </div>
-
-          <div className="settings-close-board">
-            <div onClick={onToggleRemoveModal} className="menu-item">
-              <img src={closeBoardIcon} />
-              <button>Close board</button>
+              <section className="setting-members">
+                {board.members.map(member => (
+                  <div className="member-photo" key={member._id}>
+                    {member.imgUrl && <img src={member.imgUrl} />}
+                  </div>
+                ))}
+              </section>
             </div>
 
-            {isRemoveModalOpen && (
-              <CloseCheckModal
-                onRemove={removeBoard}
-                onCloseModal={onToggleRemoveModal}
-                text={'Close board?'}
-                buttonText={'Close'}
-              />
-            )}
-          </div>
-        </>
-      )}
+            <div onClick={onTogleStar} className="menu-item">
+              {isStarred ? (
+                <img src={yellowStarIcon} />
+              ) : (
+                <img src={starIcon} />
+              )}
+              <button>star</button>
+            </div>
+
+            <div className="setting-change-background">
+              <div onClick={toggleChangeBackground} className="menu-item">
+                <div
+                  style={
+                    kind === 'photo'
+                      ? { backgroundImage: `url(${color})` }
+                      : { [bgStyle]: color }
+                  }
+                  className="board-settings-bg-icon"
+                ></div>
+                <button>Change background</button>
+              </div>
+            </div>
+
+            <div onClick={toggleLabels} className="menu-item">
+              <img src={labelIcon} />
+              <button>Labels</button>
+            </div>
+
+            <div onClick={toggleActivity} className="menu-item">
+              <img src={activityIcon} />
+              <button>Activity</button>
+            </div>
+
+            <div className="menu-item" onClick={toggleArchive}>
+              <img src={archiveIcon} />
+              <button>Archived items</button>
+            </div>
+
+            <div className="settings-close-board">
+              <div onClick={onToggleRemoveModal} className="menu-item">
+                <img src={closeBoardIcon} />
+                <button>Close board</button>
+              </div>
+
+              {isRemoveModalOpen && (
+                <CloseCheckModal
+                  onRemove={removeBoard}
+                  onCloseModal={onToggleRemoveModal}
+                  text={'Close board?'}
+                  buttonText={'Close'}
+                />
+              )}
+            </div>
+          </>
+        )}
       {isChangeBackgroundOpen.isOpen && (
         <div className="board-settings-bg-options">
           {isChangeBackgroundOpen.openTo === '' && (
@@ -237,13 +244,25 @@ export function BoardSettings({
             </section>
           )}
           {isChangeBackgroundOpen.openTo === 'photos' && (
-            <PhotosBackground
-              photosBg={photosBg}
-              onClose={openHeaderMenu}
-              goBack={() => setBgopenTo('')}
-              selectedColor={selectedColor}
-              onChangeBackground={onChangeBackground}
-            />
+            <>
+              <PhotosBackground
+                photosBg={photosBg}
+                onClose={openHeaderMenu}
+                goBack={() => setBgopenTo('')}
+                selectedColor={selectedColor}
+                onChangeBackground={onChangeBackground}
+              />
+              <p>
+                By using images from Unsplash, you agree to their{' '}
+                <a href={'https://unsplash.com/license'} target="_blank">
+                  license
+                </a>{' '}
+                and{' '}
+                <a href={'https://unsplash.com/terms'} target="_blank">
+                  Terms of Service
+                </a>
+              </p>
+            </>
           )}
           {isChangeBackgroundOpen.openTo === 'colors' && (
             <ColorsBackground
@@ -264,16 +283,10 @@ export function BoardSettings({
         />
       )}
       {isLabelsOpen.isOpen && (
-        <TaskDetailsLabels
-          board={board}
-          onClose={toggleLabels}
-        />
+        <TaskDetailsLabels board={board} onClose={toggleLabels} />
       )}
       {isActivityOpen.isOpen && (
-        <Activities
-          board={board}
-          onClose={toggleActivity}
-        />
+        <Activities board={board} onClose={toggleActivity} />
       )}
     </section>
   )

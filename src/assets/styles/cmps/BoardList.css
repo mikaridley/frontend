@@ -44,6 +44,23 @@
     vertical-align: middle;
   }
 
+  .not-star-boards-header::before {
+    content: '';
+    display: inline-block;
+
+    position: relative;
+    top: -2px;
+
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+
+    background-image: url('/src/assets/img/boards.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+  }
+
   .star-boards,
   .not-star-boards,
   .recently-viewed-boards {

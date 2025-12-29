@@ -5,6 +5,7 @@ export function BackgroundPreview({
   selectedColor,
   onChangeBackground,
   kind,
+  isForPreview,
 }) {
   const isLoading = useSelector(
     storeState => storeState.boardModule.backgroundLoader
@@ -12,6 +13,7 @@ export function BackgroundPreview({
   const kindStyle = kind === 'gradient' ? 'background' : 'backgroundColor'
   const bgToBigBoard = kind === 'photo' ? color.imageUrlFull : color
   const bgToSmallBoard = kind === 'photo' ? color.imageUrl : color
+
   return (
     <div
       className={`background-color ${
@@ -24,7 +26,7 @@ export function BackgroundPreview({
       }
       onClick={() => onChangeBackground(bgToBigBoard, kind)}
     >
-      {kind === 'photo' && (
+      {kind === 'photo' && !isForPreview && (
         <div className="photo-bg-msg">
           {selectedColor === bgToBigBoard && isLoading ? (
             'Uploading...'

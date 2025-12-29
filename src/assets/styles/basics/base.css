@@ -90,7 +90,7 @@ button {
   border: none;
   border-radius: 3px;
   height: 33px;
-  padding-inline: 0.5rem;
+  padding-inline: 0.7rem;
 
   font-size: 0.9rem;
   background-color: var(--clr-create-btn);
@@ -114,7 +114,7 @@ button {
   background-color: var(--clr-scroll);
   border-radius: 10px;
   border: 3px solid transparent;
-  background-clip: content-box;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {

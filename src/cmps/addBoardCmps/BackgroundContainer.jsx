@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { ColorsBackground } from './ColorsBackground.jsx'
 import closeImg from '../../assets/img/close.svg'
 
-export function BackgroundContainer({ changeColor }) {
+export function BackgroundContainer({ changeColor, isForPreview = false }) {
   const backgrounds = getColorsBg()
   const gradientColors = backgrounds?.gradientColors || []
 
@@ -66,6 +66,7 @@ export function BackgroundContainer({ changeColor }) {
                 key={photo.id}
                 onChangeBackground={onChangeBackground}
                 kind={'photo'}
+                isForPreview={isForPreview}
               />
             )
           })}

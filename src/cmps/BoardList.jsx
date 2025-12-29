@@ -88,7 +88,7 @@ export function BoardList({ boards, addBoard, starToggle, changeColor }) {
         </>
       )}
 
-      <h2>Boards</h2>
+      <h2 className="not-star-boards-header">Boards</h2>
       <section className="not-star-boards">
         {boards.map(board => {
           return (

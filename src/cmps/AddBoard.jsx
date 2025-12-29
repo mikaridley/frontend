@@ -1,6 +1,6 @@
 import closeImg from '../assets/img/close.svg'
 import { BackgroundContainer } from './addBoardCmps/BackgroundContainer.jsx'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useOutletContext, useLocation } from 'react-router-dom'
 
 export function AddBoard() {
@@ -8,6 +8,11 @@ export function AddBoard() {
   const [boardName, setBoardName] = useState('')
   const location = useLocation()
   const origin = location.state?.origin || 'board-list'
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
 
   function handleChange({ target }) {
     let value = target.value
@@ -28,7 +33,7 @@ export function AddBoard() {
         </Link>
       </header>
 
-      <BackgroundContainer changeColor={changeColor} />
+      <BackgroundContainer changeColor={changeColor} isForPreview={true} />
       <form onSubmit={ev => addBoard(ev, boardName)}>
         <label htmlFor="boardTitle">Board title</label>
         <input
@@ -38,6 +43,7 @@ export function AddBoard() {
           id="boardTitle"
           type="text"
           value={boardName}
+          ref={inputRef}
         />
         <button disabled={!boardName.trim()}>Create</button>
       </form>
