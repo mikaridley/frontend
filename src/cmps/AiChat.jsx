@@ -15,13 +15,25 @@ export function AiChat({ addAiBoard }) {
     setMessages(prev => [...prev, userMessage])
     setLoading(true)
 
+    const autoAiMessage = {
+      role: 'ai',
+      content: 'Working on it... please wait',
+    }
+    setMessages(prev => [...prev, autoAiMessage])
+
     try {
       const aiResult = await sendAICommand(input)
-      const aiMessage = { role: 'ai', content: 'Working on it...' }
+      const aiMessage = { role: 'ai', content: 'Done!' }
       setMessages(prev => [...prev, aiMessage])
       addAiBoard(aiResult)
     } catch (err) {
-      const aiMessage = { role: 'ai', content: 'Sorry, something went wrong.' }
+      // Check if the backend sent a 403 AI limit
+      let errorMsg = 'Sorry, something went wrong.'
+      if (err.response?.status === 403) {
+        errorMsg = 'You have reached your daily AI limit (2 uses).'
+      }
+
+      const aiMessage = { role: 'ai', content: errorMsg }
       setMessages(prev => [...prev, aiMessage])
     } finally {
       setLoading(false)
@@ -54,10 +66,10 @@ export function AiChat({ addAiBoard }) {
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Ask AI..."
+              placeholder="Create a bord with AI..."
               onKeyDown={e => e.key === 'Enter' && handleSend()}
             />
-            <button onClick={handleSend} disabled={loading}>
+            <button className="btn" onClick={handleSend} disabled={loading}>
               Send
             </button>
           </div>

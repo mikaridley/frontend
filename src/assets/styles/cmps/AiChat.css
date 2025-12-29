@@ -22,20 +22,24 @@
     max-height: 400px;
     background-color: var(--clr-bg-light);
     border-radius: 8px;
-    margin-top: 10px;
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
 
     .messages {
       flex: 1;
+
+      padding-inline: 0.7rem;
+      padding-block: 0.5rem;
+
       overflow-y: auto;
-      padding: 10px;
 
       .message {
-        margin-bottom: 5px;
+        margin-bottom: 0.3rem;
 
         &.user {
           text-align: right;
+          color: var(--clr-txt-dark);
         }
 
         &.ai {
@@ -47,15 +51,14 @@
 
     .input-container {
       display: flex;
-      padding: 5px;
+      padding: 0.3rem;
+      gap: 0.5rem;
 
       input {
         flex: 1;
-        padding: 5px;
-      }
-
-      button {
-        margin-left: 5px;
+        padding: 0.3rem;
+        border-radius: 5px;
+        border: 1px solid var(--clr-ah-grey--1);
       }
     }
   }
