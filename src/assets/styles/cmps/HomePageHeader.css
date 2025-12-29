@@ -32,6 +32,9 @@
 
     height: 100%;
 
+    letter-spacing: 1px;
+    font-weight: 600;
+
     > * {
       display: grid;
       place-items: center;

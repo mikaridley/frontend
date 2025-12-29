@@ -29,3 +29,15 @@
   font-family: charlie;
   src: url('../../fonts/charlie/charlie-display.ttf');
 }
+
+@font-face {
+  font-family: charlie;
+  src: url('../../fonts/charlie/charlie-display-2.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: charlie;
+  src: url('../../fonts/charlie/charlie-display-bold.ttf');
+  font-weight: 900;
+}
