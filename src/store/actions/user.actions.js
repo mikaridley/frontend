@@ -3,6 +3,7 @@ import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
 import { REMOVE_USER, SET_USER, SET_USERS } from '../reducers/user.reducer'
+import { getCmdResetRecentlyViewed } from './board.actions'
 
 export async function loadUsers(filterBy = {}) {
   try {
@@ -11,7 +12,7 @@ export async function loadUsers(filterBy = {}) {
   } catch (err) {
     console.log('UserActions: err in loadUsers', err)
     throw err
-  } 
+  }
 }
 
 export async function loadUser(userId) {
@@ -21,7 +22,7 @@ export async function loadUser(userId) {
   } catch (err) {
     console.log('Cannot load user', err)
     throw err
-  } 
+  }
 }
 
 export async function removeUser(userId) {
@@ -74,6 +75,7 @@ export async function logout() {
   try {
     await userService.logout()
     store.dispatch({ type: SET_USER, user: null })
+    store.dispatch(getCmdResetRecentlyViewed())
     socketService.logout()
   } catch (err) {
     console.log('Cannot logout', err)

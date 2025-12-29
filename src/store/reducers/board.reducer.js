@@ -11,6 +11,7 @@ export const BOARD_UNDO = 'BOARD_UNDO'
 export const TOGGLE_BOARD_BG_LOADER = 'TOGGLE_BOARD_BG_LOADER'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const ADD_RECENTLY_VIEWED_BOARD = 'ADD_RECENTLY_VIEWED_BOARD'
+export const RESET_RECENTLY_VIEWED_BOARDS = 'RESET_RECENTLY_VIEWED_BOARDS'
 
 const initialState = {
   boards: [],
@@ -104,6 +105,11 @@ export function boardReducer(state = initialState, action) {
       return {
         ...state,
         filterBy: { ...state.filterBy, ...action.filterBy },
+      }
+    case RESET_RECENTLY_VIEWED_BOARDS:
+      return {
+        ...state,
+        recentlyViewedBoards: [],
       }
     default:
       return state
