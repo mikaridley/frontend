@@ -66,8 +66,7 @@
   align-items: center;
   box-sizing: border-box;
   gap: 10px;
-  padding: 8px;
-  margin-bottom: 4px;
+  padding: 0.2rem 0 0.2rem 0.5rem;
   border-radius: 4px;
   transition: background-color 0.2s;
   cursor: pointer;
@@ -88,7 +87,7 @@
   border: 2px solid #3c3d40;
   border-radius: 4px;
   background-color: #242528;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
