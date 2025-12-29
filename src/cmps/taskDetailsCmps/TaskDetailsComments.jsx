@@ -9,7 +9,7 @@ import { userService } from '../../services/user'
 export function TaskDetailsComments({ boardId, groupId, taskId, board, comments: initialComments, onCommentsUpdate, loggedinUser }) {
     const [comments, setComments] = useState(initialComments || [])
     const [newComment, setNewComment] = useState('')
-    const [isAddingComment, setIsAddingComment] = useState(false)
+    const [isAddingComment, setIsAddingComment] = useState(false) //showing/hiding comment form
     const quillRef = useRef(null)
 
     // update comments when initialComments changes

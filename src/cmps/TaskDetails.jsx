@@ -2,7 +2,7 @@ import { taskService } from '../services/task'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { showErrorMsg } from '../services/event-bus.service.js'
 import { loadBoard } from '../store/actions/board.actions'
 import { updateTask } from '../store/actions/task.actions'
 import { TaskDetailsComments } from './taskDetailsCmps/TaskDetailsComments'
@@ -21,15 +21,18 @@ export function TaskDetails() {
     const { boardId, groupId, taskId } = useParams()
     const board = useSelector(storeState => storeState.boardModule.board)
     const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
+    const navigate = useNavigate()
+
     const [task, setTask] = useState(null)
     const [activePopup, setActivePopup] = useState(null)
-    const navigate = useNavigate()
+    //task data states
     const [comments, setComments] = useState([])
     const [members, setMembers] = useState([])
     const [labels, setLabels] = useState([])
     const [checklists, setChecklists] = useState([])
     const [dates, setDates] = useState(null)
     const [attachments, setAttachments] = useState([])
+    
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 })
 
 
@@ -41,6 +44,7 @@ export function TaskDetails() {
     }, [boardId])
 
     // function to sync task data from board to local state
+    //not just useEffect because of savePopup function
     const syncTaskFromBoard = useCallback((boardToSync = null) => {
         const boardToUse = boardToSync || board
         if (boardToUse && groupId && taskId) {
@@ -64,17 +68,17 @@ export function TaskDetails() {
         syncTaskFromBoard()
     }, [syncTaskFromBoard])
 
-  function openPopup(popupName, event) {
-    setActivePopup(popupName)
-    // store button position for popup positioning
-    if (event?.currentTarget) {
-      const buttonRect = event.currentTarget.getBoundingClientRect()
-      setPopupPosition({
-        top: buttonRect.bottom + 8, // 8px gap below button
-        left: buttonRect.left,
-      })
+    function openPopup(popupName, event) {
+        setActivePopup(popupName)
+        // store button position for popup positioning
+        if (event?.currentTarget) {
+            const buttonRect = event.currentTarget.getBoundingClientRect()
+            setPopupPosition({
+                top: buttonRect.bottom + 8, // 8px gap below button
+                left: buttonRect.left,
+            })
+        }
     }
-  }
 
     function closePopup() {
         setActivePopup(null)
@@ -104,24 +108,12 @@ export function TaskDetails() {
         }
     }
 
-    async function onArchiveTask(task) {
-        if (!board || !task) return
-        try {
-            await updateTask(board, groupId, task.id, { archivedAt: Date.now() })
-            showSuccessMsg('Card archived')
-            navigate(`/board/${boardId}`)
-        } catch (err) {
-            console.log('err:', err)
-            showErrorMsg('Failed to archive')
-        }
-    }
-
     if (!board) return <Loader />
 
     return (
         <div className="task-details-modal" onClick={handleBackdropClick}>
             <div className="task-details">
-                
+
                 <TaskDetailsCover
                     task={task}
                     board={board}
@@ -131,7 +123,6 @@ export function TaskDetails() {
                     onOpenPopup={openPopup}
                     attachments={attachments}
                     boardId={boardId}
-                    onArchiveTask={onArchiveTask}
                 />
                 {task && (
                     <div className="task-details-comments">
@@ -180,7 +171,6 @@ export function TaskDetails() {
                             task={task}
                             onOpenPopup={openPopup}
                             onTaskUpdate={setTask}
-                            onAttachmentsUpdate={setAttachments}
                         />
 
                         <TaskDetailsPopupManager

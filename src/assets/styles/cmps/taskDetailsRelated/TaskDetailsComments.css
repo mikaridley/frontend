@@ -104,5 +104,6 @@
 .comment-text p{
   background-color: #2b2c2f;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  margin: 0;
+  margin-left: 2rem;
+  border-radius: 4px;
 }

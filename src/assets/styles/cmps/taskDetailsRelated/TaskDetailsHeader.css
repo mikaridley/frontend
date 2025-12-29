@@ -95,15 +95,21 @@
   border-radius: 3px;
 }
 
+.task-title-measure {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 .task-title-edit {
-  font-size: 1.4rem;
+  font-size: xx-large;
   font-weight: 600;
   font-family: inherit;
   border: 2px solid #0079bf;
   border-radius: 3px;
   padding: 0 8px;
-  margin: 0;
-  resize: none;
+  margin-bottom: 1rem;
   overflow: hidden;
   line-height: 1.4;
   background-color: transparent;
@@ -112,5 +118,9 @@
   color: var(--clr-task-txt-dark);
   box-sizing: border-box;
   display: block;
+  resize: none;
+  min-height: 0;
+  height: auto;
+  vertical-align: top;
 }
 

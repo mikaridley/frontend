@@ -7,12 +7,11 @@ import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
 import attachmentsImg from '../../assets/img/attachments.svg'
 import { LightTooltip } from '../LightToolTip'
 
-export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate, onAttachmentsUpdate }) {
+export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate }) {
 
     async function handleDeleteAttachment(attachmentId) {
         if (!board) return
         const updatedAttachments = attachments.filter(attachment => attachment.id !== attachmentId)
-        onAttachmentsUpdate(updatedAttachments)
         onTaskUpdate({ ...task, attachments: updatedAttachments })
         try {
             await updateTask(board, groupId, taskId, { attachments: updatedAttachments })
