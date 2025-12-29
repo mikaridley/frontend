@@ -7,11 +7,26 @@
   }
 }
 
+.description-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.description-icon {
+  width: 16px;
+  height: 16px;
+  margin-bottom: -0.5rem;
+}
+
 .task-description-button {
   border: 2px solid #3c3d40;
   box-sizing: border-box;
-  padding: 1rem;
-
+  padding: 0.3rem 1rem 1rem 0.5rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  display: flex;
   &:hover {
     cursor: pointer;
     background-color: #2b2c2f;
@@ -36,7 +51,7 @@
   background-color: #5ba4cf;
   color: black;
   border-color: #5ba4cf;
-
+  margin-right: 0.5rem;
   &:hover {
     background-color: #4a93be;
     border-color: #4a93be;

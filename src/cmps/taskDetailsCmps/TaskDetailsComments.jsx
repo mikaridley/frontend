@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { updateTask } from '../../store/actions/task.actions'
-import { makeId } from '../../services/util.service'
+import { makeId, formatTimestamp } from '../../services/util.service'
 import { showErrorMsg } from '../../services/event-bus.service'
 import { userService } from '../../services/user'
 
@@ -10,11 +10,25 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
     const [comments, setComments] = useState(initialComments || [])
     const [newComment, setNewComment] = useState('')
     const [isAddingComment, setIsAddingComment] = useState(false)
+    const quillRef = useRef(null)
 
     // update comments when initialComments changes
     useEffect(() => {
         setComments(initialComments || [])
     }, [initialComments])
+
+    // focus the editor when form appears (autofocus doesnt work)
+    useEffect(() => {
+        if (isAddingComment && quillRef.current) {
+            // small delay to ensure reactquill is fully rendered
+            setTimeout(() => {
+                const editor = quillRef.current.getEditor()
+                if (editor) {
+                    editor.focus()
+                }
+            }, 0)
+        }
+    }, [isAddingComment])
 
     function startAddingComment() {
         setIsAddingComment(true)
@@ -24,7 +38,7 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
         ev.preventDefault()
         if (!board || !newComment.trim()) return
         
-        // Get user from prop or fallback to service
+        // get user from prop or fallback to service
         const user = loggedinUser || userService.getLoggedinUser()
         if (!user) {
             showErrorMsg('You must be logged in to add a comment')
@@ -63,6 +77,7 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
             {isAddingComment && (
                 <form onSubmit={saveComment}>
                     <ReactQuill
+                        ref={quillRef}
                         theme="snow"
                         value={newComment}
                         onChange={setNewComment}
@@ -95,9 +110,9 @@ export function TaskDetailsComments({ boardId, groupId, taskId, board, comments:
                                     {comment.userFullname || 'Unknown User'}
                                 </span>
                             </div>
-                            <div dangerouslySetInnerHTML={{ __html: comment.text }} />
+                            <div className="comment-text" dangerouslySetInnerHTML={{ __html: comment.text }} />
                             <span className="comment-date">
-                                {new Date(comment.createdAt).toLocaleString()}
+                                {formatTimestamp(comment.createdAt)}
                             </span>
                         </div>
                     ))}

@@ -181,7 +181,14 @@ function getEmptyBoard() {
     style: {
       background: { color: '', kind: '' },
     },
-    labels: [],
+      labels: [
+      { color: '#AE2E24', title: '', colorName: 'red' },
+      { color: '#DDB30E', title: '', colorName: 'bold yellow' },
+      { color: '#216E4E', title: '', colorName: 'green' },
+      { color: '#1558BC', title: '', colorName: 'blue' },
+      { color: '#C97CF4', title: '', colorName: 'bold purple' },
+      { color: '#7F5F01', title: '', colorName: 'yellow' }
+    ],
     members: [],
     groups: [],
     activities: [],

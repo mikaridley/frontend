@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
-import { getMemberInitials } from '../../services/util.service'
+import { getMemberInitials, formatTimestamp } from '../../services/util.service'
 import { ACTIVITY_TYPES } from '../../services/activity.service'
 import { useNavigate } from 'react-router-dom'
 export function Activities({ board, onClose }) {
@@ -79,7 +79,14 @@ export function Activities({ board, onClose }) {
         return <>transferred "{activity.taskTitle}" to another board</>
       case ACTIVITY_TYPES.TASK_DELETED:
         return <>deleted "{activity.taskTitle}" from <div onClick={() => navigate(`/board/${board._id}/${activity.groupId}`)}>{activity.groupTitle}</div></>
-      
+      case ACTIVITY_TYPES.TASK_ARCHIVED:
+        return <>archived {activity.taskTitle} from {activity.groupTitle}</>
+      case ACTIVITY_TYPES.TASK_UNARCHIVED:
+        return <>unarchived {activity.taskTitle}</>
+      case ACTIVITY_TYPES.TASK_FINISHED:
+        return <>marked <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div> as complete</>
+      case ACTIVITY_TYPES.TASK_UNFINISHED:
+        return <>marked <div className="activity-link" onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.taskTitle}</div> as incomplete</>
       // Task detail activities
       case ACTIVITY_TYPES.MEMBER_ADDED_TO_TASK:
         return (
@@ -141,25 +148,6 @@ export function Activities({ board, onClose }) {
     }
   }
 
-  function formatTimestamp(timestamp) {
-    const date = new Date(timestamp)
-    const now = new Date()
-    const diffMs = now - date
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMs / 3600000)
-    const diffDays = Math.floor(diffMs / 86400000)
-
-    if (diffMins < 1) return 'just now'
-    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`
-    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
-    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
-    
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
-    })
-  }
 
   return (
     <div className="activities-container">

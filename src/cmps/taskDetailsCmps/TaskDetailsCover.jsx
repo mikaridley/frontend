@@ -5,6 +5,7 @@ import { taskService } from '../../services/task'
 import { useNavigate } from 'react-router-dom'
 import imageIcon from '../../assets/imgs/icons/image_icon.svg'
 import { LightTooltip } from '../LightToolTip'
+import archiveIcon from '../../assets/img/archive.svg'
 // receives an image url and updates the cover background
 function setCoverBackgroundFromImage(imageUrl) {
   if (!imageUrl) return
@@ -29,6 +30,7 @@ export function TaskDetailsCover({
   onOpenPopup,
   attachments,
   boardId,
+  onArchiveTask,
 }) {
   const navigate = useNavigate()
   if (!board || !board.groups || !groupId) return null
@@ -62,7 +64,6 @@ export function TaskDetailsCover({
   const coverStyle = {}
   if (cover && cover.kind !== 'photo') {
     // color-only cover (no image)
-    // if you ever distinguish 'solid' vs 'gradient', you can branch here
     coverStyle.background = cover.color
   }
 
@@ -120,7 +121,11 @@ export function TaskDetailsCover({
             <img src={imageIcon} alt="image" />
           </button>
         </LightTooltip>
-      </div>
+        <LightTooltip title="Archive">
+        <button className="btn-archive" onClick={() => onArchiveTask(task)}>
+          <img src={archiveIcon} alt="archive" />
+        </button>
+      </LightTooltip>
       <LightTooltip title="Close">
         <button
           className="modal-close-btn"
@@ -130,6 +135,8 @@ export function TaskDetailsCover({
           ×
         </button>
       </LightTooltip>
+      </div>
+      
     </div>
   )
 }

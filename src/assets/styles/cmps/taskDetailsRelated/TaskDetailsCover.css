@@ -7,7 +7,7 @@
   justify-content: space-between;
   width: 100%;
   margin-top: -2rem;
-  margin-bottom: -1.5rem; 
+  margin-bottom: -1.5rem;
   padding: 0 2rem;
 }
 
@@ -24,10 +24,11 @@
   box-sizing: border-box;
   cursor: pointer;
   max-height: 32px;
-  margin-left: 2rem;
+  margin-left: 0;
   margin-top: 1rem;
   border-radius: 4px;
   white-space: nowrap;
+
   &:hover {
     background-color: #5b5d61;
   }
@@ -43,6 +44,7 @@
   height: 2rem;
   border-radius: 50%;
   background-color: #242528;
+
   &:hover {
     background-color: #242528f0;
   }
@@ -65,7 +67,7 @@
 .background-color.background-photo .photo-bg-msg {
   opacity: 0;
   transition: opacity 0.15s;
-  position: absolute;     
+  position: absolute;
   bottom: 0.5rem;
   left: 0;
   padding: 0;
@@ -75,7 +77,7 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;    
+  -webkit-line-clamp: 1;
 }
 
 /* show on hover */
@@ -89,6 +91,7 @@
   color: #fff;
   text-decoration: none;
   font-weight: 500;
+
   &:hover {
     text-decoration: underline;
   }
@@ -101,13 +104,15 @@
 
 .cover-colors-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 per row */
+  grid-template-columns: repeat(5, 1fr);
+  /* 5 per row */
   gap: 8px;
   margin-bottom: 12px;
 }
 
 .cover-colors-grid .background-color {
-  width: 48px;      /* tweak as you like */
+  width: 48px;
+  /* tweak as you like */
   height: 32px;
   border-radius: 4px;
   cursor: pointer;
@@ -121,6 +126,7 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
   color: var(--clr-task-txt-dark);
+
   &:hover {
     background-color: #2b2c2f;
   }
@@ -134,8 +140,25 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
   color: var(--clr-task-txt-dark);
+
   &:hover {
-    background-color: #2b2c2f;
+    background-color: #2b2c2fea;
+    color: var(--clr-task-txt-dark);
   }
 }
 
+
+.btn-archive {
+  margin-top: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #242528;
+  margin-right: -0.5rem;
+  margin-left: 0.5rem;
+
+  &:hover {
+    background-color: #2b2c2fea;
+    color: var(--clr-task-txt-dark);
+  }
+}

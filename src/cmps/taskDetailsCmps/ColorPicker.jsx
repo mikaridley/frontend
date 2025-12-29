@@ -38,7 +38,8 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
         const updatedLabel = {
             ...(label || {}),
             title: labelTitle,
-            color: labelColor.color
+            color: labelColor.color,
+            colorName: labelColor.title
         }
 
         let updatedBoard = { ...board }
@@ -73,19 +74,20 @@ export function ColorPicker({ board, groupId, taskId, label, onClose, onCloseAll
             // Initialize board.labels with default labels if it's empty
             if (updatedBoard.labels.length === 0) {
                 updatedBoard.labels = [
-                    { color: '#AE2E24', title: 'red' },
-                    { color: '#DDB30E', title: 'bold yellow' },
-                    { color: '#216E4E', title: 'green' },
-                    { color: '#1558BC', title: 'blue' },
-                    { color: '#C97CF4', title: 'bold purple' },
-                    { color: '#7F5F01', title: 'yellow' }
+                    { color: '#AE2E24', title: '', colorName: 'red' },
+                    { color: '#DDB30E', title: '', colorName: 'bold yellow' },
+                    { color: '#216E4E', title: '', colorName: 'green' },
+                    { color: '#1558BC', title: '', colorName: 'blue' },
+                    { color: '#C97CF4', title: '', colorName: 'bold purple' },
+                    { color: '#7F5F01', title: '', colorName: 'yellow' }
                 ]
             }
 
             const newLabel = {
                 id: `l${Date.now()}`,
                 title: labelTitle,
-                color: labelColor.color
+                color: labelColor.color,
+                colorName: labelColor.title
             }
             updatedBoard.labels.push(newLabel)
             await boardService.save(updatedBoard)

@@ -24,7 +24,7 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate, 
                 textarea.style.height = Math.max(savedHeightRef.current - 14, contentHeight-14) + 'px'
                 savedHeightRef.current = null // clear after first use
             } else {
-                // auto-resize textarea to fit content (reduced height)
+                // auto-resize textarea to fit content
                 textarea.style.height = 'auto'
                 textarea.style.height = (textarea.scrollHeight - 14) + 'px'
             }
@@ -37,7 +37,7 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate, 
     useEffect(() => {
         if (isEditing && textareaRef.current) {
             const textarea = textareaRef.current
-            // auto-resize textarea to fit content (reduced height)
+            // auto-resize textarea to fit content
             textarea.style.height = 'auto'
             textarea.style.height = (textarea.scrollHeight - 14) + 'px'
         }
@@ -153,7 +153,7 @@ export function TaskDetailsHeader({ task, board, groupId, taskId, onTaskUpdate, 
                     className={`btn-add ${isScrolled ? 'visible' : ''}`} 
                     onClick={(e) => onOpenPopup('add', e)}
                 >
-                    + Add
+                    <span className="btn-add-plus">+</span> Add
                 </button>
             )}
         </div>

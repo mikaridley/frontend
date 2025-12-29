@@ -20,7 +20,8 @@
   box-sizing: border-box;
 
   &.scrolled {
-    box-shadow: 0 4px 8px -4px rgba(111, 111, 111, 0.3);
+    box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #3c3d40;
   }
 
   & .btn-add {
@@ -46,6 +47,15 @@
     
     &:hover {
       background-color: #2b2c2f;
+    }
+
+    & .btn-add-plus {
+      font-size: 1rem;
+      font-weight: 200;
+      display: inline-block;
+      transform: scale(2) translateY(-0.05em);
+      transform-origin: center center;
+      margin-right: 0.2rem;
     }
   }
 }
