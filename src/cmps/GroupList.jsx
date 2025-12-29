@@ -19,12 +19,11 @@ import { TaskPreview } from './TaskPreview'
 import { SortableItem } from './SortableItem'
 
 import { addGroup, updateGroup } from '../store/actions/group.actions'
-import { updateBoard } from '../store/actions/board.actions'
 import { groupService } from '../services/group/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import closeIcon from '../assets/img/close.svg'
 
-export function GroupList({ board }) {
+export function GroupList({ board, onUpdateBoard }) {
   // const board = useSelector(storeState => storeState.boardModule.board)
   const [group, setGroup] = useState(groupService.getEmptyGroup())
   const [isAddingGroup, setIsAddingGroup] = useState(false)
@@ -58,7 +57,6 @@ export function GroupList({ board }) {
   }
 
   async function onUpdateGroup(groupToEdit) {
-    const { title } = groupToEdit
     try {
       await updateGroup(board, groupToEdit)
     } catch (err) {
@@ -188,14 +186,14 @@ export function GroupList({ board }) {
       setGroups(finalGroups)
 
       try {
-        await updateBoard({ ...board, groups: finalGroups })
+        await onUpdateBoard({ ...board, groups: finalGroups })
       } catch (err) {
         console.log('err:', err)
       }
       return
     }
     try {
-      await updateBoard({ ...board, groups: groups })
+      await onUpdateBoard({ ...board, groups: groups })
     } catch (err) {
       console.log('err:', err)
     }

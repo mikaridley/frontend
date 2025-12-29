@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ShareBoard } from './ShareBoard'
 import { BoardSettings } from './BoardSettings'
@@ -23,6 +23,10 @@ export function BoardHeader({
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isShareOpen, setIsShareOpen] = useState(false)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+
+  useEffect(() => {
+    setBoardToEdit(board)
+  }, [board])
 
   function handleChange({ target }) {
     const value = target.value
