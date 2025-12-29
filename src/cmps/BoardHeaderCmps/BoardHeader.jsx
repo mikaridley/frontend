@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ShareBoard } from './ShareBoard'
 import { BoardSettings } from './BoardSettings'
@@ -8,11 +8,11 @@ import yellowStarIcon from '../../assets/img/yellow-star.png'
 import moreIcon from '../../assets/img/more-white.svg'
 import filterIcon from '../../assets/img/filter.svg'
 import { FilterTasks } from './FilterTasks'
+import { preconnect } from 'react-dom'
 
 export function BoardHeader({
   board,
   onUpdateBoard,
-  starToggle,
   onRemoveBoard,
   changeBoardColor,
   onSetFilterBy,
@@ -24,14 +24,27 @@ export function BoardHeader({
   const [isShareOpen, setIsShareOpen] = useState(false)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
+  useEffect(() => {
+    setBoardToEdit(board)
+  }, [board])
+
   function handleChange({ target }) {
     const value = target.value
-    setBoardToEdit(board => ({ ...board, title: value }))
+    setBoardToEdit(prevBoard => ({ ...prevBoard, title: value }))
   }
 
   function onToggleStar() {
     setIsStarred(isStarred => !isStarred)
-    starToggle()
+    const updatedBoard = { ...board, isStarred: !board.isStarred }
+    onUpdateBoard(updatedBoard)
+  }
+
+  function onUpdateBoardTitle() {
+    const { title } = boardToEdit
+    if (!title || board.title === title || !title.trim().length) {
+      return setBoardToEdit(prevBoard => ({ ...prevBoard, title: board.title }))
+    }
+    onUpdateBoard(boardToEdit)
   }
 
   function openHeaderMenu() {
@@ -51,7 +64,7 @@ export function BoardHeader({
       <input
         className="title-input"
         onChange={handleChange}
-        onBlur={() => onUpdateBoard(boardToEdit)}
+        onBlur={onUpdateBoardTitle}
         value={boardToEdit.title || ''}
       />
       <section className="header-btns flex align-center">

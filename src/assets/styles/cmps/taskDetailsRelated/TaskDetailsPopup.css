@@ -219,7 +219,38 @@
 }
 
 .label-item input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid #3c3d40;
+  border-radius: 4px;
+  background-color: #242528;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.label-item input[type='checkbox']:hover {
+  background-color: #2b2c2f;
+}
+
+.label-item input[type='checkbox']:checked {
+  background-color: #5ba4cf;
+  /* border-color: white; */
+}
+
+.label-item input[type='checkbox']:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid 1px black;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .label-color {

@@ -110,6 +110,7 @@ export function TaskChecklistsDisplay({
     onUpdateItemText,
     onUpdateChecklistName,
     onRemoveItem,
+    onRemoveChecklist,
     addingItemToChecklist,
     newItemText,
     onNewItemTextChange,
@@ -186,6 +187,7 @@ export function TaskChecklistsDisplay({
                         <div className="checklist-name">
                         <img src={checklistIcon} className="checklist-icon" />
                         <h6 onClick={() => startEdit('name', checklist.id, checklist.name)}>{checklist.name}</h6>
+                        <button className="btn-delete-checklist" onClick={() => onRemoveChecklist(checklist.id)}>Delete</button>
                         </div>
                     )}
                     <div className="checklist-progress">

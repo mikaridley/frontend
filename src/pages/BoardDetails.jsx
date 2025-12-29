@@ -45,6 +45,17 @@ export function BoardDetails() {
       loadBoard(boardId)
     } catch (err) {
       console.log('err:', err)
+      showErrorMsg('Could not load board')
+    }
+
+    socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
+    socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {
+      dispatch(getCmdUpdateBoard(board))
+    })
+
+    return () => {
+      socketService.off(SOCKET_EVENT_BOARD_UPDATED)
+      store.dispatch({ type: SET_BOARD, board: '' })
     }
   }, [boardId])
 
@@ -54,33 +65,13 @@ export function BoardDetails() {
     setFilteredBoard(boardService.getFilteredBoard(board, filterBy))
   }, [filterBy, board])
 
-  useEffect(() => {
-    socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
-
-    socketService.on(SOCKET_EVENT_BOARD_UPDATED, board => {
-      dispatch(getCmdUpdateBoard(board))
-    })
-    return () => {
-      socketService.off(SOCKET_EVENT_BOARD_UPDATED)
-      store.dispatch({ type: SET_BOARD, board: '' })
-    }
-  }, [boardId])
-
   function onUpdateBoard(boardToEdit) {
     try {
-      if (!boardToEdit.title) return
+      console.log('boardToEdit:', boardToEdit)
       updateBoard(boardToEdit)
     } catch (err) {
       console.log('err:', err)
-    }
-  }
-
-  async function starToggle() {
-    board.isStarred = !board.isStarred
-    try {
-      await updateBoard(board)
-    } catch (err) {
-      console.log(err)
+      showErrorMsg(`Failed to update`)
     }
   }
 
@@ -133,13 +124,12 @@ export function BoardDetails() {
       <BoardHeader
         board={board}
         onUpdateBoard={onUpdateBoard}
-        starToggle={starToggle}
         onRemoveBoard={onRemoveBoard}
         changeBoardColor={changeBoardColor}
         onSetFilterBy={onSetFilterBy}
         filterBy={filterBy}
       />
-      <GroupList board={filteredBoard} />
+      <GroupList board={filteredBoard} onUpdateBoard={onUpdateBoard} />
       <Outlet />
     </section>
   )

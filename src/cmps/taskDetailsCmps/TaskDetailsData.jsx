@@ -2,8 +2,9 @@ import { taskService } from '../../services/task'
 import { updateTask } from '../../store/actions/task.actions'
 import { showErrorMsg } from "../../services/event-bus.service.js"
 import arrowIcon from '../../assets/imgs/icons/arrow_right.svg'
-import { getMemberInitials, isImageFile, getFileIcon } from '../../services/util.service'
+import { getMemberInitials, isImageFile, getFileIcon, getColorNameFromHex } from '../../services/util.service'
 import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
+import attachmentsImg from '../../assets/img/attachments.svg'
 import { LightTooltip } from '../LightToolTip'
 
 export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate, onAttachmentsUpdate }) {
@@ -33,7 +34,7 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                     <div
                                         key={member._id}
                                         className="member-tag"
-                                        // add later onClick - open member's details popup
+                                        // add later onClick - open member details popup
                                     >
                                         <LightTooltip title={member.fullname}>
                                             <div className="member-avatar">
@@ -42,7 +43,7 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                         </LightTooltip>
                                     </div>
                                 ))}
-                                <button className="btn-add-label" onClick={(e) => onOpenPopup('members', e)}> + </button>
+                                <button className="btn-add-label" style={{ borderRadius: '50%' }} onClick={(e) => onOpenPopup('members', e)}> + </button>
                             </div>
                         </div>
                     )}
@@ -50,7 +51,12 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                         <div className="labels">
                             <h5>Labels</h5>
                             <div className="labels-list">
-                                {labels.map((label, index) => (
+                                {labels.map((label, index) => {
+                                    const colorName = label.colorName || getColorNameFromHex(label.color)
+                                    return (
+                                    <LightTooltip key={label.id}
+                                    title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
+                                  >
                                     <div
                                         key={label.id || label.color || index}
                                         className="label-tag"
@@ -59,7 +65,8 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                     >
                                         {label.title || ' '}
                                     </div>
-                                ))}
+                                    </LightTooltip>
+                                )})}
                                 <button className="btn-add-label" onClick={(e) => onOpenPopup('labels', e)}> + </button>
                             </div>
                         </div>
@@ -84,7 +91,10 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
             {attachments.length > 0 && (
                 <div className="attachments">
                     <div className="attachments-header">
-                        <h5>Attachments</h5>
+                        <div className="attachments-title">
+                            <img src={attachmentsImg} alt="attachments" className="attachments-icon" />
+                            <h5>Attachments</h5>
+                        </div>
                         <button className="btn-add-attachment" onClick={(e) => onOpenPopup('attachments', e)}> Add </button>
                     </div>
                     <div className="attachments-list">

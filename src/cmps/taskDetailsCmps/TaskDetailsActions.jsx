@@ -9,7 +9,7 @@ export function TaskDetailsActions({ onOpenPopup, members = [], labels = [], dat
             <button className="btn-add" onClick={(e) => onOpenPopup('add', e)}>+ Add</button>
             <button className="btn-attachments" onClick={(e) => onOpenPopup('attachments', e)}>
                 <img src={attachmentIcon} alt="attachments" />
-                Attachments
+                Attachment
             </button>
             {!labels.length && (
                 <button className="btn-labels" onClick={(e) => onOpenPopup('labels', e)}>
@@ -22,7 +22,7 @@ export function TaskDetailsActions({ onOpenPopup, members = [], labels = [], dat
             )}
             <button className="btn-checklists" onClick={(e) => onOpenPopup('checklists', e)}>
                 <img src={checkboxIcon} alt="checklists" />
-                Checklists
+                Checklist
             </button>
             {!members.length && (
                 <button className="btn-members" onClick={(e) => onOpenPopup('members', e)}>

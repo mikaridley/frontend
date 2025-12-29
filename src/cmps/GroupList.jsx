@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   DndContext,
   PointerSensor,
   useSensor,
   useSensors,
+  TouchSensor,
   pointerWithin,
   DragOverlay,
 } from '@dnd-kit/core'
@@ -19,12 +19,11 @@ import { TaskPreview } from './TaskPreview'
 import { SortableItem } from './SortableItem'
 
 import { addGroup, updateGroup } from '../store/actions/group.actions'
-import { updateBoard } from '../store/actions/board.actions'
 import { groupService } from '../services/group/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import closeIcon from '../assets/img/close.svg'
 
-export function GroupList({ board }) {
+export function GroupList({ board, onUpdateBoard }) {
   // const board = useSelector(storeState => storeState.boardModule.board)
   const [group, setGroup] = useState(groupService.getEmptyGroup())
   const [isAddingGroup, setIsAddingGroup] = useState(false)
@@ -59,8 +58,6 @@ export function GroupList({ board }) {
 
   async function onUpdateGroup(groupToEdit) {
     try {
-      if (!groupToEdit.title || group.title === groupToEdit.title) return
-
       await updateGroup(board, groupToEdit)
     } catch (err) {
       console.log('err:', err)
@@ -96,7 +93,15 @@ export function GroupList({ board }) {
 
   //Drag and drop//
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    })
   )
 
   function getContainer(id) {
@@ -181,14 +186,14 @@ export function GroupList({ board }) {
       setGroups(finalGroups)
 
       try {
-        await updateBoard({ ...board, groups: finalGroups })
+        await onUpdateBoard({ ...board, groups: finalGroups })
       } catch (err) {
         console.log('err:', err)
       }
       return
     }
     try {
-      await updateBoard({ ...board, groups: groups })
+      await onUpdateBoard({ ...board, groups: groups })
     } catch (err) {
       console.log('err:', err)
     }
@@ -203,8 +208,8 @@ export function GroupList({ board }) {
   const activeTask =
     activeType === 'task'
       ? groups
-          .flatMap(group => group.tasks || [])
-          .find(task => task.id === activeId)
+        .flatMap(group => group.tasks || [])
+        .find(task => task.id === activeId)
       : null
 
   return (
