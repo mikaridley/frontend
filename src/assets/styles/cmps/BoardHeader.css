@@ -8,18 +8,18 @@
   background-color: rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(6px);
 
-  > input {
+  >input {
     color: white;
     font-weight: bold;
     font-size: 1rem;
-  }
 
-  input:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
   }
 
   .header-btns {
-    > button {
+    >button {
       background-color: inherit;
       padding: 0;
 

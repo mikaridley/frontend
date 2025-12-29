@@ -62,7 +62,7 @@
 
         >.selected-user {
             position: absolute;
-            top: 10px;
+            top: 9px;
             left: 15px;
 
             padding: .1rem .4rem;
@@ -93,6 +93,7 @@
 
         >.user-details {
             padding: .7rem .5rem;
+            cursor: pointer;
 
             p {
                 margin: 0;

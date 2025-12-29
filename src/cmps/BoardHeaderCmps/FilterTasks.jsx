@@ -49,136 +49,145 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                     <img src={closeIcon} />
                 </button>
             </header>
-            <h2>keyword</h2>
-            <input
-                type="text"
-                placeholder="Enter a keyword..."
-                name="txt"
-                onChange={handleTxtChange}
-                value={txt}
-            />
-            <p>Search cards, members, labels, and more.</p>
 
-            <h2>Members</h2>
-            <ul className="filter-members">
-                <li key={0}>
-                    <input
-                        type="checkbox"
-                        id="noMember"
-                        name="members"
-                        value='none'
-                        onChange={handleCheckboxChange}
-                        checked={members.includes('none')}
-                    />
-                    <label htmlFor="noMember">No members</label>
-                </li>
-                {board.members.map(member =>
-                    <li key={member._id}>
+            <section className="filter-lists">
+                <h2>Keyword</h2>
+                <input
+                    type="text"
+                    placeholder="Enter a keyword..."
+                    name="txt"
+                    onChange={handleTxtChange}
+                    value={txt}
+                />
+
+                <h2>Members</h2>
+                <ul className="filter-members">
+                    <li key={0}>
                         <input
                             type="checkbox"
-                            id={member._id}
+                            id="noMember"
                             name="members"
-                            value={member._id}
+                            value='none'
                             onChange={handleCheckboxChange}
-                            checked={members.includes(member._id)}
+                            checked={members.includes('none')}
                         />
-                        <label htmlFor={member._id}>{member.fullname}</label>
+                        <label htmlFor="noMember">No members</label>
                     </li>
-                )}
-            </ul>
+                    {board.members.map(member =>
+                        <li key={member._id}>
+                            <input
+                                type="checkbox"
+                                id={member._id}
+                                name="members"
+                                value={member._id}
+                                onChange={handleCheckboxChange}
+                                checked={members.includes(member._id)}
+                            />
+                            <label htmlFor={member._id}>{member.fullname}</label>
+                        </li>
+                    )}
+                </ul>
 
-            <h2>Card status</h2>
-            <ul>
-                <li key={1}>
-                    <input
-                        type="checkbox"
-                        id="done"
-                        name="status"
-                        value="done"
-                        onChange={handleRadioChange}
-                        checked={status === 'done'}
-                    />
-                    <label htmlFor="done">Marked as complete</label>
-                </li>
-                <li key={2}>
-                    <input
-                        type="checkbox"
-                        id="inProgress"
-                        name="status"
-                        value="inProgress"
-                        onChange={handleRadioChange}
-                        checked={status === 'inProgress'}
-                    />
-                    <label htmlFor="inProgress">Not marked as complete</label>
-                </li>
-            </ul>
-
-            <h2>Due dates</h2>
-            <ul>
-                <li key={0}>
-                    <input
-                        type="checkbox"
-                        id="noDates"
-                        name="dueDate"
-                        value='none'
-                        onChange={handleCheckboxChange}
-                        checked={dueDate.includes('none')}
-                    />
-                    <label htmlFor="noDates">No dates</label>
-                </li>
-                <li key={1}>
-                    <input
-                        type="checkbox"
-                        id="overdue"
-                        name="dueDate"
-                        value="overdue"
-                        onChange={handleCheckboxChange}
-                        checked={dueDate.includes('overdue')}
-                    />
-                    <label htmlFor="overdue">Overdue</label>
-                </li>
-                <li key={2}>
-                    <input
-                        type="checkbox"
-                        id="today"
-                        name="dueDate"
-                        value="today"
-                        onChange={handleCheckboxChange}
-                        checked={dueDate.includes('today')}
-                    />
-                    <label htmlFor="today">Due in the next day</label>
-                </li>
-            </ul>
-
-            <h2>Labels</h2>
-            <ul>
-                <li key={0}>
-                    <input
-                        type="checkbox"
-                        id="noLabels"
-                        name="labels"
-                        value={'none'}
-                        onChange={handleCheckboxChange}
-                        checked={labels.includes('none')}
-                    />
-                    <label htmlFor="noLabels">No labels</label>
-                </li>
-                {board.labels.map(label =>
-                    <li key={label.id} style={{ backgroundColor: label.color }}>
+                <h2>Card status</h2>
+                <ul className="status-filter">
+                    <li key={1}>
                         <input
                             type="checkbox"
-                            id={label.id}
-                            name="labels"
-                            value={label.id}
-                            onChange={handleCheckboxChange}
-                            checked={labels.includes(label.id)}
+                            id="done"
+                            name="status"
+                            value="done"
+                            onChange={handleRadioChange}
+                            checked={status === 'done'}
                         />
-                        <label htmlFor={label.id}>{label.title}</label>
+                        <label htmlFor="done">Marked as complete</label>
                     </li>
-                )}
-            </ul>
+                    <li key={2}>
+                        <input
+                            type="checkbox"
+                            id="inProgress"
+                            name="status"
+                            value="inProgress"
+                            onChange={handleRadioChange}
+                            checked={status === 'inProgress'}
+                        />
+                        <label htmlFor="inProgress">Not marked as complete</label>
+                    </li>
+                </ul>
 
-            {/* <h2>Activity</h2> */}
+                <h2>Due dates</h2>
+                <ul className="dates-filter">
+                    <li key={0}>
+                        <input
+                            type="checkbox"
+                            id="noDates"
+                            name="dueDate"
+                            value='none'
+                            onChange={handleCheckboxChange}
+                            checked={dueDate.includes('none')}
+                        />
+                        <label htmlFor="noDates">No dates</label>
+                    </li>
+                    <li key={1}>
+                        <input
+                            type="checkbox"
+                            id="overdue"
+                            name="dueDate"
+                            value="overdue"
+                            onChange={handleCheckboxChange}
+                            checked={dueDate.includes('overdue')}
+                        />
+                        <label htmlFor="overdue">Overdue</label>
+                    </li>
+                    <li key={2}>
+                        <input
+                            type="checkbox"
+                            id="today"
+                            name="dueDate"
+                            value="today"
+                            onChange={handleCheckboxChange}
+                            checked={dueDate.includes('today')}
+                        />
+                        <label htmlFor="today">Due in the next day</label>
+                    </li>
+                </ul>
+
+                <h2>Labels</h2>
+                <ul className="labels-filter">
+                    <li key={0}>
+                        <input
+                            type="checkbox"
+                            id="noLabels"
+                            name="labels"
+                            value={'none'}
+                            onChange={handleCheckboxChange}
+                            checked={labels.includes('none')}
+                        />
+                        <label htmlFor="noLabels">No labels</label>
+                    </li>
+                    {board.labels.map(label =>
+                        <li key={label.id}>
+                            <input
+                                type="checkbox"
+                                id={label.id}
+                                name="labels"
+                                value={label.id}
+                                onChange={handleCheckboxChange}
+                                checked={labels.includes(label.id)}
+                            />
+                            <label htmlFor={label.id}
+                                style={
+                                    {
+                                        backgroundColor: label.color,
+                                        color: `color-mix(in srgb, ${label.color}, white 70%)`
+                                    }
+                                }>
+                                {label.title}
+                            </label>
+                        </li>
+                    )}
+                </ul>
+            </section>
+
         </section>
     )
 }
