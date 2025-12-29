@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 
 import { LightTooltip } from './LightToolTip'
+import { getColorNameFromHex } from '../services/util.service'
 
 import doneIcon from '../assets/img/done.svg'
 import archiveIcon from '../assets/img/archive.svg'
@@ -89,17 +90,18 @@ export function TaskPreview({
       <section className="task-all-details">
         {task.labels && (
           <div className="task-labels-container">
-            {task.labels.map(label =>
+            {task.labels.map(label => {
+              const colorName = label.colorName || getColorNameFromHex(label.color)
+              return (
               <LightTooltip key={label.id}
-                title={`Color: ${label.colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
+                title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
               >
                 <div
                   className="task-label"
                   style={{ backgroundColor: label.color }}
                 ></div>
               </LightTooltip>
-
-            )}
+            )})}
           </div>
         )}
 

@@ -19,6 +19,30 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
       groupId,
     })
   }
+  // log task status changes (finished/unfinished)
+  if (changes.status !== undefined) {
+    const oldStatus = oldTask?.status || ''
+    const newStatus = changes.status || ''
+    
+    // log when task is marked as finished (status changes to 'done')
+    if (oldStatus !== 'done' && newStatus === 'done') {
+      logActivity(updatedBoard, ACTIVITY_TYPES.TASK_FINISHED, {
+        taskId,
+        taskTitle: newTask?.title || oldTask?.title,
+        groupTitle: group?.title,
+        groupId,
+      })
+    }
+    // log when task is marked as unfinished (status changes from 'done' to something else)
+    else if (oldStatus === 'done' && newStatus !== 'done') {
+      logActivity(updatedBoard, ACTIVITY_TYPES.TASK_UNFINISHED, {
+        taskId,
+        taskTitle: newTask?.title || oldTask?.title,
+        groupTitle: group?.title,
+        groupId,
+      })
+    }
+  }
 
   // log member changes
   if (changes.members) {
@@ -50,7 +74,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
     })
   }
 
-  // Log label changes
+  // log label changes
   if (changes.labels) {
     const added = changes.labels.filter(
       l => !(oldTask?.labels || [])?.some(ol => ol.id === l.id)
@@ -80,7 +104,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
     })
   }
 
-  // Log due date changes
+  // log due date changes
   if (changes.dates !== undefined) {
     if (!oldTask?.dates && changes.dates) {
       logActivity(updatedBoard, ACTIVITY_TYPES.DUE_DATE_ADDED, {
@@ -112,7 +136,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
     }
   }
 
-  // Log attachment changes
+  // log attachment changes
   if (changes.attachments) {
     const added = changes.attachments.filter(
       a => !(oldTask?.attachments || [])?.some(oa => oa.id === a.id)
@@ -142,7 +166,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
     })
   }
 
-  // Log comment changes
+  // log comment changes
   if (changes.comments) {
     const added = changes.comments.filter(
       c => !(oldTask?.comments || [])?.some(oc => oc.id === c.id)
@@ -170,7 +194,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
     })
   }
 
-  // Log checklist changes
+  // log checklist changes
   if (changes.checklists) {
     const added = changes.checklists.filter(
       c => !(oldTask?.checklists || [])?.some(oc => oc.id === c.id)
@@ -199,23 +223,23 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
       })
     })
 
-    // Log checklist item checked/unchecked changes
+    // log checklist item checked/unchecked changes
     const oldChecklists = oldTask?.checklists || []
     const newChecklists = changes.checklists || []
     
-    // Check each checklist for item changes
+    // check each checklist for item changes
     newChecklists.forEach(newChecklist => {
       const oldChecklist = oldChecklists.find(oc => oc.id === newChecklist.id)
-      if (!oldChecklist) return // Skip if checklist is new (already logged above)
+      if (!oldChecklist) return // skip if checklist is new (already logged above)
       
       const oldItems = oldChecklist.items || []
       const newItems = newChecklist.items || []
       
-      // Check each item in the new checklist
+      // check each item in the new checklist
       newItems.forEach((newItem, itemIndex) => {
         const oldItem = oldItems[itemIndex]
         
-        // Only log if item exists in both old and new, and isChecked status changed
+        // only log if item exists in both old and new, and isChecked status changed
         if (oldItem && oldItem.text === newItem.text) {
           const wasChecked = oldItem.isChecked || false
           const isNowChecked = newItem.isChecked || false
@@ -246,7 +270,7 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
     })
   }
 
-  // Log cover changes
+  // log cover changes
   if (changes.cover !== undefined) {
     if (changes.cover && !oldTask?.cover) {
       logActivity(updatedBoard, ACTIVITY_TYPES.COVER_ADDED, {
@@ -259,6 +283,21 @@ export function logTaskActivities(updatedBoard, oldTask, changes, groupId, taskI
       logActivity(updatedBoard, ACTIVITY_TYPES.COVER_REMOVED, {
         taskId,
         taskTitle: newTask?.title,
+        groupTitle: group?.title,
+        groupId,
+      })
+    }
+  }
+
+  // log archive changes
+  if (changes.archivedAt !== undefined) {
+    const wasArchived = oldTask?.archivedAt !== null && oldTask?.archivedAt !== undefined
+    const isNowArchived = changes.archivedAt !== null && changes.archivedAt !== undefined
+    
+    if (!wasArchived && isNowArchived) {
+      logActivity(updatedBoard, ACTIVITY_TYPES.TASK_ARCHIVED, {
+        taskId,
+        taskTitle: newTask?.title || oldTask?.title,
         groupTitle: group?.title,
         groupId,
       })

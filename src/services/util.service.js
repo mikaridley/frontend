@@ -148,3 +148,39 @@ export function getFileIcon(fileType) {
 
   return '📄'
 }
+
+
+export function formatTimestamp(timestamp) {
+  const date = new Date(timestamp)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMs / 3600000)
+  const diffDays = Math.floor(diffMs / 86400000)
+
+  if (diffMins < 1) return 'just now'
+  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+  
+  return date.toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+  })
+}
+
+export function getColorNameFromHex(colorHex) {
+  const colorPalette = [
+    { 'color': '#164B35', 'title': 'subtle Green' }, { 'color': '#533F04', 'title': 'subtle yellow' }, { 'color': '#693200', 'title': 'subtle orange' }, { 'color': '#5D1F1A', 'title': 'subtle red' }, { 'color': '#48245D', 'title': 'subtle purple' },
+    { 'color': '#216E4E', 'title': 'green' }, { 'color': '#7F5F01', 'title': 'yellow' }, { 'color': '#9E4C00', 'title': 'orange' }, { 'color': '#AE2E24', 'title': 'red' }, { 'color': '#803FA5', 'title': 'purple' },
+    { 'color': '#4BCE97', 'title': 'bold green' }, { 'color': '#DDB30E', 'title': 'bold yellow' }, { 'color': '#FCA700', 'title': 'bold orange' }, { 'color': '#F87168', 'title': 'bold red' }, { 'color': '#C97CF4', 'title': 'bold purple' },
+    { 'color': '#123263', 'title': 'subtle blue' }, { 'color': '#164555', 'title': 'subtle sky' }, { 'color': '#37471F', 'title': 'subtle lime' }, { 'color': '#50253F', 'title': 'subtle pink' }, { 'color': '#4B4D51', 'title': 'subtle black' },
+    { 'color': '#1558BC', 'title': 'blue' }, { 'color': '#206A83', 'title': 'sky' }, { 'color': '#4C6B1F', 'title': 'lime' }, { 'color': '#943D73', 'title': 'pink' }, { 'color': '#63666B', 'title': 'black' },
+    { 'color': '#669DF1', 'title': 'bold blue' }, { 'color': '#6CC3E0', 'title': 'bold sky' }, { 'color': '#94C748', 'title': 'bold lime' }, { 'color': '#E774BB', 'title': 'bold pink' }, { 'color': '#96999E', 'title': 'bold black' }
+  ]
+  
+  const normalizedHex = colorHex?.toUpperCase()
+  const colorObj = colorPalette.find(c => c.color.toUpperCase() === normalizedHex)
+  return colorObj?.title || colorHex
+}

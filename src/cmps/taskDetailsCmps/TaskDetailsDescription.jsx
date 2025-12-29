@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill'
 import { updateTask } from '../../store/actions/task.actions'
 import { showErrorMsg } from "../../services/event-bus.service.js"
 import { isImageFile } from '../../services/util.service'
+import descriptionImg from '../../assets/img/description.svg'
 import 'react-quill/dist/quill.snow.css'
 import 'react-quill/dist/quill.bubble.css'
 
@@ -33,7 +34,10 @@ export function TaskDetailsDescription({ description: initialDescription, attach
 
     return (
         <div className="description">
-            <h5>Description</h5>
+            <div className="description-header">
+                <img src={descriptionImg} alt="description" className="description-icon" />
+                <h5>Description</h5>
+            </div>
             {!descriptionEdit && (
                 <div onClick={editDescription} className="task-description-button">
                     {description ? (

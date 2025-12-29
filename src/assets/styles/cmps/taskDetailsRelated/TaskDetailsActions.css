@@ -7,6 +7,7 @@
   gap: 5px;
   align-items: center;
   justify-content: flex-start;
+  container-type: inline-size;
 
   & button {
     color: var(--clr-task-txt-dark);
@@ -36,6 +37,42 @@
       color: var(--clr-task-txt-dark);
       stroke: currentColor;
     }
+  }
+}
+
+/* Container queries to hide buttons when there's not enough space */
+/* Hide Dates button when container < 560px */
+@container (max-width: 560px) {
+  .task-details-actions .btn-dates {
+    display: none;
+  }
+}
+
+/* Hide Members button when container < 440px */
+@container (max-width: 470px) {
+  .task-details-actions .btn-members {
+    display: none;
+  }
+}
+
+/* Hide Labels button when container < 320px */
+@container (max-width: 350px) {
+  .task-details-actions .btn-labels {
+    display: none;
+  }
+}
+
+/* Hide Checklists button when container < 210px */
+@container (max-width: 210px) {
+  .task-details-actions .btn-checklists {
+    display: none;
+  }
+}
+
+/* Hide Attachments button when container < 80px */
+@container (max-width: 80px) {
+  .task-details-actions .btn-attachments {
+    display: none;
   }
 }
 
