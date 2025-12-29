@@ -109,15 +109,12 @@
 .member-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background-color: rgb(172, 106, 36);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
   cursor: pointer;
+  border-radius: 50%;
+
+  >img{
+    border-radius: 50%;
+  }
 }
 
 /* members and dates styles */

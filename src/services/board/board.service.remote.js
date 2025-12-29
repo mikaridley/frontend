@@ -113,7 +113,6 @@ function getFilteredBoard(board, filterBy) {
     let { tasks } = group
 
     if (filterBy.txt) {
-      console.log('filterBy.txt:', filterBy.txt)
       const regExp = new RegExp(filterBy.txt, 'i')
       tasks = tasks.filter(task => regExp.test(task.title))
     }
