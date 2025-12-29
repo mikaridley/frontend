@@ -62,8 +62,7 @@ export function AiChat({ addAiBoard }) {
           </div>
 
           <div className="input-container">
-            <input
-              type="text"
+            <textarea
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder="Create a bord with AI..."
