@@ -5,7 +5,7 @@ import { ColorsBackground } from '../addBoardCmps/ColorsBackground'
 import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { SettingsArchive } from './SettingsArchive'
 import { PhotosBackground } from '../../cmps/addBoardCmps/PhotosBackground'
-import { TaskDetailsLabels } from '../taskDetailsCmps/popups/taskDetailslabels'
+import { TaskDetailsLabels } from '../taskDetailsCmps/popups/TaskDetailsLabels'
 import { CloseCheckModal } from './CloseCheckModal'
 import { Activities } from './Activities'
 

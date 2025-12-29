@@ -113,7 +113,7 @@ export function TaskDetailsDates({ board, groupId, taskId, onClose, onSave, date
                         </div>
                     </div>
                     <button type="submit" onClick={() => onSave('dates', { dateTime })}>Save</button>
-                    <button onClick={onClose}>Remove</button>
+                    <button onClick={() => onSave('dates', null)}>Remove</button>
                 </div>
             </div>
         </div>
