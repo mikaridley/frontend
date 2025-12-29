@@ -67,8 +67,9 @@ export function BoardDetails() {
   }, [boardId])
 
   function onUpdateBoard(boardToEdit) {
+    if (!boardToEdit.title || !/\S/.test(boardToEdit.title).length) return
+    
     try {
-      if (!boardToEdit.title) return
       updateBoard(boardToEdit)
     } catch (err) {
       console.log('err:', err)
