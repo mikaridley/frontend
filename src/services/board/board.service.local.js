@@ -134,15 +134,7 @@ function getEmptyBoard() {
       background: { color: '', kind: '' },
     },
     labels: [],
-    members: [
-      {
-        _id: 'u101',
-        email: 'admin@gmail.com',
-        fullname: 'Admin',
-        imgUrl:
-          'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-      },
-    ],
+    members: [],
     groups: [],
     activities: [],
   }

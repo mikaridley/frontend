@@ -13,9 +13,7 @@
     font-size: .875rem;
     color: var(--clr-group-txt);
 
-    overflow: scroll;
-
-
+    overflow: auto;
 }
 
 .filter-header {
@@ -102,11 +100,12 @@
         }
     }
 
-    .labels-filter{
-        >li{
+    .labels-filter {
+        >li {
             padding: .3rem;
         }
-        label{
+
+        label {
             display: grid;
             align-items: center;
 
