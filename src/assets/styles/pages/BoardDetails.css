@@ -31,7 +31,7 @@
   height: max-content;
   padding: 1em 2.5em;
 
-  border-radius: 0.857em;
+  border-radius: 0.5em;
   text-align: start;
 
   &::before {
@@ -54,28 +54,32 @@
 }
 
 .add-form {
-  padding: var(--gap);
   background-color: var(--clr-group);
   border-radius: 0.857em;
 
   > input {
     width: 100%;
     max-width: 260px;
+    padding-inline: .8rem;
 
-    padding: var(--gap);
+    height: 2rem;
     margin-block-end: var(--gap);
     field-sizing: content;
     overflow: hidden;
 
     border: none;
-    border-radius: var(--gap);
+    border-radius: .2rem;
 
     background-color: var(--clr-task);
-    color: inherit;
+    color: var(--clr-task-txt);
   }
 
   > .form-btns {
     gap: 0.3rem;
+
+    >.btn{
+      height: 2rem;
+    }
 
     > button:last-child {
       background-color: inherit;

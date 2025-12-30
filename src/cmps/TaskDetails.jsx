@@ -84,10 +84,12 @@ export function TaskDetails() {
         setActivePopup(null)
     }
 
-    async function savePopup(popupName, data) {
+    async function savePopup(popupName, data, additionalChanges = {}) {
         if (!board) return
         try {
-            const updatedBoard = await updateTask(board, groupId, taskId, { [popupName]: data })
+            // Merge the main change with any additional changes
+            const changes = { [popupName]: data, ...additionalChanges }
+            const updatedBoard = await updateTask(board, groupId, taskId, changes)
             // sync immediately using the returned updated board (no need to wait for redux)
             if (updatedBoard) {
                 syncTaskFromBoard(updatedBoard)

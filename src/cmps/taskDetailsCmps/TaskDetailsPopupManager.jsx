@@ -1,11 +1,11 @@
-import { TaskDetailsLabels } from './popups/taskDetailslabels'
-import { TaskDetailsChecklist } from './popups/taskDetailschecklist'
-import { TaskDetailsMembers } from './popups/taskDetailsmembers'
-import { TaskDetailsAdd } from './popups/taskDetailsAdd'
-import { TaskDetailsDates } from './popups/taskDetailsDates'
-import { TaskDetailsAttachments } from './popups/taskDetailsAttachments'
-import { TransferTask } from './popups/transferTask'
-import { TaskDetailsCoverPopup } from './popups/taskDetailsCoverPopup'
+import { TaskDetailsLabels } from './popups/TaskDetailsLabels'
+import { TaskDetailsChecklist } from './popups/TaskDetailsChecklist'
+import { TaskDetailsMembers } from './popups/TaskDetailsMembers'
+import { TaskDetailsAdd } from './popups/TaskDetailsAdd'
+import { TaskDetailsDates } from './popups/TaskDetailsDates'
+import { TaskDetailsAttachments } from './popups/TaskDetailsAttachments'
+import { TransferTask } from './popups/TransferTask'
+import { TaskDetailsCoverPopup } from './popups/TaskDetailsCoverPopup'
 const popupComponents = {
     labels: TaskDetailsLabels,
     checklists: TaskDetailsChecklist,

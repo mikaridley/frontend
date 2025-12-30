@@ -30,7 +30,7 @@ export function TaskDetailsAdd({ board, groupId, taskId, onClose, onOpen, positi
                     left: `${position.left}px`
                 } : {}}
             >
-                <h4>Add to card</h4> <button className="popup-close" onClick={onClose}>X</button>
+                <h4>Add to card</h4> <button className="popup-close" onClick={onClose}>x</button>
                 <div className="popup-body add">
                     <button className="btn-add-label" onClick={() => onOpen('labels')}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

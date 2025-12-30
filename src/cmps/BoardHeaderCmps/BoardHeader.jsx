@@ -9,6 +9,7 @@ import moreIcon from '../../assets/img/more-white.svg'
 import filterIcon from '../../assets/img/filter.svg'
 import { FilterTasks } from './FilterTasks'
 import { preconnect } from 'react-dom'
+import { LightTooltip } from '../LightToolTip'
 
 export function BoardHeader({
   board,
@@ -71,13 +72,17 @@ export function BoardHeader({
         <ul className="members flex">
           {board.members.map((member, idx) =>
             <li key={member._id}>
-              {member.imgUrl && <img src={member.imgUrl} style={{ left: `${5 * idx}px` }} />}
+              <LightTooltip title={member.fullname}>
+                {member.imgUrl && <img src={member.imgUrl} style={{ left: `${5 * idx}px` }} />}
+              </LightTooltip>
             </li>
           )}
         </ul>
 
         <button className='filter-btn' onClick={onToggleFilter}>
-          <img src={filterIcon} />
+          <LightTooltip title="Filter tasks">
+            <img src={filterIcon} />
+          </LightTooltip>
         </button>
         {isFilterOpen &&
           <FilterTasks
@@ -88,7 +93,9 @@ export function BoardHeader({
         }
 
         <button className="header-star" onClick={onToggleStar}>
-          {isStarred ? <img src={yellowStarIcon} /> : <img src={starIcon} />}
+          <LightTooltip title="Star board">
+            {isStarred ? <img src={yellowStarIcon} /> : <img src={starIcon} />}
+          </LightTooltip>
         </button>
 
         <button className="share-btn" onClick={onToggleShare}>Share</button>
@@ -97,7 +104,9 @@ export function BoardHeader({
         }
 
         <button className="header-more-icon" onClick={openHeaderMenu}>
-          <img src={moreIcon} />
+          <LightTooltip title="Open menu">
+            <img src={moreIcon} />
+          </LightTooltip>
         </button>
         {isMenuOpen && (
           <BoardSettings
@@ -111,6 +120,6 @@ export function BoardHeader({
           />
         )}
       </section>
-    </header>
+    </header >
   )
 }

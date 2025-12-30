@@ -6,6 +6,7 @@ import { logout } from '../store/actions/user.actions'
 import { loadFilteredBoards, setFilterBy } from '../store/actions/board.actions'
 import logoLightImg from '../assets/img/logo-light.png'
 import logoIconImg from '../assets/img/logo-icon.png'
+import { LightTooltip } from './LightToolTip'
 
 export function AppHeader() {
   const loggedinUser = useSelector(
@@ -191,7 +192,9 @@ export function AppHeader() {
       </section>
 
       <div className="user" onClick={onToggleUserOpen}>
-        {imgUrl && <img src={imgUrl} referrerPolicy="no-referrer" />}
+        <LightTooltip title="Account">
+          {imgUrl && <img src={imgUrl} referrerPolicy="no-referrer" />}
+        </LightTooltip>
       </div>
       {isUserOpen && (
         <div className="account grid" ref={userRef}>

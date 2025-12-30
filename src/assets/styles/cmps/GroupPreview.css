@@ -1,5 +1,4 @@
 .group-preview {
-  display: flex;
   padding: 0.5rem;
   max-height: 80vh;
   width: var(--group-width);
@@ -8,7 +7,7 @@
   background-color: var(--clr-group);
   border-radius: 0.75rem;
 
-  > button {
+  >button {
     padding: var(--gap) 2.5em;
     color: var(--clr-task-txt);
     background-color: inherit;
@@ -22,7 +21,7 @@
     position: relative;
     margin-block-end: 0.3rem;
 
-    > input {
+    >input {
       width: 100%;
 
       color: var(--clr-task-txt);
@@ -30,7 +29,7 @@
       font-weight: 700;
     }
 
-    > button {
+    >button {
       background-color: inherit;
       border-radius: 0.5em;
 
@@ -42,5 +41,13 @@
     img {
       width: 1.5rem;
     }
+  }
+
+  .add-btn {
+    margin-block-start: .2rem;
+  }
+
+  .add-form {
+    margin-block-start: .4rem;
   }
 }

@@ -7,6 +7,7 @@ import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
 import attachmentsImg from '../../assets/img/attachments.svg'
 import { LightTooltip } from '../LightToolTip'
 
+//responsible for displaying the members, labels, dates, and attachments data ()
 export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate }) {
 
     async function handleDeleteAttachment(attachmentId) {
@@ -33,11 +34,10 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                     <div
                                         key={member._id}
                                         className="member-tag"
-                                        // add later onClick - open member details popup
                                     >
                                         <LightTooltip title={member.fullname}>
                                             <div className="member-avatar">
-                                                {getMemberInitials(member.fullname)}
+                                                {member.imgUrl && <img src={member.imgUrl} />}
                                             </div>
                                         </LightTooltip>
                                     </div>
@@ -53,19 +53,20 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                 {labels.map((label, index) => {
                                     const colorName = label.colorName || getColorNameFromHex(label.color)
                                     return (
-                                    <LightTooltip key={label.id}
-                                    title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
-                                  >
-                                    <div
-                                        key={label.id || label.color || index}
-                                        className="label-tag"
-                                        style={{ backgroundColor: label.color }}
-                                        onClick={(e) => onOpenPopup('labels', e)}
-                                    >
-                                        {label.title || ' '}
-                                    </div>
-                                    </LightTooltip>
-                                )})}
+                                        <LightTooltip key={label.id}
+                                            title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
+                                        >
+                                            <div
+                                                key={label.id || label.color || index}
+                                                className="label-tag"
+                                                style={{ backgroundColor: label.color }}
+                                                onClick={(e) => onOpenPopup('labels', e)}
+                                            >
+                                                {label.title || ' '}
+                                            </div>
+                                        </LightTooltip>
+                                    )
+                                })}
                                 <button className="btn-add-label" onClick={(e) => onOpenPopup('labels', e)}> + </button>
                             </div>
                         </div>

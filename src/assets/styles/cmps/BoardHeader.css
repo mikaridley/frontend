@@ -23,9 +23,6 @@
       background-color: inherit;
       padding: 0;
 
-      display: grid;
-      place-content: center;
-
       height: 2rem;
       width: 2rem;
       border-radius: 0.3rem;
@@ -40,7 +37,10 @@
       }
     }
 
-    .header-more-icon {
+    .header-more-icon{
+      display: grid;
+      place-content: center;
+
       img {
         height: 1.5rem;
         width: 1.5rem;
@@ -49,8 +49,6 @@
 
     .share-btn {
       position: relative;
-      display: grid;
-      place-content: center end;
       background-color: rgb(220, 223, 228);
 
       padding-inline: 0.8rem;
@@ -78,6 +76,11 @@
       }
     }
 
+    .filter-btn {
+      display: grid;
+      place-content: center;
+    }
+
     .members {
       grid-auto-flow: column;
       flex-direction: row-reverse;
@@ -87,6 +90,7 @@
         position: relative;
         width: 28px;
         border-radius: 50%;
+        cursor: pointer;
       }
     }
   }

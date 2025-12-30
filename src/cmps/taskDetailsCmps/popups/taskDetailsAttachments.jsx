@@ -28,6 +28,7 @@ const ALLOWED_FILE_TYPES = [
     'text/csv'
 ]
 
+//responsible for adding a new attachment
 export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave, position }) {
     const [attachments, setAttachments] = useState([])
     const [attachmentName, setAttachmentName] = useState('')
@@ -126,12 +127,12 @@ export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave
             setSelectedFile(null)
             if (fileInputRef.current) fileInputRef.current.value = ''   //resets the input file
             
-            // save attachments first, then cover if needed
-            await onSave('attachments', updatedAttachments)
+            // save attachments and cover together in a single update to avoid state sync issues
+            const additionalChanges = {}
             if (shouldSetCover) {
-                // save cover after attachments save completes
-                await onSave('cover', { color: fileUrl, kind: 'photo' })
+                additionalChanges.cover = { color: fileUrl, kind: 'photo' }
             }
+            await onSave('attachments', updatedAttachments, additionalChanges)
         } catch (err) {
             console.error('Failed to upload attachment:', err)
             showErrorMsg('Failed to upload file. Please try again.')

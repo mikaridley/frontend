@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TaskChecklistsDisplay } from './popups/taskDetailschecklist'
+import { TaskChecklistsDisplay } from './popups/TaskDetailsChecklist'
 import { useChecklistUpdate } from '../../customHooks/useChecklistUpdate'
 
 export function TaskDetailsChecklistManager({ checklists: initialChecklists, board, groupId, taskId, task, onTaskUpdate, onChecklistsUpdate }) {
@@ -23,49 +23,88 @@ export function TaskDetailsChecklistManager({ checklists: initialChecklists, boa
         setChecklists(initialChecklists || [])
     }, [initialChecklists])
 
-    async function toggleChecklistItem(checklistId, itemIndex) {
-        const updatedChecklists = checklists.map(checklist => {
-            if (checklist.id === checklistId) {
-                const updatedItems = checklist.items.map((item, index) => {
-                    if (index === itemIndex) {
-                        return { ...item, isChecked: !item.isChecked }
-                    }
-                    return item
-                })
-                return { ...checklist, items: updatedItems }
-            }
-            return checklist
-        })
+    // update a checklist
+    async function updateChecklist(checklistId, updateFn, errorMessage) {
+        const updatedChecklists = checklists.map(checklist =>
+            checklist.id === checklistId ? updateFn(checklist) : checklist
+        )
+        await updateChecklists(updatedChecklists, errorMessage)
+    }
 
-        await updateChecklists(updatedChecklists, 'Cannot update checklist')
+    // update an item in a checklist
+    async function updateItem(checklistId, itemIndex, updateFn, errorMessage) {
+        await updateChecklist(
+            checklistId,
+            (checklist) => ({
+                ...checklist,
+                items: checklist.items.map((item, index) =>
+                    index === itemIndex ? updateFn(item) : item
+                )
+            }),
+            errorMessage
+        )
+    }
+
+    async function toggleChecklistItem(checklistId, itemIndex) {
+        await updateItem(
+            checklistId,
+            itemIndex,
+            (item) => ({ ...item, isChecked: !item.isChecked }),
+            'Cannot update checklist'
+        )
     }
 
     async function updateItemText(checklistId, itemIndex, newText) {
-        const updatedChecklists = checklists.map(checklist => {
-            if (checklist.id === checklistId) {
-                const updatedItems = checklist.items.map((item, index) => {
-                    if (index === itemIndex) {
-                        return { ...item, text: newText }
-                    }
-                    return item
-                })
-                return { ...checklist, items: updatedItems }
-            }
-            return checklist
-        })
-
-        await updateChecklists(updatedChecklists, 'Cannot update item')
+        await updateItem(
+            checklistId,
+            itemIndex,
+            (item) => ({ ...item, text: newText }),
+            'Cannot update item'
+        )
     }
 
     async function updateChecklistName(checklistId, newName) {
-        const updatedChecklists = checklists.map(checklist => {
-            if (checklist.id === checklistId) {
-                return { ...checklist, name: newName }
-            }
-            return checklist
-        })
+        await updateChecklist(
+            checklistId,
+            (checklist) => ({ ...checklist, name: newName }),
+            'Cannot update checklist name'
+        )
+    }
 
-        await updateChecklists(updatedChecklists, 'Cannot update checklist name')
+    async function handleAddItemToChecklist(checklistId) {
+        try {
+            await updateChecklist(
+                checklistId,
+                (checklist) => ({
+                    ...checklist,
+                    items: [...(checklist.items || []), {
+                        text: newItemText,
+                        isChecked: false
+                    }]
+                }),
+                'Cannot add item'
+            )
+            setNewItemText('')
+            startAddingItem(checklistId)
+        } catch (err) {
+            // error handled in updateChecklists hook
+        }
+    }
+
+    async function removeItem(checklistId, itemIndex) {
+        await updateChecklist(
+            checklistId,
+            (checklist) => ({
+                ...checklist,
+                items: checklist.items.filter((_, index) => index !== itemIndex)
+            }),
+            'Cannot remove item'
+        )
+    }
+
+    async function removeChecklist(checklistId) {
+        const updatedChecklists = checklists.filter(checklist => checklist.id !== checklistId)
+        await updateChecklists(updatedChecklists, 'Cannot remove checklist')
     }
 
     function startAddingItem(checklistId) {
@@ -76,49 +115,6 @@ export function TaskDetailsChecklistManager({ checklists: initialChecklists, boa
     function cancelAddingItem() {
         setAddingItemToChecklist(null)
         setNewItemText('')
-    }
-
-    async function handleAddItemToChecklist(checklistId) {
-        const updatedChecklists = checklists.map(checklist => {
-            if (checklist.id === checklistId) {
-                const newItem = {
-                    text: newItemText,
-                    isChecked: false
-                }
-                return {
-                    ...checklist,
-                    items: [...(checklist.items || []), newItem]
-                }
-            }
-            return checklist
-        })
-
-        try {
-            await updateChecklists(updatedChecklists, 'Cannot add item')
-            // clear text and immediately start adding another item
-            setNewItemText('')
-            startAddingItem(checklistId)
-        } catch (err) {
-            // error already handled in updateChecklists hook
-        }
-    }
-
-    async function removeItem(checklistId, itemIndex) {
-        const updatedChecklists = checklists.map(checklist => {
-            if (checklist.id === checklistId) {
-                const updatedItems = checklist.items.filter((item, index) => index !== itemIndex)
-                return { ...checklist, items: updatedItems }
-            }
-            return checklist
-        })
-
-        await updateChecklists(updatedChecklists, 'Cannot remove item')
-    }
-
-    async function removeChecklist(checklistId) {
-        const updatedChecklists = checklists.filter(checklist => checklist.id !== checklistId)
-
-        await updateChecklists(updatedChecklists, 'Cannot remove checklist')
     }
 
     return (
