@@ -10,7 +10,11 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Loader } from '../cmps/Loader'
 import { AiChat } from '../cmps/AiChat'
-import { getRandomColor, makeId } from '../services/util.service'
+import {
+  getRandomColor,
+  getRandomGradientColor,
+  makeId,
+} from '../services/util.service'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
@@ -60,6 +64,9 @@ export function BoardIndex() {
         imgUrl: loggedinUser.imgUrl,
       }
 
+    const randomCover = Math.random() < 0.75 ? getRandomGradientColor() : ''
+    const randomLables = boardService.getDefaultLabels()
+
     if (boardObject.groups && boardObject.groups.length) {
       boardToSave.groups = boardObject.groups.map(group => ({
         id: makeId(),
@@ -67,12 +74,18 @@ export function BoardIndex() {
         tasks: group.tasks.map(task => ({
           id: makeId(),
           title: task.title,
+          cover: randomCover,
         })),
       }))
     }
 
     const savedBoard = await addBoard(boardToSave)
     navigate(`/board/${savedBoard._id}`)
+  }
+
+  async function addAiBoardFic() {
+    const newBoard = await addBoard(boardToSave)
+    navigate(`/board/${newBoard._id}`)
   }
 
   async function starToggle(board) {
@@ -97,7 +110,7 @@ export function BoardIndex() {
         starToggle={starToggle}
         changeColor={changeColor}
       />
-      <AiChat addAiBoard={addAiBoard} />
+      <AiChat addAiBoard={addAiBoard} addAiBoardFic={addAiBoardFic} />
     </section>
   )
 }

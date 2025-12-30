@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { sendAICommand } from '../store/actions/board.actions'
 
-export function AiChat({ addAiBoard }) {
+export function AiChat({ addAiBoard, addAiBoardFic }) {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
@@ -21,24 +21,26 @@ export function AiChat({ addAiBoard }) {
     }
     setMessages(prev => [...prev, autoAiMessage])
 
-    try {
-      const aiResult = await sendAICommand(input)
-      const aiMessage = { role: 'ai', content: 'Done!' }
-      setMessages(prev => [...prev, aiMessage])
-      addAiBoard(aiResult)
-    } catch (err) {
-      // Check if the backend sent a 403 AI limit
-      let errorMsg = 'Sorry, something went wrong.'
-      if (err.response?.status === 403) {
-        errorMsg = 'You have reached your daily AI limit (2 uses).'
-      }
+    addAiBoardFic()
 
-      const aiMessage = { role: 'ai', content: errorMsg }
-      setMessages(prev => [...prev, aiMessage])
-    } finally {
-      setLoading(false)
-      setInput('')
-    }
+    // try {
+    //   const aiResult = await sendAICommand(input)
+    //   const aiMessage = { role: 'ai', content: 'Done!' }
+    //   setMessages(prev => [...prev, aiMessage])
+    //   addAiBoard(aiResult)
+    // } catch (err) {
+    //   // Check if the backend sent a 403 AI limit
+    //   let errorMsg = 'Sorry, something went wrong.'
+    //   if (err.response?.status === 403) {
+    //     errorMsg = 'You have reached your daily AI limit (2 uses).'
+    //   }
+
+    //   const aiMessage = { role: 'ai', content: errorMsg }
+    //   setMessages(prev => [...prev, aiMessage])
+    // } finally {
+    //   setLoading(false)
+    //   setInput('')
+    // }
   }
 
   function toggleIsOpen() {
