@@ -13,6 +13,8 @@
     height: 430px;
     background: var(--clr-chat-bg);
     border-radius: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 
     .messages {
       padding-inline: 0.5rem;
@@ -55,9 +57,12 @@
 
       .ajent-photo {
         grid-row: span 2;
+
+        display: grid;
+        place-items: center;
+
         width: 60px;
         height: 60px;
-        background-color: rgb(42, 69, 165);
         border-radius: 50%;
       }
 
