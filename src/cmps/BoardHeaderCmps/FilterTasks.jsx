@@ -6,18 +6,14 @@ import closeIcon from '../../assets/img/close.svg'
 export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
     const board = useSelector(storeState => storeState.boardModule.board)
     const [filterToEdit, setFilterToEdit] = useState({ ...filterBy })
-    const FilterTasksRef = useRef(null)
+    const filterTasksRef = useRef(null)
 
     useEffect(() => onSetFilterBy(filterToEdit), [filterToEdit])
 
-
     useEffect(() => {
         function handleClickOutside(ev) {
-            // Check if click is outside the actions menu AND outside the toggle button
-            if (
-                !FilterTasksRef.current?.contains(ev.target) &&
-                !ev.target.closest('.filter-btn')
-            ) {
+            if (!filterTasksRef.current?.contains(ev.target) &&
+                !ev.target.closest('.filter-btn')) {
                 onToggleFilter()
             }
         }
@@ -61,7 +57,7 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
     const { txt, members, status, dueDate, labels } = filterToEdit
 
     return (
-        <section className="filter-tasks">
+        <section className="filter-tasks" ref={filterTasksRef}>
             <header className="filter-header grid">
                 <h1>Filter</h1>
                 <button onClick={onToggleFilter}>

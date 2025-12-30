@@ -16,10 +16,10 @@ import {
   updateBoard,
   updateBoardOptimistic,
 } from '../store/actions/board.actions'
+import { store } from '../store/store'
 import { boardService } from '../services/board'
 import { getValidValues } from '../services/util.service'
 import { showErrorMsg } from '../services/event-bus.service'
-import { store } from '../store/store'
 import { SET_BOARD } from '../store/reducers/board.reducer'
 import {
   SOCKET_EMIT_SET_TOPIC,
@@ -33,8 +33,7 @@ export function BoardDetails() {
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [filterBy, setFilterBy] = useState(
-    boardService.getSearchParams(searchParams)
-  )
+    boardService.getSearchParams(searchParams))
   const [filteredBoard, setFilteredBoard] = useState(board)
 
   const navigate = useNavigate()
@@ -88,6 +87,10 @@ export function BoardDetails() {
     setFilterBy(filterBy => ({ ...filterBy, ...newFilterBy }))
   }
 
+  function onClearFilter() {
+    setFilterBy(boardService.getDefaultTasksFilter())
+  }
+
   async function changeBoardColor({ color, kind }) {
     toggleBoardBgLoader()
     const updatedBoard = {
@@ -133,6 +136,7 @@ export function BoardDetails() {
         changeBoardColor={changeBoardColor}
         onSetFilterBy={onSetFilterBy}
         filterBy={filterBy}
+        onClearFilter={onClearFilter}
       />
       <GroupList filteredBoard={filteredBoard} onUpdateBoard={onUpdateBoard} />
       <Outlet />

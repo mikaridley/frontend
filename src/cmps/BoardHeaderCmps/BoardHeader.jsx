@@ -8,19 +8,22 @@ import yellowStarIcon from '../../assets/img/yellow-star.png'
 import moreIcon from '../../assets/img/more-white.svg'
 import filterIcon from '../../assets/img/filter.svg'
 import { FilterTasks } from './FilterTasks'
-import { preconnect } from 'react-dom'
 import { LightTooltip } from '../LightToolTip'
+import { useSearchParams } from 'react-router-dom'
 
 export function BoardHeader({
   board,
   onUpdateBoard,
   onRemoveBoard,
   changeBoardColor,
+  filterBy,
   onSetFilterBy,
-  filterBy
+  onClearFilter,
 }) {
   const [boardToEdit, setBoardToEdit] = useState(board)
   const [isStarred, setIsStarred] = useState(board.isStarred)
+  const [searchParams] = useSearchParams()
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isShareOpen, setIsShareOpen] = useState(false)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -60,6 +63,8 @@ export function BoardHeader({
     setIsFilterOpen(isFilterOpen => !isFilterOpen)
   }
 
+  const isFilteredBoard = searchParams.size > 0
+
   return (
     <header className="board-header board-details-layout align-center space-between">
       <input
@@ -84,6 +89,9 @@ export function BoardHeader({
             <img src={filterIcon} />
           </LightTooltip>
         </button>
+        {isFilteredBoard &&
+          <button onClick={onClearFilter}>Clear all</button>
+        }
         {isFilterOpen &&
           <FilterTasks
             onSetFilterBy={onSetFilterBy}
