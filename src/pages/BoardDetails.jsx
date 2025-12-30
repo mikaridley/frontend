@@ -105,22 +105,27 @@ export function BoardDetails() {
     }
   }
 
-  if (!board) return <Loader />
-  const bg =
-    board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
+  function getBg() {
+    const kind = board.style.background.kind
+    const color = board.style.background.color
 
+    if (kind === 'photo') {
+      return { backgroundImage: `url(${color})` }
+    } else if (kind === 'solid') {
+      return { backgroundColor: color }
+    } else {
+      return { background: color }
+    }
+  }
+
+  if (!board) return <Loader />
+
+  const bg = getBg()
   taskService.getLabels(board)
 
   if (!board) return <Loader />
   return (
-    <section
-      className="board-details"
-      style={
-        board.style.background.kind === 'photo'
-          ? { backgroundImage: `url(${board.style.background.color})` }
-          : { [bg]: board.style.background.color }
-      }
-    >
+    <section className="board-details" style={bg}>
       <BoardHeader
         board={board}
         onUpdateBoard={onUpdateBoard}
