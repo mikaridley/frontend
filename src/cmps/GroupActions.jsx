@@ -16,7 +16,6 @@ export function GroupActions({
       </header>
 
       <button onClick={() => setIsAddingTask(true)}>Add card</button>
-      <button>Sort By...</button>
       <button onClick={onArchiveGroup}>Archive this list</button>
     </section>
   )

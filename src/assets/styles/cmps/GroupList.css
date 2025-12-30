@@ -6,15 +6,16 @@
   font-size: 0.876rem;
 
   >button {
-    flex: 0 0 270px;
+    flex: 0 0 272px;
     background-color: rgba(255, 255, 255, 0.24);
     color: white;
     white-space: nowrap;
   }
 
   >.add-form {
-    flex: 0 0 270px;
+    flex: 0 0 272px;
     height: max-content;
+    padding: .5rem;
   }
 }
 

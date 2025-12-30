@@ -117,15 +117,6 @@ function getFilteredBoard(board, filterBy) {
       tasks = tasks.filter(task => regExp.test(task.title))
     }
 
-    if (filterBy.members.length) {
-      tasks = tasks.filter(task =>
-        filterBy.members.some(member => {
-          if (member === 'none') return !task.members || !task.members.length
-          return task.members?.some(taskMember => taskMember._id === member)
-        })
-      )
-    }
-
     if (filterBy.status) {
       if (filterBy.status === 'done') {
         tasks = tasks.filter(task => task.status === 'done')
@@ -136,23 +127,13 @@ function getFilteredBoard(board, filterBy) {
       }
     }
 
-    if (filterBy.dueDate.length) {
-      if (filterBy.dueDate.includes('none')) {
-        tasks = tasks.filter(task => !task.dates)
-      } else {
-        tasks = tasks.filter(task => {
-          const now = Date.now()
-          const target = new Date(task.dates?.dateTime)
-          const diffMs = target - now
-          const diffHours = diffMs / (1000 * 60 * 60)
-
-          if (filterBy.dueDate.includes('overdue')) {
-            return diffHours <= 0 && task.status !== 'done'
-          } else {
-            return diffHours <= 24 && diffHours >= 0 && task.status !== 'done'
-          }
+    if (filterBy.members.length) {
+      tasks = tasks.filter(task =>
+        filterBy.members.some(member => {
+          if (member === 'none') return !task.members || !task.members.length
+          return task.members?.some(taskMember => taskMember._id === member)
         })
-      }
+      )
     }
 
     if (filterBy.labels.length) {
@@ -162,6 +143,25 @@ function getFilteredBoard(board, filterBy) {
           return task.labels?.some(taskLabel => taskLabel.id === label)
         })
       )
+    }
+
+    if (filterBy.dueDate.length) {
+      tasks = tasks.filter(task => {
+        const target = new Date(task.dates?.dateTime)
+        const now = Date.now()
+        const diffMs = target - now
+        const diffHours = diffMs / (1000 * 60 * 60)
+
+        const isNone =
+          filterBy.dueDate.includes('none') && !task.dates
+        const isOverdue =
+          filterBy.dueDate.includes('overdue') &&
+          diffHours <= 0 && task.status !== 'done'
+        const isToday =
+          filterBy.dueDate.includes('today') &&
+          diffHours <= 24 && diffHours >= 0 && task.status !== 'done'
+        return isNone || isOverdue || isToday
+      })
     }
     return { ...group, tasks }
   })
@@ -180,7 +180,7 @@ function getEmptyBoard() {
     style: {
       background: { color: '', kind: '' },
     },
-      labels: [
+    labels: [
       { color: '#AE2E24', title: '', colorName: 'red' },
       { color: '#DDB30E', title: '', colorName: 'bold yellow' },
       { color: '#216E4E', title: '', colorName: 'green' },

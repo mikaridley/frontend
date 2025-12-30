@@ -10,6 +10,7 @@ import { taskService } from '../services/task'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import moreIcon from '../assets/img/more.svg'
 import closeIcon from '../assets/img/close.svg'
+import { LightTooltip } from './LightToolTip'
 
 export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
   const board = useSelector(storeState => storeState.boardModule.board)
@@ -122,7 +123,9 @@ export function GroupPreview({ group, onUpdateGroup, archiveGroup }) {
           value={groupToEdit.title}
         />
         <button onClick={onToggleActions}>
-          <img src={moreIcon} alt="More actions" />
+          <LightTooltip title="List actions">
+            <img src={moreIcon} alt="More actions" />
+          </LightTooltip>
         </button>
         {isActionsOpen && (
           <GroupActions

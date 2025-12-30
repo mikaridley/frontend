@@ -1,3 +1,17 @@
+@media (min-width: 500px){
+  .board-header {
+    .header-star {
+      display: grid;
+      place-content: center;
+    }
+
+    .share-btn {
+      display: grid;
+      place-content: center end;
+    }
+  }
+}
+
 @media (max-width: 1000px) {
   .board-list {
     width: 700px;
@@ -40,7 +54,7 @@
   }
 
   .toggle-done-btn {
-    > div {
+    >div {
       opacity: 1;
     }
   }
@@ -57,6 +71,7 @@
 }
 
 @media (max-width: 500px) {
+
   .board-list {
     width: 210px;
 
@@ -64,6 +79,14 @@
     .not-star-boards,
     .recently-viewed-boards {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .board-header {
+
+    .share-btn,
+    .header-star {
+      display: none;
     }
   }
 }
