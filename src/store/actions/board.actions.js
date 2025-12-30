@@ -173,6 +173,10 @@ export async function sendAICommand(prompt) {
   }
 }
 
+export function resetRecentlyViewed() {
+  store.dispatch(getCmdResetRecentlyViewed())
+}
+
 // Command Creators:
 export function getCmdSetBoards(boards) {
   return {

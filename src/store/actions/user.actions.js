@@ -3,7 +3,7 @@ import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
 import { REMOVE_USER, SET_USER, SET_USERS } from '../reducers/user.reducer'
-import { getCmdResetRecentlyViewed } from './board.actions'
+import { getCmdResetRecentlyViewed, resetRecentlyViewed } from './board.actions'
 
 export async function loadUsers(filterBy = {}) {
   try {
@@ -63,7 +63,7 @@ export async function signup(credentials) {
   try {
     const user = await userService.signup(credentials)
     store.dispatch({ type: SET_USER, user })
-    // socketService.login(user._id)
+    socketService.login(user._id)
     return user
   } catch (err) {
     console.log('Cannot signup', err)
@@ -75,7 +75,7 @@ export async function logout() {
   try {
     await userService.logout()
     store.dispatch({ type: SET_USER, user: null })
-    store.dispatch(getCmdResetRecentlyViewed())
+    resetRecentlyViewed()
     socketService.logout()
   } catch (err) {
     console.log('Cannot logout', err)

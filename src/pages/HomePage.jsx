@@ -3,8 +3,14 @@ import articleImg1 from '../assets/img/home-page-article1.png'
 import articleImg2 from '../assets/img/home-page-article2.png'
 import emailImg from '../assets/img/home-page-email-icon.png'
 import messageImg from '../assets/img/home-page-msg-icon.png'
+import { useEffect } from 'react'
+import { resetRecentlyViewed } from '../store/actions/board.actions'
 
 export function HomePage() {
+  useEffect(() => {
+    resetRecentlyViewed()
+  }, [])
+
   return (
     <section className="home-page">
       <div className="second-header">
