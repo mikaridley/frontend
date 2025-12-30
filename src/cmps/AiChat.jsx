@@ -52,7 +52,7 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
       addAiBoardFic()
       setInput('')
       setLoading(false)
-    }, 2000)
+    }, 3000)
 
     // try {
     //   const aiResult = await sendAICommand(input)
@@ -86,7 +86,7 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: isOpen ? 1 : 0, opacity: isOpen ? 1 : 0 }}
-            exit={{ scale: 0, opacity: 0 }} // optional if using AnimatePresence
+            exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             style={{ transformOrigin: 'bottom right' }}
             className="chat-window"
