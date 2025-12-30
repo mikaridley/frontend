@@ -18,7 +18,17 @@ export const taskService = {
   getMembers,
   openAttachmentInNewTab,
   getDominantColor,
+  getDefaultLabels,
 }
+
+const defaultLabels = [
+  { color: '#ae2e24', title: '', colorName: 'red' },
+  { color: '#7f5f01', title: '', colorName: 'yellow' },
+  { color: '#216e4e', title: '', colorName: 'green' },
+  { color: '#1558bc', title: '', colorName: 'blue' },
+  { color: '#803fa5', title: '', colorName: 'purple' },
+  { color: '#9e4c00', title: '', colorName: 'orange' },
+]
 
 async function addTask(board, group, taskToAdd) {
   if (!group.tasks?.length) group.tasks = []
@@ -66,29 +76,45 @@ function moveTask(board, fromGroupId, toGroupId, fromIdx, toIdx) {
   return board
 }
 
-async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newGroupId) {
+async function transferTask(
+  task,
+  sourceBoardId,
+  sourceGroupId,
+  newBoardId,
+  newGroupId
+) {
   const isSameBoard = sourceBoardId === newBoardId
 
   //Get the source board and group
   const sourceBoard = await storageService.get(STORAGE_KEY, sourceBoardId)
   const sourceGroup = sourceBoard.groups?.find(g => g.id === sourceGroupId)
   if (!sourceGroup) {
-    throw new Error(`Group with id ${sourceGroupId} not found in board ${sourceBoardId}`)
+    throw new Error(
+      `Group with id ${sourceGroupId} not found in board ${sourceBoardId}`
+    )
   }
   if (!sourceGroup.tasks) {
-    throw new Error(`Task with id ${task.id} not found in group ${sourceGroupId}`)
+    throw new Error(
+      `Task with id ${task.id} not found in group ${sourceGroupId}`
+    )
   }
   const taskIdx = sourceGroup.tasks.findIndex(t => t.id === task.id)
   if (taskIdx === -1) {
-    throw new Error(`Task with id ${task.id} not found in group ${sourceGroupId}`)
+    throw new Error(
+      `Task with id ${task.id} not found in group ${sourceGroupId}`
+    )
   }
 
   // Get the dest board and group
   // If same board, use the same board object to avoid duplicate modifications
-  const destBoard = isSameBoard ? sourceBoard : await storageService.get(STORAGE_KEY, newBoardId)
+  const destBoard = isSameBoard
+    ? sourceBoard
+    : await storageService.get(STORAGE_KEY, newBoardId)
   const destGroup = destBoard.groups?.find(g => g.id === newGroupId)
   if (!destGroup) {
-    throw new Error(`Group with id ${newGroupId} not found in board ${newBoardId}`)
+    throw new Error(
+      `Group with id ${newGroupId} not found in board ${newBoardId}`
+    )
   }
 
   // Remove task from source
@@ -99,7 +125,7 @@ async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newG
   const sourceGroupIdx = destBoard.groups.findIndex(g => g.id === sourceGroupId)
   destBoard.groups[sourceGroupIdx] = {
     ...destBoard.groups[sourceGroupIdx],
-    tasks: sourceGroup.tasks
+    tasks: sourceGroup.tasks,
   }
 
   //Add task to destination
@@ -109,7 +135,7 @@ async function transferTask(task, sourceBoardId, sourceGroupId, newBoardId, newG
   const destGroupIdx = destBoard.groups.findIndex(g => g.id === newGroupId)
   destBoard.groups[destGroupIdx] = {
     ...destBoard.groups[destGroupIdx],
-    tasks: destGroup.tasks
+    tasks: destGroup.tasks,
   }
 
   //Save boards (if same board, only save once)
@@ -175,15 +201,12 @@ function getLabels(board, groupId, taskId) {
   if (board && board.labels && board.labels.length > 0) {
     return board.labels
   }
+
   // If no board labels exist, return default labels
-  const defaultLabels = [
-    { color: '#ae2e24', title: '', colorName: 'red' },
-    { color: '#7f5f01', title: '', colorName: 'yellow' },
-    { color: '#216e4e', title: '', colorName: 'green' },
-    { color: '#1558bc', title: '', colorName: 'blue' },
-    { color: '#803fa5', title: '', colorName: 'purple' },
-    { color: '#9e4c00', title: '', colorName: 'orange' },
-  ]
+  return defaultLabels
+}
+
+function getDefaultLabels() {
   return defaultLabels
 }
 
@@ -256,13 +279,13 @@ async function openAttachmentInNewTab(attachmentFile, fileType = null) {
     // Regular URL (Cloudinary or other)
     // Check if it's a Cloudinary URL
     const isCloudinaryUrl = attachmentFile.includes('cloudinary.com')
-    
+
     if (isCloudinaryUrl && fileType) {
       // Determine if file should be displayed or downloaded
       const isImage = fileType.startsWith('image/')
       const isPDF = fileType === 'application/pdf'
       const isText = fileType.startsWith('text/')
-      
+
       // Handle PDFs - fetch and create blob with correct MIME type
       if (isPDF) {
         try {
@@ -270,27 +293,31 @@ async function openAttachmentInNewTab(attachmentFile, fileType = null) {
           const response = await fetch(attachmentFile, {
             method: 'GET',
             headers: {
-              'Accept': 'application/pdf'
-            }
+              Accept: 'application/pdf',
+            },
           })
-          
+
           if (!response.ok) {
             throw new Error('Failed to fetch PDF')
           }
-          
+
           // Create blob with explicit PDF MIME type
           const blob = await response.blob()
           const pdfBlob = new Blob([blob], { type: 'application/pdf' })
           const blobUrl = URL.createObjectURL(pdfBlob)
-          
+
           // Open blob URL - browser will display PDF
-          const pdfWindow = window.open(blobUrl, '_blank', 'noopener,noreferrer')
-          
+          const pdfWindow = window.open(
+            blobUrl,
+            '_blank',
+            'noopener,noreferrer'
+          )
+
           if (!pdfWindow) {
             // Popup blocked - fallback to direct URL
             window.open(attachmentFile, '_blank', 'noopener,noreferrer')
           }
-          
+
           // Clean up blob URL after window loads (don't revoke too early)
           setTimeout(() => {
             // Keep blob URL alive while window is open
@@ -311,21 +338,22 @@ async function openAttachmentInNewTab(attachmentFile, fileType = null) {
           // Fetch the file and create a blob for download
           const response = await fetch(attachmentFile)
           if (!response.ok) throw new Error('Failed to fetch file')
-          
+
           const blob = await response.blob()
           const blobUrl = URL.createObjectURL(blob)
-          
+
           // Create a temporary anchor element to trigger download
           const link = document.createElement('a')
           link.href = blobUrl
           // Extract filename from URL or use a default
           const urlParts = attachmentFile.split('/')
-          const filename = urlParts[urlParts.length - 1].split('?')[0] || 'attachment'
+          const filename =
+            urlParts[urlParts.length - 1].split('?')[0] || 'attachment'
           link.download = filename
           document.body.appendChild(link)
           link.click()
           document.body.removeChild(link)
-          
+
           // Clean up the blob URL after a delay
           setTimeout(() => URL.revokeObjectURL(blobUrl), 1000)
         } catch (error) {
@@ -344,7 +372,7 @@ async function openAttachmentInNewTab(attachmentFile, fileType = null) {
 function getDominantColor(imageUrl) {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.crossOrigin = "Anonymous"
+    img.crossOrigin = 'Anonymous'
 
     img.onload = () => {
       const canvas = document.createElement('canvas')
@@ -370,7 +398,9 @@ function getDominantColor(imageUrl) {
         if (brightness < 20 || brightness > 240) continue
 
         // Group similar colors (reduce precision)
-        const key = `${Math.round(r / 10) * 10},${Math.round(g / 10) * 10},${Math.round(b / 10) * 10}`
+        const key = `${Math.round(r / 10) * 10},${Math.round(g / 10) * 10},${
+          Math.round(b / 10) * 10
+        }`
         colorMap[key] = (colorMap[key] || 0) + 1
       }
 
