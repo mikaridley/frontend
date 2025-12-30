@@ -36,17 +36,6 @@ function remove(userId) {
     return storageService.remove(USERS_KEY, userId)
 }
 
-// async function update({ _id }) {
-//     const user = await storageService.get(USERS_KEY, _id)
-
-//     await storageService.put(USERS_KEY, user)
-
-// 	// When admin updates other user's details, do not update loggedinUser
-//     const loggedinUser = getLoggedinUser()
-//     if (loggedinUser._id === user._id) saveLoggedinUser(user)
-
-//     return user
-// }
 
 async function login(userCred) {
     const users = await storageService.query(USERS_KEY)

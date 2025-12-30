@@ -7,6 +7,7 @@ import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
 import attachmentsImg from '../../assets/img/attachments.svg'
 import { LightTooltip } from '../LightToolTip'
 
+//responsible for displaying the members, labels, dates, and attachments data ()
 export function TaskDetailsData({ members, labels, attachments, dates, board, groupId, taskId, task, onOpenPopup, onTaskUpdate }) {
 
     async function handleDeleteAttachment(attachmentId) {
@@ -33,7 +34,6 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                     <div
                                         key={member._id}
                                         className="member-tag"
-                                        // add later onClick - open member details popup
                                     >
                                         <LightTooltip title={member.fullname}>
                                             <div className="member-avatar">

@@ -28,6 +28,7 @@ const ALLOWED_FILE_TYPES = [
     'text/csv'
 ]
 
+//responsible for adding a new attachment
 export function TaskDetailsAttachments({ board, groupId, taskId, onClose, onSave, position }) {
     const [attachments, setAttachments] = useState([])
     const [attachmentName, setAttachmentName] = useState('')

@@ -81,11 +81,10 @@
   padding:0 2rem 0 2rem;
 }
 
-/* row 1: reserved for future special header */
+
 .task-details-row1-reserved {
   grid-column: 1 / -1;
   grid-row: 1;
-  /* reserved for future use */
 }
 
 .task-details-content {

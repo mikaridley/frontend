@@ -45,18 +45,16 @@ export function TaskDetailsCover({
 
   let coverImageUrl = null
   let coverStyle = {}
-
   if (taskCover?.kind === 'photo') {
     coverImageUrl = taskCover.color
   } else if (!hasCoverBeenSet && firstPhotoAttachment) {
     coverImageUrl = firstPhotoAttachment.file
   }
-
   if (taskCover && taskCover.kind !== 'photo') {
     coverStyle.background = taskCover.color
   }
 
-  useEffect(() => {
+  useEffect(() => {   // sets the background color of the cover element based on the cover image
     if (!coverRef.current) return
 
     let isMounted = true

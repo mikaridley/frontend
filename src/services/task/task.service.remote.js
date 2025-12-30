@@ -129,7 +129,7 @@ async function transferTask(
 ) {
   const isSameBoard = sourceBoard._id === destBoard._id
 
-  // Find source group and task
+  // find source group and task
   const sourceGroupIdx = sourceBoard.groups?.findIndex(
     g => g.id === sourceGroupId
   )
@@ -146,7 +146,7 @@ async function transferTask(
       `Task with id ${task.id} not found in group ${sourceGroupId}`
     )
 
-  // Find destination group
+  // find destination group
   const destGroupIdx = destBoard.groups?.findIndex(g => g.id === newGroupId)
   if (destGroupIdx === -1)
     throw new Error(
@@ -155,7 +155,7 @@ async function transferTask(
 
   const taskToMove = sourceGroup.tasks[taskIdx]
 
-  // Remove from source
+  // remove from source
   const updatedSourceBoard = {
     ...sourceBoard,
     groups: sourceBoard.groups.map((g, i) =>
@@ -165,7 +165,7 @@ async function transferTask(
     ),
   }
 
-  // Add to destination
+  // add to destination
   const updatedDestBoard = isSameBoard ? updatedSourceBoard : { ...destBoard }
 
   const finalDestBoard = {
@@ -250,11 +250,11 @@ function getTaskById(board, groupId, taskId) {
 }
 
 function getLabels(board, groupId, taskId) {
-  // Return board labels (available labels to choose from)
+  // return board labels (available labels to choose from)
   if (board && board.labels && board.labels.length > 0) {
     return board.labels
   }
-  // If no board labels exist, return default labels
+  // if no board labels exist, return default labels
   const defaultLabels = [
     { color: '#ae2e24', title: '', colorName: 'red' },
     { color: '#7f5f01', title: '', colorName: 'yellow' },
@@ -479,7 +479,7 @@ function getDominantColor(imageUrl) {
   })
 }
 
-// Function to calculate precise height using a hidden measurement element
+// function to calculate precise height using a hidden measurement element (used in task header)
 function calculateHeight(textarea, measureElement) {
   if (!measureElement) {
     // Fallback: use scrollHeight but try to account for extra space
@@ -487,11 +487,11 @@ function calculateHeight(textarea, measureElement) {
     return textarea.scrollHeight
   }
 
-  // Use hidden div to measure actual text height
+  // use hidden div to measure actual text height
   const measure = measureElement
   const styles = window.getComputedStyle(textarea)
 
-  // Copy all relevant styles to measurement element
+  // copy all relevant styles to measurement element
   measure.style.width = styles.width
   measure.style.fontSize = styles.fontSize
   measure.style.fontWeight = styles.fontWeight
@@ -509,7 +509,7 @@ function calculateHeight(textarea, measureElement) {
 
   measure.textContent = textarea.value || ' '
 
-  // Get the actual height needed for the content
+  // get the actual height needed for the content
   const height = measure.offsetHeight
 
   return height
