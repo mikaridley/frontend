@@ -1,25 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { sendAICommand } from '../store/actions/board.actions'
+import { AiAgent } from './AiAjent'
+import sendImg from '../assets/img/send.svg'
 
 export function AiChat({ addAiBoard, addAiBoardFic }) {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
+  const messagesEndRef = useRef(null)
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  useEffect(() => {
+    setMessages([
+      {
+        role: 'ai',
+        content:
+          'Hi 👋 I am Mr.Shmello what board would you like me to build for you?',
+      },
+    ])
+  }, [])
+
+  function scrollToBottom() {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   async function handleSend() {
+    setInput('')
     if (!input) return
 
     const userMessage = { role: 'user', content: input }
     setMessages(prev => [...prev, userMessage])
     setLoading(true)
 
-    const autoAiMessage = {
-      role: 'ai',
-      content: 'Working on it... please wait',
-    }
-    setMessages(prev => [...prev, autoAiMessage])
+    setTimeout(() => {
+      const autoAiMessage = {
+        role: 'ai',
+        content: 'Working on it... please wait',
+      }
+      setMessages(prev => [...prev, autoAiMessage])
+    }, 1000)
 
     addAiBoardFic()
 
@@ -49,29 +73,60 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
 
   return (
     <div className={`ai-chat ${isOpen ? 'open' : 'closed'}`}>
-      <button className="toggle-btn" onClick={toggleIsOpen}>
-        Ai
-      </button>
+      <AiAgent toggleIsOpen={toggleIsOpen} />
 
       {isOpen && (
-        <div className="chat-window">
+        <div className={`chat-window ${isOpen ? 'open' : 'closed'}`}>
+          <header className="chat-header">
+            <div className="ajent-photo"></div>
+            <p>Chat with</p>
+            <p>Mr.Shmello</p>
+          </header>
+
+          <div class="wavy">
+            <svg viewBox="0 0 1440 150" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient
+                  id="chatGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stop-color="#131a5f" />
+                  <stop offset="100%" stop-color="#7d8aff" />
+                </linearGradient>
+              </defs>
+              <path
+                fill="url(#chatGradient)"
+                d="M0,80 C360,150 1080,0 1440,80 L1440,150 L0,150 Z"
+              ></path>
+            </svg>
+          </div>
+
           <div className="messages">
             {messages.map((msg, idx) => (
               <div key={idx} className={`message ${msg.role}`}>
                 {msg.content}
               </div>
             ))}
+            <div ref={messagesEndRef}></div>
           </div>
 
           <div className="input-container">
             <textarea
+              row="1"
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder="Create a bord with AI..."
               onKeyDown={e => e.key === 'Enter' && handleSend()}
             />
-            <button className="btn" onClick={handleSend} disabled={loading}>
-              Send
+            <button
+              className="btn toggle-btn"
+              onClick={handleSend}
+              disabled={loading}
+            >
+              <img src={sendImg} />
             </button>
           </div>
         </div>

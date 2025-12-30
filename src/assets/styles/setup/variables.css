@@ -63,4 +63,9 @@
 
   /* Footer */
   --clr-footer-bg: #172b4d;
+
+  /* AiChat */
+  --clr-chat: linear-gradient(135deg, #7d8aff, #131a5f);
+  --clr-chat-bg: #e0e5ea;
+  --clr-ai-msg: #d1d2d3;
 }

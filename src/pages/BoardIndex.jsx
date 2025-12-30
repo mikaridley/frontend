@@ -15,6 +15,7 @@ import {
   getRandomGradientColor,
   makeId,
 } from '../services/util.service'
+import { AiAgent } from '../cmps/AiAjent'
 
 export function BoardIndex() {
   const boards = useSelector(storeState => storeState.boardModule.boards)
