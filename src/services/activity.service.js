@@ -52,10 +52,11 @@ export function logActivity(board, actionType, details = {}) {
   const { loggedinUser } = store.getState().userModule
   if (!loggedinUser) return board
   
-  // initialize activities array if it doesn't exist
-  if (!board.activities) {
+  // initialize activities array if it doesn't exist or is not an array
+  if (!board.activities || !Array.isArray(board.activities)) {
     board.activities = []
   }
+  
   const isCommentActivity = [
     ACTIVITY_TYPES.COMMENT_ADDED,
     ACTIVITY_TYPES.COMMENT_REMOVED
