@@ -156,7 +156,17 @@ export function getFileIcon(fileType) {
 }
 
 export function formatTimestamp(timestamp) {
+  // Handle invalid timestamps
+  if (!timestamp || isNaN(timestamp)) {
+    return 'Unknown time'
+  }
+  
   const date = new Date(timestamp)
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    return 'Unknown time'
+  }
+  
   const now = new Date()
   const diffMs = now - date
   const diffMins = Math.floor(diffMs / 60000)

@@ -1,0 +1,777 @@
+[{
+  "_id": {
+    "$oid": "695399dbc6bb8d2a7cdf8f12"
+  },
+  "shortId": "43filVri",
+  "title": "Birthday Party Planning",
+  "isStarred": false,
+  "archivedAt": null,
+  "createdBy": {
+    "_id": "69529c0434cd2f5e28b32d2f",
+    "fullname": "Asya Kandyba",
+    "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocLXUt3jDl2_ockNt4vl2Hw9RK2oHRQk-Jorotm1jk2ik3kolN6x=s96-c"
+  },
+  "style": {
+    "background": {
+      "color": "#519839",
+      "kind": "solid"
+    }
+  },
+  "labels": [
+    {
+      "color": "#AE2E24",
+      "title": "",
+      "colorName": "red"
+    },
+    {
+      "color": "#DDB30E",
+      "title": "",
+      "colorName": "bold yellow"
+    },
+    {
+      "color": "#216E4E",
+      "title": "",
+      "colorName": "green"
+    },
+    {
+      "color": "#1558BC",
+      "title": "",
+      "colorName": "blue"
+    },
+    {
+      "color": "#C97CF4",
+      "title": "",
+      "colorName": "bold purple"
+    },
+    {
+      "color": "#7F5F01",
+      "title": "",
+      "colorName": "yellow"
+    }
+  ],
+  "members": [
+    {
+      "_id": "69529c0434cd2f5e28b32d2f",
+      "email": "asyakan03@gmail.com",
+      "fullname": "Asya Kandyba",
+      "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocLXUt3jDl2_ockNt4vl2Hw9RK2oHRQk-Jorotm1jk2ik3kolN6x=s96-c"
+    },
+    {
+      "_id": "69529b7f34cd2f5e28b32d2d",
+      "email": "ranhirschorn@gmail.com",
+      "fullname": "רן הירשורן",
+      "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c"
+    },
+    {
+      "_id": "69529bc134cd2f5e28b32d2e",
+      "email": "michalhaitner@gmail.com",
+      "fullname": "Mika",
+      "isAdmin": false,
+      "password": null,
+      "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocJ2IHnB_fDmOW3QFgB2V5mb2Twv-5k_BZg-qn8BRekHFayx26g=s96-c",
+      "createdAt": "2025-12-29T15:18:25.000Z"
+    }
+  ],
+  "groups": [
+    {
+      "id": "kts2Sa",
+      "title": "Preparations",
+      "tasks": [
+        {
+          "id": "OjjF77",
+          "title": "Set date and venue",
+          "cover": {
+            "color": "linear-gradient(135deg, #0e6ae2, #33aec6)",
+            "kind": "gradient"
+          }
+        },
+        {
+          "id": "zbZzBN",
+          "title": "Create guest list",
+          "labels": [
+            {
+              "color": "#216E4E",
+              "title": "",
+              "colorName": "green"
+            }
+          ],
+          "checklists": [
+            {
+              "id": "1767098800822",
+              "name": "friend group 1",
+              "items": [
+                {
+                  "text": "friend 1",
+                  "isChecked": false
+                },
+                {
+                  "text": "friend 2",
+                  "isChecked": false
+                }
+              ]
+            },
+            {
+              "id": "1767098807831",
+              "name": "friend group 2",
+              "items": [
+                {
+                  "text": "friend 3",
+                  "isChecked": false
+                },
+                {
+                  "text": "friend 4",
+                  "isChecked": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fDCBcR",
+          "title": "Send invitations",
+          "attachments": [
+            {
+              "id": "8GYKWy",
+              "name": "7198RtobV1L._AC_UL210_SR210,210_.jpg",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099334/task-attachments/kamia0rjzd0apcycjtf2.jpg",
+              "createdAt": 1767099335154,
+              "type": "image/jpeg",
+              "size": 8481,
+              "public_id": "task-attachments/kamia0rjzd0apcycjtf2"
+            }
+          ],
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099334/task-attachments/kamia0rjzd0apcycjtf2.jpg",
+            "kind": "photo"
+          }
+        },
+        {
+          "id": "C0oA7q",
+          "title": "Plan party theme",
+          "labels": [
+            {
+              "color": "#DDB30E",
+              "title": "",
+              "colorName": "bold yellow"
+            }
+          ],
+          "dates": {
+            "dateTime": "2026-01-02T12:51:54.000Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "XDH22K",
+      "title": "Food & Drinks",
+      "tasks": [
+        {
+          "id": "6XmyGX",
+          "title": "Order birthday cake",
+          "attachments": [
+            {
+              "id": "Oa6chd",
+              "name": "549631907_1168501091998840_4098737648078585986_n.jpg",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767098770/task-attachments/vsklhfwtleis79qczvi5.jpg",
+              "createdAt": 1767098770694,
+              "type": "image/jpeg",
+              "size": 11470,
+              "public_id": "task-attachments/vsklhfwtleis79qczvi5"
+            }
+          ],
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767098770/task-attachments/vsklhfwtleis79qczvi5.jpg",
+            "kind": "photo"
+          },
+          "labels": [
+            {
+              "color": "#AE2E24",
+              "title": "",
+              "colorName": "red"
+            }
+          ],
+          "status": "done"
+        },
+        {
+          "id": "HjI4sj",
+          "title": "Plan menu items"
+        },
+        {
+          "id": "2hMzXb",
+          "title": "Buy beverages",
+          "attachments": [
+            {
+              "id": "RdYKNZ",
+              "name": "Bottle-Labels.jpg",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099093/task-attachments/rcf9hcljw2lrw7h3odh6.jpg",
+              "createdAt": 1767099094173,
+              "type": "image/jpeg",
+              "size": 938725,
+              "public_id": "task-attachments/rcf9hcljw2lrw7h3odh6"
+            }
+          ],
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099093/task-attachments/rcf9hcljw2lrw7h3odh6.jpg",
+            "kind": "photo"
+          }
+        },
+        {
+          "id": "K9IamS",
+          "title": "Arrange catering if needed"
+        }
+      ]
+    },
+    {
+      "id": "WBZGfT",
+      "title": "Decorations & Entertainment",
+      "tasks": [
+        {
+          "id": "YF5gt5",
+          "title": "Buy balloons and banners",
+          "labels": [
+            {
+              "color": "#AE2E24",
+              "title": "",
+              "colorName": "red"
+            },
+            {
+              "color": "#DDB30E",
+              "title": "",
+              "colorName": "bold yellow"
+            },
+            {
+              "color": "#216E4E",
+              "title": "",
+              "colorName": "green"
+            },
+            {
+              "color": "#1558BC",
+              "title": "",
+              "colorName": "blue"
+            },
+            {
+              "color": "#C97CF4",
+              "title": "",
+              "colorName": "bold purple"
+            }
+          ]
+        },
+        {
+          "id": "lZS7k8",
+          "title": "Set up photo booth"
+        },
+        {
+          "id": "Yf5sJT",
+          "title": "Create party playlist",
+          "attachments": [
+            {
+              "id": "ULf2oC",
+              "name": "The-Best-Spotify-Playlists.png",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099038/task-attachments/ieuxktghjaeimw5nadma.png",
+              "createdAt": 1767099039500,
+              "type": "image/png",
+              "size": 1011251,
+              "public_id": "task-attachments/ieuxktghjaeimw5nadma"
+            }
+          ],
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099038/task-attachments/ieuxktghjaeimw5nadma.png",
+            "kind": "photo"
+          },
+          "members": [
+            {
+              "_id": "69529c0434cd2f5e28b32d2f",
+              "email": "asyakan03@gmail.com",
+              "fullname": "Asya Kandyba",
+              "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocLXUt3jDl2_ockNt4vl2Hw9RK2oHRQk-Jorotm1jk2ik3kolN6x=s96-c"
+            },
+            {
+              "_id": "69529b7f34cd2f5e28b32d2d",
+              "email": "ranhirschorn@gmail.com",
+              "fullname": "רן הירשורן",
+              "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c"
+            },
+            {
+              "_id": "69529bc134cd2f5e28b32d2e",
+              "email": "michalhaitner@gmail.com",
+              "fullname": "Mika",
+              "isAdmin": false,
+              "password": null,
+              "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocJ2IHnB_fDmOW3QFgB2V5mb2Twv-5k_BZg-qn8BRekHFayx26g=s96-c",
+              "createdAt": "2025-12-29T15:18:25.000Z"
+            }
+          ]
+        },
+        {
+          "id": "xsnEjk",
+          "title": "Plan games and activities",
+          "checklists": [
+            {
+              "id": "1767099351451",
+              "name": "board games",
+              "items": [
+                {
+                  "text": "catan",
+                  "isChecked": true
+                },
+                {
+                  "text": "jungle speed",
+                  "isChecked": false
+                }
+              ]
+            },
+            {
+              "id": "1767099374608",
+              "name": "bouce house activities",
+              "items": []
+            }
+          ]
+        },
+        {
+          "id": "RE3K3Z",
+          "title": "Arrange party favors"
+        }
+      ]
+    },
+    {
+      "id": "rvEZ5z",
+      "title": "Budget & Expenses",
+      "tasks": [
+        {
+          "id": "7Iw6aN",
+          "title": "create splitwise group",
+          "status": "",
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099430/task-attachments/vwfdtnc4rn8wlkn5lfhs.png",
+            "kind": "photo"
+          },
+          "attachments": [
+            {
+              "id": "2o1mQd",
+              "name": "images.png",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099430/task-attachments/vwfdtnc4rn8wlkn5lfhs.png",
+              "createdAt": 1767099431415,
+              "type": "image/png",
+              "size": 2715,
+              "public_id": "task-attachments/vwfdtnc4rn8wlkn5lfhs"
+            }
+          ]
+        },
+        {
+          "id": "lz1Yoo",
+          "title": "create a budget",
+          "status": "",
+          "cover": ""
+        }
+      ],
+      "archivedAt": null
+    }
+  ],
+  "activities": [
+    {
+      "id": "NKVKSs",
+      "type": "BOARD_CREATED",
+      "category": "all",
+      "userId": "69529c0434cd2f5e28b32d2f",
+      "userFullname": "Asya Kandyba",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocLXUt3jDl2_ockNt4vl2Hw9RK2oHRQk-Jorotm1jk2ik3kolN6x=s96-c",
+      "timestamp": 1767086555223,
+      "boardTitle": "Birthday Party Planning"
+    },
+    {
+      "id": "3l0iW3",
+      "type": "ATTACHMENT_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767098770696,
+      "taskId": "6XmyGX",
+      "taskTitle": "Order birthday cake",
+      "attachmentName": "549631907_1168501091998840_4098737648078585986_n.jpg",
+      "groupTitle": "Food & Drinks",
+      "groupId": "XDH22K"
+    },
+    {
+      "id": "N92m97",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767098770696,
+      "taskId": "6XmyGX",
+      "taskTitle": "Order birthday cake",
+      "groupTitle": "Food & Drinks",
+      "groupId": "XDH22K"
+    },
+    {
+      "id": "qQftRe",
+      "type": "LABEL_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767098783477,
+      "taskId": "6XmyGX",
+      "taskTitle": "Order birthday cake",
+      "labelTitle": "#AE2E24",
+      "groupTitle": "Food & Drinks",
+      "groupId": "XDH22K"
+    },
+    {
+      "id": "jQix70",
+      "type": "LABEL_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767098791022,
+      "taskId": "zbZzBN",
+      "taskTitle": "Create guest list",
+      "labelTitle": "#216E4E",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "geChwR",
+      "type": "CHECKLIST_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767098800823,
+      "taskId": "zbZzBN",
+      "taskTitle": "Create guest list",
+      "checklistName": "friend group 1",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "qPF9Ou",
+      "type": "CHECKLIST_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767098807831,
+      "taskId": "zbZzBN",
+      "taskTitle": "Create guest list",
+      "checklistName": "friend group 2",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "ebNmgX",
+      "type": "ATTACHMENT_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099039500,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "attachmentName": "The-Best-Spotify-Playlists.png",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "dph5wG",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099039500,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "8YeJ43",
+      "type": "MEMBER_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099043359,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "memberName": "Asya Kandyba",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "tQbi5U",
+      "type": "MEMBER_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099044265,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "memberName": "רן הירשורן",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "4kzOii",
+      "type": "MEMBER_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099044286,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "memberName": "רן הירשורן",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "7KdekB",
+      "type": "MEMBER_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099044788,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "memberName": "רן הירשורן",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "Qn8yin",
+      "type": "MEMBER_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099044788,
+      "taskId": "Yf5sJT",
+      "taskTitle": "Create party playlist",
+      "memberName": "Mika",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "cS10Gk",
+      "type": "ATTACHMENT_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099094174,
+      "taskId": "2hMzXb",
+      "taskTitle": "Buy beverages",
+      "attachmentName": "Bottle-Labels.jpg",
+      "groupTitle": "Food & Drinks",
+      "groupId": "XDH22K"
+    },
+    {
+      "id": "TWlnFI",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099094174,
+      "taskId": "2hMzXb",
+      "taskTitle": "Buy beverages",
+      "groupTitle": "Food & Drinks",
+      "groupId": "XDH22K"
+    },
+    {
+      "id": "WaULHK",
+      "type": "LABEL_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099109414,
+      "taskId": "C0oA7q",
+      "taskTitle": "Plan party theme",
+      "labelTitle": "#DDB30E",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "PNIYOK",
+      "type": "DUE_DATE_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099121072,
+      "taskId": "C0oA7q",
+      "taskTitle": "Plan party theme",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "Vfea3R",
+      "type": "TASK_FINISHED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099127360,
+      "taskId": "6XmyGX",
+      "taskTitle": "Order birthday cake",
+      "groupTitle": "Food & Drinks",
+      "groupId": "XDH22K"
+    },
+    {
+      "id": "ahT0gm",
+      "type": "TASK_CREATED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099233298,
+      "taskTitle": "create a budget",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "rvEZ5z"
+    },
+    {
+      "id": "Fblvbl",
+      "type": "TASK_CREATED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099249261,
+      "taskTitle": "create splitwise group",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "rvEZ5z"
+    },
+    {
+      "id": "VeX9iv",
+      "type": "LABEL_ADDED_TO_TASK",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099264859,
+      "taskId": "YF5gt5",
+      "taskTitle": "Buy balloons and banners",
+      "labelTitle": "#7F5F01",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "9K2RjE",
+      "type": "ATTACHMENT_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099335155,
+      "taskId": "fDCBcR",
+      "taskTitle": "Send invitations",
+      "attachmentName": "7198RtobV1L._AC_UL210_SR210,210_.jpg",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "a0lXoV",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099335155,
+      "taskId": "fDCBcR",
+      "taskTitle": "Send invitations",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    },
+    {
+      "id": "jPDXH7",
+      "type": "CHECKLIST_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099351451,
+      "taskId": "xsnEjk",
+      "taskTitle": "Plan games and activities",
+      "checklistName": "board games",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "0hOORS",
+      "type": "CHECKLIST_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099374608,
+      "taskId": "xsnEjk",
+      "taskTitle": "Plan games and activities",
+      "checklistName": "bouce house activities",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "Ko8shd",
+      "type": "CHECKLIST_ITEM_COMPLETED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099390130,
+      "taskId": "xsnEjk",
+      "taskTitle": "Plan games and activities",
+      "checklistName": "board games",
+      "itemText": "catan",
+      "groupTitle": "Decorations & Entertainment",
+      "groupId": "WBZGfT"
+    },
+    {
+      "id": "ytDce6",
+      "type": "ATTACHMENT_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099431416,
+      "taskId": "7Iw6aN",
+      "taskTitle": "create splitwise group",
+      "attachmentName": "images.png",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "rvEZ5z"
+    },
+    {
+      "id": "zygIDq",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099431416,
+      "taskId": "7Iw6aN",
+      "taskTitle": "create splitwise group",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "rvEZ5z"
+    },
+    {
+      "id": "LkMVxI",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69529b7f34cd2f5e28b32d2d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767099438524,
+      "taskId": "OjjF77",
+      "taskTitle": "Set date and venue",
+      "groupTitle": "Preparations",
+      "groupId": "kts2Sa"
+    }
+  ]
+}]
