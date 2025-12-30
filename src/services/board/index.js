@@ -51,8 +51,19 @@ function getSearchParams(searchParams) {
     }
 }
 
+function getDefaultTasksFilter() {
+    return {
+        txt: '',
+        members: [],
+        status: '',
+        dueDate: [],
+        labels: [],
+        activity: [],
+    }
+}
+
 const service = (VITE_LOCAL === 'true') ? local : remote
-export const boardService = { getEmptyBoard, getDefaultFilter, getSearchParams, ...service }
+export const boardService = { getEmptyBoard, getDefaultFilter, getSearchParams, getDefaultTasksFilter, ...service }
 
 // Easy access to this service from the dev tools console
 // when using script - dev / dev:local

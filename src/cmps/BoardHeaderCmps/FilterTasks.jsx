@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 
 import closeIcon from '../../assets/img/close.svg'
@@ -6,8 +6,23 @@ import closeIcon from '../../assets/img/close.svg'
 export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
     const board = useSelector(storeState => storeState.boardModule.board)
     const [filterToEdit, setFilterToEdit] = useState({ ...filterBy })
+    const filterTasksRef = useRef(null)
 
     useEffect(() => onSetFilterBy(filterToEdit), [filterToEdit])
+
+    useEffect(() => {
+        function handleClickOutside(ev) {
+            if (!filterTasksRef.current?.contains(ev.target) &&
+                !ev.target.closest('.filter-btn')) {
+                onToggleFilter()
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     function handleTxtChange({ target }) {
         const value = target.value
@@ -42,7 +57,7 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
     const { txt, members, status, dueDate, labels } = filterToEdit
 
     return (
-        <section className="filter-tasks">
+        <section className="filter-tasks" ref={filterTasksRef}>
             <header className="filter-header grid">
                 <h1>Filter</h1>
                 <button onClick={onToggleFilter}>

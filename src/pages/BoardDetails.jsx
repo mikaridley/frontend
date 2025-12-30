@@ -16,10 +16,10 @@ import {
   updateBoard,
   updateBoardOptimistic,
 } from '../store/actions/board.actions'
+import { store } from '../store/store'
 import { boardService } from '../services/board'
 import { getValidValues } from '../services/util.service'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { store } from '../store/store'
+import { showErrorMsg } from '../services/event-bus.service'
 import { SET_BOARD } from '../store/reducers/board.reducer'
 import {
   SOCKET_EMIT_SET_TOPIC,
@@ -33,8 +33,7 @@ export function BoardDetails() {
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [filterBy, setFilterBy] = useState(
-    boardService.getSearchParams(searchParams)
-  )
+    boardService.getSearchParams(searchParams))
   const [filteredBoard, setFilteredBoard] = useState(board)
 
   const navigate = useNavigate()
@@ -88,6 +87,10 @@ export function BoardDetails() {
     setFilterBy(filterBy => ({ ...filterBy, ...newFilterBy }))
   }
 
+  function onClearFilter() {
+    setFilterBy(boardService.getDefaultTasksFilter())
+  }
+
   async function changeBoardColor({ color, kind }) {
     toggleBoardBgLoader()
     const updatedBoard = {
@@ -105,22 +108,27 @@ export function BoardDetails() {
     }
   }
 
-  if (!board) return <Loader />
-  const bg =
-    board.style.background.kind === 'solid' ? 'backgroundColor' : 'background'
+  function getBg() {
+    const kind = board.style.background.kind
+    const color = board.style.background.color
 
+    if (kind === 'photo') {
+      return { backgroundImage: `url(${color})` }
+    } else if (kind === 'solid') {
+      return { backgroundColor: color }
+    } else {
+      return { background: color }
+    }
+  }
+
+  if (!board) return <Loader />
+
+  const bg = getBg()
   taskService.getLabels(board)
 
   if (!board) return <Loader />
   return (
-    <section
-      className="board-details"
-      style={
-        board.style.background.kind === 'photo'
-          ? { backgroundImage: `url(${board.style.background.color})` }
-          : { [bg]: board.style.background.color }
-      }
-    >
+    <section className="board-details" style={bg}>
       <BoardHeader
         board={board}
         onUpdateBoard={onUpdateBoard}
@@ -128,8 +136,9 @@ export function BoardDetails() {
         changeBoardColor={changeBoardColor}
         onSetFilterBy={onSetFilterBy}
         filterBy={filterBy}
+        onClearFilter={onClearFilter}
       />
-      <GroupList board={filteredBoard} onUpdateBoard={onUpdateBoard} />
+      <GroupList filteredBoard={filteredBoard} onUpdateBoard={onUpdateBoard} />
       <Outlet />
     </section>
   )

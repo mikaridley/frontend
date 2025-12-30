@@ -47,7 +47,12 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
       setMessages(prev => [...prev, autoAiMessage])
     }, 1000)
 
-    addAiBoardFic()
+    // wait 2 seconds before creating the board
+    setTimeout(() => {
+      addAiBoardFic()
+      setInput('')
+      setLoading(false)
+    }, 2000)
 
     // try {
     //   const aiResult = await sendAICommand(input)

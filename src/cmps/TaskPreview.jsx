@@ -93,15 +93,19 @@ export function TaskPreview({
             {task.labels.map(label => {
               const colorName = label.colorName || getColorNameFromHex(label.color)
               return (
-              <LightTooltip key={label.id}
-                title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
-              >
-                <div
-                  className="task-label"
-                  style={{ backgroundColor: label.color }}
-                ></div>
-              </LightTooltip>
-            )})}
+                <LightTooltip key={label.id}
+                  title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
+                >
+                  <div
+                    className="task-label"
+                    style={{
+                      backgroundColor: label.color,
+                      color: `color-mix(in srgb, ${label.color}, white 70%)`
+                    }}
+                  ></div>
+                </LightTooltip>
+              )
+            })}
           </div>
         )}
 

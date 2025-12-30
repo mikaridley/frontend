@@ -35,23 +35,23 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
     async function toggleLabel(labelId) {
         // Only allow toggling if we're in task mode (not board-only mode)
         if (isBoardOnlyMode) return
-        
+
         setSelectedLabelIds(prev => {
             const isSelected = prev.includes(labelId)
             const newSelection = isSelected
                 ? prev.filter(id => id !== labelId)
                 : [...prev, labelId]
-            
+
             // calculate selected labels from new selection
-            const selectedLabels = availableLabels.filter(label => 
+            const selectedLabels = availableLabels.filter(label =>
                 newSelection.includes(label.id || label.color)
             )
-            
+
             // call onSave to update task and TaskDetails labels state
             if (onSave) {
                 onSave('labels', selectedLabels)
             }
-            
+
             return newSelection
         })
     }
@@ -93,14 +93,14 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
         }
         closeColorPicker()
     }
-    
+
     // Shared content for both inline and regular popup modes
     const popupContent = (
         <>
             {isColorPickerMode ? (
                 <>
                     {isBoardOnlyMode && (
-                        <PopUpHeader 
+                        <PopUpHeader
                             onBack={closeColorPicker}
                             onClose={onClose}
                             header={editingLabel ? 'Edit label' : 'Create label'}
@@ -120,7 +120,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
             ) : (
                 <>
                     {isBoardOnlyMode ? (
-                        <PopUpHeader 
+                        <PopUpHeader
                             onBack={onClose}
                             onClose={onClose}
                             header="Labels"
@@ -132,43 +132,46 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
                         </>
                     )}
                     <form>
-                        <input 
-                            type="text" 
-                            placeholder="Search labels..." 
+                        <input
+                            type="text"
+                            placeholder="Search labels..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </form>
                     <div className="labels-header">
                         <h5>Labels</h5>
-                        
+
                     </div>
-                    
+
                     <div className="popup-body popup-labels-body">
                         {filteredLabels.map((label) => {
                             const labelId = label.id || label.color
                             const isSelected = isLabelSelected(label)
                             return (
-                                <div 
-                                    key={labelId} 
+                                <div
+                                    key={labelId}
                                     className={`label-item ${isSelected ? 'selected' : ''}`}
                                     onClick={!isBoardOnlyMode ? () => toggleLabel(labelId) : undefined}
                                 >
                                     {!isBoardOnlyMode && (
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             checked={isSelected}
                                             onChange={() => toggleLabel(labelId)}
                                             onClick={(e) => e.stopPropagation()}
                                         />
                                     )}
-                                    <div 
-                                        className="label-color" 
-                                        style={{ backgroundColor: label.color }}
+                                    <div
+                                        className="label-color"
+                                        style={{
+                                            backgroundColor: label.color,
+                                            color: `color-mix(in srgb, ${label.color}, white 70%)`
+                                        }}
                                     >
-                                        <span>{label.title ||''}</span>
+                                        <span>{label.title || ''}</span>
                                     </div>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation()
                                             editLabel(label)
@@ -188,7 +191,7 @@ export function TaskDetailsLabels({ board, groupId, taskId, onClose, onSave, pos
 
     // In board-only mode, render without overlay to fit in board-settings container
     const popupInner = (
-        <div 
+        <div
             ref={popupRef}
             className={`popup-content popup-labels ${isBoardOnlyMode ? 'popup-labels-inline' : ''}`}
             onClick={!isBoardOnlyMode ? (e) => e.stopPropagation() : undefined}

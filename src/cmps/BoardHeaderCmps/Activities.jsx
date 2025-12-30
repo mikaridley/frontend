@@ -3,25 +3,47 @@ import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { getMemberInitials, formatTimestamp } from '../../services/util.service'
 import { ACTIVITY_TYPES } from '../../services/activity.service'
 import { useNavigate } from 'react-router-dom'
+
 export function Activities({ board, onClose }) {
   const [filter, setFilter] = useState('all') // 'all' or 'comments'
   const navigate = useNavigate()
   // filter activities based on selected tab
   const filteredActivities = useMemo(() => {
-    if (!board?.activities) return []
+    // Ensure activities is an array
+    if (!board?.activities || !Array.isArray(board.activities)) return []
+    
+    // Filter out any invalid/null activities
+    const validActivities = board.activities.filter(
+      activity => activity && typeof activity === 'object'
+    )
     
     if (filter === 'comments') {
-      return board.activities.filter(
+      return validActivities.filter(
         activity => activity.category === 'comment'
       )
     }
     
-    return board.activities
+    return validActivities
   }, [board?.activities, filter])
 
   // sort activities by timestamp (newest first)
   const sortedActivities = useMemo(() => {
-    return [...filteredActivities].sort((a, b) => b.timestamp - a.timestamp)
+    if (!Array.isArray(filteredActivities) || filteredActivities.length === 0) {
+      return []
+    }
+    
+    return [...filteredActivities].sort((a, b) => {
+      // Handle missing or invalid timestamps
+      const timestampA = a.timestamp || 0
+      const timestampB = b.timestamp || 0
+      
+      // If timestamps are invalid, put them at the end
+      if (isNaN(timestampA) && isNaN(timestampB)) return 0
+      if (isNaN(timestampA)) return 1
+      if (isNaN(timestampB)) return -1
+      
+      return timestampB - timestampA
+    })
   }, [filteredActivities])
 
   function formatActivityMessage(activity) {
@@ -178,8 +200,8 @@ export function Activities({ board, onClose }) {
             <p>No activities yet</p>
           </div>
         ) : (
-          sortedActivities.map(activity => (
-            <div key={activity.id} className="activity-item">
+          sortedActivities.map((activity, index) => (
+            <div key={activity.id || activity._id || `activity-${index}`} className="activity-item">
               <div className="activity-avatar">
                 {activity.userImgUrl ? (
                   <img src={activity.userImgUrl} alt={activity.userFullname} />

@@ -15,6 +15,7 @@ import {
   getRandomGradientColor,
   makeId,
 } from '../services/util.service'
+import presentationBoardData from '../assets/presentation-board.json'
 import { AiAgent } from '../cmps/AiAjent'
 
 export function BoardIndex() {
@@ -85,6 +86,73 @@ export function BoardIndex() {
   }
 
   async function addAiBoardFic() {
+    let boardData = JSON.parse(JSON.stringify(presentationBoardData))
+
+    if (Array.isArray(boardData)) {
+      boardData = boardData[0]
+    }
+
+    const boardToSave = boardService.getEmptyBoard()
+    boardToSave.title = boardData.title || 'Untitled Board'
+    boardToSave.style.background =
+      boardData.style?.background || getRandomColor()
+    boardToSave.labels = boardData.labels || []
+    boardToSave.isStarred = boardData.isStarred || false
+
+    if (loggedinUser) {
+      boardToSave.createdBy = {
+        _id: loggedinUser._id,
+        fullname: loggedinUser.fullname,
+        imgUrl: loggedinUser.imgUrl,
+      }
+    }
+
+    boardToSave.members = boardData.members || []
+    if (
+      loggedinUser &&
+      !boardToSave.members.find(m => m._id === loggedinUser._id)
+    ) {
+      boardToSave.members = [loggedinUser, ...boardToSave.members]
+    }
+
+    if (boardData.groups?.length) {
+      boardToSave.groups = boardData.groups.map(group => ({
+        id: makeId(),
+        title: group.title,
+        archivedAt: group.archivedAt || null,
+        tasks: (group.tasks || []).map(task => ({
+          id: makeId(),
+          title: task.title,
+          status: task.status || '',
+          cover: task.cover || '',
+          labels: task.labels || [],
+          dates: task.dates || null,
+          description: task.description || '',
+          members: task.members || [],
+          attachments: (task.attachments || []).map(attachment => ({
+            ...attachment,
+            id: makeId(),
+          })),
+          checklists: (task.checklists || []).map(checklist => ({
+            id: makeId(),
+            name: checklist.name,
+            items: (checklist.items || []).map(item => ({
+              text: item.text,
+              isChecked: item.isChecked || false,
+            })),
+          })),
+          comments: task.comments || [],
+        })),
+      }))
+    }
+
+    if (boardData.activities?.length) {
+      boardToSave.activities = boardData.activities.map(activity => ({
+        ...activity,
+        id: makeId(),
+      }))
+    }
+
     const newBoard = await addBoard(boardToSave)
     navigate(`/board/${newBoard._id}`)
   }

@@ -59,7 +59,10 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                             <div
                                                 key={label.id || label.color || index}
                                                 className="label-tag"
-                                                style={{ backgroundColor: label.color }}
+                                                style={{
+                                                    backgroundColor: label.color,
+                                                    color: `color-mix(in srgb, ${label.color}, white 70%)`
+                                                }}
                                                 onClick={(e) => onOpenPopup('labels', e)}
                                             >
                                                 {label.title || ' '}
