@@ -4,6 +4,8 @@ import { showErrorMsg } from '../../../services/event-bus.service'
 import { updateTask } from '../../../store/actions/task.actions'
 import { popupToViewportHook } from '../../../customHooks/popupToViewportHook'
 import checklistIcon from '../../../assets/imgs/icons/checkbox.svg'
+
+//responsible for adding a new checklist
 export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, position }) {
     const [checklistTitle, setChecklistTitle] = useState('')
     const popupRef = useRef(null)
@@ -59,7 +61,7 @@ export function TaskDetailsChecklist({ board, groupId, taskId, onClose, onSave, 
     )
 }
 
-// reusable edit form component
+// reusable edit form component for checklist items and names
 function EditForm({ value, onSave, onCancel, className = "edit-item-form" }) {
     const [text, setText] = useState(value)
 
@@ -103,7 +105,7 @@ function EditForm({ value, onSave, onCancel, className = "edit-item-form" }) {
     )
 }
 
-// display component for checklists
+// display checklists and their progressbar and items
 export function TaskChecklistsDisplay({
     checklists,
     onToggleItem,
@@ -118,7 +120,7 @@ export function TaskChecklistsDisplay({
     onCancelAddingItem,
     onAddItem
 }) {
-    const [editing, setEditing] = useState(null) // { type: 'name'|'item', checklistId, itemIndex?, initialValue }
+    const [editing, setEditing] = useState(null) 
 
     if (checklists.length === 0) return null
 

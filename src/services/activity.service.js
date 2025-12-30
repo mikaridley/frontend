@@ -70,7 +70,7 @@ export function logActivity(board, actionType, details = {}) {
     userFullname: loggedinUser.fullname || 'Unknown',
     userImgUrl: loggedinUser.imgUrl || '',
     timestamp: Date.now(),
-    ...details, // include any additional details (taskTitle, groupTitle, etc.)
+    ...details, // include any additional details (taskTitle, groupTitle ,.....)
   }
   
   // append to activities array

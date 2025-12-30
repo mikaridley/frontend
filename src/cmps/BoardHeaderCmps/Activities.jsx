@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 export function Activities({ board, onClose }) {
   const [filter, setFilter] = useState('all') // 'all' or 'comments'
   const navigate = useNavigate()
-  // Filter activities based on selected tab
+  // filter activities based on selected tab
   const filteredActivities = useMemo(() => {
     if (!board?.activities) return []
     
@@ -19,7 +19,7 @@ export function Activities({ board, onClose }) {
     return board.activities
   }, [board?.activities, filter])
 
-  // Sort activities by timestamp (newest first)
+  // sort activities by timestamp (newest first)
   const sortedActivities = useMemo(() => {
     return [...filteredActivities].sort((a, b) => b.timestamp - a.timestamp)
   }, [filteredActivities])
@@ -28,7 +28,7 @@ export function Activities({ board, onClose }) {
     const userName = activity.userFullname || 'Unknown'
     
     switch (activity.type) {
-      // Board activities
+      // board activities
       case ACTIVITY_TYPES.BOARD_CREATED:
         return <>created this board</>
       case ACTIVITY_TYPES.BOARD_TITLE_CHANGED:
@@ -60,7 +60,7 @@ export function Activities({ board, onClose }) {
           </>
         )
       
-      // Group activities
+      // group activities
       case ACTIVITY_TYPES.GROUP_CREATED:
         return <>created list {activity.groupTitle}</>
       case ACTIVITY_TYPES.GROUP_RENAMED:
@@ -68,7 +68,7 @@ export function Activities({ board, onClose }) {
       case ACTIVITY_TYPES.GROUP_ARCHIVED:
         return <>archived list {activity.groupTitle}</>
       
-      // Task activities
+      // task activities
       case ACTIVITY_TYPES.TASK_CREATED:
         return <>added "{activity.taskTitle}" to <div onClick={() => navigate(`/board/${board._id}/${activity.groupId}/${activity.taskId}`)}>{activity.groupTitle}</div></>
       case ACTIVITY_TYPES.TASK_TITLE_CHANGED:

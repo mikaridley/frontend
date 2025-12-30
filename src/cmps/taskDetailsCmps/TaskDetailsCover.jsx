@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import arrowDownIcon from '../../assets/imgs/icons/arrow_down.svg'
 import { isImageFile } from '../../services/util.service'
 import { taskService } from '../../services/task'
@@ -8,20 +8,6 @@ import { LightTooltip } from '../LightToolTip'
 import archiveIcon from '../../assets/img/archive.svg'
 import { updateTask } from '../../store/actions/task.actions'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
-// receives an image url and updates the cover background
-function setCoverBackgroundFromImage(imageUrl) {
-  if (!imageUrl) return
-  taskService
-    .getDominantColor(imageUrl)
-    .then(color => {
-      const el = document.querySelector('.task-details-cover')
-      if (el) el.style.backgroundColor = color
-    })
-    .catch(() => {
-      const el = document.querySelector('.task-details-cover')
-      if (el) el.style.backgroundColor = 'transparent'
-    })
-}
 
 export function TaskDetailsCover({
   task,
@@ -34,6 +20,8 @@ export function TaskDetailsCover({
   boardId,
 }) {
   const navigate = useNavigate()
+  const coverRef = useRef(null)
+
   if (!board || !board.groups || !groupId) return null
 
   const group = board.groups.find(group => group.id === groupId)
@@ -46,70 +34,73 @@ export function TaskDetailsCover({
       showSuccessMsg('Card archived')
       navigate(`/board/${boardId}`)
     } catch (err) {
-      console.log('err:', err)
       showErrorMsg('Failed to archive')
     }
   }
 
-  // distinguish between:
-  // - cover is completely unset (no 'cover' prop on the task) -> we may fall back to first photo attachment
-  // - cover was explicitly set to null (via "remove cover") -> show nothing, no fallback
-  const hasCoverProp =
-    task && Object.prototype.hasOwnProperty.call(task, 'cover')
-  const cover = hasCoverProp ? task.cover : undefined
+  const taskCover = task?.cover
+  const hasCoverBeenSet = task && Object.prototype.hasOwnProperty.call(task, 'cover')
+  const photoAttachments = attachments.filter(attachment => isImageFile(attachment.type))
+  const firstPhotoAttachment = photoAttachments.length > 0 ? photoAttachments[0] : null
 
-  const photoAttachments = attachments.filter(attachment =>
-    isImageFile(attachment.type)
-  )
-
-  const shouldFallbackToAttachment =
-    !hasCoverProp && photoAttachments.length > 0
-
-  // decide which image to show (if any)
-  const coverImageUrl =
-    cover?.kind === 'photo'
-      ? cover.color
-      : shouldFallbackToAttachment
-      ? photoAttachments[0].file
-      : null
-
-  // decide background style for color cover
-  const coverStyle = {}
-  if (cover && cover.kind !== 'photo') {
-    // color-only cover (no image)
-    coverStyle.background = cover.color
+  let coverImageUrl = null
+  let coverStyle = {}
+  if (taskCover?.kind === 'photo') {
+    coverImageUrl = taskCover.color
+  } else if (!hasCoverBeenSet && firstPhotoAttachment) {
+    coverImageUrl = firstPhotoAttachment.file
+  }
+  if (taskCover && taskCover.kind !== 'photo') {
+    coverStyle.background = taskCover.color
   }
 
-  useEffect(() => {
-    // if user chose a photo cover, use that photo for background color
-    if (cover?.kind === 'photo') {
-      setCoverBackgroundFromImage(cover.color)
-      return
+  useEffect(() => {   // sets the background color of the cover element based on the cover image
+    if (!coverRef.current) return
+
+    let isMounted = true
+    const coverElement = coverRef.current
+
+    function updateBackgroundColorFromImage(imageUrl) {
+      if (!imageUrl) return
+      
+      taskService
+        .getDominantColor(imageUrl)
+        .then(color => {
+          if (isMounted && coverElement) {
+            coverElement.style.backgroundColor = color
+          }
+        })
+        .catch(() => {
+          if (isMounted && coverElement) {
+            coverElement.style.backgroundColor = 'transparent'
+          }
+        })
     }
 
-    // if cover is not set at all on the task (no 'cover' prop),
-    // fall back to first photo attachment (visually treat it as the cover)
-    if (shouldFallbackToAttachment) {
-      setCoverBackgroundFromImage(photoAttachments[0].file)
-      return
+    if (taskCover?.kind === 'photo') {
+      updateBackgroundColorFromImage(taskCover.color)
+    } else if (!hasCoverBeenSet && firstPhotoAttachment) {
+      updateBackgroundColorFromImage(firstPhotoAttachment.file)
+    } else {
+      coverElement.style.backgroundColor = 'transparent'
     }
-    // cover explicitly removed or no image-based cover -> transparent background
-    const el = document.querySelector('.task-details-cover')
-    if (el) el.style.backgroundColor = 'transparent'
-  }, [cover, photoAttachments, shouldFallbackToAttachment])
+
+    return () => {
+      isMounted = false
+    }
+  }, [taskCover?.kind, taskCover?.color, hasCoverBeenSet, firstPhotoAttachment?.file])
 
   function handleTransferClick(ev) {
-    if (onOpenPopup) {
-      onOpenPopup('transferTask', ev)
-    }
+    onOpenPopup?.('transferTask', ev)
   }
 
   return (
-    <div className="task-details-cover" style={coverStyle}>
+    <div ref={coverRef} className="task-details-cover" style={coverStyle}>
       <LightTooltip title={group.title}>
         <button
           className="group-transfer-btn"
           onClick={handleTransferClick}
+          aria-label={`Transfer task to ${group.title}`}
         >
           {group.title}
           <img src={arrowDownIcon} alt="transfer" />
@@ -129,27 +120,34 @@ export function TaskDetailsCover({
         />
       )}
       <div className="task-details-cover-actions">
-        <LightTooltip title="cover">
-          <button className="btn-image" onClick={e => onOpenPopup('cover', e)}>
+        <LightTooltip title="Cover">
+          <button 
+            className="btn-image" 
+            onClick={e => onOpenPopup('cover', e)}
+            aria-label="Change cover"
+          >
             <img src={imageIcon} alt="image" />
           </button>
         </LightTooltip>
         <LightTooltip title="Archive">
-        <button className="btn-archive" onClick={() => onArchiveTask(task)}>
-          <img src={archiveIcon} alt="archive" />
-        </button>
-      </LightTooltip>
-      <LightTooltip title="Close">
-        <button
-          className="modal-close-btn"
-          onClick={() => navigate(`/board/${boardId}`)}
-          aria-label="Close"
-        >
-          ×
-        </button>
-      </LightTooltip>
+          <button 
+            className="btn-archive" 
+            onClick={() => onArchiveTask(task)}
+            aria-label="Archive task"
+          >
+            <img src={archiveIcon} alt="archive" />
+          </button>
+        </LightTooltip>
+        <LightTooltip title="Close">
+          <button
+            className="modal-close-btn"
+            onClick={() => navigate(`/board/${boardId}`)}
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </LightTooltip>
       </div>
-      
     </div>
   )
 }

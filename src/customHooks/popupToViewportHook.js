@@ -5,7 +5,9 @@ import { useEffect } from 'react'
 //  -we check if the popup bottom goes past the viewport
 //  -if it does – we move it up just enough so the whole thing stays visible
 //
-// extraDeps for the dependencies
+
+
+//used mostly in label popup
 export function popupToViewportHook(popupRef, position, extraDeps = []) {
   useEffect(() => {
     if (!position || !popupRef?.current) return
