@@ -3,6 +3,7 @@ import { PopUpHeader } from '../addBoardCmps/PopUpHeader'
 import { getMemberInitials, formatTimestamp } from '../../services/util.service'
 import { ACTIVITY_TYPES } from '../../services/activity.service'
 import { useNavigate } from 'react-router-dom'
+
 export function Activities({ board, onClose }) {
   const [filter, setFilter] = useState('all') // 'all' or 'comments'
   const navigate = useNavigate()
