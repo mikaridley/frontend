@@ -18,7 +18,7 @@ import {
 } from '../store/actions/board.actions'
 import { boardService } from '../services/board'
 import { getValidValues } from '../services/util.service'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { showErrorMsg } from '../services/event-bus.service'
 import { store } from '../store/store'
 import { SET_BOARD } from '../store/reducers/board.reducer'
 import {
@@ -129,7 +129,7 @@ export function BoardDetails() {
         onSetFilterBy={onSetFilterBy}
         filterBy={filterBy}
       />
-      <GroupList board={filteredBoard} onUpdateBoard={onUpdateBoard} />
+      <GroupList filteredBoard={filteredBoard} onUpdateBoard={onUpdateBoard} />
       <Outlet />
     </section>
   )

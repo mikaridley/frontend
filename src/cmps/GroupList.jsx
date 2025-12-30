@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   DndContext,
   PointerSensor,
   useSensor,
   useSensors,
-  TouchSensor,
   pointerWithin,
   DragOverlay,
 } from '@dnd-kit/core'
@@ -23,8 +23,8 @@ import { groupService } from '../services/group/'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import closeIcon from '../assets/img/close.svg'
 
-export function GroupList({ board, onUpdateBoard }) {
-  // const board = useSelector(storeState => storeState.boardModule.board)
+export function GroupList({ filteredBoard, onUpdateBoard }) {
+  const [searchParams] = useSearchParams()
   const [group, setGroup] = useState(groupService.getEmptyGroup())
   const [isAddingGroup, setIsAddingGroup] = useState(false)
 
@@ -34,8 +34,8 @@ export function GroupList({ board, onUpdateBoard }) {
   const [activeType, setActiveType] = useState(null)
 
   useEffect(() => {
-    setGroups(board?.groups || [])
-  }, [board])
+    setGroups(filteredBoard?.groups || [])
+  }, [filteredBoard])
 
   async function onAddGroup(ev) {
     ev.preventDefault()
@@ -47,18 +47,18 @@ export function GroupList({ board, onUpdateBoard }) {
       setGroup(groupService.getEmptyGroup())
       setGroups(prev => [...(prev || []), newGroup])
 
-      await addGroup(board, newGroup)
+      await addGroup(filteredBoard, newGroup)
       setIsAddingGroup(true)
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to add`)
-      setGroups(board.groups)
+      setGroups(filteredBoard.groups)
     }
   }
 
   async function onUpdateGroup(groupToEdit) {
     try {
-      await updateGroup(board, groupToEdit)
+      await updateGroup(filteredBoard, groupToEdit)
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to update`)
@@ -74,7 +74,7 @@ export function GroupList({ board, onUpdateBoard }) {
       setGroup(groupService.getEmptyGroup())
 
       await updateGroup(
-        board,
+        filteredBoard,
         { ...groupToArchive, archivedAt: Date.now() },
         true
       )
@@ -82,7 +82,7 @@ export function GroupList({ board, onUpdateBoard }) {
     } catch (err) {
       console.log('err:', err)
       showErrorMsg(`Failed to archive`)
-      setGroups(board.groups)
+      setGroups(filteredBoard.groups)
     }
   }
 
@@ -95,12 +95,6 @@ export function GroupList({ board, onUpdateBoard }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 300,
-        tolerance: 10,
-      },
     })
   )
 
@@ -110,6 +104,8 @@ export function GroupList({ board, onUpdateBoard }) {
   }
 
   function handleDragStart({ active }) {
+    if (isFilteredBoard) return
+
     const id = active.id
     const isGroup = groups.some(group => group.id === id)
     setActiveType(isGroup ? 'group' : 'task')
@@ -174,6 +170,8 @@ export function GroupList({ board, onUpdateBoard }) {
   }
 
   async function handleDragEnd({ active, over }) {
+    if (isFilteredBoard) return
+
     setActiveId(null)
     setActiveType(null)
 
@@ -186,14 +184,14 @@ export function GroupList({ board, onUpdateBoard }) {
       setGroups(finalGroups)
 
       try {
-        await onUpdateBoard({ ...board, groups: finalGroups })
+        await onUpdateBoard({ ...filteredBoard, groups: finalGroups })
       } catch (err) {
         console.log('err:', err)
       }
       return
     }
     try {
-      await onUpdateBoard({ ...board, groups: groups })
+      await onUpdateBoard({ ...filteredBoard, groups: groups })
     } catch (err) {
       console.log('err:', err)
     }
@@ -212,14 +210,16 @@ export function GroupList({ board, onUpdateBoard }) {
         .find(task => task.id === activeId)
       : null
 
+  const isFilteredBoard = searchParams.size > 0
+
   return (
     <section className="group-list board-details-layout">
       <DndContext
         sensors={sensors}
         collisionDetection={pointerWithin}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
+        onDragStart={isFilteredBoard ? () => showErrorMsg('Cannot drag when board is filtered') : handleDragStart}
+        onDragOver={isFilteredBoard ? null : handleDragOver}
+        onDragEnd={isFilteredBoard ? null : handleDragEnd}
       >
         <SortableContext
           items={visibleGroups.map(group => group.id)}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 
 import closeIcon from '../../assets/img/close.svg'
@@ -6,8 +6,27 @@ import closeIcon from '../../assets/img/close.svg'
 export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
     const board = useSelector(storeState => storeState.boardModule.board)
     const [filterToEdit, setFilterToEdit] = useState({ ...filterBy })
+    const FilterTasksRef = useRef(null)
 
     useEffect(() => onSetFilterBy(filterToEdit), [filterToEdit])
+
+
+    useEffect(() => {
+        function handleClickOutside(ev) {
+            // Check if click is outside the actions menu AND outside the toggle button
+            if (
+                !FilterTasksRef.current?.contains(ev.target) &&
+                !ev.target.closest('.filter-btn')
+            ) {
+                onToggleFilter()
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     function handleTxtChange({ target }) {
         const value = target.value
