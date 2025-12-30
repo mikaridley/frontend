@@ -1,15 +1,33 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
+
+import { resetRecentlyViewed } from '../store/actions/board.actions'
+import { showErrorMsg } from '../services/event-bus.service'
+
 import homeImg from '../assets/img/home-page-photo.png'
 import articleImg1 from '../assets/img/home-page-article1.png'
 import articleImg2 from '../assets/img/home-page-article2.png'
 import emailImg from '../assets/img/home-page-email-icon.png'
 import messageImg from '../assets/img/home-page-msg-icon.png'
-import { useEffect } from 'react'
-import { resetRecentlyViewed } from '../store/actions/board.actions'
+import { login } from '../store/actions/user.actions'
 
 export function HomePage() {
+  const navigate = useNavigate()
+
   useEffect(() => {
     resetRecentlyViewed()
   }, [])
+
+  async function loginToDemo() {
+    const credentials = { email: 'Demo@gmail.com', password: 'demo123' }
+    try {
+      await login(credentials)
+      navigate('/board')
+    } catch (err) {
+      console.log('err:', err)
+      showErrorMsg('Could not login')
+    }
+  }
 
   return (
     <section className="home-page">
@@ -23,10 +41,10 @@ export function HomePage() {
           <h3>
             Escape the clutter and chaos—unleash your productivity with Trello.
           </h3>
-          <form>
-            <input type="text" placeholder="Email" />
-            <button>Sign up - it's free!</button>
-          </form>
+          <div className='demo-email'>
+            <input type="text" value="Demo@gmail.com" readOnly />
+            <button onClick={loginToDemo}>Try out our demo!</button>
+          </div>
           <p>
             By entering my email, I acknowledge the{' '}
             <a>Atlassian Privacy Policy</a>

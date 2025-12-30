@@ -52,7 +52,7 @@
         width: 550px;
       }
 
-      form {
+      .demo-email {
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 1rem;
@@ -62,10 +62,10 @@
         input {
           border: 1px solid var(--clt-home-input-border);
           border-radius: 5px;
-          padding: 0.8em;
+          padding: 0.6em;
 
           outline: none;
-          font-size: 1rem;
+          font-size: 1.1rem;
         }
 
         button {
@@ -86,6 +86,7 @@
         font-size: 1rem;
         letter-spacing: 0.8px;
         font-weight: 600;
+
         a {
           color: var(--clr-home-btns);
         }
@@ -107,7 +108,7 @@
 
     background-color: var(--clr-home-btns);
 
-    > header {
+    >header {
       display: grid;
       justify-items: center;
       gap: 0.5rem;
@@ -115,13 +116,13 @@
       padding-inline: 30vw;
       text-align: center;
 
-      > h2 {
+      >h2 {
         font-size: 2.2rem;
         color: var(--clr-home-txt-light);
         font-weight: 900;
       }
 
-      > h3 {
+      >h3 {
         font-size: 1.3rem;
         color: var(--clr-home-txt-light);
         text-wrap: unset;
