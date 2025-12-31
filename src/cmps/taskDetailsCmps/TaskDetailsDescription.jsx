@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ReactQuill from 'react-quill'
 import { updateTask } from '../../store/actions/task.actions'
 import { showErrorMsg } from "../../services/event-bus.service.js"
@@ -10,10 +10,24 @@ import 'react-quill/dist/quill.bubble.css'
 export function TaskDetailsDescription({ description: initialDescription, attachments, board, groupId, taskId, task, onTaskUpdate }) {
     const [description, setDescription] = useState(initialDescription || '')
     const [descriptionEdit, setDescriptionEdit] = useState(false)
+    const quillRef = useRef(null)
 
     useEffect(() => {
         setDescription(initialDescription || '')
     }, [initialDescription])
+
+    // focus the editor when form appears (autofocus doesnt work)
+    useEffect(() => {
+        if (descriptionEdit && quillRef.current) {
+            // small delay to ensure reactquill is fully rendered
+            setTimeout(() => {
+                const editor = quillRef.current.getEditor()
+                if (editor) {
+                    editor.focus()
+                }
+            }, 0)
+        }
+    }, [descriptionEdit])
 
     function editDescription() {
         setDescriptionEdit(true)
@@ -62,6 +76,7 @@ export function TaskDetailsDescription({ description: initialDescription, attach
             {descriptionEdit && (
                 <form onSubmit={saveDescription}>
                     <ReactQuill
+                        ref={quillRef}
                         theme="snow"
                         value={description}
                         onChange={setDescription}

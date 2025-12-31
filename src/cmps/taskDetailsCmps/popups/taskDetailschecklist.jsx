@@ -212,10 +212,31 @@ export function TaskChecklistsDisplay({
                                     onChange={() => onToggleItem(checklist.id, index)}
                                 />
                                 {isEditingItem ? (
-                                    <EditForm
+                                    <input
+                                        type="text"
+                                        className="edit-item-form"
                                         value={editing.initialValue}
-                                        onSave={saveEdit}
-                                        onCancel={cancelEdit}
+                                        onChange={(e) => {
+                                            setEditing({ ...editing, initialValue: e.target.value })
+                                        }}
+                                        onBlur={() => {
+                                            if (editing.initialValue.trim()) {
+                                                saveEdit(editing.initialValue.trim())
+                                            } else {
+                                                cancelEdit()
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === 'Escape') {
+                                                e.preventDefault()
+                                                if (editing.initialValue.trim()) {
+                                                    saveEdit(editing.initialValue.trim())
+                                                } else {
+                                                    cancelEdit()
+                                                }
+                                            }
+                                        }}
+                                        autoFocus
                                     />
                                 ) : (
                                     <>

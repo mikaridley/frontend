@@ -32,7 +32,7 @@
     }
 
     .home-secondary-content {
-      > header {
+      >header {
         padding-inline: 5vw;
       }
 
@@ -67,7 +67,7 @@
     nav {
       gap: 0rem;
 
-      > * {
+      >* {
         padding-inline: 0.5rem;
       }
 
@@ -86,10 +86,12 @@
       .home-sign-up {
         padding-inline: 1rem;
         width: 100%;
+
         h2 {
           font-size: 2rem;
           width: 100%;
         }
+
         h3 {
           font-size: 1rem;
           width: 100%;
@@ -126,5 +128,24 @@
       gap: 0.3rem;
       margin-left: 1rem;
     }
+  }
+
+  .login-signup {
+    background-color: white;
+
+    .login-form {
+      grid-column: 2;
+      box-shadow: none;
+    }
+
+    >img {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .login-form {
+    padding-inline: 0;
   }
 }

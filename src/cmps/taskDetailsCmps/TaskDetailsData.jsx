@@ -128,7 +128,7 @@ export function TaskDetailsData({ members, labels, attachments, dates, board, gr
                                 <LightTooltip title="Show attachment">
                                     <button className="btn-show-attachment" onClick={() => taskService.openAttachmentInNewTab(attachment.file, attachment.type)}><img src={arrowIcon} alt="show attachment" /></button>
                                 </LightTooltip>
-                                <button onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
+                                <button className="btn-delete-attachment" onClick={() => handleDeleteAttachment(attachment.id)}>Delete</button>
                             </div>
                         ))}
                     </div>
