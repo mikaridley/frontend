@@ -10,6 +10,7 @@ import articleImg2 from '../assets/img/home-page-article2.png'
 import emailImg from '../assets/img/home-page-email-icon.png'
 import messageImg from '../assets/img/home-page-msg-icon.png'
 import { login } from '../store/actions/user.actions'
+import { MovingArrows } from '../cmps/MovingArrows'
 
 export function HomePage() {
   const navigate = useNavigate()
@@ -41,7 +42,7 @@ export function HomePage() {
           <h3>
             Escape the clutter and chaos—unleash your productivity with Trello.
           </h3>
-          <div className='demo-email'>
+          <div className="demo-email">
             <input type="text" value="Demo@gmail.com" readOnly />
             <button onClick={loginToDemo}>Try out our demo!</button>
           </div>
@@ -49,6 +50,7 @@ export function HomePage() {
             By entering my email, I acknowledge the{' '}
             <a>Atlassian Privacy Policy</a>
           </p>
+          <MovingArrows />
         </div>
         <img src={homeImg} />
       </section>

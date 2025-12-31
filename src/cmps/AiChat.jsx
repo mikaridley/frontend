@@ -4,6 +4,7 @@ import { sendAICommand } from '../store/actions/board.actions'
 import { AiAgent } from './AiAjent'
 import sendImg from '../assets/img/send.svg'
 import ajentPhoto from '../assets/img/ajent-photo.svg'
+import mrShmelloVoice from '../assets/sound/mr-shmello-voice.mp3'
 import { AnimatePresence, motion } from 'framer-motion'
 
 export function AiChat({ addAiBoard, addAiBoardFic }) {
@@ -12,6 +13,8 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef(null)
+  const audioRef = useRef(new Audio(mrShmelloVoice))
+  const chatRef = useRef(null)
 
   useEffect(() => {
     scrollToBottom()
@@ -26,6 +29,26 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
       },
     ])
   }, [])
+
+  useEffect(() => {
+    if (isOpen && audioRef.current) {
+      audioRef.current.currentTime = 0
+      audioRef.current.play()
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (chatRef.current && !chatRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [chatRef])
 
   function scrollToBottom() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -75,11 +98,11 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
   }
 
   function toggleIsOpen() {
-    setIsOpen(prev => !prev)
+    if (setIsOpen) setIsOpen(prev => !prev)
   }
 
   return (
-    <div className={`ai-chat ${isOpen ? 'open' : 'closed'}`}>
+    <div className={`ai-chat ${isOpen ? 'open' : 'closed'}`} ref={chatRef}>
       <AiAgent toggleIsOpen={toggleIsOpen} />
       <AnimatePresence>
         {isOpen && (

@@ -36,7 +36,7 @@ export function UserMsg() {
       <img className="user-msg-icon" src={userMessageImg} />
       {msg?.txt}
       <img className="user-msg-close" src={closeImg} onClick={closeMsg} />
-      <button onClick={onUndoBoard}>Undo</button>
+      {/* <button onClick={onUndoBoard}>Undo</button> */}
     </section>
   )
 }

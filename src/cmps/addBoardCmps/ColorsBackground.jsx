@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { BackgroundPreview } from './BackgroundPreview'
 import { PopUpHeader } from './PopUpHeader'
 

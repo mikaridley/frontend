@@ -1,4 +1,4 @@
-@media (min-width: 500px){
+@media (min-width: 500px) {
   .board-header {
     .header-star {
       display: grid;
@@ -54,7 +54,7 @@
   }
 
   .toggle-done-btn {
-    >div {
+    > div {
       opacity: 1;
     }
   }
@@ -72,10 +72,21 @@
       }
     }
   }
+
+  .ai-chat {
+    bottom: 165px;
+    right: 100px;
+  }
+}
+
+@media (max-width: 520px) {
+  .ai-chat {
+    bottom: 165px;
+    right: 30px;
+  }
 }
 
 @media (max-width: 500px) {
-
   .board-list {
     width: 210px;
 
@@ -87,7 +98,6 @@
   }
 
   .board-header {
-
     .share-btn,
     .header-star {
       display: none;
@@ -102,5 +112,9 @@
         width: 50vw;
       }
     }
+  }
+
+  .ai-chat {
+    display: none;
   }
 }

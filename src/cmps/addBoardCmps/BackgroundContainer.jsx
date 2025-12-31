@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { boardService } from '../../services/board'
 import { MiniBoardPreview } from './MiniBoardPreview'
 import { BackgroundPreview } from './BackgroundPreview'
@@ -19,10 +19,36 @@ export function BackgroundContainer({ changeColor, isForPreview = false }) {
     isOpen: false,
     openKind: '',
   })
+  const moreColorsRef = useRef(null)
 
   useEffect(() => {
     _getPhotos()
   }, [])
+
+  useEffect(() => {
+    if (!moreColorsRef.current || !isOpenMoreBgs.isOpen) return
+
+    const el = moreColorsRef.current
+    const rect = el.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const padding = 12
+
+    // Clamp TOP
+    if (rect.top < padding) {
+      el.style.top = `${padding}px`
+      el.style.bottom = 'auto'
+    }
+
+    // Clamp BOTTOM
+    if (rect.bottom > viewportHeight - padding) {
+      el.style.bottom = `${padding}px`
+      el.style.top = 'auto'
+    }
+
+    // Final safety height
+    el.style.maxHeight = `${viewportHeight - padding * 2}px`
+    el.style.overflowY = 'auto'
+  }, [isOpenMoreBgs.isOpen, isOpenMoreBgs.openKind])
 
   async function _getPhotos() {
     try {
@@ -93,7 +119,7 @@ export function BackgroundContainer({ changeColor, isForPreview = false }) {
           </div>
         </section>
         {isOpenMoreBgs.isOpen && (
-          <div className="open-more-colors">
+          <div className="open-more-colors" ref={moreColorsRef}>
             {isOpenMoreBgs.openKind === '' && (
               <>
                 <div className="board-bg-header">
