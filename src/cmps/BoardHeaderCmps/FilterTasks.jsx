@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 
 import closeIcon from '../../assets/img/close.svg'
+import memberIcon from '../../assets/img/member.svg'
+import datesIcon from '../../assets/img/dates.svg'
+import labelIcon from '../../assets/img/label.svg'
+import clockIcon from '../../assets/img/clock-dark.svg'
+import doneIcon from '../../assets/img/done.svg'
+import notDoneIcon from '../../assets/img/empty-circle.svg'
 
 export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -46,7 +52,6 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
 
     function handleRadioChange({ target }) {
         const value = target.value
-        console.log('target:', target)
         if (value === filterToEdit.status) {
             setFilterToEdit(prevFilter => ({ ...prevFilter, status: '' }))
         } else {
@@ -76,7 +81,7 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                 />
 
                 <h2>Members</h2>
-                <ul className="filter-members">
+                <ul className="members-filter">
                     <li key={0}>
                         <input
                             type="checkbox"
@@ -86,7 +91,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleCheckboxChange}
                             checked={members.includes('none')}
                         />
-                        <label htmlFor="noMember">No members</label>
+                        <label htmlFor="noMember" className="none">
+                            <span><img src={memberIcon} /></span>
+                            No members
+                        </label>
                     </li>
                     {board.members.map(member =>
                         <li key={member._id}>
@@ -98,7 +106,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                                 onChange={handleCheckboxChange}
                                 checked={members.includes(member._id)}
                             />
-                            <label htmlFor={member._id}>{member.fullname}</label>
+                            <label htmlFor={member._id}>
+                                <img src={member.imgUrl} />
+                                {member.fullname}
+                            </label>
                         </li>
                     )}
                 </ul>
@@ -114,7 +125,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleRadioChange}
                             checked={status === 'done'}
                         />
-                        <label htmlFor="done">Marked as complete</label>
+                        <label htmlFor="done">
+                            <img src={doneIcon} />
+                            Marked as complete
+                        </label>
                     </li>
                     <li key={2}>
                         <input
@@ -125,7 +139,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleRadioChange}
                             checked={status === 'inProgress'}
                         />
-                        <label htmlFor="inProgress">Not marked as complete</label>
+                        <label htmlFor="inProgress">
+                            <img src={notDoneIcon} />
+                            Not marked as complete
+                        </label>
                     </li>
                 </ul>
 
@@ -140,7 +157,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleCheckboxChange}
                             checked={dueDate.includes('none')}
                         />
-                        <label htmlFor="noDates">No dates</label>
+                        <label htmlFor="noDates" className="none">
+                            <span><img src={datesIcon} /></span>
+                            No dates
+                        </label>
                     </li>
                     <li key={1}>
                         <input
@@ -151,7 +171,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleCheckboxChange}
                             checked={dueDate.includes('overdue')}
                         />
-                        <label htmlFor="overdue">Overdue</label>
+                        <label htmlFor="overdue">
+                            <span className="overdue"><img src={clockIcon} /></span>
+                            Overdue
+                        </label>
                     </li>
                     <li key={2}>
                         <input
@@ -162,7 +185,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleCheckboxChange}
                             checked={dueDate.includes('today')}
                         />
-                        <label htmlFor="today">Due in the next day</label>
+                        <label htmlFor="today">
+                            <span className="today"><img src={clockIcon} /></span>
+                            Due in the next day
+                        </label>
                     </li>
                 </ul>
 
@@ -177,7 +203,10 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                             onChange={handleCheckboxChange}
                             checked={labels.includes('none')}
                         />
-                        <label htmlFor="noLabels">No labels</label>
+                        <label htmlFor="noLabels" className="none">
+                            <span><img src={labelIcon} /></span>
+                            No labels
+                        </label>
                     </li>
                     {board.labels.map(label =>
                         <li key={label.id}>
@@ -189,7 +218,7 @@ export function FilterTasks({ onSetFilterBy, filterBy, onToggleFilter }) {
                                 onChange={handleCheckboxChange}
                                 checked={labels.includes(label.id)}
                             />
-                            <label htmlFor={label.id}
+                            <label htmlFor={label.id} className="label"
                                 style={
                                     {
                                         backgroundColor: label.color,

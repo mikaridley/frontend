@@ -69,6 +69,7 @@
         gap: 1rem;
 
         padding: .5rem;
+        cursor: pointer;
 
         input {
             appearance: none;
@@ -98,6 +99,54 @@
                 font-size: 1rem;
             }
         }
+
+        >label {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            cursor: pointer;
+
+            >span {
+                display: grid;
+                place-content: center;
+
+                width: 1.5rem;
+                height: 1.5rem;
+
+                border-radius: 50%;
+            }
+
+            img {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+
+        .none {
+            >span {
+                background-color: var(--clr-modal-btn-hover);
+            }
+        }
+    }
+
+    .members-filter {
+        label {
+            >img {
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .dates-filter {
+        .overdue {
+            background-color: var(--clr-close-board);
+        }
+
+        .today {
+            background-color: var(--clr-task-soon);
+        }
     }
 
     .labels-filter {
@@ -105,7 +154,7 @@
             padding: .3rem;
         }
 
-        label {
+        .label {
             display: grid;
             align-items: center;
 

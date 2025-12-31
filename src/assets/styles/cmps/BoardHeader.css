@@ -37,7 +37,7 @@
       }
     }
 
-    .header-more-icon{
+    .header-more-icon {
       display: grid;
       place-content: center;
 
@@ -76,9 +76,18 @@
       }
     }
 
+    .clear-filter-btn,
     .filter-btn {
+      width: 2rem;
+      height: 2rem;
+
       display: grid;
       place-content: center;
+
+      img {
+        width: 1.3rem;
+        height: 1.3rem;
+      }
     }
 
     .members {

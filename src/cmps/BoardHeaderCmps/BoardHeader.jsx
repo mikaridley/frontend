@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
-import { ShareBoard } from './ShareBoard'
 import { BoardSettings } from './BoardSettings'
+import { ShareBoard } from './ShareBoard'
+import { FilterTasks } from './FilterTasks'
+import { LightTooltip } from '../LightToolTip'
 
 import starIcon from '../../assets/img/star-white.svg'
 import yellowStarIcon from '../../assets/img/yellow-star.png'
 import moreIcon from '../../assets/img/more-white.svg'
 import filterIcon from '../../assets/img/filter.svg'
-import { FilterTasks } from './FilterTasks'
-import { LightTooltip } from '../LightToolTip'
-import { useSearchParams } from 'react-router-dom'
+import clearFilterIcon from '../../assets/img/clear-filter.svg'
 
 export function BoardHeader({
   board,
@@ -90,7 +91,11 @@ export function BoardHeader({
           </LightTooltip>
         </button>
         {isFilteredBoard &&
-          <button onClick={onClearFilter}>Clear all</button>
+          <button className='clear-filter-btn' onClick={onClearFilter}>
+            <LightTooltip title="Clear filter">
+              <img src={clearFilterIcon} />
+            </LightTooltip>
+          </button>
         }
         {isFilterOpen &&
           <FilterTasks
