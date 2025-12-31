@@ -32,7 +32,6 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
 
   useEffect(() => {
     if (isOpen && audioRef.current) {
-      audioRef.current.currentTime = 0
       audioRef.current.play()
     }
   }, [isOpen])
