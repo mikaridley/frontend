@@ -206,6 +206,20 @@
   gap: 0.75rem;
 }
 
+/* 
+& button {
+    background-color: #2b2c2f;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: var(--clr-task-txt-dark);
+    margin-top: 1rem;
+    &:hover {
+      background-color: #e3e4f21f;
+    }
+*/
+
+
 .attachment-item {
   display: flex;
   align-items: center;
@@ -213,9 +227,20 @@
   padding: 0.5rem;
   border-radius: 4px;
   transition: background-color 0.2s;
+  & .btn-delete-attachment{
+    background-color: #CECED912;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: var(--clr-task-txt);
+    &:hover {
+      background-color: #E3E4F21F;
+    }
+  }
 
   & button {
-    color: var(--clr-task-txt-dark);
+    color: var(--clr-task-txt);
     border: 2px solid #3c3d40;
     border-radius: 4px;
     background-color: #242528;
@@ -227,7 +252,6 @@
     &:hover {
       cursor: pointer;
       background-color: #2b2c2f;
-      color: rgb(255, 40, 40);
     }
   }
 }
@@ -294,12 +318,15 @@
   justify-content: space-between;
   align-items: center;
   & button {
-    background-color: #242528;
-    border: 2px solid #3c3d40;
+    background-color: #CECED912;
     border-radius: 4px;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    color: var(--clr-task-txt-dark);
+    color: var(--clr-task-txt);
+    margin-top: 1rem;
+    &:hover {
+      background-color: #e3e4f21f;
+    }
   }
 }
 

@@ -18,6 +18,7 @@
   width: 16px;
   height: 16px;
   margin-bottom: -0.5rem;
+  margin-left: -0.5rem;
 }
 
 .task-description-button {
@@ -27,6 +28,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   display: flex;
+  border-radius: 8px;
   &:hover {
     cursor: pointer;
     background-color: #2b2c2f;
@@ -53,7 +55,7 @@
   border-color: #5ba4cf;
   margin-right: 0.5rem;
   &:hover {
-    background-color: #4a93be;
+    background-color: #63b4e2;
     border-color: #4a93be;
   }
 }
