@@ -31,13 +31,13 @@
 }
 
 .comments-section form button[type='submit'] {
-  background-color: #5ba4cf;
+  background-color: #4a93be;
   color: black;
   border-color: #5ba4cf;
   margin-right: 0.5rem;
 
   &:hover {
-    background-color: #4a93be;
+    background-color: #5ba4cf;
     border-color: #4a93be;
   }
 }

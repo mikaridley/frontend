@@ -1,15 +1,15 @@
 [{
   "_id": {
-    "$oid": "695399dbc6bb8d2a7cdf8f12"
+    "$oid": "6954df0da047b2461caaef3c"
   },
-  "shortId": "43filVri",
+  "shortId": "ksFHa7ne",
   "title": "Birthday Party Planning",
   "isStarred": false,
   "archivedAt": null,
   "createdBy": {
-    "_id": "69529c0434cd2f5e28b32d2f",
-    "fullname": "Asya Kandyba",
-    "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocLXUt3jDl2_ockNt4vl2Hw9RK2oHRQk-Jorotm1jk2ik3kolN6x=s96-c"
+    "_id": "69528ff464dd60b6c05c286d",
+    "fullname": "רן הירשורן",
+    "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c"
   },
   "style": {
     "background": {
@@ -51,6 +51,12 @@
   ],
   "members": [
     {
+      "_id": "69528ff464dd60b6c05c286d",
+      "email": "ranhirschorn@gmail.com",
+      "fullname": "רן הירשורן",
+      "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c"
+    },
+    {
       "_id": "69529c0434cd2f5e28b32d2f",
       "email": "asyakan03@gmail.com",
       "fullname": "Asya Kandyba",
@@ -74,20 +80,31 @@
   ],
   "groups": [
     {
-      "id": "kts2Sa",
+      "id": "Jm0taR",
       "title": "Preparations",
+      "archivedAt": null,
       "tasks": [
         {
-          "id": "OjjF77",
+          "id": "3V6MRd",
           "title": "Set date and venue",
+          "status": "",
           "cover": {
             "color": "linear-gradient(135deg, #0e6ae2, #33aec6)",
             "kind": "gradient"
-          }
+          },
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
         },
         {
-          "id": "zbZzBN",
+          "id": "nRJYRR",
           "title": "Create guest list",
+          "status": "",
+          "cover": "",
           "labels": [
             {
               "color": "#216E4E",
@@ -95,9 +112,13 @@
               "colorName": "green"
             }
           ],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
           "checklists": [
             {
-              "id": "1767098800822",
+              "id": "DZrQkF",
               "name": "friend group 1",
               "items": [
                 {
@@ -111,7 +132,7 @@
               ]
             },
             {
-              "id": "1767098807831",
+              "id": "SG6lhd",
               "name": "friend group 2",
               "items": [
                 {
@@ -124,14 +145,24 @@
                 }
               ]
             }
-          ]
+          ],
+          "comments": []
         },
         {
-          "id": "fDCBcR",
+          "id": "DW3Kt8",
           "title": "Send invitations",
+          "status": "",
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099334/task-attachments/kamia0rjzd0apcycjtf2.jpg",
+            "kind": "photo"
+          },
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
           "attachments": [
             {
-              "id": "8GYKWy",
+              "id": "GBiPmo",
               "name": "7198RtobV1L._AC_UL210_SR210,210_.jpg",
               "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099334/task-attachments/kamia0rjzd0apcycjtf2.jpg",
               "createdAt": 1767099335154,
@@ -140,14 +171,14 @@
               "public_id": "task-attachments/kamia0rjzd0apcycjtf2"
             }
           ],
-          "cover": {
-            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099334/task-attachments/kamia0rjzd0apcycjtf2.jpg",
-            "kind": "photo"
-          }
+          "checklists": [],
+          "comments": []
         },
         {
-          "id": "C0oA7q",
+          "id": "mARvrs",
           "title": "Plan party theme",
+          "status": "",
+          "cover": "",
           "labels": [
             {
               "color": "#DDB30E",
@@ -157,28 +188,24 @@
           ],
           "dates": {
             "dateTime": "2026-01-02T12:51:54.000Z"
-          }
+          },
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
         }
       ]
     },
     {
-      "id": "XDH22K",
+      "id": "y7kfEa",
       "title": "Food & Drinks",
+      "archivedAt": null,
       "tasks": [
         {
-          "id": "6XmyGX",
+          "id": "obJxGV",
           "title": "Order birthday cake",
-          "attachments": [
-            {
-              "id": "Oa6chd",
-              "name": "549631907_1168501091998840_4098737648078585986_n.jpg",
-              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767098770/task-attachments/vsklhfwtleis79qczvi5.jpg",
-              "createdAt": 1767098770694,
-              "type": "image/jpeg",
-              "size": 11470,
-              "public_id": "task-attachments/vsklhfwtleis79qczvi5"
-            }
-          ],
+          "status": "done",
           "cover": {
             "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767098770/task-attachments/vsklhfwtleis79qczvi5.jpg",
             "kind": "photo"
@@ -190,18 +217,51 @@
               "colorName": "red"
             }
           ],
-          "status": "done"
-        },
-        {
-          "id": "HjI4sj",
-          "title": "Plan menu items"
-        },
-        {
-          "id": "2hMzXb",
-          "title": "Buy beverages",
+          "dates": null,
+          "description": "",
+          "members": [],
           "attachments": [
             {
-              "id": "RdYKNZ",
+              "id": "yXRmjS",
+              "name": "549631907_1168501091998840_4098737648078585986_n.jpg",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767098770/task-attachments/vsklhfwtleis79qczvi5.jpg",
+              "createdAt": 1767098770694,
+              "type": "image/jpeg",
+              "size": 11470,
+              "public_id": "task-attachments/vsklhfwtleis79qczvi5"
+            }
+          ],
+          "checklists": [],
+          "comments": []
+        },
+        {
+          "id": "0gPQ97",
+          "title": "Plan menu items",
+          "status": "",
+          "cover": "",
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
+        },
+        {
+          "id": "Xlihe8",
+          "title": "Buy beverages",
+          "status": "",
+          "cover": {
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099093/task-attachments/rcf9hcljw2lrw7h3odh6.jpg",
+            "kind": "photo"
+          },
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [
+            {
+              "id": "uAnxWD",
               "name": "Bottle-Labels.jpg",
               "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099093/task-attachments/rcf9hcljw2lrw7h3odh6.jpg",
               "createdAt": 1767099094173,
@@ -210,24 +270,34 @@
               "public_id": "task-attachments/rcf9hcljw2lrw7h3odh6"
             }
           ],
-          "cover": {
-            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099093/task-attachments/rcf9hcljw2lrw7h3odh6.jpg",
-            "kind": "photo"
-          }
+          "checklists": [],
+          "comments": []
         },
         {
-          "id": "K9IamS",
-          "title": "Arrange catering if needed"
+          "id": "MSLbr5",
+          "title": "Arrange catering if needed",
+          "status": "",
+          "cover": "",
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
         }
       ]
     },
     {
-      "id": "WBZGfT",
+      "id": "Zpn4Vt",
       "title": "Decorations & Entertainment",
+      "archivedAt": null,
       "tasks": [
         {
-          "id": "YF5gt5",
+          "id": "s9chzh",
           "title": "Buy balloons and banners",
+          "status": "",
+          "cover": "",
           "labels": [
             {
               "color": "#AE2E24",
@@ -254,30 +324,38 @@
               "title": "",
               "colorName": "bold purple"
             }
-          ]
-        },
-        {
-          "id": "lZS7k8",
-          "title": "Set up photo booth"
-        },
-        {
-          "id": "Yf5sJT",
-          "title": "Create party playlist",
-          "attachments": [
-            {
-              "id": "ULf2oC",
-              "name": "The-Best-Spotify-Playlists.png",
-              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099038/task-attachments/ieuxktghjaeimw5nadma.png",
-              "createdAt": 1767099039500,
-              "type": "image/png",
-              "size": 1011251,
-              "public_id": "task-attachments/ieuxktghjaeimw5nadma"
-            }
           ],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
+        },
+        {
+          "id": "oaQuPR",
+          "title": "Set up photo booth",
+          "status": "",
+          "cover": "",
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
+        },
+        {
+          "id": "pCFGwW",
+          "title": "Create party playlist",
+          "status": "",
           "cover": {
             "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099038/task-attachments/ieuxktghjaeimw5nadma.png",
             "kind": "photo"
           },
+          "labels": [],
+          "dates": null,
+          "description": "",
           "members": [
             {
               "_id": "69529c0434cd2f5e28b32d2f",
@@ -300,14 +378,34 @@
               "imgUrl": "https://lh3.googleusercontent.com/a/ACg8ocJ2IHnB_fDmOW3QFgB2V5mb2Twv-5k_BZg-qn8BRekHFayx26g=s96-c",
               "createdAt": "2025-12-29T15:18:25.000Z"
             }
-          ]
+          ],
+          "attachments": [
+            {
+              "id": "pOhAwn",
+              "name": "The-Best-Spotify-Playlists.png",
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099038/task-attachments/ieuxktghjaeimw5nadma.png",
+              "createdAt": 1767099039500,
+              "type": "image/png",
+              "size": 1011251,
+              "public_id": "task-attachments/ieuxktghjaeimw5nadma"
+            }
+          ],
+          "checklists": [],
+          "comments": []
         },
         {
-          "id": "xsnEjk",
+          "id": "jfKYm9",
           "title": "Plan games and activities",
+          "status": "",
+          "cover": "",
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
           "checklists": [
             {
-              "id": "1767099351451",
+              "id": "CQu6sp",
               "name": "board games",
               "items": [
                 {
@@ -321,55 +419,78 @@
               ]
             },
             {
-              "id": "1767099374608",
+              "id": "azdslt",
               "name": "bouce house activities",
               "items": []
             }
-          ]
+          ],
+          "comments": []
         },
         {
-          "id": "RE3K3Z",
-          "title": "Arrange party favors"
+          "id": "eOdcj4",
+          "title": "Arrange party favors",
+          "status": "",
+          "cover": "",
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
         }
       ]
     },
     {
-      "id": "rvEZ5z",
+      "id": "g8cCur",
       "title": "Budget & Expenses",
+      "archivedAt": null,
       "tasks": [
         {
-          "id": "7Iw6aN",
+          "id": "lOsHyV",
           "title": "create splitwise group",
           "status": "",
           "cover": {
-            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099430/task-attachments/vwfdtnc4rn8wlkn5lfhs.png",
+            "color": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767169823/task-attachments/xdxcrnkwjjz33ubiyxnn.png",
             "kind": "photo"
           },
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
           "attachments": [
             {
-              "id": "2o1mQd",
+              "id": "JljrZq",
               "name": "images.png",
-              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767099430/task-attachments/vwfdtnc4rn8wlkn5lfhs.png",
-              "createdAt": 1767099431415,
+              "file": "https://res.cloudinary.com/drdagmyxa/image/upload/v1767169823/task-attachments/xdxcrnkwjjz33ubiyxnn.png",
+              "createdAt": 1767169823742,
               "type": "image/png",
-              "size": 2715,
-              "public_id": "task-attachments/vwfdtnc4rn8wlkn5lfhs"
+              "size": 11219,
+              "public_id": "task-attachments/xdxcrnkwjjz33ubiyxnn"
             }
-          ]
+          ],
+          "checklists": [],
+          "comments": []
         },
         {
-          "id": "lz1Yoo",
+          "id": "WYFLRD",
           "title": "create a budget",
           "status": "",
-          "cover": ""
+          "cover": "",
+          "labels": [],
+          "dates": null,
+          "description": "",
+          "members": [],
+          "attachments": [],
+          "checklists": [],
+          "comments": []
         }
-      ],
-      "archivedAt": null
+      ]
     }
   ],
   "activities": [
     {
-      "id": "NKVKSs",
+      "id": "OBZ41f",
       "type": "BOARD_CREATED",
       "category": "all",
       "userId": "69529c0434cd2f5e28b32d2f",
@@ -379,7 +500,7 @@
       "boardTitle": "Birthday Party Planning"
     },
     {
-      "id": "3l0iW3",
+      "id": "xQv200",
       "type": "ATTACHMENT_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -393,7 +514,7 @@
       "groupId": "XDH22K"
     },
     {
-      "id": "N92m97",
+      "id": "U1Vsx5",
       "type": "COVER_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -406,7 +527,7 @@
       "groupId": "XDH22K"
     },
     {
-      "id": "qQftRe",
+      "id": "RyqmYk",
       "type": "LABEL_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -420,7 +541,7 @@
       "groupId": "XDH22K"
     },
     {
-      "id": "jQix70",
+      "id": "RZvruJ",
       "type": "LABEL_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -434,7 +555,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "geChwR",
+      "id": "dLSQRE",
       "type": "CHECKLIST_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -448,7 +569,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "qPF9Ou",
+      "id": "d3zYJU",
       "type": "CHECKLIST_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -462,7 +583,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "ebNmgX",
+      "id": "7gx73o",
       "type": "ATTACHMENT_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -476,7 +597,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "dph5wG",
+      "id": "2TONXh",
       "type": "COVER_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -489,7 +610,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "8YeJ43",
+      "id": "e3QguZ",
       "type": "MEMBER_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -503,7 +624,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "tQbi5U",
+      "id": "84PHrj",
       "type": "MEMBER_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -517,7 +638,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "4kzOii",
+      "id": "mwJ0YG",
       "type": "MEMBER_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -531,7 +652,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "7KdekB",
+      "id": "m1ZKHk",
       "type": "MEMBER_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -545,7 +666,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "Qn8yin",
+      "id": "x2yW0k",
       "type": "MEMBER_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -559,7 +680,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "cS10Gk",
+      "id": "0ZIUnx",
       "type": "ATTACHMENT_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -573,7 +694,7 @@
       "groupId": "XDH22K"
     },
     {
-      "id": "TWlnFI",
+      "id": "UYfS6R",
       "type": "COVER_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -586,7 +707,7 @@
       "groupId": "XDH22K"
     },
     {
-      "id": "WaULHK",
+      "id": "FbmgtK",
       "type": "LABEL_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -600,7 +721,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "PNIYOK",
+      "id": "RiGCol",
       "type": "DUE_DATE_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -613,7 +734,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "Vfea3R",
+      "id": "oPkFDP",
       "type": "TASK_FINISHED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -626,7 +747,7 @@
       "groupId": "XDH22K"
     },
     {
-      "id": "ahT0gm",
+      "id": "Wpmfnh",
       "type": "TASK_CREATED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -638,7 +759,7 @@
       "groupId": "rvEZ5z"
     },
     {
-      "id": "Fblvbl",
+      "id": "JCJ2Y3",
       "type": "TASK_CREATED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -650,7 +771,7 @@
       "groupId": "rvEZ5z"
     },
     {
-      "id": "VeX9iv",
+      "id": "XpLVkz",
       "type": "LABEL_ADDED_TO_TASK",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -664,7 +785,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "9K2RjE",
+      "id": "dSMjtU",
       "type": "ATTACHMENT_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -678,7 +799,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "a0lXoV",
+      "id": "8xYXuZ",
       "type": "COVER_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -691,7 +812,7 @@
       "groupId": "kts2Sa"
     },
     {
-      "id": "jPDXH7",
+      "id": "eZ3Vk7",
       "type": "CHECKLIST_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -705,7 +826,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "0hOORS",
+      "id": "DGIdR2",
       "type": "CHECKLIST_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -719,7 +840,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "Ko8shd",
+      "id": "2mO29I",
       "type": "CHECKLIST_ITEM_COMPLETED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -734,7 +855,7 @@
       "groupId": "WBZGfT"
     },
     {
-      "id": "ytDce6",
+      "id": "bfZbPo",
       "type": "ATTACHMENT_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -748,7 +869,7 @@
       "groupId": "rvEZ5z"
     },
     {
-      "id": "zygIDq",
+      "id": "YowGXs",
       "type": "COVER_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -761,7 +882,7 @@
       "groupId": "rvEZ5z"
     },
     {
-      "id": "LkMVxI",
+      "id": "yOBayK",
       "type": "COVER_ADDED",
       "category": "all",
       "userId": "69529b7f34cd2f5e28b32d2d",
@@ -772,6 +893,57 @@
       "taskTitle": "Set date and venue",
       "groupTitle": "Preparations",
       "groupId": "kts2Sa"
+    },
+    {
+      "id": "YrF0eS",
+      "type": "BOARD_CREATED",
+      "category": "all",
+      "userId": "69528ff464dd60b6c05c286d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767169805794,
+      "boardTitle": "Birthday Party Planning"
+    },
+    {
+      "id": "paP0r7",
+      "type": "ATTACHMENT_REMOVED",
+      "category": "all",
+      "userId": "69528ff464dd60b6c05c286d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767169813267,
+      "taskId": "lOsHyV",
+      "taskTitle": "create splitwise group",
+      "attachmentName": "images.png",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "g8cCur"
+    },
+    {
+      "id": "Gh5CaG",
+      "type": "ATTACHMENT_ADDED",
+      "category": "all",
+      "userId": "69528ff464dd60b6c05c286d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767169823743,
+      "taskId": "lOsHyV",
+      "taskTitle": "create splitwise group",
+      "attachmentName": "images.png",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "g8cCur"
+    },
+    {
+      "id": "HuK5jU",
+      "type": "COVER_ADDED",
+      "category": "all",
+      "userId": "69528ff464dd60b6c05c286d",
+      "userFullname": "רן הירשורן",
+      "userImgUrl": "https://lh3.googleusercontent.com/a/ACg8ocKnylh2G19qx1FrkS_q4LYpN-MrXDSQYgVktvMnXMsUQ7GqvQ=s96-c",
+      "timestamp": 1767169823743,
+      "taskId": "lOsHyV",
+      "taskTitle": "create splitwise group",
+      "groupTitle": "Budget & Expenses",
+      "groupId": "g8cCur"
     }
   ]
 }]
