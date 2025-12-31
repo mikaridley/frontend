@@ -99,7 +99,7 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
               <p>Mr.Shmello</p>
             </header>
 
-            <div class="wavy">
+            <div className="wavy">
               <svg viewBox="0 0 1440 150" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient
