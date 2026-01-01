@@ -16,199 +16,200 @@ import { TaskDetailsCover } from './taskDetailsCmps/TaskDetailsCover'
 import '../assets/styles/cmps/TaskDetails.css'
 import { Loader } from './Loader.jsx'
 
-
 export function TaskDetails() {
-    const { boardId, groupId, taskId } = useParams()
-    const board = useSelector(storeState => storeState.boardModule.board)
-    const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
-    const navigate = useNavigate()
+  const { boardId, groupId, taskId } = useParams()
+  const board = useSelector(storeState => storeState.boardModule.board)
+  const loggedinUser = useSelector(
+    storeState => storeState.userModule.loggedinUser
+  )
+  const navigate = useNavigate()
 
-    const [task, setTask] = useState(null)
-    const [activePopup, setActivePopup] = useState(null)
-    //task data states
-    const [comments, setComments] = useState([])
-    const [members, setMembers] = useState([])
-    const [labels, setLabels] = useState([])
-    const [checklists, setChecklists] = useState([])
-    const [dates, setDates] = useState(null)
-    const [attachments, setAttachments] = useState([])
-    
-    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 })
+  const [task, setTask] = useState(null)
+  const [activePopup, setActivePopup] = useState(null)
+  //task data states
+  const [comments, setComments] = useState([])
+  const [members, setMembers] = useState([])
+  const [labels, setLabels] = useState([])
+  const [checklists, setChecklists] = useState([])
+  const [dates, setDates] = useState(null)
+  const [attachments, setAttachments] = useState([])
 
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 })
 
-
-    useEffect(() => {
-        if (boardId) {
-            loadBoard(boardId)
-        }
-    }, [boardId])
-
-    // function to sync task data from board to local state
-    //not just useEffect because of savePopup function
-    const syncTaskFromBoard = useCallback((boardToSync = null) => {
-        const boardToUse = boardToSync || board
-        if (boardToUse && groupId && taskId) {
-            const task = taskService.getTaskById(boardToUse, groupId, taskId)
-            if (task) {
-                setTask(task)
-                setComments(task?.comments || [])
-                setMembers(task?.members || [])
-                setLabels(task?.labels || [])
-                setChecklists(task?.checklists || [])
-                setDates(task?.dates || null)
-                setAttachments(task?.attachments || [])
-            } else {
-                showErrorMsg('Task not found')
-                navigate(`/board/${boardId}`)
-            }
-        }
-    }, [board, groupId, taskId, navigate, boardId])
-
-    useEffect(() => {
-        syncTaskFromBoard()
-    }, [syncTaskFromBoard])
-
-    function openPopup(popupName, event) {
-        setActivePopup(popupName)
-        // store button position for popup positioning
-        if (event?.currentTarget) {
-            const buttonRect = event.currentTarget.getBoundingClientRect()
-            setPopupPosition({
-                top: buttonRect.bottom + 8, // 8px gap below button
-                left: buttonRect.left,
-            })
-        }
+  useEffect(() => {
+    if (boardId) {
+      loadBoard(boardId)
     }
+  }, [boardId])
 
-    function closePopup() {
-        setActivePopup(null)
-    }
-
-    async function savePopup(popupName, data, additionalChanges = {}) {
-        if (!board) return
-        try {
-            // Merge the main change with any additional changes
-            const changes = { [popupName]: data, ...additionalChanges }
-            const updatedBoard = await updateTask(board, groupId, taskId, changes)
-            // sync immediately using the returned updated board (no need to wait for redux)
-            if (updatedBoard) {
-                syncTaskFromBoard(updatedBoard)
-            }
-            // don't close popup for labels and members since they save immediately
-            if (popupName !== 'labels' && popupName !== 'members') {
-                closePopup()
-            }
-        } catch (err) {
-            console.log('Error saving popup data:', err)
-            showErrorMsg('Cannot save changes')
+  // function to sync task data from board to local state
+  //not just useEffect because of savePopup function
+  const syncTaskFromBoard = useCallback(
+    (boardToSync = null) => {
+      const boardToUse = boardToSync || board
+      if (boardToUse && groupId && taskId) {
+        const task = taskService.getTaskById(boardToUse, groupId, taskId)
+        if (task) {
+          setTask(task)
+          setComments(task?.comments || [])
+          setMembers(task?.members || [])
+          setLabels(task?.labels || [])
+          setChecklists(task?.checklists || [])
+          setDates(task?.dates || null)
+          setAttachments(task?.attachments || [])
+        } else {
+          // showErrorMsg('Task not found')
+          navigate(`/board/${boardId}`)
         }
+      }
+    },
+    [board, groupId, taskId, navigate, boardId]
+  )
+
+  useEffect(() => {
+    syncTaskFromBoard()
+  }, [syncTaskFromBoard])
+
+  function openPopup(popupName, event) {
+    setActivePopup(popupName)
+    // store button position for popup positioning
+    if (event?.currentTarget) {
+      const buttonRect = event.currentTarget.getBoundingClientRect()
+      setPopupPosition({
+        top: buttonRect.bottom + 8, // 8px gap below button
+        left: buttonRect.left,
+      })
     }
+  }
 
-    function handleBackdropClick(ev) {
-        if (ev.target === ev.currentTarget) {
-            navigate(`/board/${boardId}`)
-        }
+  function closePopup() {
+    setActivePopup(null)
+  }
+
+  async function savePopup(popupName, data, additionalChanges = {}) {
+    if (!board) return
+    try {
+      // Merge the main change with any additional changes
+      const changes = { [popupName]: data, ...additionalChanges }
+      const updatedBoard = await updateTask(board, groupId, taskId, changes)
+      // sync immediately using the returned updated board (no need to wait for redux)
+      if (updatedBoard) {
+        syncTaskFromBoard(updatedBoard)
+      }
+      // don't close popup for labels and members since they save immediately
+      if (popupName !== 'labels' && popupName !== 'members') {
+        closePopup()
+      }
+    } catch (err) {
+      console.log('Error saving popup data:', err)
+      showErrorMsg('Cannot save changes')
     }
+  }
 
-    if (!board) return <Loader />
+  function handleBackdropClick(ev) {
+    if (ev.target === ev.currentTarget) {
+      navigate(`/board/${boardId}`)
+    }
+  }
 
-    return (
-        <div className="task-details-modal" onClick={handleBackdropClick}>
-            <div className="task-details">
+  if (!board) return <Loader />
 
-                <TaskDetailsCover
-                    task={task}
-                    board={board}
-                    groupId={groupId}
-                    taskId={taskId}
-                    onTaskUpdate={setTask}
-                    onOpenPopup={openPopup}
-                    attachments={attachments}
-                    boardId={boardId}
-                />
-                {task && (
-                    <div className="task-details-comments">
-                        <TaskDetailsComments
-                            boardId={boardId}
-                            groupId={groupId}
-                            taskId={taskId}
-                            board={board}
-                            comments={comments}
-                            onCommentsUpdate={(updatedComments) => {
-                                setComments(updatedComments)
-                                setTask({ ...task, comments: updatedComments })
-                            }}
-                            loggedinUser={loggedinUser}
-                        />
-                    </div>
-                )}
-                <div className="task-details-content">
-                    <div className="task-details-main">
-                        {task && (
-                            <TaskDetailsHeader
-                                task={task}
-                                board={board}
-                                groupId={groupId}
-                                taskId={taskId}
-                                onTaskUpdate={setTask}
-                                onOpenPopup={openPopup}
-                            />
-                        )}
-                        {task && (
-                            <TaskDetailsActions
-                                onOpenPopup={openPopup}
-                                members={members}
-                                labels={labels}
-                                dates={dates}
-                            />
-                        )}
-                        <TaskDetailsData
-                            members={members}
-                            labels={labels}
-                            attachments={attachments}
-                            dates={dates}
-                            board={board}
-                            groupId={groupId}
-                            taskId={taskId}
-                            task={task}
-                            onOpenPopup={openPopup}
-                            onTaskUpdate={setTask}
-                        />
+  return (
+    <div className="task-details-modal" onClick={handleBackdropClick}>
+      <div className="task-details">
+        <TaskDetailsCover
+          task={task}
+          board={board}
+          groupId={groupId}
+          taskId={taskId}
+          onTaskUpdate={setTask}
+          onOpenPopup={openPopup}
+          attachments={attachments}
+          boardId={boardId}
+        />
+        {task && (
+          <div className="task-details-comments">
+            <TaskDetailsComments
+              boardId={boardId}
+              groupId={groupId}
+              taskId={taskId}
+              board={board}
+              comments={comments}
+              onCommentsUpdate={updatedComments => {
+                setComments(updatedComments)
+                setTask({ ...task, comments: updatedComments })
+              }}
+              loggedinUser={loggedinUser}
+            />
+          </div>
+        )}
+        <div className="task-details-content">
+          <div className="task-details-main">
+            {task && (
+              <TaskDetailsHeader
+                task={task}
+                board={board}
+                groupId={groupId}
+                taskId={taskId}
+                onTaskUpdate={setTask}
+                onOpenPopup={openPopup}
+              />
+            )}
+            {task && (
+              <TaskDetailsActions
+                onOpenPopup={openPopup}
+                members={members}
+                labels={labels}
+                dates={dates}
+              />
+            )}
+            <TaskDetailsData
+              members={members}
+              labels={labels}
+              attachments={attachments}
+              dates={dates}
+              board={board}
+              groupId={groupId}
+              taskId={taskId}
+              task={task}
+              onOpenPopup={openPopup}
+              onTaskUpdate={setTask}
+            />
 
-                        <TaskDetailsPopupManager
-                            activePopup={activePopup}
-                            popupPosition={popupPosition}
-                            board={board}
-                            groupId={groupId}
-                            taskId={taskId}
-                            dates={dates}
-                            onOpenPopup={openPopup}
-                            onClose={closePopup}
-                            onSave={savePopup}
-                        />
+            <TaskDetailsPopupManager
+              activePopup={activePopup}
+              popupPosition={popupPosition}
+              board={board}
+              groupId={groupId}
+              taskId={taskId}
+              dates={dates}
+              onOpenPopup={openPopup}
+              onClose={closePopup}
+              onSave={savePopup}
+            />
 
-                        <TaskDetailsDescription
-                            description={task?.description}
-                            attachments={attachments}
-                            board={board}
-                            groupId={groupId}
-                            taskId={taskId}
-                            task={task}
-                            onTaskUpdate={setTask}
-                        />
+            <TaskDetailsDescription
+              description={task?.description}
+              attachments={attachments}
+              board={board}
+              groupId={groupId}
+              taskId={taskId}
+              task={task}
+              onTaskUpdate={setTask}
+            />
 
-                        <TaskDetailsChecklistManager
-                            checklists={checklists}
-                            board={board}
-                            groupId={groupId}
-                            taskId={taskId}
-                            task={task}
-                            onTaskUpdate={setTask}
-                            onChecklistsUpdate={setChecklists}
-                        />
-                    </div>
-                </div>
-            </div>
+            <TaskDetailsChecklistManager
+              checklists={checklists}
+              board={board}
+              groupId={groupId}
+              taskId={taskId}
+              task={task}
+              onTaskUpdate={setTask}
+              onChecklistsUpdate={setChecklists}
+            />
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  )
 }

@@ -95,7 +95,7 @@ export function TransferTask({ board, groupId, taskId, onClose, position }) {
 
     const task = taskService.getTaskById(board, groupId, taskId)
     if (!task) {
-      showErrorMsg('Task not found')
+      // showErrorMsg('Task not found')
       return
     }
 
