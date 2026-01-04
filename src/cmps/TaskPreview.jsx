@@ -143,7 +143,7 @@ export function TaskPreview({
           task.attachments ||
           task.comments) && (
           <section className="task-details-container">
-            {task.dates && !!task.dates.length && (
+            {task.dates && (
               <LightTooltip title={getDateToolipTitle()}>
                 <div className={`task-dates ${getDateStatus()}`}>
                   <img
