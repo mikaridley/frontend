@@ -76,7 +76,11 @@ export function TaskPreview({
 
   const checkListCount = getChecklistCount()
   return (
-    <section className="task-preview" onClick={openTaskDetails}>
+    <section
+      className="task-preview"
+      onClick={openTaskDetails}
+      onPointerDownCapture={ev => ev.stopPropagation()}
+    >
       {cover && cover.kind === 'photo' && (
         <img className="task-attachment" src={cover.color} />
       )}
@@ -96,9 +100,8 @@ export function TaskPreview({
               return (
                 <LightTooltip
                   key={label.id}
-                  title={`Color: ${colorName}, title: ${
-                    label.title === '' ? 'none' : '"' + label.title + '"'
-                  }`}
+                  title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
+                    }`}
                 >
                   <div
                     className="task-label"
@@ -121,9 +124,8 @@ export function TaskPreview({
         </button>
 
         <p
-          className={`task-title ${
-            status !== 'done' ? 'task-not-complete' : ''
-          }`}
+          className={`task-title ${status !== 'done' ? 'task-not-complete' : ''
+            }`}
         >
           {title}
         </p>
@@ -142,68 +144,68 @@ export function TaskPreview({
           task.members ||
           task.attachments ||
           task.comments) && (
-          <section className="task-details-container">
-            {task.dates && (
-              <LightTooltip title={getDateToolipTitle()}>
-                <div className={`task-dates ${getDateStatus()}`}>
-                  <img
-                    src={
-                      getDateStatus() === '' || getDateStatus() === 'late-red'
-                        ? clockLightImg
-                        : clockDarkImg
-                    }
-                  />
-                  <p>{formatDate()}</p>
-                </div>
-              </LightTooltip>
-            )}
+            <section className="task-details-container">
+              {task.dates && (
+                <LightTooltip title={getDateToolipTitle()}>
+                  <div className={`task-dates ${getDateStatus()}`}>
+                    <img
+                      src={
+                        getDateStatus() === '' || getDateStatus() === 'late-red'
+                          ? clockLightImg
+                          : clockDarkImg
+                      }
+                    />
+                    <p>{formatDate()}</p>
+                  </div>
+                </LightTooltip>
+              )}
 
-            {task.description && !!task.description.length && (
-              <LightTooltip title={`This card has a description`}>
-                <img src={descriptionImg} />
-              </LightTooltip>
-            )}
+              {task.description && !!task.description.length && (
+                <LightTooltip title={`This card has a description`}>
+                  <img src={descriptionImg} />
+                </LightTooltip>
+              )}
 
-            {task.comments && !!task.comments.length && (
-              <LightTooltip title={`Comments`}>
-                <div className="task-comments">
-                  <img src={commentsImg} />
-                  <p>{task.comments.length}</p>
-                </div>
-              </LightTooltip>
-            )}
+              {task.comments && !!task.comments.length && (
+                <LightTooltip title={`Comments`}>
+                  <div className="task-comments">
+                    <img src={commentsImg} />
+                    <p>{task.comments.length}</p>
+                  </div>
+                </LightTooltip>
+              )}
 
-            {task.attachments && !!task.attachments.length && (
-              <LightTooltip title={`Attachments`}>
-                <div className="task-attackments">
-                  <img src={attachmentsImg} />
-                  <p>{task.attachments.length}</p>
-                </div>
-              </LightTooltip>
-            )}
+              {task.attachments && !!task.attachments.length && (
+                <LightTooltip title={`Attachments`}>
+                  <div className="task-attackments">
+                    <img src={attachmentsImg} />
+                    <p>{task.attachments.length}</p>
+                  </div>
+                </LightTooltip>
+              )}
 
-            {task.checklists && !!task.checklists.length && (
-              <LightTooltip title={`Checklist items`}>
-                <div className="task-checklists">
-                  <img src={checklistImg} />
-                  <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
-                </div>
-              </LightTooltip>
-            )}
+              {task.checklists && !!task.checklists.length && (
+                <LightTooltip title={`Checklist items`}>
+                  <div className="task-checklists">
+                    <img src={checklistImg} />
+                    <p>{`${checkListCount.checkedCount}/${checkListCount.itemsCount}`}</p>
+                  </div>
+                </LightTooltip>
+              )}
 
-            {task.members && !!task.members.length && (
-              <section className="task-member-container">
-                {task.members.map(member => (
-                  <LightTooltip key={member._id} title={member.fullname}>
-                    <div className="member-photo">
-                      {member.imgUrl && <img src={member.imgUrl} />}
-                    </div>
-                  </LightTooltip>
-                ))}
-              </section>
-            )}
-          </section>
-        )}
+              {task.members && !!task.members.length && (
+                <section className="task-member-container">
+                  {task.members.map(member => (
+                    <LightTooltip key={member._id} title={member.fullname}>
+                      <div className="member-photo">
+                        {member.imgUrl && <img src={member.imgUrl} />}
+                      </div>
+                    </LightTooltip>
+                  ))}
+                </section>
+              )}
+            </section>
+          )}
       </section>
     </section>
   )
