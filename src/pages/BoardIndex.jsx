@@ -67,7 +67,6 @@ export function BoardIndex() {
       }
 
     const randomCover = Math.random() < 0.75 ? getRandomGradientColor() : ''
-    const randomLables = boardService.getDefaultLabels()
 
     if (boardObject.groups && boardObject.groups.length) {
       boardToSave.groups = boardObject.groups.map(group => ({
