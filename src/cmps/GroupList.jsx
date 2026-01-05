@@ -95,7 +95,7 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
   //Drag and drop//
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 8 },
+      activationConstraint: { distance: 5 },
     })
   )
 
@@ -107,76 +107,96 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
   function handleDragStart({ active }) {
     if (isFilteredBoard) return
 
-    const isGroup = groups.some(group => group.id === active.id)
+    const id = active.id
+    const isGroup = groups.some(group => group.id === id)
     setActiveType(isGroup ? 'group' : 'task')
-    setActiveId(active.id)
+    setActiveId(id)
   }
 
-  function handleDragEnd({ active, over }) {
+  function handleDragOver({ active, over }) {
+    const overId = over?.id
+    if (!overId || active.id === overId || activeType === 'group') return
+
+    const activeContainer = getContainer(active.id)
+    const overContainer = getContainer(overId)
+
+    if (!activeContainer || !overContainer) return
+
+    if (activeContainer === overContainer) {
+      setGroups(prev => {
+        return prev.map(group => {
+          if (group.id === activeContainer) {
+            const oldIndex = group.tasks.findIndex(
+              task => task.id === active.id
+            )
+            const newIndex = group.tasks.findIndex(task => task.id === overId)
+            return {
+              ...group,
+              tasks: arrayMove(group.tasks, oldIndex, newIndex),
+            }
+          }
+          return group
+        })
+      })
+      return
+    }
+
+    setGroups(prev => {
+      const activeGroup = prev.find(group => group.id === activeContainer)
+      const overGroup = prev.find(group => group.id === overContainer)
+
+      const activeIndex = activeGroup.tasks.findIndex(
+        task => task.id === active.id
+      )
+      const overIndex = overGroup.tasks.findIndex(task => task.id === overId)
+
+      let newIndex = overIndex >= 0 ? overIndex : overGroup.tasks.length
+
+      return prev.map(group => {
+        if (group.id === activeContainer) {
+          return {
+            ...group,
+            tasks: group.tasks.filter(task => task.id !== active.id),
+          }
+        }
+        if (group.id === overContainer) {
+          const newTasks = [...(group.tasks || [])]
+          const movedTask = { ...activeGroup.tasks[activeIndex] }
+          newTasks.splice(newIndex, 0, movedTask)
+          return { ...group, tasks: newTasks }
+        }
+        return group
+      })
+    })
+  }
+
+  async function handleDragEnd({ active, over }) {
     if (isFilteredBoard) return
 
     setActiveId(null)
     setActiveType(null)
 
     if (!over) return
-    let nextGroups = groups
 
     if (activeType === 'group' && active.id !== over.id) {
       const oldIndex = groups.findIndex(group => group.id === active.id)
       const newIndex = groups.findIndex(group => group.id === over.id)
-      nextGroups = arrayMove(groups, oldIndex, newIndex)
-    }
+      const finalGroups = arrayMove(groups, oldIndex, newIndex)
+      setGroups(finalGroups)
 
-    if (activeType === 'task') {
-      const fromId = getContainer(active.id)
-      const toId = getContainer(over.id)
-
-      if (!fromId || !toId) return
-
-      if (fromId === toId) {
-        nextGroups = groups.map(group => {
-          if (group.id !== fromId) return group
-
-          const oldIndex = group.tasks.findIndex(task => task.id === active.id)
-          const newIndex = group.tasks.findIndex(task => task.id === over.id)
-
-          return {
-            ...group,
-            tasks: arrayMove(group.tasks, oldIndex, newIndex),
-          }
-        })
+      try {
+        await onUpdateBoard({ ...filteredBoard, groups: finalGroups })
+      } catch (err) {
+        console.log('err:', err)
       }
-
-      else {
-        const fromGroup = groups.find(group => group.id === fromId)
-        const task = fromGroup.tasks.find(task => task.id === active.id)
-
-        nextGroups = groups.map(group => {
-          if (group.id === fromId) {
-            return {
-              ...group,
-              tasks: group.tasks.filter(task => task.id !== active.id),
-            }
-          }
-
-          if (group.id === toId) {
-            const index = group.tasks.findIndex(task => task.id === over.id)
-            const newTasks = [...group.tasks]
-            newTasks.splice(index < 0 ? newTasks.length : index, 0, task)
-            return { ...group, tasks: newTasks }
-          }
-
-          return group
-        })
-      }
+      return
     }
-
-    setGroups(nextGroups)
-    onUpdateBoard({ ...filteredBoard, groups: nextGroups }).catch(() => {
-      setGroups(filteredBoard.groups)
-    })
+    try {
+      await onUpdateBoard({ ...filteredBoard, groups: groups })
+    } catch (err) {
+      console.log('err:', err)
+    }
   }
-
 
   const visibleGroups =
     groups?.filter(group => group && !group.archivedAt) || []
@@ -197,6 +217,7 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
         sensors={sensors}
         collisionDetection={pointerWithin}
         onDragStart={isFilteredBoard ? () => showErrorMsg('Cannot drag when board is filtered') : handleDragStart}
+        onDragOver={isFilteredBoard ? null : handleDragOver}
         onDragEnd={isFilteredBoard ? null : handleDragEnd}
       >
         <SortableContext
