@@ -41,8 +41,8 @@ async function login(userCred) {
 	if (user) return saveLoggedinUser(user)
 }
 
-async function loginWithGoogle(userCred) {
-	const user = await httpService.post('auth/google', userCred)
+async function loginWithGoogle(idToken) {
+	const user = await httpService.post('auth/google', { idToken })
 	if (user) return saveLoggedinUser(user)
 }
 
