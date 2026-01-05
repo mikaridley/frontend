@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { GoogleLogin } from '@react-oauth/google'
-import { jwtDecode } from 'jwt-decode'
 import { Link } from 'react-router-dom'
 
 import { login, signup, loginWithGoogle } from '../store/actions/user.actions'
@@ -57,22 +56,27 @@ export function LoginSignup() {
   }
 
   async function handleGoogleLogin(credentialResponse) {
+    setError(null)
     try {
-      const decoded = jwtDecode(credentialResponse.credential)
-      const { email, name, sub, picture } = decoded
-
-      const googleUser = {
-        email,
-        fullname: name,
-        googleId: sub,
-        imgUrl: picture
+      // Send the ID token directly to backend for verification
+      const user = await loginWithGoogle(credentialResponse.credential)
+      if (!user) {
+        setError('Google login failed')
+        return
       }
-
-      const user = await loginWithGoogle(googleUser)
-      if (!user) return setError('Google login failed')
       navigate('/board')
     } catch (err) {
-      setError('Google authentication failed.')
+      console.error('Google Login Error:', err)
+      
+      const errorMsg =
+        err.userMessage ||
+        err.response?.data?.err ||
+        err.response?.data?.message ||
+        err.message ||
+        'Google authentication failed. Please try again.'
+      
+      setError(errorMsg)
+      showErrorMsg(errorMsg)
     }
   }
 
