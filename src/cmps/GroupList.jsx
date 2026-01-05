@@ -183,12 +183,12 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
       const oldIndex = groups.findIndex(group => group.id === active.id)
       const newIndex = groups.findIndex(group => group.id === over.id)
       finalGroups = arrayMove(groups, oldIndex, newIndex)
-      setGroups(finalGroups)
     }
 
     try {
       const updatedBoard = { ...filteredBoard, groups: finalGroups }
       await onUpdateBoard(updatedBoard)
+      setGroups(finalGroups)
     } catch (err) {
       console.log('err:', err)
       setGroups(filteredBoard.groups)
