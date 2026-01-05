@@ -95,7 +95,7 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
   //Drag and drop//
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 5 },
+      activationConstraint: { distance: 8 },
     })
   )
 
@@ -178,23 +178,20 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
 
     if (!over) return
 
+    let finalGroups = groups
     if (activeType === 'group' && active.id !== over.id) {
       const oldIndex = groups.findIndex(group => group.id === active.id)
       const newIndex = groups.findIndex(group => group.id === over.id)
-      const finalGroups = arrayMove(groups, oldIndex, newIndex)
+      finalGroups = arrayMove(groups, oldIndex, newIndex)
       setGroups(finalGroups)
-
-      try {
-        await onUpdateBoard({ ...filteredBoard, groups: finalGroups })
-      } catch (err) {
-        console.log('err:', err)
-      }
-      return
     }
+
     try {
-      await onUpdateBoard({ ...filteredBoard, groups: groups })
+      const updatedBoard = { ...filteredBoard, groups: finalGroups }
+      await onUpdateBoard(updatedBoard)
     } catch (err) {
       console.log('err:', err)
+      setGroups(filteredBoard.groups)
     }
   }
 

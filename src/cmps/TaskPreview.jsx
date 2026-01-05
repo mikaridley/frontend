@@ -25,7 +25,7 @@ export function TaskPreview({
   const navigate = useNavigate()
 
   function openTaskDetails() {
-    if (!group) return
+    if (!group || !board) return
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }
 
@@ -79,7 +79,6 @@ export function TaskPreview({
     <section
       className="task-preview"
       onClick={openTaskDetails}
-      onPointerDownCapture={ev => ev.stopPropagation()}
     >
       {cover && cover.kind === 'photo' && (
         <img className="task-attachment" src={cover.color} />
