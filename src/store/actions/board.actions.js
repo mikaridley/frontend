@@ -110,7 +110,6 @@ export async function updateBoard(board, prevBoard, isArchive = false) {
     }
     const savedBoard = await boardService.save(board)
     store.dispatch(getCmdUpdateBoard(savedBoard, prevBoard, isArchive))
-    console.log('Board has been saved')
     return savedBoard
   } catch (err) {
     console.log('Cannot save board', err)
@@ -123,7 +122,6 @@ export async function updateBoardOptimistic(board) {
 
   try {
     const savedBoard = await boardService.save(board)
-    console.log('Board has been saved')
     return savedBoard
   } catch (err) {
     store.dispatch(getCmdBoardUndo())
