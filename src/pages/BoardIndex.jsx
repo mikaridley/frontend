@@ -66,7 +66,7 @@ export function BoardIndex() {
         imgUrl: loggedinUser.imgUrl,
       }
 
-    const randomCover = Math.random() < 0.75 ? getRandomGradientColor() : ''
+    // const randomCover = Math.random() < 0.75 ? getRandomGradientColor() : ''
     const randomLables = boardService.getDefaultLabels()
 
     if (boardObject.groups && boardObject.groups.length) {
@@ -76,7 +76,6 @@ export function BoardIndex() {
         tasks: group.tasks.map(task => ({
           id: makeId(),
           title: task.title,
-          cover: randomCover,
         })),
       }))
     }
