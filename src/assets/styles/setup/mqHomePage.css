@@ -28,11 +28,15 @@
             padding: 0.8em;
           }
         }
+
+        .moving-arrows {
+          display: none;
+        }
       }
     }
 
     .home-secondary-content {
-      >header {
+      > header {
         padding-inline: 5vw;
       }
 
@@ -67,7 +71,7 @@
     nav {
       gap: 0rem;
 
-      >* {
+      > * {
         padding-inline: 0.5rem;
       }
 
@@ -138,7 +142,7 @@
       box-shadow: none;
     }
 
-    >img {
+    > img {
       display: none;
     }
   }

@@ -32,7 +32,6 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
 
   useEffect(() => {
     if (isOpen && audioRef.current) {
-      audioRef.current.currentTime = 0
       audioRef.current.play()
     }
   }, [isOpen])
@@ -71,30 +70,30 @@ export function AiChat({ addAiBoard, addAiBoardFic }) {
     }, 1000)
 
     // wait 2 seconds before creating the board
-    setTimeout(() => {
-      addAiBoardFic()
-      setInput('')
-      setLoading(false)
-    }, 3000)
-
-    // try {
-    //   const aiResult = await sendAICommand(input)
-    //   const aiMessage = { role: 'ai', content: 'Done!' }
-    //   setMessages(prev => [...prev, aiMessage])
-    //   addAiBoard(aiResult)
-    // } catch (err) {
-    //   // Check if the backend sent a 403 AI limit
-    //   let errorMsg = 'Sorry, something went wrong.'
-    //   if (err.response?.status === 403) {
-    //     errorMsg = 'You have reached your daily AI limit (2 uses).'
-    //   }
-
-    //   const aiMessage = { role: 'ai', content: errorMsg }
-    //   setMessages(prev => [...prev, aiMessage])
-    // } finally {
-    //   setLoading(false)
+    // setTimeout(() => {
+    //   addAiBoardFic()
     //   setInput('')
-    // }
+    //   setLoading(false)
+    // }, 3000)
+
+    try {
+      const aiResult = await sendAICommand(input)
+      const aiMessage = { role: 'ai', content: 'Done!' }
+      setMessages(prev => [...prev, aiMessage])
+      addAiBoard(aiResult)
+    } catch (err) {
+      // Check if the backend sent a 403 AI limit
+      let errorMsg = 'Sorry, something went wrong.'
+      if (err.response?.status === 403) {
+        errorMsg = 'You have reached your daily AI limit (2 uses).'
+      }
+
+      const aiMessage = { role: 'ai', content: errorMsg }
+      setMessages(prev => [...prev, aiMessage])
+    } finally {
+      setLoading(false)
+      setInput('')
+    }
   }
 
   function toggleIsOpen() {

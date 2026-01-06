@@ -47,9 +47,9 @@ export async function login(credentials) {
   }
 }
 
-export async function loginWithGoogle(googleUser) {
+export async function loginWithGoogle(idToken) {
   try {
-    const user = await userService.loginWithGoogle(googleUser)
+    const user = await userService.loginWithGoogle(idToken)
     store.dispatch({ type: SET_USER, user })
     socketService.login(user._id)
     return user

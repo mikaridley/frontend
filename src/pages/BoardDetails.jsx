@@ -66,7 +66,6 @@ export function BoardDetails() {
 
   function onUpdateBoard(boardToEdit) {
     try {
-      console.log('boardToEdit:', boardToEdit)
       updateBoard(boardToEdit)
     } catch (err) {
       console.log('err:', err)

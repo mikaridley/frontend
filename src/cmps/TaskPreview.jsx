@@ -25,7 +25,7 @@ export function TaskPreview({
   const navigate = useNavigate()
 
   function openTaskDetails() {
-    if (!group) return
+    if (!group || !board) return
     navigate(`/board/${board._id}/${group.id}/${id}`)
   }
 
@@ -76,7 +76,10 @@ export function TaskPreview({
 
   const checkListCount = getChecklistCount()
   return (
-    <section className="task-preview" onClick={openTaskDetails}>
+    <section
+      className="task-preview"
+      onClick={openTaskDetails}
+    >
       {cover && cover.kind === 'photo' && (
         <img className="task-attachment" src={cover.color} />
       )}
@@ -91,16 +94,19 @@ export function TaskPreview({
         {task.labels && (
           <div className="task-labels-container">
             {task.labels.map(label => {
-              const colorName = label.colorName || getColorNameFromHex(label.color)
+              const colorName =
+                label.colorName || getColorNameFromHex(label.color)
               return (
-                <LightTooltip key={label.id}
-                  title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'}`}
+                <LightTooltip
+                  key={label.id}
+                  title={`Color: ${colorName}, title: ${label.title === '' ? 'none' : '"' + label.title + '"'
+                    }`}
                 >
                   <div
                     className="task-label"
                     style={{
                       backgroundColor: label.color,
-                      color: `color-mix(in srgb, ${label.color}, white 70%)`
+                      color: `color-mix(in srgb, ${label.color}, white 70%)`,
                     }}
                   ></div>
                 </LightTooltip>
@@ -153,13 +159,13 @@ export function TaskPreview({
                 </LightTooltip>
               )}
 
-              {task.description && (
+              {task.description && !!task.description.length && (
                 <LightTooltip title={`This card has a description`}>
                   <img src={descriptionImg} />
                 </LightTooltip>
               )}
 
-              {task.comments && (
+              {task.comments && !!task.comments.length && (
                 <LightTooltip title={`Comments`}>
                   <div className="task-comments">
                     <img src={commentsImg} />
@@ -168,7 +174,7 @@ export function TaskPreview({
                 </LightTooltip>
               )}
 
-              {task.attachments && (
+              {task.attachments && !!task.attachments.length && (
                 <LightTooltip title={`Attachments`}>
                   <div className="task-attackments">
                     <img src={attachmentsImg} />
@@ -177,7 +183,7 @@ export function TaskPreview({
                 </LightTooltip>
               )}
 
-              {task.checklists && (
+              {task.checklists && !!task.checklists.length && (
                 <LightTooltip title={`Checklist items`}>
                   <div className="task-checklists">
                     <img src={checklistImg} />
@@ -186,7 +192,7 @@ export function TaskPreview({
                 </LightTooltip>
               )}
 
-              {task.members && (
+              {task.members && !!task.members.length && (
                 <section className="task-member-container">
                   {task.members.map(member => (
                     <LightTooltip key={member._id} title={member.fullname}>

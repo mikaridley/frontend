@@ -32,6 +32,7 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
   const [groups, setGroups] = useState([])
   const [activeId, setActiveId] = useState(null)
   const [activeType, setActiveType] = useState(null)
+  const isFilteredBoard = searchParams.size > 0
 
   useEffect(() => {
     setGroups(filteredBoard?.groups || [])
@@ -209,8 +210,6 @@ export function GroupList({ filteredBoard, onUpdateBoard }) {
         .flatMap(group => group.tasks || [])
         .find(task => task.id === activeId)
       : null
-
-  const isFilteredBoard = searchParams.size > 0
 
   return (
     <section className="group-list board-details-layout">
